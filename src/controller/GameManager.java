@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.sun.javafx.image.impl.ByteIndexed.Getter;
+
 import constants.Images;
 import constants.Numbers;
 import constants.Other;
@@ -13,8 +15,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Pair;
+import model.Monster;
 import model.StationaryObject;
-import model.tower.Tower;
+import model.Tower;
 import util.Algorithm;
 import util.cpp;
 
@@ -23,13 +26,18 @@ public class GameManager {
 	private static GameManager instance = new GameManager();
 	private boolean isRunning = false;
 	private boolean isPaused = false;
-	private int selX = 0;
-	private int selY = 0;
-	private ArrayList<Tower> towers = new ArrayList<>();
-	private int[][] tileState = new int[100][100]; // TODO: Fix yolo allocation
+	private double selX = 0;
+	private double selY = 0;
 	private int money = 1000;
 	private String message = "";
+	
+	
+	private ArrayList<Tower> towers = new ArrayList<>();
+	private int[][] tileState = new int[100][100]; // TODO: Fix yolo allocation
 	private ArrayList<cpp.pii> path;
+
+	private ArrayList<Monster> monsters = new ArrayList<>();
+	
 	
 	public GameManager() {
 		try {
@@ -49,13 +57,25 @@ public class GameManager {
 //		}
 //		
 //	}
+	public void update() {
+		for (Tower t: towers) {
+			for (Monster m: monsters) {
+				t.tryTarget(m);
+			}
+			t.fire();
+		}
+		for (int i=monsters.size()-1; i>=0; i--) {
+			if (monsters.get(i).isDead())
+				monsters.remove(i);
+		}
+	}
+	
 	
 	public void render(GraphicsContext gc) {
-//		System.out.printf("selected %d, %d\n", selX, selY)
-//		gc.clip();
+		
+	/// rendering
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
-//		System.out.println("Rendering");
 		for (int i=0; i<Numbers.WIN_WIDTH; i+=Numbers.TILE_SIZE) {
 			for (int j=0 ; j<Numbers.WIN_WIDTH; j+=Numbers.TILE_SIZE) {
 				int ix = i/Numbers.TILE_SIZE, iy = j/Numbers.TILE_SIZE;
@@ -69,13 +89,16 @@ public class GameManager {
 			
 			}
 		}
-		
 		for (Tower t: towers) {
 			t.render(gc, t.getCellX()*Numbers.TILE_SIZE, t.getCellY()*Numbers.TILE_SIZE);	
 		}
+	
+		for (Monster m: monsters) {
+			gc.drawImage(m.getImage(), m.getCellX()*Numbers.TILE_SIZE, m.getCellY()*Numbers.TILE_SIZE);
+		}
 		
 		if (path != null) {
-			gc.setFill(new Color(0, 0, 0, 0.4)); // just dim
+			gc.setFill(new Color(0, 0, 0, 0.7)); // just dim
 			for (cpp.pii c: path) {
 				gc.fillRect(c.first*Numbers.TILE_SIZE, c.second*Numbers.TILE_SIZE, Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 			}			
@@ -120,11 +143,15 @@ public class GameManager {
 		money += amount;
 	}
 	
+	public void spawnMonster(double x, double y) {
+		monsters.add(new Monster(Images.bear, x, y, 100, 0));
+	}
+	
 	public static GameManager getInstance() {
 		return instance;
 	}
 	
-	public int getSelX() {
+	public double getSelX() {
 		return selX;
 	}
 
@@ -132,7 +159,7 @@ public class GameManager {
 		this.selX = selX;
 	}
 
-	public int getSelY() {
+	public double getSelY() {
 		return selY;
 	}
 
@@ -141,8 +168,8 @@ public class GameManager {
 	}
 
 	public void updateSelection(double x, double y) {
-		selX = (int)(x)/Numbers.TILE_SIZE;
-		selY = (int)(y)/Numbers.TILE_SIZE;
+		selX = x/Numbers.TILE_SIZE;
+		selY = y/Numbers.TILE_SIZE;
 	}
 
 	public boolean isRunning() {

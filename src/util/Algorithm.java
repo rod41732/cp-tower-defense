@@ -31,7 +31,6 @@ public class Algorithm {
 		
 		
 		while (!q.isEmpty()) {
-			System.out.println("in q, xyt");
 			cpp.xyt top = q.remove();
 			int x = top.x, y = top.y, t = top.t;
 			for (int[] rc: Other.dir) {

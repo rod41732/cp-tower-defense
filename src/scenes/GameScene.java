@@ -8,6 +8,7 @@ import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import main.Main;
@@ -30,6 +31,7 @@ public class GameScene extends Scene {
 			// if playing
 			//  updateState();
 			if (GameManager.getInstance().isRunning()) {
+				GameManager.getInstance().update();
 				GameManager.getInstance().render(canvas.getGraphicsContext2D());				
 			}
 		});
@@ -39,7 +41,12 @@ public class GameScene extends Scene {
 		
 		setOnMouseClicked(e -> {
 			GameManager gi = GameManager.getInstance();
-			gi.buildTower(gi.getSelX(), gi.getSelY());
+			if (e.getButton() == MouseButton.PRIMARY) {
+				gi.buildTower((int)gi.getSelX(), (int)gi.getSelY());				
+			}
+			else {
+				gi.spawnMonster(gi.getSelX(), gi.getSelY());
+			}
 		});
 		
 		setOnKeyPressed(e -> {
