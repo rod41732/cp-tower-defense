@@ -1,43 +1,48 @@
 package model;
 
+
 import javafx.scene.image.Image;
-import util.GameUtil;
 
 public class Tower extends Entity {
 
 	// TODO : more fields
 	
 	
-	private double rotation;
-	private double attack;
-	private double attackCooldown = 1000;
-	private double cooldown; // in ms ?
-	private double range; 
+	protected double rotation;
+	protected double attack;
+	protected double attackCooldown = 1000;
+	protected double cooldown; // in ms ?
+	protected double range; 
 	
 	
-	private Monster target;
-	private double targetDist;
+	protected Monster target;
+	private double minDist;
 	
-	public Tower(Image img, double cellX, double cellY) {
+	public Tower(Image img, double cellX, double cellY, double attack, double cooldown, double range) {
 		super(img, cellX, cellY, 1, 1);
+		this.attack = attack;
+		this.cooldown = cooldown;
+		this.range = range;
 	}
 	
 	public void clearTarget() {
 		target = null;
-		targetDist = 0;
+		minDist = 0;
 	}
 	
+	public boolean isInRange(Monster m) {
+		return Double.compare(this.distanceTo(m), range) < 0;
+	}
 	// change target to monster m if it's closer than current monster
 	public void tryTarget(Monster m) {
 		// TODO
 		clearTarget();
-		System.out.println("tr");
-		if (target == null || targetDist > GameUtil.distance(this, m)){
-//			if (m.isDead()) return ; // don't shoot dead monster
+		if ((target == null || Double.compare(distanceTo(m), minDist) < 0) && isInRange(m)){
 			target = m;
-			targetDist = GameUtil.distance(this, m);
+			minDist = distanceTo(m);
 		}
 	}
+	
 	public void fire() {
 		if (target == null) return;
 		if (cooldown > 0) {
@@ -47,6 +52,6 @@ public class Tower extends Entity {
 		cooldown = attackCooldown;
 		target.takeDamage(attack);
 		System.out.println("Shot =>" + target.toString());
-		
+		// need to clear because it will keep firing corpse since tower isn't updated
 	}
 }
