@@ -10,7 +10,7 @@ public class Monster extends Entity {
 	
 	private double health; 
 	private double armor;
-	private double moveSpeed;
+	private double moveSpeed = 0.5;
 	
 	// AI
 	private cpp.pii targetTile = null;

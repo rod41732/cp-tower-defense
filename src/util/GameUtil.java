@@ -7,7 +7,7 @@ public class GameUtil {
 
 	
 	public static double distance(Tower t, Monster m) {
-		return Math.sqrt(Math.pow(t.getCellX()-m.getX(), 2) + Math.pow(t.getCellY()-m.getY(), 2));
+		return Math.sqrt(Math.pow(t.getX()-m.getX(), 2) + Math.pow(t.getY()-m.getY(), 2));
 	}
 	
 	public static double distance(double x1, double y1, double x2, double y2) {

@@ -42,7 +42,7 @@ public class GameScene extends Scene {
 		setOnMouseClicked(e -> {
 			GameManager gi = GameManager.getInstance();
 			if (e.getButton() == MouseButton.PRIMARY) {
-				gi.buildTower((int)gi.getSelX(), (int)gi.getSelY());				
+				gi.buildTower((int)Math.round(gi.getSelX()), (int)Math.round(gi.getSelY()));				
 			}
 			else {
 				gi.spawnMonster(gi.getSelX(), gi.getSelY());

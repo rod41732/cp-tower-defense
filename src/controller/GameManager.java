@@ -104,7 +104,7 @@ public class GameManager {
 			gc.drawImage(t.getImage(), t.getRenderX(), t.getRenderY());
 		}
 		for (Tower t: towers) {
-			t.render(gc, t.getCellX()*Numbers.TILE_SIZE, t.getCellY()*Numbers.TILE_SIZE);	
+			gc.drawImage(t.getImage(), t.getRenderX(), t.getRenderY());	
 		}
 	
 		for (Monster m: monsters) {

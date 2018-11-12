@@ -3,9 +3,11 @@ package model;
 import javafx.scene.image.Image;
 import util.GameUtil;
 
-public class Tower extends StationaryObject {
+public class Tower extends Entity {
 
 	// TODO : more fields
+	
+	
 	private double rotation;
 	private double attack;
 	private double attackCooldown = 1000;
@@ -16,8 +18,8 @@ public class Tower extends StationaryObject {
 	private Monster target;
 	private double targetDist;
 	
-	public Tower(Image img, int cellX, int cellY) {
-		super(img, cellX, cellY, true);
+	public Tower(Image img, double cellX, double cellY) {
+		super(img, cellX, cellY, 1, 1);
 	}
 	
 	public void clearTarget() {
