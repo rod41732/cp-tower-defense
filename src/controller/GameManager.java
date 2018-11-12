@@ -10,9 +10,11 @@ import constants.Images;
 import constants.Numbers;
 import constants.Other;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import model.StationaryObject;
 import model.tower.Tower;
+import util.Algorithm;
 import util.cpp;
 
 public class GameManager {
@@ -30,30 +32,14 @@ public class GameManager {
 		// init some
 	}
 	
-	public void tick() {
-
-		if (isRunning && !isPaused) {
-			
-			// breadth-first search
-			int[][] dist = new int[100][100]; // distance;
-			cpp.pii[][] pred = new cpp.pii[100][100]; // path
-			for (int[] row: dist)
-				for (int x: row) 
-					x = 10000;
-			Queue<cpp.xyt> q = new LinkedList<cpp.xyt>();
-			q.add(new cpp.xyt(0, 0, 0));
-			dist[0][0] = 0;
-			while (!q.isEmpty()) {
-				cpp.xyt top = q.remove();
-				int x = top.x, y = top.y, t = top.t;
-				for (int[] rc: Other.dir) {
-					int nx = x+rc[0], ny = y+rc[0], nt = t+1;
-					
-				}
-			}
-		}
-		
-	}
+//	public void tick() {
+//
+//		if (isRunning && !isPaused) {
+//			
+//			// breadth-first search
+//		}
+//		
+//	}
 	
 	public void render(GraphicsContext gc) {
 //		System.out.printf("selected %d, %d\n", selX, selY)
@@ -76,10 +62,21 @@ public class GameManager {
 		}
 		
 		for (Tower t: towers) {
-			t.render(gc, t.getCellX()*Numbers.TILE_SIZE, t.getCellY()*Numbers.TILE_SIZE);
-			
+			t.render(gc, t.getCellX()*Numbers.TILE_SIZE, t.getCellY()*Numbers.TILE_SIZE);	
 		}
 		
+		try {
+			ArrayList<cpp.pii> path = Algorithm.BFS(tileState);
+			gc.setFill(new Color(0, 0, 0, 0.4)); // just dim
+			for (cpp.pii c: path) {
+				gc.fillRect(c.first*Numbers.TILE_SIZE, c.second*Numbers.TILE_SIZE, Numbers.TILE_SIZE, Numbers.TILE_SIZE);
+			}			
+		}
+		catch (Exception e) {
+			System.out.println("Warning path blocked");
+		}
+		
+		gc.setFill(Color.MAGENTA);
 		gc.fillText("Selected " + selX + "," + selY, 20, 20);
 		gc.fillText("Money = " + money, 20, 100);
 	}
