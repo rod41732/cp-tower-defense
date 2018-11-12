@@ -25,29 +25,27 @@ public class MainMenu extends Scene {
 	
 	public MainMenu() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		Pane root = (Pane) getRoot();
+		root = (Pane) getRoot();
 		
+		// make some butons
 		VBox menus = new VBox(20);
 		Label title = new Label("CP Tower Defense");
 		title.setFont(Font.font("Consolas", 72));
-		title.setAlignment(Pos.BASELINE_CENTER);
-//		title.setLayoutY(200);
-		
 		Button settings = new Button("Settings");
 		settings.setFont(Font.font("Tahoma", 40));
-		settings.setAlignment(Pos.BASELINE_CENTER);
 		Button start = new Button("Play");
 		start.setFont(Font.font("Tahoma", 40));
-		start.setPrefWidth(200);
-		start.setLayoutY(500);
-		start.setLayoutX(800);
-		KeyFrame tick = new KeyFrame(Duration.seconds(0.5), 
+		
+		KeyFrame titleAnimX = new KeyFrame(Duration.seconds(0.5), 
 				new KeyValue(title.scaleXProperty(), 1.5)
-				); // run some stupid command every tick;
+				); 
+		KeyFrame titleAnimY = new KeyFrame(Duration.seconds(0.5), 
+				new KeyValue(title.scaleYProperty(), 1.5)
+				); 
 		
 		menuTick = new Timeline();
 		menuTick.setAutoReverse(true); // so animation is reverse
-		menuTick.getKeyFrames().add(tick);
+		menuTick.getKeyFrames().addAll(titleAnimX, titleAnimY);
 		menuTick.setCycleCount(Timeline.INDEFINITE);
 		menuTick.play();
 		

@@ -1,7 +1,3 @@
-/bush/
-/constants/
+/model/
 /controller/
-/main/
-/scenes/
-/tile/
-/tower/
+/util/

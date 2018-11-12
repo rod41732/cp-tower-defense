@@ -1,24 +1,58 @@
 package controller;
 
 
+import java.awt.Window;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import constants.Images;
 import constants.Numbers;
+import constants.Other;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.util.Pair;
+import model.StationaryObject;
+import model.tower.Tower;
+import util.cpp;
 
 public class GameManager {
 	
 	private static GameManager instance = new GameManager();
 	private boolean isRunning = false;
+	private boolean isPaused = false;
 	private int selX = 0;
 	private int selY = 0;
-	private ArrayList<Integer> towerX = new ArrayList<Integer>();
-	private ArrayList<Integer> towerY = new ArrayList<Integer>();
+	private ArrayList<Tower> towers = new ArrayList<>();
+	private int[][] tileState = new int[100][100]; // TODO: Fix yolo allocation
 	private int money = 1000;
 	
 	public GameManager() {
 		// init some
+	}
+	
+	public void tick() {
+
+		if (isRunning && !isPaused) {
+			
+			// breadth-first search
+			int[][] dist = new int[100][100]; // distance;
+			cpp.pii[][] pred = new cpp.pii[100][100]; // path
+			for (int[] row: dist)
+				for (int x: row) 
+					x = 10000;
+			Queue<cpp.xyt> q = new LinkedList<cpp.xyt>();
+			q.add(new cpp.xyt(0, 0, 0));
+			dist[0][0] = 0;
+			while (!q.isEmpty()) {
+				cpp.xyt top = q.remove();
+				int x = top.x, y = top.y, t = top.t;
+				for (int[] rc: Other.dir) {
+					int nx = x+rc[0], ny = y+rc[0], nt = t+1;
+					
+				}
+			}
+		}
+		
 	}
 	
 	public void render(GraphicsContext gc) {
@@ -40,25 +74,25 @@ public class GameManager {
 			
 			}
 		}
-		for (int i=0; i<towerX.size(); i++) {
-			gc.drawImage(Images.tower1, towerX.get(i)*Numbers.TILE_SIZE,
-					towerY.get(i)*Numbers.TILE_SIZE);
+		
+		for (Tower t: towers) {
+			t.render(gc, t.getCellX()*Numbers.TILE_SIZE, t.getCellY()*Numbers.TILE_SIZE);
+			
 		}
+		
 		gc.fillText("Selected " + selX + "," + selY, 20, 20);
 		gc.fillText("Money = " + money, 20, 100);
 	}
 
 	public void buildTower(int x, int y) {
-		for (int i=0; i<towerX.size(); i++) {
-			if (x == towerX.get(i) && y == towerY.get(i)) {
-				System.out.printf("Already Built at %d %d\n", x, y);
-				return ;
-			}
+		if (tileState[x][y] > 0) {
+			System.out.printf("already placed at %d %d\n", x, y);
 		}
 		if (money < 1500) return ;
 		money -= 1500;
-		towerX.add(x);
-		towerY.add(y);
+		System.out.println("add tower to" + x +"." + y);
+		tileState[x][y] = 1;
+		towers.add(new Tower(Images.tower1, x, y));
 	}
 	
 	public void addMoney(int amount) {
