@@ -12,6 +12,8 @@ import main.Main;
 
 public class MainMenu extends Scene {
 	
+	private Timeline menuTick;
+	
 	public MainMenu() {
 		super(new Pane(), 1600, 900);
 		Pane root = (Pane) getRoot();
@@ -22,10 +24,10 @@ public class MainMenu extends Scene {
 			System.out.println("Hello From MainMenu");
 		}); // run some stupid command every tick;
 		
-		Timeline menuTick = new Timeline();
-		menuTick.getKeyFrames().add(tick);
-		menuTick.setCycleCount(Timeline.INDEFINITE);
-		menuTick.play();
+//		menuTick = new Timeline();
+//		menuTick.getKeyFrames().add(tick);
+//		menuTick.setCycleCount(Timeline.INDEFINITE);
+//		menuTick.play();
 		
 		btn.setOnAction(e -> {
 			Main.setScene(Main.settings);
@@ -35,6 +37,7 @@ public class MainMenu extends Scene {
 		root.getChildren().addAll(btn);
 	}
 	
-	
-	
+	public void resume() {
+		menuTick.play();
+	}
 }
