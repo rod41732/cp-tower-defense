@@ -48,7 +48,6 @@ public class Monster extends Entity {
 				continue; // is pretty close to target tile, should move to next
 			}
 			if (targetTile == null || Double.compare(distToTile, targetDist) < 0 ) {
-				System.out.println("Ok now targeting" + tile);
 				targetDist = distToTile;
 				targetTile = tile;
 			}

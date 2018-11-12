@@ -48,17 +48,8 @@ public class GameManager {
 				else if ((ix+iy)%2 != 0) tiles.add(new Tile(Images.tile2, ix, iy));
 			}
 		}
-		// init some
 	}
 	
-//	public void tick() {
-//
-//		if (isRunning && !isPaused) {
-//			
-//			// breadth-first search
-//		}
-//		
-//	}
 	public void update() {
 		if (!isPaused) {
 			for (Tower t: towers) {
@@ -124,6 +115,7 @@ public class GameManager {
 		gc.fillText("last msg:" + message, 20, 140);
 		gc.fillText("Selected " + selX + "," + selY, 20, 60);
 		gc.fillText("Money = " + money, 20, 100);
+		
 	}
 
 
@@ -148,7 +140,7 @@ public class GameManager {
 			System.out.println("try to add tower to" + x +"." + y);
 			tileState[x][y] = 1;
 			path = Algorithm.BFS(tileState);
-			towers.add(new Tower(Images.tower1, x, y));
+			towers.add(new Tower(Images.tower1, x, y, 20, 100, 3));
 			message = "OK";
 		}
 		catch (Exception e) {
