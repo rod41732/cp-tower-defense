@@ -1,5 +1,7 @@
 package main;
+//package main;
 
+import constants.Numbers;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -21,9 +23,9 @@ public class Main extends Application {
 		
 		stage = primaryStage;
 		
-		stage.setScene(gameScene);
-		stage.setWidth(1600);
-		stage.setHeight(900);
+		stage.setScene(mainMenu);
+		stage.setWidth(Numbers.WIN_WIDTH);
+		stage.setHeight(Numbers.WIN_HEIGHT);
 		stage.setResizable(false);
 		stage.show();
 	}
