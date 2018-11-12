@@ -1,21 +1,68 @@
 package model;
 
+import controller.GameManager;
 import javafx.scene.image.Image;
+import util.GameUtil;
+import util.cpp;
 
-public class Monster {
+public class Monster extends Entity {
+	
+	
 	private double health; 
 	private double armor;
-	private Image image;
-	private double cellX, cellY;
+	private double moveSpeed;
 	
-	public Monster(Image image, double cellX, double cellY, double health, double armor) {
-		this.image = image;
+	// AI
+	private cpp.pii targetTile = null;
+	private double targetDist = 0;
+	
+	public Monster(Image image, double x, double y, double w, double h, double health, double armor) {
+		super(image, x, y, w, h);
 		this.health = health;
 		this.armor = armor;
-		this.cellX = cellX;
-		this.cellY = cellY;
+	}
+	
+	public void clearPath() {
+		targetTile = null;
+		targetDist = 999;
 	}
 
+	public void findPath() {
+		clearPath();
+//		System.out.println("--------------------------");
+		for (cpp.pii tile: GameManager.getInstance().getPath()) {
+//			System.out.println("considering ???");
+			double distNow = GameUtil.distance(x, y, 10, 10);
+			double distFuture = GameUtil.distance(tile.first, tile.second, 10, 10);
+			double distToTile = GameUtil.distance(tile.first, tile.second, x, y);
+			if (Double.compare(distNow, distFuture) < 0) {
+//				System.out.printf("didn't move to %s because it's farther than now %.2f %.2f", tile,
+//						cellX, cellY);
+				continue;
+			}
+			
+			
+			if (Double.compare(distToTile, 0.1) < 0) {
+//				System.out.printf("didn't move to %s because it's pretty close to %.2f %.2f", tile,
+//						cellX, cellY);
+				continue; // is pretty close to target tile, should move to next
+			}
+			if (targetTile == null || Double.compare(distToTile, targetDist) < 0 ) {
+				System.out.println("Ok now targeting" + tile);
+				targetDist = distToTile;
+				targetTile = tile;
+			}
+		}
+	}
+	
+	public void move() {
+		findPath();
+		if (targetTile == null) return; 
+		cpp.pff v = GameUtil.unitVector(x, y, targetTile.first, targetTile.second);
+		this.x += v.first * moveSpeed/60;
+		this.y += v.second* moveSpeed/60;
+	}
+	
 	public void takeDamage(double damage) {
 		damage -= armor;
 		if (damage < 0) return ;
@@ -23,47 +70,23 @@ public class Monster {
 	}
 	
 	public boolean isDead() {
-		return health < 0;
+		return Double.compare(health, 0) <= 0;
 	}
-
+	
+	public void forceKill() {
+		health = 0;
+	}
+	
 	public double getHealth() {
 		return health;
-	}
-
-	public void setHealth(double health) {
-		this.health = health;
 	}
 
 	public double getArmor() {
 		return armor;
 	}
 
-	public void setArmor(double armor) {
-		this.armor = armor;
-	}
-
-	public Image getImage() {
-		return image;
-	}
-
-	public void setImage(Image image) {
-		this.image = image;
-	}
-
-	public double getCellX() {
-		return cellX;
-	}
-
-	public void setCellX(double cellX) {
-		this.cellX = cellX;
-	}
-
-	public double getCellY() {
-		return cellY;
-	}
-
-	public void setCellY(double cellY) {
-		this.cellY = cellY;
+	public double getMoveSpeed() {
+		return moveSpeed;
 	}
 	
 	public String toString() {

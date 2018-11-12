@@ -1,24 +1,18 @@
 package controller;
 
 
-import java.awt.Window;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-
-import com.sun.javafx.image.impl.ByteIndexed.Getter;
 
 import constants.Images;
 import constants.Numbers;
-import constants.Other;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.util.Pair;
 import model.Monster;
-import model.StationaryObject;
+import model.Tile;
 import model.Tower;
 import util.Algorithm;
+import util.GameUtil;
 import util.cpp;
 
 public class GameManager {
@@ -33,10 +27,11 @@ public class GameManager {
 	
 	
 	private ArrayList<Tower> towers = new ArrayList<>();
+	private ArrayList<Monster> monsters = new ArrayList<>();
+	private ArrayList<Tile> tiles = new ArrayList<>();
 	private int[][] tileState = new int[100][100]; // TODO: Fix yolo allocation
 	private ArrayList<cpp.pii> path;
 
-	private ArrayList<Monster> monsters = new ArrayList<>();
 	
 	
 	public GameManager() {
@@ -45,6 +40,13 @@ public class GameManager {
 		}
 		catch (Exception e) {
 			System.out.println("this shouldn't happen");
+		}
+		for (int i=0; i<Numbers.WIN_WIDTH; i+=Numbers.TILE_SIZE) {
+			for (int j=0; j<Numbers.WIN_HEIGHT; j+=Numbers.TILE_SIZE) {
+				int ix = (int)((i)/Numbers.TILE_SIZE), iy = (int)((j)/Numbers.TILE_SIZE);
+				if ((ix+iy)%2 == 0) tiles.add(new Tile(Images.tile1, ix, iy));
+				else if ((ix+iy)%2 != 0) tiles.add(new Tile(Images.tile2, ix, iy));
+			}
 		}
 		// init some
 	}
@@ -58,15 +60,24 @@ public class GameManager {
 //		
 //	}
 	public void update() {
-		for (Tower t: towers) {
-			for (Monster m: monsters) {
-				t.tryTarget(m);
+		if (!isPaused) {
+			for (Tower t: towers) {
+				for (Monster m: monsters) {
+					t.tryTarget(m);
+				}
+				t.fire();
 			}
-			t.fire();
-		}
-		for (int i=monsters.size()-1; i>=0; i--) {
-			if (monsters.get(i).isDead())
-				monsters.remove(i);
+			for (int i=monsters.size()-1; i>=0; i--) {
+				if (monsters.get(i).isDead())
+					monsters.remove(i);
+			}
+			for (Monster m: monsters) {
+				m.move();
+				if (Double.compare(m.distanceTo(10, 10), 0.1) < 0) {
+					m.forceKill();
+					message = "a monster reached end";
+				}
+			}
 		}
 	}
 	
@@ -76,25 +87,28 @@ public class GameManager {
 	/// rendering
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
-		for (int i=0; i<Numbers.WIN_WIDTH; i+=Numbers.TILE_SIZE) {
-			for (int j=0 ; j<Numbers.WIN_WIDTH; j+=Numbers.TILE_SIZE) {
-				int ix = i/Numbers.TILE_SIZE, iy = j/Numbers.TILE_SIZE;
-				if (ix == selX && iy == selY) continue;
-				else if ((ix+iy)%2 == 0) {
-					gc.drawImage(Images.tile2, i, j);					
-				}
-				else {
-					gc.drawImage(Images.tile1, i, j);
-				}
-			
-			}
+//		for (int i=0; i<Numbers.WIN_WIDTH; i+=Numbers.TILE_SIZE) {
+//			for (int j=0 ; j<Numbers.WIN_WIDTH; j+=Numbers.TILE_SIZE) {
+//				int ix = i/Numbers.TILE_SIZE, iy = j/Numbers.TILE_SIZE;
+//				if (ix == selX && iy == selY) continue;
+//				else if ((ix+iy)%2 == 0) {
+//					gc.drawImage(Images.tile2, i, j);					
+//				}
+//				else {
+//					gc.drawImage(Images.tile1, i, j);
+//				}
+//			
+//			}
+//		}
+		for (Tile t: tiles) {
+			gc.drawImage(t.getImage(), t.getRenderX(), t.getRenderY());
 		}
 		for (Tower t: towers) {
 			t.render(gc, t.getCellX()*Numbers.TILE_SIZE, t.getCellY()*Numbers.TILE_SIZE);	
 		}
 	
 		for (Monster m: monsters) {
-			gc.drawImage(m.getImage(), m.getCellX()*Numbers.TILE_SIZE, m.getCellY()*Numbers.TILE_SIZE);
+			gc.drawImage(m.getImage(), m.getRenderX(), m.getRenderY());
 		}
 		
 		if (path != null) {
@@ -112,8 +126,15 @@ public class GameManager {
 		gc.fillText("Money = " + money, 20, 100);
 	}
 
-	public void buildTower(int x, int y) {
 
+	public void updateSelection(double x, double y) {
+		selX = x/Numbers.TILE_SIZE-0.5;
+		selY = y/Numbers.TILE_SIZE-0.5;
+	}
+
+	
+	public void buildTower(int x, int y) {
+		x+=0.5; y+=0.5;
 		try {
 			if (tileState[x][y] > 0) {
 				message = "Tower already there";
@@ -138,14 +159,17 @@ public class GameManager {
 		}
 		
 	}
+
+	public void spawnMonster(double x, double y) {
+		monsters.add(new Monster(Images.bear, x, y, 1, 1, 100, 0));
+	}
+	
 	
 	public void addMoney(int amount) {
 		money += amount;
 	}
 	
-	public void spawnMonster(double x, double y) {
-		monsters.add(new Monster(Images.bear, x, y, 100, 0));
-	}
+
 	
 	public static GameManager getInstance() {
 		return instance;
@@ -167,13 +191,14 @@ public class GameManager {
 		this.selY = selY;
 	}
 
-	public void updateSelection(double x, double y) {
-		selX = x/Numbers.TILE_SIZE;
-		selY = y/Numbers.TILE_SIZE;
-	}
-
 	public boolean isRunning() {
 		return isRunning;
+	}
+
+	
+	
+	public ArrayList<cpp.pii> getPath() {
+		return path;
 	}
 
 	public void setRunning(boolean isRunning) {
