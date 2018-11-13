@@ -1,6 +1,8 @@
-package model;
+package model.projectile;
 
 import javafx.scene.image.Image;
+import model.Monster;
+import model.Projectile;
 
 public class NormalProjectile extends Projectile {
 	

@@ -5,8 +5,8 @@ import constants.Images;
 import controller.GameManager;
 import javafx.scene.image.Image;
 import model.Entity;
-import model.GroundMonster;
-import model.NormalProjectile;
+import model.monster.GroundMonster;
+import model.projectile.NormalProjectile;
 import util.GameUtil;
 import util.cpp;
 

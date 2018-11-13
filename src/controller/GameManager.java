@@ -8,10 +8,10 @@ import constants.Numbers;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import model.GroundMonster;
-import model.NormalProjectile;
 import model.Tile;
 import model.Tower;
+import model.monster.GroundMonster;
+import model.projectile.NormalProjectile;
 import util.Algorithm;
 import util.GameUtil;
 import util.cpp;
@@ -103,7 +103,6 @@ public class GameManager {
 			gc.setFill(new Color(0, 0, 0, 0.7)); // just dim
 			cpp.pii pos = new cpp.pii(startCol, startRow);
 			while (pos.first != endCol || pos.second!= endRow) {
-				System.out.println("path at" + pos);
 				gc.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
 						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 				pos = path[pos.first][pos.second];
@@ -112,6 +111,7 @@ public class GameManager {
 		}
 		
 		gc.setFill(Color.MAGENTA);
+		gc.setStroke(Color.BLACK);
 		gc.setFont(Font.font("Consolas", 20));
 		gc.fillText("last msg:" + message, 20, 140);
 		gc.fillText("Selected " + selX + "," + selY, 20, 60);

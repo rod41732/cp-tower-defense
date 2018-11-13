@@ -1,7 +1,8 @@
-package model;
+package model.projectile;
 
 import controller.GameManager;
 import javafx.scene.image.Image;
+import model.Monster;
 import util.cpp;
 
 public class Bomb extends NormalProjectile {

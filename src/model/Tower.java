@@ -5,8 +5,9 @@ import constants.Images;
 import controller.GameManager;
 import javafx.scene.image.Image;
 import model.Entity;
-import model.GroundMonster;
-import model.NormalProjectile;
+import model.monster.GroundMonster;
+import model.projectile.Bomb;
+import model.projectile.NormalProjectile;
 import util.GameUtil;
 import util.cpp;
 
@@ -18,7 +19,7 @@ public class Tower extends Entity {
 	protected double rotation;
 	protected double attack;
 	protected double attackCooldown = 1000;
-	protected double cooldown; // in ms ?
+	protected double cooldown; // in ms
 	protected double range; 
 	
 	
@@ -62,9 +63,9 @@ public class Tower extends Entity {
 		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
 				getX(), getY(), target.getX(), target.getY(), v);
 		
-		
+
 		GameManager.getInstance().getBullets().add(new 
-				NormalProjectile(Images.bullet1,x, y, v.first*9, v.second*9, range, 20));
+				Bomb(Images.bullet1,x, y, v.first*9, v.second*9, range, 5, 2));
 		
 		cooldown = attackCooldown;
 		clearTarget();
