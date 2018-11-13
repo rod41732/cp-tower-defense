@@ -52,6 +52,7 @@ public class Tower extends Entity {
 		cooldown = attackCooldown;
 		target.takeDamage(attack);
 		System.out.println("Shot =>" + target.toString());
+		clearTarget();
 		// need to clear because it will keep firing corpse since tower isn't updated
 	}
 }
