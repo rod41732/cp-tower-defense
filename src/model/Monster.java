@@ -16,8 +16,8 @@ public class Monster extends Entity {
 	private cpp.pii targetTile = null;
 	private double targetDist = 0;
 	
-	public Monster(Image image, double x, double y, double w, double h, double health, double armor) {
-		super(image, x, y, w, h);
+	public Monster(Image image, double x, double y, double size, double health, double armor) {
+		super(image, x, y, size);
 		this.health = health;
 		this.armor = armor;
 	}
@@ -49,6 +49,7 @@ public class Monster extends Entity {
 	public void takeDamage(double damage) {
 		damage -= armor;
 		if (damage < 0) return ;
+		System.out.println("Monster took " + damage + " damage");
 		health -= damage;
 	}
 	

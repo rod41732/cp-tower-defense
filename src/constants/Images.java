@@ -10,5 +10,5 @@ public class Images {
 	
 	public static final Image tower1 = new Image("tower/tower1.png", 64, 64, true, true);
 	public static final Image bear = new Image("monster/bear.png", 64, 64, true, true);
-	
+	public static final Image bullet1 = new Image("projectile/bullet1.png", 30, 30, true, true);
 }

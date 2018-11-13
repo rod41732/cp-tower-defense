@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import model.Monster;
+import model.Projectile;
 import model.Tile;
 import model.Tower;
 import util.Algorithm;
@@ -31,6 +32,7 @@ public class GameManager {
 	private ArrayList<Tower> towers = new ArrayList<>();
 	private ArrayList<Monster> monsters = new ArrayList<>();
 	private ArrayList<Tile> tiles = new ArrayList<>();
+	private ArrayList<Projectile> bullets = new ArrayList<>(); 
 	private int[][] tileState = new int[100][100]; // TODO: Fix yolo allocation
 	private cpp.pii[][] path;
 
@@ -46,8 +48,8 @@ public class GameManager {
 		for (int i=0; i<Numbers.WIN_WIDTH; i+=Numbers.TILE_SIZE) {
 			for (int j=0; j<Numbers.WIN_HEIGHT; j+=Numbers.TILE_SIZE) {
 				int ix = (int)((i)/Numbers.TILE_SIZE), iy = (int)((j)/Numbers.TILE_SIZE);
-				if ((ix+iy)%2 == 0) tiles.add(new Tile(Images.tile1, ix, iy));
-				else if ((ix+iy)%2 != 0) tiles.add(new Tile(Images.tile2, ix, iy));
+				if ((ix+iy)%2 == 0) tiles.add(new Tile(Images.tile1, ix+0.5, iy+0.5));
+				else if ((ix+iy)%2 != 0) tiles.add(new Tile(Images.tile2, ix+0.5, iy+0.5));
 			}
 		}
 	}
@@ -71,6 +73,17 @@ public class GameManager {
 					message = "a monster reached end";
 				}
 			}
+			for (int i=bullets.size()-1; i>=0; i--) {
+				Projectile p = bullets.get(i);
+				p.move();
+				if (p.isExpired()) bullets.remove(i);
+				for (Monster m: monsters) {
+					if (p.collideWith(m)) {
+						bullets.remove(i);
+						break;
+					}
+				}
+			}
 		}
 	}
 	
@@ -80,19 +93,6 @@ public class GameManager {
 	/// rendering
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
-//		for (int i=0; i<Numbers.WIN_WIDTH; i+=Numbers.TILE_SIZE) {
-//			for (int j=0 ; j<Numbers.WIN_WIDTH; j+=Numbers.TILE_SIZE) {
-//				int ix = i/Numbers.TILE_SIZE, iy = j/Numbers.TILE_SIZE;
-//				if (ix == selX && iy == selY) continue;
-//				else if ((ix+iy)%2 == 0) {
-//					gc.drawImage(Images.tile2, i, j);					
-//				}
-//				else {
-//					gc.drawImage(Images.tile1, i, j);
-//				}
-//			
-//			}
-//		}
 		for (Tile t: tiles) {
 			gc.drawImage(t.getImage(), t.getRenderX(), t.getRenderY());
 		}
@@ -104,17 +104,16 @@ public class GameManager {
 			gc.drawImage(m.getImage(), m.getRenderX(), m.getRenderY());
 		}
 		
+		for (Projectile p: bullets) {
+			gc.drawImage(p.getImage(), p.getRenderX(), p.getRenderY());
+		}
 		
-		gc.setFont(Font.font("Consolas", 12));
-		for (int i=0; i<20; i++)
-			for (int j=0; j<13; j++)
-				gc.fillText(String.format("%s\n%s\n", new cpp.pii(i, j), path[i][j]),
-						i*Numbers.TILE_SIZE, j*Numbers.TILE_SIZE+16);
 		
 		if (path != null) {
 			gc.setFill(new Color(0, 0, 0, 0.7)); // just dim
 			cpp.pii pos = new cpp.pii(startCol, startRow);
-			while (pos.first != endCol && pos.second!= endRow) {
+			while (pos.first != endCol || pos.second!= endRow) {
+				System.out.println("path at" + pos);
 				gc.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
 						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 				pos = path[pos.first][pos.second];
@@ -132,8 +131,8 @@ public class GameManager {
 
 
 	public void updateSelection(double x, double y) {
-		selX = x/Numbers.TILE_SIZE-0.5;
-		selY = y/Numbers.TILE_SIZE-0.5;
+		selX = x/Numbers.TILE_SIZE;
+		selY = y/Numbers.TILE_SIZE;
 	}
 
 	
@@ -151,7 +150,7 @@ public class GameManager {
 			System.out.println("try to add tower to" + x +"." + y);
 			tileState[x][y] = 1;
 			Algorithm.BFS(tileState.clone(), endCol, endRow, startCol, startRow);
-			towers.add(new Tower(Images.tower1, x, y, 0, 100, 3));
+			towers.add(new Tower(Images.tower1, x+0.5, y+0.5, 0, 100, 3));
 			message = "OK";
 		}
 		catch (Exception e) {
@@ -171,7 +170,7 @@ public class GameManager {
 	}
 
 	public void spawnMonster(double x, double y) {
-		monsters.add(new Monster(Images.bear, x, y, 1, 1, 100, 0));
+		monsters.add(new Monster(Images.bear, x, y, 0.4, 100, 0));
 	}
 	
 	
@@ -214,7 +213,25 @@ public class GameManager {
 	public void setRunning(boolean isRunning) {
 		System.out.println("GameManager: Running state changed: " + isRunning);
 		this.isRunning = isRunning;
+	}
+
+	public ArrayList<Tower> getTowers() {
+		return towers;
+	}
+
+	public ArrayList<Monster> getMonsters() {
+		return monsters;
+	}
+
+	public ArrayList<Tile> getTiles() {
+		return tiles;
+	}
+
+	public ArrayList<Projectile> getBullets() {
+		return bullets;
 	}	
+	
+	
 	
 	
 	

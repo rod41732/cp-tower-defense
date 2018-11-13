@@ -1,4 +1,4 @@
-package model;
+package model.tower;
 
 
 import constants.Images;
@@ -10,7 +10,7 @@ import model.Projectile;
 import util.GameUtil;
 import util.cpp;
 
-public class Tower extends Entity {
+public class NormalTower extends Entity {
 
 	// TODO : more fields
 	
@@ -25,7 +25,7 @@ public class Tower extends Entity {
 	protected Monster target;
 	private double minDist;
 	
-	public Tower(Image img, double cellX, double cellY, double attack, double cooldown, double range) {
+	public NormalTower(Image img, double cellX, double cellY, double attack, double cooldown, double range) {
 		super(img, cellX, cellY, 0.5);
 		this.attack = attack;
 		this.cooldown = cooldown;

@@ -20,5 +20,10 @@
 			<type>1</type>
 			<location>D:/Progmeth_Projects/TowerDefense/resources/monster/bear.png</location>
 		</link>
+		<link>
+			<name>resources/projectile/bullet1.png</name>
+			<type>1</type>
+			<location>D:/Progmeth_Projects/TowerDefense/resources/projectile/bullet1.png</location>
+		</link>
 	</linkedResources>
 </projectDescription>

@@ -17,14 +17,16 @@ public class Entity {
 	// position CG 
 	protected double x; 
 	protected double y;
+	protected double size;
 	
 	
-	public Entity(Image image, double x, double y, double w, double h) {
+	public Entity(Image image, double x, double y, double size) {
 		this.image = image;
-		this.w = w;
-		this.h = h;
+		this.w = image.getWidth();
+		this.h = image.getHeight();
 		this.x = x;
 		this.y = y;
+		this.size = size;
 	}	
 
 	
@@ -34,11 +36,16 @@ public class Entity {
 	public double distanceTo(double rx, double ry) {
 		return GameUtil.distance(x, y, rx, ry);
 	}
+	
+	public boolean isCollideWith(Entity e) {
+		return Double.compare(distanceTo(e), e.size+size) < 0; 
+	}
+	
 	public double getRenderX() {
-		return (x)*Numbers.TILE_SIZE; 
+		return (x)*Numbers.TILE_SIZE-w/2; 
 	}
 	public double getRenderY() {
-		return (y)*Numbers.TILE_SIZE;
+		return (y)*Numbers.TILE_SIZE-h/2;
 	}
 	
 	public double getX() {
@@ -52,5 +59,7 @@ public class Entity {
 		return image;
 	}
 	
-	
+	public String toString() {
+		return String.format("(%.2f, %.2f)", x, y);
+	}
 }

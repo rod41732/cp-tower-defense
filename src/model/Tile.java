@@ -8,7 +8,7 @@ public class Tile extends Entity{
 	private boolean isPlaceable;
 	
 	public Tile(Image image, double x, double y) {
-		super(image, x, y, 1, 1);
+		super(image, x, y, 1);
 	}
 	
 	
