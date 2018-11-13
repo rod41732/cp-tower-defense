@@ -1,6 +1,7 @@
 package model;
 
 import constants.Numbers;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import util.GameUtil;
 import util.cpp;
@@ -29,6 +30,9 @@ public class Entity {
 		this.size = size;
 	}	
 
+	public cpp.pff getPosition(){
+		return new cpp.pff(x, y);
+	}
 	
 	public double distanceTo(Entity e) {
 		return GameUtil.distance(x, y, e.x, e.y);
@@ -48,6 +52,10 @@ public class Entity {
 		return (y)*Numbers.TILE_SIZE-h/2;
 	}
 	
+	public void render(GraphicsContext gc) {
+		gc.drawImage(image, getRenderX(), getRenderY());
+	}
+	
 	public double getX() {
 		return x;
 	}
@@ -60,6 +68,6 @@ public class Entity {
 	}
 	
 	public String toString() {
-		return String.format("(%.2f, %.2f)", x, y);
+		return String.format("Entity at (%.2f, %.2f)", x, y);
 	}
 }

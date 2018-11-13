@@ -5,52 +5,50 @@ import javafx.scene.image.Image;
 import util.GameUtil;
 import util.cpp;
 
-public class Monster extends Entity {
+public abstract class Monster extends Entity {
 	
 	
-	private double health; 
-	private double armor;
-	private double moveSpeed = 1.5;
-	
+	protected double health; 
+	protected double armor;
+	protected double moveSpeed;
+	protected double vx;
+	protected double vy;
+	protected String name;
 	// AI
-	private cpp.pii targetTile = null;
-	private double targetDist = 0;
 	
-	public Monster(Image image, double x, double y, double size, double health, double armor) {
+	public Monster(String name, Image image, double x, double y,
+			double size, double health, double armor, double moveSpeed) {
 		super(image, x, y, size);
 		this.health = health;
 		this.armor = armor;
-	}
-	
-	public void clearPath() {
-		targetTile = null;
-		targetDist = 999;
-	}
-
-	public void findPath() {
-		clearPath();
-		cpp.pii[][] path = GameManager.getInstance().getPath();
-		int gridX = (int)Math.round(x-0.02);
-		int gridY = (int)Math.round(y-0.02);
-		
-		targetTile = path[gridX][gridY];
-//		System.out.printf("currently at %s which is grid %s going to %s\n",
-//				new cpp.pff(x, y), new cpp.pii(gridX, gridY), targetTile);
+		this.name = name;
+		this.moveSpeed = moveSpeed;
 	}
 	
 	public void move() {
-		findPath();
-		if (targetTile == null) return; 
-		cpp.pff v = GameUtil.unitVector(x, y, targetTile.first, targetTile.second);
-		this.x += v.first * moveSpeed/60;
-		this.y += v.second* moveSpeed/60;
+		x += vx;
+		y += vy;
 	}
 	
-	public void takeDamage(double damage) {
+	public boolean isTargetableBy(Tower t) {
+		return true;
+	}
+	
+	
+	// return false is damage is negated
+	public boolean takeDamage(double damage) {
 		damage -= armor;
-		if (damage < 0) return ;
-		System.out.println("Monster took " + damage + " damage");
+		if (damage <= 0) return false;
+		System.out.printf("%s took %.2f damage\n", name, damage);
 		health -= damage;
+		return true;
+	}
+	
+	public boolean takePureDamage(double damage) {
+		if (damage <= 0) return false;
+		System.out.printf("%s took %.2f damage\n", name, damage);
+		health -= damage;
+		return true;
 	}
 	
 	public boolean isDead() {
@@ -58,24 +56,12 @@ public class Monster extends Entity {
 	}
 	
 	public void forceKill() {
-		health = 0;
-	}
-	
-	public double getHealth() {
-		return health;
-	}
-
-	public double getArmor() {
-		return armor;
-	}
-
-	public double getMoveSpeed() {
-		return moveSpeed;
+		health = -1;
 	}
 	
 	public String toString() {
-		return String.format("Moster has %.2f HP", health);
+		return String.format("%s at %s HP:%.2f Armor:%.2f MS:%.2f",
+				name, getPosition(), health, armor, moveSpeed);
 	}
-	
 	
 }

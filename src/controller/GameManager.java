@@ -8,8 +8,8 @@ import constants.Numbers;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import model.Monster;
-import model.Projectile;
+import model.GroundMonster;
+import model.NormalProjectile;
 import model.Tile;
 import model.Tower;
 import util.Algorithm;
@@ -30,9 +30,9 @@ public class GameManager {
 	
 	
 	private ArrayList<Tower> towers = new ArrayList<>();
-	private ArrayList<Monster> monsters = new ArrayList<>();
+	private ArrayList<GroundMonster> monsters = new ArrayList<>();
 	private ArrayList<Tile> tiles = new ArrayList<>();
-	private ArrayList<Projectile> bullets = new ArrayList<>(); 
+	private ArrayList<NormalProjectile> projectiles = new ArrayList<>(); 
 	private int[][] tileState = new int[100][100]; // TODO: Fix yolo allocation
 	private cpp.pii[][] path;
 
@@ -57,7 +57,7 @@ public class GameManager {
 	public void update() {
 		if (!isPaused) {
 			for (Tower t: towers) {
-				for (Monster m: monsters) {
+				for (GroundMonster m: monsters) {
 					t.tryTarget(m);
 				}
 				t.fire();
@@ -66,20 +66,20 @@ public class GameManager {
 				if (monsters.get(i).isDead())
 					monsters.remove(i);
 			}
-			for (Monster m: monsters) {
+			for (GroundMonster m: monsters) {
 				m.move();
 				if (Double.compare(m.distanceTo(10, 10), 0.1) < 0) {
 					m.forceKill();
 					message = "a monster reached end";
 				}
 			}
-			for (int i=bullets.size()-1; i>=0; i--) {
-				Projectile p = bullets.get(i);
+			for (int i=projectiles.size()-1; i>=0; i--) {
+				NormalProjectile p = projectiles.get(i);
 				p.move();
-				if (p.isExpired()) bullets.remove(i);
-				for (Monster m: monsters) {
+				if (p.isExpired()) projectiles.remove(i);
+				for (GroundMonster m: monsters) {
 					if (p.collideWith(m)) {
-						bullets.remove(i);
+						projectiles.remove(i);
 						break;
 					}
 				}
@@ -93,20 +93,10 @@ public class GameManager {
 	/// rendering
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
-		for (Tile t: tiles) {
-			gc.drawImage(t.getImage(), t.getRenderX(), t.getRenderY());
-		}
-		for (Tower t: towers) {
-			gc.drawImage(t.getImage(), t.getRenderX(), t.getRenderY());	
-		}
-	
-		for (Monster m: monsters) {
-			gc.drawImage(m.getImage(), m.getRenderX(), m.getRenderY());
-		}
-		
-		for (Projectile p: bullets) {
-			gc.drawImage(p.getImage(), p.getRenderX(), p.getRenderY());
-		}
+		for (Tile t: tiles) t.render(gc);
+		for (Tower t: towers) t.render(gc);
+		for (GroundMonster m: monsters) m.render(gc);
+		for (NormalProjectile p: projectiles) p.render(gc);
 		
 		
 		if (path != null) {
@@ -170,7 +160,7 @@ public class GameManager {
 	}
 
 	public void spawnMonster(double x, double y) {
-		monsters.add(new Monster(Images.bear, x, y, 0.4, 100, 0));
+		monsters.add(new GroundMonster("Bear", Images.bear, x, y, 0.4, 100, 0, 1.5));
 	}
 	
 	
@@ -219,7 +209,7 @@ public class GameManager {
 		return towers;
 	}
 
-	public ArrayList<Monster> getMonsters() {
+	public ArrayList<GroundMonster> getMonsters() {
 		return monsters;
 	}
 
@@ -227,9 +217,18 @@ public class GameManager {
 		return tiles;
 	}
 
-	public ArrayList<Projectile> getBullets() {
-		return bullets;
-	}	
+	public ArrayList<NormalProjectile> getBullets() {
+		return projectiles;
+	}
+
+	public int getEndRow() {
+		return endRow;
+	}
+
+	public int getEndCol() {
+		return endCol;
+	}
+
 	
 	
 	

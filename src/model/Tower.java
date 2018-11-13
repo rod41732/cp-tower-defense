@@ -5,8 +5,8 @@ import constants.Images;
 import controller.GameManager;
 import javafx.scene.image.Image;
 import model.Entity;
-import model.Monster;
-import model.Projectile;
+import model.GroundMonster;
+import model.NormalProjectile;
 import util.GameUtil;
 import util.cpp;
 
@@ -22,7 +22,7 @@ public class Tower extends Entity {
 	protected double range; 
 	
 	
-	protected Monster target;
+	protected GroundMonster target;
 	private double minDist;
 	
 	public Tower(Image img, double cellX, double cellY, double attack, double cooldown, double range) {
@@ -37,11 +37,11 @@ public class Tower extends Entity {
 		minDist = 0;
 	}
 	
-	public boolean isInRange(Monster m) {
+	public boolean isInRange(GroundMonster m) {
 		return Double.compare(this.distanceTo(m), range) < 0;
 	}
 	// change target to monster m if it's closer than current monster
-	public void tryTarget(Monster m) {
+	public void tryTarget(GroundMonster m) {
 		// TODO
 		clearTarget();
 		if ((target == null || Double.compare(distanceTo(m), minDist) < 0) && isInRange(m)){
@@ -63,11 +63,10 @@ public class Tower extends Entity {
 				getX(), getY(), target.getX(), target.getY(), v);
 		
 		
-		GameManager.getInstance().getBullets().add(new Projectile(Images.bullet1,
-				x, y, v.first*9, v.second*9, 20));
+		GameManager.getInstance().getBullets().add(new 
+				NormalProjectile(Images.bullet1,x, y, v.first*9, v.second*9, range, 20));
 		
 		cooldown = attackCooldown;
 		clearTarget();
-		// need to clear because it will keep firing corpse since tower isn't updated
 	}
 }

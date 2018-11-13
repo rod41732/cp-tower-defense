@@ -3,40 +3,42 @@ package model;
 import javafx.scene.image.Image;
 import util.GameUtil;
 
-public class Projectile extends Entity implements IExpirable {
+public abstract class Projectile extends Entity implements IExpirable {
 	
+	// constant
 	protected double vx, vy;
-	protected double damage;
-	protected double maxRange = 3;
-	protected double nowDist = 0;
+	protected double maxDistance = 3;
+	protected double maxAge = 5000; // in millisec
+	
+	// state
+	protected double distance = 0;
+	protected double age = 0;
 	protected boolean isExpired = false;
 	
-	public Projectile(Image image, double x, double y, double vx, double vy, double damage) {
+	public Projectile(Image image, double x, double y,
+			double vx, double vy, double maxRange) {
 		super(image, x, y, 0.1); // default size ?
 		this.vx = vx;
 		this.vy = vy;
-		this.damage = damage;
+		this.maxDistance = maxRange;
 	}
+	
 	
 	public void move() {
 		x += vx/60;
 		y += vy/60;
-		nowDist += GameUtil.distance(0, 0, vx/60, vy/60);
+		distance += GameUtil.distance(0, 0, vx/60, vy/60);
+		age += 1000./60;
 	}
 	
-	public boolean collideWith(Monster m) {
-		if (isExpired) return false;
-//		System.out.println(distanceTo(m) + "proj " + this + " vs mon " + m + "dist = ");
-		if (isCollideWith(m)) {
-			m.takeDamage(damage);
-			isExpired = true;
-			return true;
-		}
-		return false;
+	public boolean shouldCollide(Monster m) {
+		return !isExpired() && isCollideWith(m) && !m.isDead();
 	}
-
+	
+	public abstract boolean collideWith(Monster m);
+	
 	public boolean isExpired() {
-		return isExpired || Double.compare(nowDist, maxRange) > 0;
+		return isExpired || Double.compare(distance, maxDistance) > 0;
 	}
 
 	public void setExpired(boolean isExpired) {
