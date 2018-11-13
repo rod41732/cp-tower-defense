@@ -68,7 +68,7 @@ public class GameManager {
 			}
 			for (GroundMonster m: monsters) {
 				m.move();
-				if (Double.compare(m.distanceTo(10, 10), 0.1) < 0) {
+				if (Double.compare(m.distanceTo(endCol, endRow), 0.1) < 0) {
 					m.forceKill();
 					message = "a monster reached end";
 				}
@@ -100,7 +100,7 @@ public class GameManager {
 		
 		
 		if (path != null) {
-			gc.setFill(new Color(0, 0, 0, 0.7)); // just dim
+			gc.setFill(new Color(0, 0, 0, 0.5)); // just dim
 			cpp.pii pos = new cpp.pii(startCol, startRow);
 			while (pos.first != endCol || pos.second!= endRow) {
 				gc.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
@@ -140,7 +140,7 @@ public class GameManager {
 			System.out.println("try to add tower to" + x +"." + y);
 			tileState[x][y] = 1;
 			Algorithm.BFS(tileState.clone(), endCol, endRow, startCol, startRow);
-			towers.add(new Tower(Images.tower1, x+0.5, y+0.5, 0, 100, 3));
+			towers.add(new Tower(Images.tower1, x+0.5, y+0.5, 0, 100, 5));
 			message = "OK";
 		}
 		catch (Exception e) {

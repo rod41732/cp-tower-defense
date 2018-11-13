@@ -13,6 +13,7 @@ public class Bomb extends NormalProjectile {
 			double vx, double vy, double maxRange, double damage, double radius) {
 		super(image, x, y, vx, vy, maxRange, damage); // default size ?
 		this.radius = radius;
+		this.damage = damage;
 	}
 
 
