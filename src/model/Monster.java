@@ -3,6 +3,7 @@ package model;
 import controller.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import model.tower.BombTower;
 import util.GameUtil;
 import util.cpp;
@@ -10,7 +11,8 @@ import util.cpp;
 public abstract class Monster extends Entity {
 	
 	
-	protected double health; 
+	protected double maxHealth;
+	protected double health;
 	protected double armor;
 	protected double moveSpeed;
 	protected double vx;
@@ -20,12 +22,13 @@ public abstract class Monster extends Entity {
 	// AI
 	
 	public Monster(String name, Image image, double x, double y,
-			double size, double health, double armor, double moveSpeed, double money) {
+			double size, double maxHealth, double armor, double moveSpeed, int money) {
 		super(image, x, y, size);
-		this.health = health;
+		this.maxHealth = this.health = maxHealth;
 		this.armor = armor;
 		this.name = name;
 		this.moveSpeed = moveSpeed;
+		this.money = money;
 	}
 	
 	public void move() {
@@ -39,7 +42,10 @@ public abstract class Monster extends Entity {
 	
 	public void render(GraphicsContext gc) {
 		super.render(gc);
-		gc.fillRect(getRenderX(), getRenderY()-10, health, 3);
+		gc.setFill(Color.GREEN);
+		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*100, 3);
+		gc.setFill(Color.RED);
+		gc.fillRect(getRenderX()+health/maxHealth*100, getRenderY()-10, 100-health/maxHealth*100, 3);
 	}
 	
 	// return false is damage is negated

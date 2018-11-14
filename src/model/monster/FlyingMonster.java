@@ -9,7 +9,7 @@ import util.cpp;
 public class FlyingMonster extends Monster {
 	
 	public FlyingMonster(String name, Image image, double x, double y,
-			double size, double health, double armor, double moveSpeed, double money) {
+			double size, double health, double armor, double moveSpeed, int money) {
 		super(name, image, x, y, size, health, armor, moveSpeed, money);
 	}
 
