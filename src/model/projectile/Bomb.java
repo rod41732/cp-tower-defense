@@ -1,8 +1,10 @@
 package model.projectile;
 
+import constants.Images;
 import controller.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
+import model.Particle;
 import util.cpp;
 
 public class Bomb extends NormalProjectile {
@@ -19,7 +21,8 @@ public class Bomb extends NormalProjectile {
 
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
-			cpp.pff impact = m.getPosition();
+			cpp.pff impact = getPosition();
+			GameManager.getInstance().spawnParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
 			System.out.println("Boom");
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
 				if (Double.compare(ms.distanceTo(impact.first, impact.second), 3) < 0) {

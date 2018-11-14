@@ -145,10 +145,11 @@ public class GameManager {
 		gc.setFill(Color.MAGENTA);
 		gc.setStroke(Color.BLACK);
 		gc.setFont(Font.font("Consolas", 20));
-		gc.fillText("last msg:" + message, 20, 140);
 		gc.fillText("Selected " + selX + "," + selY, 20, 60);
 		gc.fillText("Money = " + money, 20, 100);
 		gc.fillText("selcted Tower = " + selectedTile , 20, 120);
+		gc.fillText("last msg:" + message, 20, 140);
+		gc.fillText("Lives = " + lives , 20, 160);
 		TowerMenu.render(gc);
 	}
 
@@ -174,11 +175,21 @@ public class GameManager {
 			handleTileClick((int)(e.getX()/Numbers.TILE_SIZE), (int)(e.getY()/Numbers.TILE_SIZE));			
 		}
 		else if (e.getButton() == MouseButton.SECONDARY) {
+			System.out.println("Spawn monster at" + new cpp.pff(e.getX()/Numbers.TILE_SIZE, e.getY()/Numbers.TILE_SIZE));
 			spawnMonster(e.getX()/Numbers.TILE_SIZE, e.getY()/Numbers.TILE_SIZE);
 		}
 		else {
 			removeTower((int)(e.getX()/Numbers.TILE_SIZE), (int)(e.getY()/Numbers.TILE_SIZE));
 		}
+	}
+	
+	public void sellTower() {
+		if (selectedTile == null) return;
+		Tower t = (Tower)selectedTile;
+		money += t.getValue();
+		cpp.pii pos = t.getPosition().toI();
+		removeTower(pos.first, pos.second);
+		selectedTile = null;
 	}
 	
 	public void removeTower(int x, int y) {
@@ -196,6 +207,7 @@ public class GameManager {
 		catch (Exception e) {
 			System.out.println("can't remove tower, this shouldn't happen");
 		}
+		path[endCol][endRow] = new cpp.pii(endCol+1, endRow+1);
 	}
 	
 	public void handleTileClick(int x, int y) {
@@ -221,10 +233,13 @@ public class GameManager {
 			
 			message = "OK";
 			if (towerChoice == 0) {
-				towers.add(new BombTower(Images.tower2 ,x+0.5, y+0.5, 10, 100, 2.5));				
+				towers.add(new BombTower(Images.tower2 ,x+0.5, y+0.5, 10, 800, 2.5));				
 			}
 			else if (towerChoice == 1){
-				towers.add(new NormalTower(Images.tower1 ,x+0.5, y+0.5, 7, 100, 4.5));
+				towers.add(new NormalTower(Images.tower1 ,x+0.5, y+0.5, 7, 400, 4.5));
+			}
+			else {
+				tileState[x][y] = 0;
 			}
 		}
 		catch (Exception e) {
@@ -242,9 +257,12 @@ public class GameManager {
 			}
 		}
 	}
-
+	public void spawnParticle(Particle p) {
+		particles.add(p);
+	}
+	
 	public void spawnMonster(double x, double y) {
-		monsters.add(new GroundMonster("Bear", Images.bear, x, y, 0.4, 100, 0, 1.5, 10));
+		monsters.add(new GroundMonster("Bear", Images.bear, x, y, 0.4, 60, 0, 1.5, 10));
 	}
 	
 	public void spawnMonster(Monster m) {

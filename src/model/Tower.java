@@ -27,14 +27,15 @@ public class Tower extends Tile {
 	protected double attackCooldown = 1000;
 	protected double cooldown; // in ms
 	protected double range; 
+	protected int value = 20;
 	
 	protected Monster target;
 	private double minDist;
 	
 	public Tower(Image img, double cellX, double cellY,
-			double cooldown, double range) {
+			double attackCooldown, double range) {
 		super(img, cellX, cellY);
-		this.cooldown = cooldown;
+		this.attackCooldown = attackCooldown;
 		this.range = range;
 	}
 	
@@ -97,6 +98,15 @@ public class Tower extends Tile {
 	
 
 	
+	
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
+
 	public void fire() {
 		System.out.println("Current cd" + cooldown);
 		if (cooldown > 0) cooldown -= 1000./16;

@@ -48,7 +48,7 @@ public class BombTower extends Tower {
 		
 
 		GameManager.getInstance().getBullets().add(new 
-				Bomb(Images.bullet2, x, y, v.first*9, v.second*9, range, 1, 2));
+				Bomb(Images.bullet2, x, y, v.first*9, v.second*9, range, attack, 0.5));
 		
 		cooldown = attackCooldown;
 		clearTarget();

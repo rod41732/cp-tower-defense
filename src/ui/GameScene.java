@@ -29,7 +29,7 @@ public class GameScene extends Scene {
 		});
 		
 		next = new Button("Next Wave");
-		next.setLayoutX(1200);
+		next.setLayoutX(1400);
 		next.setLayoutY(700);
 		next.setOnAction(e -> {
 			GameManager.getInstance().requestNextWave();
@@ -39,9 +39,15 @@ public class GameScene extends Scene {
 		upgrade.setOnAction(e -> {
 			GameManager.getInstance().upgradeTower();
 		});
-		upgrade.setLayoutX(1200);
+		upgrade.setLayoutX(1400);
 		upgrade.setLayoutY(730);
 		
+		Button sell = new Button("Sell");
+		sell.setOnAction(e -> {
+			GameManager.getInstance().sellTower();
+		});
+		sell.setLayoutX(1400);
+		sell.setLayoutY(760);
 		
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e ->  {
 			if (GameManager.getInstance().isRunning()) {
@@ -71,7 +77,7 @@ public class GameScene extends Scene {
 		gameTick.setCycleCount(Timeline.INDEFINITE);
 		gameTick.play();
 		
-		root.getChildren().addAll(canvas, back, upgrade, next);
+		root.getChildren().addAll(canvas, back, upgrade, next, sell);
 		
 		
 	}
