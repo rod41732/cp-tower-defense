@@ -34,7 +34,8 @@ public class GameManager {
 	private int money = 1000;
 	private String message = "";
 	private Tile selectedTile;
-	public int selectedTower = 0;
+	private int towerChoice = -1;
+	private Tower selectedTower;
 	private int startRow = 5, startCol = 0, endRow = 5, endCol = 19;
 	
 	
@@ -155,7 +156,7 @@ public class GameManager {
 	public void handleClick(MouseEvent e) {
 		if (!shouldHandle(e)) return ;
 		if (e.getButton() == MouseButton.PRIMARY) {
-			buildTower((int)(e.getX()/Numbers.TILE_SIZE), (int)(e.getY()/Numbers.TILE_SIZE));			
+			handleTileClick((int)(e.getX()/Numbers.TILE_SIZE), (int)(e.getY()/Numbers.TILE_SIZE));			
 		}
 		else if (e.getButton() == MouseButton.SECONDARY) {
 			spawnMonster(e.getX()/Numbers.TILE_SIZE, e.getY()/Numbers.TILE_SIZE);
@@ -168,72 +169,49 @@ public class GameManager {
 	public void removeTower(int x, int y) {
 		try {
 			pii currentTile = new pii(x, y);
-			if (tileState[x][y] > 0) {
-				for (Tower t: towers) {
-					if (t.getPosition().containedBy(currentTile)) {
-						selectedTile = t;
-						break;
-					}
+			for (int i=towers.size()-1; i>=0; i--)
+				if (towers.get(i).getPosition().containedBy(currentTile)) {
+					towers.remove(i);
+					message = "removed";
+					break;
 				}
-				((Tower)selectedTile).upgrade();
-				return ;
-			}
-			System.out.println("try to add tower to" + x +"." + y);
-			tileState[x][y] = 1;
-			Algorithm.BFS(tileState.clone(), endCol, endRow, startCol, startRow);
-			
-			if (selectedTower == 0) {
-				towers.add(new BombTower(Images.tower2 ,x+0.5, y+0.5, 3, 100, 2.5));				
-			}
-			else {
-				towers.add(new NormalTower(Images.tower1 ,x+0.5, y+0.5, 3, 100, 4.5));
-			}
-			message = "OK";
+			tileState[x][y] = 0;
+			path = Algorithm.BFS(tileState.clone(), endCol, endRow, startCol, startRow);
 		}
 		catch (Exception e) {
-			tileState[x][y] = 0;
-			money += 1500;
-			System.out.println("You can't build here");
-			message = "You can't build there";
-		}
-		finally {
-			try {
-				path = Algorithm.BFS(tileState, endCol, endRow, startCol, startRow);
-			}
-			catch(Exception e) {
-				// this shouldn't happen
-			}
+			System.out.println("can't remove tower, this shouldn't happen");
 		}
 	}
 	
-	public void buildTower(int x, int y) {
+	public void handleTileClick(int x, int y) {
 		try {
-			if (x < 0 || x >= Numbers.COLUMNS || y < 0 || y >= Numbers.ROWS) {
-				System.out.println("Can't build outside playable area");
+			if (towerChoice < 0) {
+				message = "Please select a tower";
 				return ;
 			}
 			pii currentTile = new pii(x, y);
 			if (tileState[x][y] > 0) {
 				for (Tower t: towers) {
+					System.out.println("tile :" + currentTile + "tower: " + t.getPosition());
 					if (t.getPosition().containedBy(currentTile)) {
-						selectedTile = t;
+						System.out.println("selected" + t);
+						selectedTile = t; // tile can be either tower of ground
 						break;
 					}
 				}
-				((Tower)selectedTile).upgrade();
 				return ;
 			}
 			System.out.println("try to add tower to" + x +"." + y);
 			tileState[x][y] = 1;
 			Algorithm.BFS(tileState.clone(), endCol, endRow, startCol, startRow);
 			
-			if (selectedTower == 0) {
+			message = "OK";
+			if (towerChoice == 0) {
 				towers.add(new BombTower(Images.tower2 ,x+0.5, y+0.5, 3, 100, 2.5));				
 			}
-			else {
+			else if (towerChoice == 1){
 				towers.add(new NormalTower(Images.tower1 ,x+0.5, y+0.5, 3, 100, 4.5));
 			}
-			message = "OK";
 		}
 		catch (Exception e) {
 			tileState[x][y] = 0;
@@ -256,8 +234,20 @@ public class GameManager {
 	}
 	
 
-
 	
+	
+	public cpp.pii getSelectedPosition(){
+		return new cpp.pii(tileX, tileY);
+	}
+
+	public Tile getSelectedTile() {
+		return selectedTile;
+	}
+
+	public void setSelectedTile(Tile selectedTile) {
+		this.selectedTile = selectedTile;
+	}
+
 	public static GameManager getInstance() {
 		return instance;
 	}
@@ -282,9 +272,8 @@ public class GameManager {
 		return isRunning;
 	}
 
-	public cpp.pii getSelectedTile(){
-		return new cpp.pii(tileX, tileY);
-	}
+	
+	
 	
 	
 	public int getRenderTickCount() {
@@ -317,6 +306,14 @@ public class GameManager {
 	}
 	
 	
+
+	public int getTowerChoice() {
+		return towerChoice;
+	}
+
+	public void setTowerChoice(int towerChoice) {
+		this.towerChoice = towerChoice;
+	}
 
 	public int getEndRow() {
 		return endRow;

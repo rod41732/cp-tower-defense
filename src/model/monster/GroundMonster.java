@@ -15,13 +15,13 @@ public class GroundMonster extends Monster {
 	}
 
 	public void findPath() {
-		System.out.println(toString() + "is finding path");
+//		System.out.println(toString() + "is finding path");
 		cpp.pii[][] path = GameManager.getInstance().getPath();
 		cpp.pii cur = getPosition().toI();
 		int gridX = cur.first;
 		int gridY = cur.second;
-		System.out.printf("%s is at %s Tile %s => Tile %s\n", name, getPosition(),
-				getPosition().toI(), path[gridX][gridY]);
+//		System.out.printf("%s is at %s Tile %s => Tile %s\n", name, getPosition(),
+//				getPosition().toI(), path[gridX][gridY]);
 		if (path[gridX][gridY] != null) {
 			targetTile = path[gridX][gridY].toF();
 			targetTile.first += 0.5;

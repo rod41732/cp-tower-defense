@@ -46,7 +46,7 @@ public class Tower extends Tile {
 	@Override
 	public void render(GraphicsContext gc) {
 		Render.drawRotatedImage(gc, image, rotation-180, getRenderX(), getRenderY());
-		if (this.getPosition().containedBy(GameManager.getInstance().getSelectedTile())) {
+		if (this.getPosition().containedBy(GameManager.getInstance().getSelectedPosition())) {
 			double tz = Numbers.TILE_SIZE;
 			double t = GameManager.getInstance().getRenderTickCount()%120;
 			double multiplier = t/60.;

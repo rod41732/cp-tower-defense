@@ -46,7 +46,7 @@ public class NormalTower extends Tower {
 	}
 	
 	public String toString() {
-		return String.format("Bomb Tower R=%.1f A=%.1f C=%.1f", range, attack, cooldown);
+		return String.format("Normal Tower R=%.1f A=%.1f C=%.1f", range, attack, cooldown);
 	}
 	
 }

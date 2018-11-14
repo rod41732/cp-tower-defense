@@ -44,12 +44,6 @@ public class GameScene extends Scene {
 			TowerMenu.handleClick(e);				
 		});
 		
-		setOnKeyPressed(e -> {
-			if (e.getCode() == KeyCode.G) {
-				System.out.println("pressed G");
-				GameManager.getInstance().selectedTower = 1-GameManager.getInstance().selectedTower;
-			}
-		});
 		
 		Timeline gameTick = new Timeline();
 		gameTick.getKeyFrames().add(render);
