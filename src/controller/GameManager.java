@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.Main;
 import model.Monster;
+import model.Particle;
 import model.Tile;
 import model.Tower;
 import model.monster.GroundMonster;
@@ -44,6 +45,7 @@ public class GameManager {
 	private ArrayList<Monster> monsters = new ArrayList<>();
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private ArrayList<NormalProjectile> projectiles = new ArrayList<>(); 
+	private ArrayList<Particle> particles = new ArrayList<>();
 	private int[][] tileState = new int[100][100]; // TODO: Fix yolo allocation
 	private cpp.pii[][] path;
 
@@ -66,6 +68,8 @@ public class GameManager {
 	}
 	
 	public void update() {
+		for (Particle p: particles)
+			p.update();
 		for (Tower t: towers) {
 			t.acquireTarget();
 			t.fire();
@@ -78,6 +82,7 @@ public class GameManager {
 				message = "a monster reached end";
 			}
 		}
+		// removes
 		for (int i=projectiles.size()-1; i>=0; i--) {
 			NormalProjectile p = projectiles.get(i);
 			p.move();
@@ -90,9 +95,15 @@ public class GameManager {
 			}
 		}
 		for (int i=monsters.size()-1; i>=0; i--) {
-			if (monsters.get(i).isDead())
+			if (monsters.get(i).isDead()) {
 				money += monsters.get(i).getMoney();
-				monsters.remove(i);
+				monsters.remove(i);				
+			}
+		}
+		for (int i=particles.size()-1; i>=0; i--) {
+			if (particles.get(i).isExpired()) {
+				particles.remove(i);
+			}
 		}
 	}
 	
@@ -112,7 +123,7 @@ public class GameManager {
 		for (Tower t: towers) t.render(gc);
 		for (Monster m: monsters) m.render(gc);
 		for (NormalProjectile p: projectiles) p.render(gc);
-		
+		for (Particle p: particles) p.render(gc);
 		
 		if (path != null) {
 			gc.setFill(new Color(0, 0, 0, 0.5)); // just dim
