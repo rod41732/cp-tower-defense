@@ -30,7 +30,7 @@ public abstract class Monster extends Entity {
 		y += vy;
 	}
 	
-	public boolean isTargetableBy(Tower t) {
+	public boolean isTargetableBy(BombTower t) {
 		return true;
 	}
 	

@@ -17,7 +17,7 @@ import util.GameUtil;
 import util.Render;
 import util.cpp;
 
-public class Tower extends Tile {
+public class BombTower extends Tile {
 
 	// TODO : more fields
 	
@@ -31,7 +31,7 @@ public class Tower extends Tile {
 	protected Monster target;
 	private double minDist;
 	
-	public Tower(Image img, double cellX, double cellY, double attack, double cooldown, double range) {
+	public BombTower(Image img, double cellX, double cellY, double attack, double cooldown, double range) {
 		super(img, cellX, cellY);
 		this.attack = attack;
 		this.cooldown = cooldown;

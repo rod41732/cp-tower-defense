@@ -1,7 +1,7 @@
 package util;
 
 import model.Entity;
-import model.Tower;
+import model.BombTower;
 import model.monster.GroundMonster;
 
 public class GameUtil {

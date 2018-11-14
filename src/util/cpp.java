@@ -41,6 +41,13 @@ public class cpp {
 		public String toString() {
 			return String.format("F(%.2f, %.2f)", first, second);
 		}
+		
+		public boolean containedBy(cpp.pii tile) {
+			return Double.compare(tile.first, first) < 0 &&
+					Double.compare(first, tile.first+1) < 0 &&
+					Double.compare(tile.second, second) < 0 &&
+					Double.compare(second, tile.second+1) < 0;
+		}
 	}
 	
 	public static class xyt { //

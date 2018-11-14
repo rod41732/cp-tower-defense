@@ -1,4 +1,4 @@
-package scenes;
+package ui;
 
 
 import com.sun.media.jfxmedia.events.PlayerEvent;

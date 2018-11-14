@@ -9,27 +9,29 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import model.Tile;
-import model.Tower;
+import model.BombTower;
 import model.monster.GroundMonster;
 import model.projectile.NormalProjectile;
 import util.Algorithm;
 import util.GameUtil;
 import util.cpp;
+import util.cpp.pii;
 
 public class GameManager {
 	
 	private static GameManager instance = new GameManager();
 	private boolean isRunning = false;
 	private boolean isPaused = false;
-	private double selX = 0;
-	private double selY = 0;
+	private double selX, selY = 0;
+	private int tileX = 0, tileY = 0;
+	private int renderTickCount = 0;
 	private int money = 1000;
 	private String message = "";
-	
+	private Tile selectedTile;
 	private int startRow = 5, startCol = 0, endRow = 5, endCol = 19;
 	
 	
-	private ArrayList<Tower> towers = new ArrayList<>();
+	private ArrayList<BombTower> towers = new ArrayList<>();
 	private ArrayList<GroundMonster> monsters = new ArrayList<>();
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private ArrayList<NormalProjectile> projectiles = new ArrayList<>(); 
@@ -56,7 +58,7 @@ public class GameManager {
 	
 	public void update() {
 		if (!isPaused) {
-			for (Tower t: towers) {
+			for (BombTower t: towers) {
 				for (GroundMonster m: monsters) {
 					t.tryTarget(m);
 				}
@@ -89,12 +91,13 @@ public class GameManager {
 	
 	
 	public void render(GraphicsContext gc) {
-		
+		renderTickCount += 1;
 	/// rendering
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
-		for (Tile t: tiles) t.render(gc);
-		for (Tower t: towers) t.render(gc);
+		for (Tile t: tiles) 
+			if (!t.getPosition().containedBy(new cpp.pii(tileX, tileY)))t.render(gc);
+		for (BombTower t: towers) t.render(gc);
 		for (GroundMonster m: monsters) m.render(gc);
 		for (NormalProjectile p: projectiles) p.render(gc);
 		
@@ -123,24 +126,29 @@ public class GameManager {
 	public void updateSelection(double x, double y) {
 		selX = x/Numbers.TILE_SIZE;
 		selY = y/Numbers.TILE_SIZE;
+		tileX = (int)selX;
+		tileY = (int)selY;
 	}
-
+	
+	
 	
 	public void buildTower(int x, int y) {
 		try {
+			pii currentTile = new pii(x, y);
 			if (tileState[x][y] > 0) {
-				message = "Tower already there";
+				for (BombTower t: towers) {
+					if (t.getPosition().containedBy(currentTile)) {
+						selectedTile = t;
+						break;
+					}
+				}
+				((BombTower)selectedTile).upgrade();
 				return ;
 			}
-//			if (money < 1500) {
-//				message = "Not enough money (need 1500)";
-//				return ;
-//			}
-//			money -= 1500;
 			System.out.println("try to add tower to" + x +"." + y);
 			tileState[x][y] = 1;
 			Algorithm.BFS(tileState.clone(), endCol, endRow, startCol, startRow);
-			towers.add(new Tower(Images.tower1, x+0.5, y+0.5, 0, 100, 5));
+			towers.add(new BombTower(Images.tower1, x+0.5, y+0.5, 0, 100, 2.5));
 			message = "OK";
 		}
 		catch (Exception e) {
@@ -194,8 +202,15 @@ public class GameManager {
 		return isRunning;
 	}
 
+	public cpp.pii getSelectedTile(){
+		return new cpp.pii(tileX, tileY);
+	}
 	
 	
+	public int getRenderTickCount() {
+		return renderTickCount;
+	}
+
 	public cpp.pii[][] getPath() {
 		return path;
 	}
@@ -205,7 +220,7 @@ public class GameManager {
 		this.isRunning = isRunning;
 	}
 
-	public ArrayList<Tower> getTowers() {
+	public ArrayList<BombTower> getTowers() {
 		return towers;
 	}
 

@@ -11,6 +11,5 @@ public class Tile extends Entity{
 		super(image, x, y, 1);
 	}
 	
-	
 }
 

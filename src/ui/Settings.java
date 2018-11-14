@@ -1,4 +1,4 @@
-package scenes;
+package ui;
 
 import constants.Numbers;
 import javafx.scene.Scene;

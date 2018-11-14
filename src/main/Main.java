@@ -5,9 +5,9 @@ import constants.Numbers;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import scenes.GameScene;
-import scenes.MainMenu;
-import scenes.Settings;
+import ui.GameScene;
+import ui.MainMenu;
+import ui.Settings;
 
 public class Main extends Application {
 

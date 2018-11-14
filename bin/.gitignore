@@ -1,5 +1,9 @@
+/constants/
 /controller/
+/main/
 /model/
+/scenes/
+/tile/
 /tower/
 /util/
-/Render/
+/ui/
