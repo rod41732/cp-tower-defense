@@ -17,67 +17,19 @@ import util.GameUtil;
 import util.Render;
 import util.cpp;
 
-public class BombTower extends Tile {
+public class BombTower extends Tower {
 
 	// TODO : more fields
 	
 	
-	protected double rotation = 0;
 	protected double attack;
-	protected double attackCooldown = 1000;
-	protected double cooldown; // in ms
-	protected double range; 
-	
-	protected Monster target;
-	private double minDist;
+
 	
 	public BombTower(Image img, double cellX, double cellY, double attack, double cooldown, double range) {
-		super(img, cellX, cellY);
+		super(img, cellX, cellY, cooldown, range);
 		this.attack = attack;
-		this.cooldown = cooldown;
+		this.attackCooldown = cooldown;
 		this.range = range;
-	}
-	
-	public void clearTarget() {
-		target = null;
-		minDist = 0;
-	}
-	
-	@Override
-	public void render(GraphicsContext gc) {
-		Render.drawRotatedImage(gc, image, rotation-180, getRenderX(), getRenderY());
-		if (this.getPosition().containedBy(GameManager.getInstance().getSelectedTile())) {
-			double tz = Numbers.TILE_SIZE;
-			double t = GameManager.getInstance().getRenderTickCount()%120;
-			double multiplier = t/60.;
-			if (multiplier > 1) multiplier = 2-multiplier;
-			multiplier = 0.3+0.7*multiplier;
-			gc.setLineWidth(3);
-			gc.setStroke(new Color(1, 0, 1, 0.8));
-			gc.strokeOval(x*tz-range*tz, y*tz-range*tz, 2*range*tz, 2*range*tz);			
-			gc.setFill(new Color(1, 0, 1, 0.4*multiplier));
-			gc.fillOval(x*tz-range*tz, y*tz-range*tz, 2*range*tz, 2*range*tz);
-		}	
-	}
-	
-	public boolean isInRange(Monster m) {
-		return Double.compare(this.distanceTo(m), range) < 0;
-	}
-	// change target to monster m if it's closer than current monster
-	public void tryTarget(Monster m) {
-		// TODO
-		clearTarget();
-		if ((target == null || Double.compare(distanceTo(m), minDist) < 0) && isInRange(m)){
-			if (m.isDead()) return ;
-			rotateTo(m);
-			target = m;
-			minDist = distanceTo(m);
-		}
-	}
-	
-	public void rotateTo(Monster m) {
-		double angle = Math.toDegrees(Math.atan2(m.getY()-y, m.getX()-x));
-		rotation = angle-90;
 	}
 	
 	public void upgrade() {
@@ -85,6 +37,7 @@ public class BombTower extends Tile {
 	}
 	
 	public void fire() {
+		System.out.println("target = " + target + "cooldown " + cooldown);
 		if (target == null) return;
 		if (cooldown > 0) {
 			cooldown -= 16; // 1 tick = 16 ms
@@ -104,7 +57,7 @@ public class BombTower extends Tile {
 	}
 	
 	public String toString() {
-		return String.format("Tower R=%.1f A=%.1f C=%.1f", range, attack, cooldown);
+		return String.format("Bomb Tower R=%.1f A=%.1f C=%.1f", range, attack, cooldown);
 	}
 	
 }

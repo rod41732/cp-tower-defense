@@ -8,8 +8,9 @@ import constants.Numbers;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import model.Tile;
 import model.BombTower;
+import model.Tile;
+import model.Tower;
 import model.monster.GroundMonster;
 import model.projectile.NormalProjectile;
 import util.Algorithm;
@@ -31,7 +32,7 @@ public class GameManager {
 	private int startRow = 5, startCol = 0, endRow = 5, endCol = 19;
 	
 	
-	private ArrayList<BombTower> towers = new ArrayList<>();
+	private ArrayList<Tower> towers = new ArrayList<>();
 	private ArrayList<GroundMonster> monsters = new ArrayList<>();
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private ArrayList<NormalProjectile> projectiles = new ArrayList<>(); 
@@ -58,7 +59,7 @@ public class GameManager {
 	
 	public void update() {
 		if (!isPaused) {
-			for (BombTower t: towers) {
+			for (Tower t: towers) {
 				for (GroundMonster m: monsters) {
 					t.tryTarget(m);
 				}
@@ -97,7 +98,7 @@ public class GameManager {
 		gc.setGlobalAlpha(1);
 		for (Tile t: tiles) 
 			if (!t.getPosition().containedBy(new cpp.pii(tileX, tileY)))t.render(gc);
-		for (BombTower t: towers) t.render(gc);
+		for (Tower t: towers) t.render(gc);
 		for (GroundMonster m: monsters) m.render(gc);
 		for (NormalProjectile p: projectiles) p.render(gc);
 		
@@ -136,13 +137,13 @@ public class GameManager {
 		try {
 			pii currentTile = new pii(x, y);
 			if (tileState[x][y] > 0) {
-				for (BombTower t: towers) {
+				for (Tower t: towers) {
 					if (t.getPosition().containedBy(currentTile)) {
 						selectedTile = t;
 						break;
 					}
 				}
-				((BombTower)selectedTile).upgrade();
+				((Tower)selectedTile).upgrade();
 				return ;
 			}
 			System.out.println("try to add tower to" + x +"." + y);
@@ -220,7 +221,7 @@ public class GameManager {
 		this.isRunning = isRunning;
 	}
 
-	public ArrayList<BombTower> getTowers() {
+	public ArrayList<Tower> getTowers() {
 		return towers;
 	}
 

@@ -31,9 +31,9 @@ public class Tower extends Tile {
 	protected Monster target;
 	private double minDist;
 	
-	public Tower(Image img, double cellX, double cellY, double attack, double cooldown, double range) {
+	public Tower(Image img, double cellX, double cellY,
+			double cooldown, double range) {
 		super(img, cellX, cellY);
-		this.attack = attack;
 		this.cooldown = cooldown;
 		this.range = range;
 	}
@@ -61,16 +61,17 @@ public class Tower extends Tile {
 	}
 	
 	public boolean isInRange(Monster m) {
-		return Double.compare(this.distanceTo(m), range) < 0;
+		System.out.println(m + "has dist" + distanceTo(m) + "range =" + range);
+		return Double.compare(distanceTo(m), range) < 0;
 	}
 	// change target to monster m if it's closer than current monster
 	public void tryTarget(Monster m) {
 		// TODO
-		clearTarget();
 		if ((target == null || Double.compare(distanceTo(m), minDist) < 0) && isInRange(m)){
 			if (m.isDead()) return ;
 			rotateTo(m);
 			target = m;
+			System.out.println("now target" + target);
 			minDist = distanceTo(m);
 		}
 	}
@@ -85,6 +86,7 @@ public class Tower extends Tile {
 	}
 	
 	public void fire() {
+		System.out.println("Cooldown " + cooldown);
 		if (target == null) return;
 		if (cooldown > 0) {
 			cooldown -= 16; // 1 tick = 16 ms
