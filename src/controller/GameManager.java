@@ -10,6 +10,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import main.Main;
+import model.Monster;
 import model.Tile;
 import model.Tower;
 import model.monster.GroundMonster;
@@ -35,12 +37,11 @@ public class GameManager {
 	private String message = "";
 	private Tile selectedTile;
 	private int towerChoice = -1;
-	private Tower selectedTower;
 	private int startRow = 5, startCol = 0, endRow = 5, endCol = 19;
-	
+	private int lives = 200;
 	
 	private ArrayList<Tower> towers = new ArrayList<>();
-	private ArrayList<GroundMonster> monsters = new ArrayList<>();
+	private ArrayList<Monster> monsters = new ArrayList<>();
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private ArrayList<NormalProjectile> projectiles = new ArrayList<>(); 
 	private int[][] tileState = new int[100][100]; // TODO: Fix yolo allocation
@@ -69,14 +70,11 @@ public class GameManager {
 			t.acquireTarget();
 			t.fire();
 		}
-		for (int i=monsters.size()-1; i>=0; i--) {
-			if (monsters.get(i).isDead())
-				monsters.remove(i);
-		}
-		for (GroundMonster m: monsters) {
+		for (Monster m: monsters) {
 			m.move();
-			if (Double.compare(m.distanceTo(endCol, endRow), 0.1) < 0) {
+			if (Double.compare(m.distanceTo(endCol+0.5, endRow+0.5), 0.1) < 0) {
 				m.forceKill();
+				lives -= 1;
 				message = "a monster reached end";
 			}
 		}
@@ -84,12 +82,17 @@ public class GameManager {
 			NormalProjectile p = projectiles.get(i);
 			p.move();
 			if (p.isExpired()) projectiles.remove(i);
-			for (GroundMonster m: monsters) {
+			for (Monster m: monsters) {
 				if (p.collideWith(m)) {
 					projectiles.remove(i);
 					break;
 				}
 			}
+		}
+		for (int i=monsters.size()-1; i>=0; i--) {
+			if (monsters.get(i).isDead())
+				money += monsters.get(i).getMoney();
+				monsters.remove(i);
 		}
 	}
 	
@@ -100,13 +103,14 @@ public class GameManager {
 
 	public void render(GraphicsContext gc) {
 		renderTickCount += 1;
+		Main.gameScene.next.setDisable(!shouldSpawnNextWave());
 	/// rendering
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
 		for (Tile t: tiles) 
 			if (!t.getPosition().containedBy(new cpp.pii(tileX, tileY)))t.render(gc);
 		for (Tower t: towers) t.render(gc);
-		for (GroundMonster m: monsters) m.render(gc);
+		for (Monster m: monsters) m.render(gc);
 		for (NormalProjectile p: projectiles) p.render(gc);
 		
 		
@@ -133,7 +137,7 @@ public class GameManager {
 		gc.fillText("last msg:" + message, 20, 140);
 		gc.fillText("Selected " + selX + "," + selY, 20, 60);
 		gc.fillText("Money = " + money, 20, 100);
-		gc.fillText("selcted Tower = " + selectedTower, 20, 120);
+		gc.fillText("selcted Tower = " + selectedTile , 20, 120);
 		TowerMenu.render(gc);
 	}
 
@@ -194,7 +198,6 @@ public class GameManager {
 				for (Tower t: towers) {
 					System.out.println("tile :" + currentTile + "tower: " + t.getPosition());
 					if (t.getPosition().containedBy(currentTile)) {
-						System.out.println("selected" + t);
 						selectedTile = t; // tile can be either tower of ground
 						break;
 					}
@@ -207,21 +210,21 @@ public class GameManager {
 			
 			message = "OK";
 			if (towerChoice == 0) {
-				towers.add(new BombTower(Images.tower2 ,x+0.5, y+0.5, 3, 100, 2.5));				
+				towers.add(new BombTower(Images.tower2 ,x+0.5, y+0.5, 10, 100, 2.5));				
 			}
 			else if (towerChoice == 1){
-				towers.add(new NormalTower(Images.tower1 ,x+0.5, y+0.5, 3, 100, 4.5));
+				towers.add(new NormalTower(Images.tower1 ,x+0.5, y+0.5, 7, 100, 4.5));
 			}
 		}
 		catch (Exception e) {
 			tileState[x][y] = 0;
-			money += 1500;
 			System.out.println("You can't build here");
 			message = "You can't build there";
 		}
 		finally {
 			try {
 				path = Algorithm.BFS(tileState, endCol, endRow, startCol, startRow);
+				path[endCol][endRow] = new cpp.pii(endCol+1, endRow);
 			}
 			catch(Exception e) {
 				// this shouldn't happen
@@ -233,8 +236,24 @@ public class GameManager {
 		monsters.add(new GroundMonster("Bear", Images.bear, x, y, 0.4, 100, 0, 1.5, 10));
 	}
 	
-
+	public void spawnMonster(Monster m) {
+		monsters.add(m);
+	}
 	
+	public boolean shouldSpawnNextWave() {
+		return MonsterSpawner.getInstace().isReady() && monsters.size() == 0;
+	}
+	
+	public void requestNextWave() {
+		if (shouldSpawnNextWave())
+			MonsterSpawner.getInstace().play();
+	}
+	
+	public void upgradeTower() {
+		if (selectedTile != null) {
+			((Tower)selectedTile).upgrade();
+		}
+	}
 	
 	public cpp.pii getSelectedPosition(){
 		return new cpp.pii(tileX, tileY);
@@ -276,6 +295,22 @@ public class GameManager {
 	
 	
 	
+	public int getStartRow() {
+		return startRow;
+	}
+
+	public void setStartRow(int startRow) {
+		this.startRow = startRow;
+	}
+
+	public int getStartCol() {
+		return startCol;
+	}
+
+	public void setStartCol(int startCol) {
+		this.startCol = startCol;
+	}
+
 	public int getRenderTickCount() {
 		return renderTickCount;
 	}
@@ -293,7 +328,7 @@ public class GameManager {
 		return towers;
 	}
 
-	public ArrayList<GroundMonster> getMonsters() {
+	public ArrayList<Monster> getMonsters() {
 		return monsters;
 	}
 

@@ -3,6 +3,7 @@ package ui;
 
 import constants.Numbers;
 import controller.GameManager;
+import controller.MonsterSpawner;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -15,7 +16,7 @@ import javafx.util.Duration;
 import main.Main;
 
 public class GameScene extends Scene {
-
+	public Button next;
 	public GameScene() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Pane root = (Pane) getRoot();
@@ -26,6 +27,21 @@ public class GameScene extends Scene {
 			Main.setScene(Main.mainMenu);
 			Main.mainMenu.resume();
 		});
+		
+		next = new Button("Next Wave");
+		next.setLayoutX(1200);
+		next.setLayoutY(700);
+		next.setOnAction(e -> {
+			GameManager.getInstance().requestNextWave();
+		});
+		
+		Button upgrade = new Button("Upgrade");
+		upgrade.setOnAction(e -> {
+			GameManager.getInstance().upgradeTower();
+		});
+		upgrade.setLayoutX(1200);
+		upgrade.setLayoutY(730);
+		
 		
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e ->  {
 			if (GameManager.getInstance().isRunning()) {
@@ -44,13 +60,18 @@ public class GameScene extends Scene {
 			TowerMenu.handleClick(e);				
 		});
 		
+		setOnKeyPressed(e -> {
+			if (e.getCode() == KeyCode.G) {
+				MonsterSpawner.getInstace().play();				
+			}
+		});
 		
 		Timeline gameTick = new Timeline();
 		gameTick.getKeyFrames().add(render);
 		gameTick.setCycleCount(Timeline.INDEFINITE);
 		gameTick.play();
 		
-		root.getChildren().addAll(canvas, back);
+		root.getChildren().addAll(canvas, back, upgrade, next);
 		
 		
 	}

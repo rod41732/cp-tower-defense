@@ -1,6 +1,7 @@
 package model;
 
 import controller.GameManager;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import model.tower.BombTower;
 import util.GameUtil;
@@ -36,6 +37,10 @@ public abstract class Monster extends Entity {
 		return true;
 	}
 	
+	public void render(GraphicsContext gc) {
+		super.render(gc);
+		gc.fillRect(getRenderX(), getRenderY()-10, health, 3);
+	}
 	
 	// return false is damage is negated
 	public boolean takeDamage(double damage) {

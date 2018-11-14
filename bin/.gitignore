@@ -1,10 +1,5 @@
-/constants/
+/util/
 /controller/
 /main/
-/model/
-/scenes/
-/tile/
-/tower/
-/util/
 /ui/
-/projectile/
+/model/
