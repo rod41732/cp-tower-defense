@@ -8,6 +8,7 @@ import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -25,32 +26,29 @@ public class GameScene extends Scene {
 			Main.setScene(Main.mainMenu);
 			Main.mainMenu.resume();
 		});
-		// duration is in millis (if set to 1/60) => it will not run LUL
+		
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e ->  {
-//			System.out.println("renderThread");
-			// if playing
-			//  updateState();
 			if (GameManager.getInstance().isRunning()) {
-				GameManager.getInstance().update();
+				if (!GameManager.getInstance().isPaused())
+					GameManager.getInstance().update();
 				GameManager.getInstance().render(canvas.getGraphicsContext2D());				
 			}
 		});
+		
 		setOnMouseMoved(e -> {
-			GameManager.getInstance().updateSelection(e.getX(), e.getY());
+			GameManager.getInstance().updateMousePos(e.getX(), e.getY());
 		});
 		
 		setOnMouseClicked(e -> {
-			GameManager gi = GameManager.getInstance();
-			if (e.getButton() == MouseButton.PRIMARY) {
-				gi.buildTower((int)gi.getSelX(), (int)gi.getSelY());				
-			}
-			else {
-				gi.spawnMonster(gi.getSelX(), gi.getSelY());
-			}
+			GameManager.getInstance().handleClick(e);
+			TowerMenu.handleClick(e);				
 		});
 		
 		setOnKeyPressed(e -> {
-			GameManager.getInstance().addMoney(1000);
+			if (e.getCode() == KeyCode.G) {
+				System.out.println("pressed G");
+				GameManager.getInstance().selectedTower = 1-GameManager.getInstance().selectedTower;
+			}
 		});
 		
 		Timeline gameTick = new Timeline();

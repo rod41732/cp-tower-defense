@@ -9,7 +9,6 @@ public class cpp {
 			first = fi;
 			second = se;
 		}
-		
 		public boolean equals(Object o) {
 			if (!(o instanceof pii)) return false;
 			pii other = (pii) o;
@@ -18,6 +17,10 @@ public class cpp {
 		
 		public String toString() {
 			return String.format("I(%d, %d)", first, second);
+		}
+		
+		public pff toF() {
+			return new cpp.pff(first, second);
 		}
 	}
 	
@@ -47,6 +50,10 @@ public class cpp {
 					Double.compare(first, tile.first+1) < 0 &&
 					Double.compare(tile.second, second) < 0 &&
 					Double.compare(second, tile.second+1) < 0;
+		}
+		
+		public pii toI() {
+			return new cpp.pii((int)first, (int)second);
 		}
 	}
 	

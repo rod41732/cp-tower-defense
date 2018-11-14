@@ -2,6 +2,7 @@ package model;
 
 import controller.GameManager;
 import javafx.scene.image.Image;
+import model.tower.BombTower;
 import util.GameUtil;
 import util.cpp;
 
@@ -14,10 +15,11 @@ public abstract class Monster extends Entity {
 	protected double vx;
 	protected double vy;
 	protected String name;
+	protected int money;
 	// AI
 	
 	public Monster(String name, Image image, double x, double y,
-			double size, double health, double armor, double moveSpeed) {
+			double size, double health, double armor, double moveSpeed, double money) {
 		super(image, x, y, size);
 		this.health = health;
 		this.armor = armor;
@@ -57,6 +59,10 @@ public abstract class Monster extends Entity {
 	
 	public void forceKill() {
 		health = -1;
+	}
+	
+	public int getMoney() {
+		return money;
 	}
 	
 	public String toString() {

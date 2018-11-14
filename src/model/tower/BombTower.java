@@ -1,4 +1,4 @@
-package model;
+package model.tower;
 
 
 import constants.Images;
@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import model.Entity;
+import model.Tower;
 import model.monster.GroundMonster;
 import model.projectile.Bomb;
 import model.projectile.NormalProjectile;
@@ -25,11 +26,9 @@ public class BombTower extends Tower {
 	protected double attack;
 
 	
-	public BombTower(Image img, double cellX, double cellY, double attack, double cooldown, double range) {
-		super(img, cellX, cellY, cooldown, range);
+	public BombTower(Image image ,double cellX, double cellY, double attack, double cooldown, double range) {
+		super(image, cellX, cellY, cooldown, range);
 		this.attack = attack;
-		this.attackCooldown = cooldown;
-		this.range = range;
 	}
 	
 	public void upgrade() {
@@ -37,12 +36,11 @@ public class BombTower extends Tower {
 	}
 	
 	public void fire() {
-		System.out.println("target = " + target + "cooldown " + cooldown);
-		if (target == null) return;
 		if (cooldown > 0) {
 			cooldown -= 16; // 1 tick = 16 ms
 			return ;
 		}
+		if (target == null) return;
 		
 		cpp.pff v = GameUtil.unitVector(this, target);
 		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
@@ -50,7 +48,7 @@ public class BombTower extends Tower {
 		
 
 		GameManager.getInstance().getBullets().add(new 
-				Bomb(Images.bullet1,x, y, v.first*9, v.second*9, range, 1, 2));
+				Bomb(Images.bullet2, x, y, v.first*9, v.second*9, range, 1, 2));
 		
 		cooldown = attackCooldown;
 		clearTarget();

@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import constants.Numbers;
 import constants.Other;
 import javafx.util.Pair;
 
 public class Algorithm {
 	
-	private static int TABLE_R = 22, TABLE_C = 22;
-	private static int[][] dist = new int[TABLE_R][TABLE_C]; 
-	private static cpp.pii[][] pred = new cpp.pii[TABLE_R][TABLE_C]; 
+	private static int TABLE_R = Numbers.ROWS, TABLE_C = Numbers.COLUMNS;
+	private static int[][] dist = new int[TABLE_C][TABLE_R]; 
+	private static cpp.pii[][] pred = new cpp.pii[TABLE_C][TABLE_R]; 
 	private static ArrayList<cpp.pii> path = new ArrayList<>();
 	private static Queue<cpp.xyt> q = new LinkedList<cpp.xyt>();
 	public static void initialize() {
-		for (int i=0; i<TABLE_R; i++) {
-			for (int j=0; j<TABLE_C; j++)  {
+		for (int i=0; i<TABLE_C; i++) {
+			for (int j=0; j<TABLE_R; j++)  {
 				dist[i][j] = 10000;				
 				pred[i][j] = null;
 			}

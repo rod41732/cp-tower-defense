@@ -61,19 +61,29 @@ public class Tower extends Tile {
 	}
 	
 	public boolean isInRange(Monster m) {
-		System.out.println(m + "has dist" + distanceTo(m) + "range =" + range);
 		return Double.compare(distanceTo(m), range) < 0;
 	}
+	
 	// change target to monster m if it's closer than current monster
+	public boolean shouldAcquireTarget() {
+		return Double.compare(cooldown, 0) <= 0;
+	}
+	
 	public void tryTarget(Monster m) {
 		// TODO
 		if ((target == null || Double.compare(distanceTo(m), minDist) < 0) && isInRange(m)){
 			if (m.isDead()) return ;
 			rotateTo(m);
 			target = m;
-			System.out.println("now target" + target);
 			minDist = distanceTo(m);
 		}
+	}
+	
+	// acquire nearest target
+	public void acquireTarget() {
+		if (!shouldAcquireTarget()) return ;
+		for (Monster m: GameManager.getInstance().getMonsters())
+			tryTarget(m);
 	}
 	
 	public void rotateTo(Monster m) {
@@ -85,17 +95,17 @@ public class Tower extends Tile {
 		range += 0.5;
 	}
 	
+
+	
 	public void fire() {
-		System.out.println("Cooldown " + cooldown);
+		System.out.println("Current cd" + cooldown);
+		if (cooldown > 0) cooldown -= 1000./16;
 		if (target == null) return;
-		if (cooldown > 0) {
-			cooldown -= 16; // 1 tick = 16 ms
-			return ;
-		}
+		if (cooldown > 0) return;
 		
 		cpp.pff v = GameUtil.unitVector(this, target);
-		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
-				getX(), getY(), target.getX(), target.getY(), v);
+//		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
+//				getX(), getY(), target.getX(), target.getY(), v);
 		
 
 		GameManager.getInstance().getBullets().add(new 
