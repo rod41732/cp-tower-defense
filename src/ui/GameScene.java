@@ -35,19 +35,19 @@ public class GameScene extends Scene {
 			GameManager.getInstance().requestNextWave();
 		});
 		
-		Button upgrade = new Button("Upgrade");
-		upgrade.setOnAction(e -> {
-			GameManager.getInstance().upgradeTower();
-		});
-		upgrade.setLayoutX(1400);
-		upgrade.setLayoutY(730);
-		
-		Button sell = new Button("Sell");
-		sell.setOnAction(e -> {
-			GameManager.getInstance().sellTower();
-		});
-		sell.setLayoutX(1400);
-		sell.setLayoutY(760);
+//		Button upgrade = new Button("Upgrade");
+//		upgrade.setOnAction(e -> {
+//			GameManager.getInstance().upgradeTower();
+//		});
+//		upgrade.setLayoutX(1400);
+//		upgrade.setLayoutY(730);
+//		
+//		Button sell = new Button("Sell");
+//		sell.setOnAction(e -> {
+//			GameManager.getInstance().sellTower();
+//		});
+//		sell.setLayoutX(1400);
+//		sell.setLayoutY(760);
 		
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e ->  {
 			if (GameManager.getInstance().isRunning()) {
@@ -62,8 +62,9 @@ public class GameScene extends Scene {
 		});
 		
 		setOnMouseClicked(e -> {
-			GameManager.getInstance().handleClick(e);
-			TowerMenu.handleClick(e);				
+			if (!TowerMenu.handleClick(e)) {
+				GameManager.getInstance().handleClick(e);								
+			}
 		});
 		
 		setOnKeyPressed(e -> {
@@ -71,15 +72,28 @@ public class GameScene extends Scene {
 				MonsterSpawner.getInstace().play();				
 			} else if (e.getCode() == KeyCode.P) {
 				GameManager.getInstance().setPaused(!GameManager.getInstance().isPaused());
+			} else if (e.getCode() == KeyCode.DIGIT1) {
+				GameManager.getInstance().setTowerChoice(0);
+			} else if (e.getCode() == KeyCode.DIGIT2) {
+				GameManager.getInstance().setTowerChoice(1);
+			} else if (e.getCode() == KeyCode.DIGIT3) {
+				GameManager.getInstance().setTowerChoice(2);
+			} else if (e.getCode() == KeyCode.S) {
+				GameManager.getInstance().sellTower();
+			} else if (e.getCode() == KeyCode.D) {
+				GameManager.getInstance().upgradeTower();
 			}
+			
 		});
+		
 		
 		Timeline gameTick = new Timeline();
 		gameTick.getKeyFrames().add(render);
 		gameTick.setCycleCount(Timeline.INDEFINITE);
 		gameTick.play();
 		
-		root.getChildren().addAll(canvas, back, upgrade, next, sell);
+//		root.getChildren().addAll(canvas, back, upgrade, next, sell);
+		root.getChildren().addAll(canvas, back, next);
 		
 		
 	}

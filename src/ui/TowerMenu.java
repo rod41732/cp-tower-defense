@@ -26,9 +26,9 @@ public class TowerMenu {
 	private static int COL = 3;
 	private static int ROW = 3;
 	private static Image[] images = {Images.tower2, Images.tower1, Images.tower3};
-//	private static cpp.pff sellButtonPos = new cpp.pff(-999,  -999);
-//	private static cpp.pff upButtonPos = new cpp.pff(-999,  -999);;
-		
+	private static cpp.pff sellButtonPos = new cpp.pff(LEFT,  Numbers.WIN_HEIGHT-300);
+	private static cpp.pff upButtonPos = new cpp.pff(LEFT,  Numbers.WIN_HEIGHT-200);
+	private static boolean sellButtonEnabled = false, upButtonEnabled = false;
 	public static void render(GraphicsContext gc) {
 		gc.setFill(new Color(0, 1, 1, 1));
 		gc.fillRect(LEFT, TOP, COL*Numbers.TILE_SIZE, ROW*Numbers.TILE_SIZE);
@@ -46,16 +46,26 @@ public class TowerMenu {
 		Tile t = GameManager.getInstance().getSelectedTile();
 		if (t != null)
 			renderTowerInfo(gc, t);
+
 		
-		
-//		gc.drawImage(Images.buttonSell, sellButtonPos.first, sellButtonPos.second);
-//		gc.drawImage(Images.buttonUpgrade, upButtonPos.first, upButtonPos.second);
+		if (sellButtonEnabled) {
+			gc.drawImage(Images.buttonSell, sellButtonPos.first, sellButtonPos.second);			
+		}
+		else {
+			gc.drawImage(Images.buttonSellDisabled, sellButtonPos.first, sellButtonPos.second);
+		}
+		if (upButtonEnabled) {
+			gc.drawImage(Images.buttonUpgrade, upButtonPos.first, upButtonPos.second);			
+		}
+		else {
+			gc.drawImage(Images.buttonUpgradeDisabled, upButtonPos.first, upButtonPos.second);
+		}
 	}
 
 	
 	public static void renderTowerInfo(GraphicsContext gc, Tile t) {
-		double top = Math.max(t.getRenderY() - 140, 0);
-		double left = Math.max(t.getRenderX() - 150, 0);
+		double top = 400;
+		double left = LEFT;
 		gc.setFill(Color.color(0, 0, 0, 0.8));
 		Font title = Font.font("Consolas", FontWeight.BOLD, 22);
 		Font text = Font.font("Consolas", 16);
@@ -65,7 +75,7 @@ public class TowerMenu {
 //		// TODO: better calculate this
 		Tower tw = (Tower) t;
 		
-		gc.fillRoundRect(left , top , 300, 140, 4, 4);
+		gc.fillRoundRect(left , top , 300, 200, 4, 4);
 		gc.setFill(Color.color(1, 0.6, 0.4, 0.8));
 		gc.setFont(title);
 		gc.fillText(tw.toString(), left+8, top+30);
@@ -84,31 +94,35 @@ public class TowerMenu {
 		
 		double x = e.getX();
 		double y = e.getY();
-//		if (sellButtonPos.first <= x && x <= sellButtonPos.first + 190 && 
-//			sellButtonPos.second <= y && y <= sellButtonPos.second + 60 ) {
-//			GameManager.getInstance().sellTower();
-//			return true;
-//		}
-//		if (upButtonPos.first <= x && x <= upButtonPos.first + 190 && 
-//				upButtonPos.second <= y && y <= upButtonPos.second + 60 ) {
-//				GameManager.getInstance().upgradeTower();
-//				return true;
-//			}
+		if (sellButtonPos.first <= x && x <= sellButtonPos.first + 190 && 
+			sellButtonPos.second <= y && y <= sellButtonPos.second + 60 ) {
+			GameManager.getInstance().sellTower();
+			System.out.println("sell");
+			return true;
+		}
+		if (upButtonPos.first <= x && x <= upButtonPos.first + 190 && 
+				upButtonPos.second <= y && y <= upButtonPos.second + 60 ) {
+			System.out.println("up");
+				GameManager.getInstance().upgradeTower();
+				return true;
+			}
 		return LEFT < x && x < LEFT+COL*Numbers.TILE_SIZE &&
 				TOP < y && y < TOP+ROW*Numbers.TILE_SIZE;
 	}
 	
-	public static void handleClick(MouseEvent e) {
+	public static boolean handleClick(MouseEvent e) {
 		System.out.println("clicked at" + posToGrid(e.getX(), e.getY()));
 //		GameManager.getInstance().setSelectedTile(null);
 		if (shouldHandle(e)) {
 			cpp.pii grid = posToGrid(e.getX(), e.getY());
 			int s = grid.first+grid.second*COL;
 			System.out.println("selected" + s);
-			GameManager.getInstance().setTowerChoice(grid.first+grid.second*COL);
-			return ;
+			if (0 <= s && s <= images.length) {
+				GameManager.getInstance().setTowerChoice(grid.first+grid.second*COL);				
+			}
+			return true;
 		}
-		return ;
+		return false;
 	}
 	
 	private static cpp.pii posToGrid(double x, double y){

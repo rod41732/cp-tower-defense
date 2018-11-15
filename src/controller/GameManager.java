@@ -213,6 +213,7 @@ public class GameManager {
 		cpp.pii pos = t.getPosition().toI();
 		removeTower(pos.first, pos.second);
 		selectedTile = null;
+		towerChoice = -1;
 	}
 	
 	public void removeTower(int x, int y) {
@@ -413,6 +414,7 @@ public class GameManager {
 	}
 
 	public void setTowerChoice(int towerChoice) {
+		selectedTile = null;
 		this.towerChoice = towerChoice;
 	}
 
