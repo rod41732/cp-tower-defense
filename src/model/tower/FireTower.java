@@ -49,7 +49,7 @@ public class FireTower extends Tower {
 		
 
 		GameManager.getInstance().getBullets().add(new 
-				FireProjectile(Images.bullet3, x, y, v.first*9, v.second*9, range, attack, 1));
+				FireProjectile(Images.bullet3, x, y, v.first*9, v.second*9, range, attack, 0.7));
 		
 		cooldown = attackCooldown;
 		clearTarget();

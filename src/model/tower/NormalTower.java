@@ -39,7 +39,7 @@ public class NormalTower extends Tower {
 		
 
 		GameManager.getInstance().getBullets().add(new 
-				NormalProjectile(Images.bullet1,x, y, v.first*9, v.second*9, range, 10));
+				NormalProjectile(Images.bullet1,x, y, v.first*15, v.second*15, range, 10));
 		
 		cooldown = attackCooldown;
 		clearTarget();

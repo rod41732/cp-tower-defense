@@ -19,7 +19,6 @@ public class AoE extends Particle implements IExpirable {
 		super.update();
 		for (Monster m: GameManager.getInstance().getMonsters()) {
 			if (m.isCollideWith(m)) {
-				System.out.println("fooo" + m);
 				m.takePureDamage(damage/60);
 			}
 		}
