@@ -25,9 +25,9 @@ public class FireProjectile extends NormalProjectile {
 			cpp.pff impact = getPosition();
 			GameManager.getInstance().spawnParticle(new AoE(Images.flame, impact.first, impact.second, 0, 0, 1000, 2, damage));
 			System.out.println("Firee!!!");
-			return true;
+			setExpired(true);
 		}
-		return false;
+		return isExpired();
 	}
 	
 	

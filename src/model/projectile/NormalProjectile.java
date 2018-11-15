@@ -17,13 +17,13 @@ public class NormalProjectile extends Projectile {
 		this.damage = damage;
 	}
 	
+
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
 			m.takeDamage(damage);
-			isExpired = true;
-			return true;			
+			setExpired(true);		
 		}
-		return false;
+		return isExpired();
 	}
 		
 }

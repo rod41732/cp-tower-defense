@@ -88,6 +88,7 @@ public class GameManager {
 			NormalProjectile p = projectiles.get(i);
 			p.move();
 			if (p.isExpired()) projectiles.remove(i);
+			else
 			for (Monster m: monsters) {
 				if (p.collideWith(m)) {
 					projectiles.remove(i);
@@ -120,7 +121,8 @@ public class GameManager {
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
 		for (Tile t: tiles) 
-			if (!t.getPosition().containedBy(new cpp.pii(tileX, tileY)))t.render(gc);
+			if (!t.getPosition().containedBy(new cpp.pii(tileX, tileY))) 
+				t.render(gc);
 		for (Tower t: towers) t.render(gc);
 		for (Monster m: monsters) m.render(gc);
 		for (NormalProjectile p: projectiles) p.render(gc);
@@ -142,6 +144,25 @@ public class GameManager {
 			for (int j=0; j<Numbers.ROWS; j++)
 				gc.fillText(String.format("%s\n%s\n", new cpp.pii(i, j), path[i][j]),
 						i*Numbers.TILE_SIZE, j*Numbers.TILE_SIZE+16);
+		
+		
+		if (towerChoice != -1) {
+			Tower floatingTower = null;
+			int sx = getSelectedPosition().first, sy = getSelectedPosition().second;
+			if (towerChoice == 0) {
+				floatingTower = new BombTower(Images.tower2 , sx+0.5, sy+0.5, 10, 800, 2.5);				
+			}
+			else if (towerChoice == 1){
+				floatingTower = new NormalTower(Images.tower1 ,sx+0.5, sy+0.5, 3, 100, 4.5);
+			}
+			else if (towerChoice == 2) {
+				floatingTower = new FireTower(Images.tower3, sx+0.5, sy+0.5, 10, 2000, 5);
+			}
+			if (floatingTower != null) {
+				floatingTower.render(gc, true);				
+			}
+			floatingTower = null;
+		}
 		
 		gc.setFill(Color.MAGENTA);
 		gc.setStroke(Color.BLACK);
@@ -182,6 +203,7 @@ public class GameManager {
 		else {
 			removeTower((int)(e.getX()/Numbers.TILE_SIZE), (int)(e.getY()/Numbers.TILE_SIZE));
 		}
+		return ;
 	}
 	
 	public void sellTower() {
@@ -211,6 +233,11 @@ public class GameManager {
 		path[endCol][endRow] = new cpp.pii(endCol+1, endRow+1);
 	}
 	
+	
+	public void setPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
+
 	public void handleTileClick(int x, int y) {
 		try {
 			pii currentTile = new pii(x, y);
@@ -220,7 +247,7 @@ public class GameManager {
 					if (t.getPosition().containedBy(currentTile)) {
 						selectedTile = t; // tile can be either tower of ground
 						towerChoice = -1;
-						return;
+						return ;
 					}
 				}
 				return ;
@@ -265,6 +292,7 @@ public class GameManager {
 				// this shouldn't happen
 			}
 		}
+		return ;
 	}
 	public void spawnParticle(Particle p) {
 		particles.add(p);

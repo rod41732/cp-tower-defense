@@ -35,6 +35,7 @@ public abstract class Projectile extends Entity implements IExpirable {
 		return !isExpired() && isCollideWith(m) && !m.isDead();
 	}
 	
+	// return true if projectile "isExpired" after colliding (usually true) but not for piercing shot
 	public abstract boolean collideWith(Monster m);
 	
 	public boolean isExpired() {

@@ -14,12 +14,8 @@ public class NormalTower extends Tower {
 	// TODO : more fields
 	
 	
-	protected double attack;
-
-	
 	public NormalTower(Image image ,double cellX, double cellY, double attack, double cooldown, double range) {
-		super(image, cellX, cellY, cooldown, range);
-		this.attack = attack;
+		super(image, cellX, cellY, attack, cooldown, range);
 	}
 	
 	public void upgrade() {
@@ -46,7 +42,7 @@ public class NormalTower extends Tower {
 	}
 	
 	public String toString() {
-		return String.format("Normal Tower R=%.1f A=%.1f C=%.1f", range, attack, cooldown);
+		return "Normal Tower";
 	}
 	
 }

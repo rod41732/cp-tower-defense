@@ -30,9 +30,9 @@ public class Bomb extends NormalProjectile {
 					System.out.println("boom =>" + ms);
 				}
 			}
-			return true;
+			setExpired(true);
 		}
-		return false;
+		return isExpired();
 	}
 	
 	

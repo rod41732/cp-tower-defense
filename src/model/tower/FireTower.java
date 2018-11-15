@@ -22,14 +22,10 @@ import util.cpp;
 public class FireTower extends Tower {
 
 	// TODO : more fields
-	
-	
-	protected double attack;
+	private static final double RADIUS = 0.7;
 
-	
 	public FireTower(Image image ,double cellX, double cellY, double attack, double cooldown, double range) {
-		super(image, cellX, cellY, cooldown, range);
-		this.attack = attack;
+		super(image, cellX, cellY, attack, cooldown, range);
 	}
 	
 	public void upgrade() {
@@ -49,14 +45,19 @@ public class FireTower extends Tower {
 		
 
 		GameManager.getInstance().getBullets().add(new 
-				FireProjectile(Images.bullet3, x, y, v.first*9, v.second*9, range, attack, 0.7));
+				FireProjectile(Images.bullet3, x, y, v.first*9, v.second*9, range, attack, RADIUS));
 		
 		cooldown = attackCooldown;
 		clearTarget();
 	}
 	
 	public String toString() {
-		return String.format("Bomb Tower R=%.1f A=%.1f C=%.1f", range, attack, cooldown);
+		return "FireTower";
+	}
+	
+	@Override 
+	public String description() {
+		return super.description() + String.format("Fire radius: %.2f\n", RADIUS);
 	}
 	
 }

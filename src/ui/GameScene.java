@@ -69,6 +69,8 @@ public class GameScene extends Scene {
 		setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.G) {
 				MonsterSpawner.getInstace().play();				
+			} else if (e.getCode() == KeyCode.P) {
+				GameManager.getInstance().setPaused(!GameManager.getInstance().isPaused());
 			}
 		});
 		
