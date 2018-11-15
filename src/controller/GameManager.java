@@ -212,19 +212,23 @@ public class GameManager {
 	
 	public void handleTileClick(int x, int y) {
 		try {
-			if (towerChoice < 0) {
-				message = "Please select a tower";
-				return ;
-			}
 			pii currentTile = new pii(x, y);
 			if (tileState[x][y] > 0) {
 				for (Tower t: towers) {
 					System.out.println("tile :" + currentTile + "tower: " + t.getPosition());
 					if (t.getPosition().containedBy(currentTile)) {
 						selectedTile = t; // tile can be either tower of ground
-						break;
+						towerChoice = -1;
+						return;
 					}
 				}
+				return ;
+			}
+			
+			// reset when click on space
+			selectedTile = null;
+			if (towerChoice < 0) {
+				message = "Please select a tower";
 				return ;
 			}
 			System.out.println("try to add tower to" + x +"." + y);
@@ -241,6 +245,7 @@ public class GameManager {
 			else {
 				tileState[x][y] = 0;
 			}
+			towerChoice = -1;
 		}
 		catch (Exception e) {
 			tileState[x][y] = 0;
