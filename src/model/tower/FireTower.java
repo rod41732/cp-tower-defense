@@ -19,7 +19,7 @@ import util.GameUtil;
 import util.Render;
 import util.cpp;
 
-public class BombTower extends Tower {
+public class FireTower extends Tower {
 
 	// TODO : more fields
 	
@@ -27,7 +27,7 @@ public class BombTower extends Tower {
 	protected double attack;
 
 	
-	public BombTower(Image image ,double cellX, double cellY, double attack, double cooldown, double range) {
+	public FireTower(Image image ,double cellX, double cellY, double attack, double cooldown, double range) {
 		super(image, cellX, cellY, cooldown, range);
 		this.attack = attack;
 	}
@@ -49,7 +49,7 @@ public class BombTower extends Tower {
 		
 
 		GameManager.getInstance().getBullets().add(new 
-				Bomb(Images.bullet2, x, y, v.first*9, v.second*9, range, attack, 2));
+				FireProjectile(Images.bullet3, x, y, v.first*9, v.second*9, range, attack, 1));
 		
 		cooldown = attackCooldown;
 		clearTarget();

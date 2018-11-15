@@ -16,7 +16,7 @@ public class MonsterSpawner {
 	public MonsterSpawner() {
 		
 		stage = new Timeline();
-		stage.getKeyFrames().add(new KeyFrame(Duration.seconds(1./10), e ->  {
+		stage.getKeyFrames().add(new KeyFrame(Duration.seconds(1./3), e ->  {
 			GameManager gi = GameManager.getInstance();
 			GameManager.getInstance().spawnMonster(new GroundMonster("Bear", Images.bear, gi.getStartCol()+0.5, gi.getStartRow()+0.5,
 					0.3, 100, 1.5, 3, 1));

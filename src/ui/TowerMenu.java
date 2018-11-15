@@ -18,7 +18,7 @@ public class TowerMenu {
 	private static double TOP = 0;
 	private static int COL = 3;
 	private static int ROW = 3;
-	private static Image[] images = {Images.tower2, Images.tower1};
+	private static Image[] images = {Images.tower2, Images.tower1, Images.tower3};
 	
 	
 	

@@ -18,6 +18,7 @@ import model.Tower;
 import model.monster.GroundMonster;
 import model.projectile.NormalProjectile;
 import model.tower.BombTower;
+import model.tower.FireTower;
 import model.tower.NormalTower;
 import ui.TowerMenu;
 import util.Algorithm;
@@ -241,6 +242,9 @@ public class GameManager {
 			}
 			else if (towerChoice == 1){
 				towers.add(new NormalTower(Images.tower1 ,x+0.5, y+0.5, 7, 400, 4.5));
+			}
+			else if (towerChoice == 2) {
+				towers.add(new FireTower(Images.tower3, x+0.5, y+0.5, 15, 2000, 5));
 			}
 			else {
 				tileState[x][y] = 0;
