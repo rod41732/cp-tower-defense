@@ -80,12 +80,10 @@ public class GameManager {
 	}
 	
 	public void update() {
-		for (Particle p: particles)
-			p.update();
-		for (Tower t: towers) {
-			t.acquireTarget();
-			t.fire();
-		}
+		// update entity
+		for (Particle p: particles) p.onTick();
+		for (Tower t: towers) t.onTick();
+		for (Projectile p: projectiles) p.onTick();
 		for (Monster m: monsters) {
 			m.move();
 			if (Double.compare(m.distanceTo(endCol+0.5, endRow+0.5), 0.1) < 0) {
@@ -94,10 +92,10 @@ public class GameManager {
 				message = "a monster reached end";
 			}
 		}
-		// removes
+		
+		// entity interaction
 		for (int i=projectiles.size()-1; i>=0; i--) {
 			Projectile p = projectiles.get(i);
-			p.move();
 			if (p.isExpired()) projectiles.remove(i);
 			else
 			for (Monster m: monsters) {
@@ -107,6 +105,8 @@ public class GameManager {
 				}
 			}
 		}
+		
+		// cleanUp
 		for (int i=monsters.size()-1; i>=0; i--) {
 			if (monsters.get(i).isDead()) {
 				money += monsters.get(i).getMoney();
