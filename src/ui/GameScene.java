@@ -49,6 +49,8 @@ public class GameScene extends Scene {
 //		sell.setLayoutX(1400);
 //		sell.setLayoutY(760);
 		
+		
+		
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e ->  {
 			if (GameManager.getInstance().isRunning()) {
 				if (!GameManager.getInstance().isPaused())
@@ -62,9 +64,8 @@ public class GameScene extends Scene {
 		});
 		
 		setOnMouseClicked(e -> {
-			if (!TowerMenu.handleClick(e)) {
-				GameManager.getInstance().handleClick(e);								
-			}
+			TowerMenu.handleClick(e);
+			GameManager.getInstance().handleClick(e);								
 		});
 		
 		setOnKeyPressed(e -> {

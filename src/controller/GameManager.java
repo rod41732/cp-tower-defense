@@ -50,7 +50,7 @@ public class GameManager {
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private ArrayList<Projectile> projectiles = new ArrayList<>(); 
 	private ArrayList<Particle> particles = new ArrayList<>();
-	private Tile[][]placedTiles = new Tile[Numbers.COLUMNS][Numbers.ROWS]; // TODO: Fix yolo allocation
+	private Tile[][] placedTiles = new Tile[Numbers.COLUMNS][Numbers.ROWS]; // TODO: Fix yolo allocation
 	private cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 
 	public boolean isPlaceable(int x, int y) {
@@ -63,6 +63,7 @@ public class GameManager {
 	
 	public GameManager() {
 		try {
+			placedTiles = new Tile[Numbers.COLUMNS][Numbers.ROWS];
 			path = Algorithm.BFS(endCol, endRow, startCol, startRow);
 		}
 		catch (Exception e) {
@@ -205,6 +206,7 @@ public class GameManager {
 	}
 	
 	public void handleClick(MouseEvent e) {
+		if (e.isConsumed()) return;
 		if (!shouldHandle(e)) return ;
 		if (e.getButton() == MouseButton.PRIMARY) {
 			handleTileClick((int)(e.getX()/Numbers.TILE_SIZE), (int)(e.getY()/Numbers.TILE_SIZE));			

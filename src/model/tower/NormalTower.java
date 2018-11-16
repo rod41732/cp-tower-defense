@@ -22,6 +22,7 @@ public class NormalTower extends Tower {
 		range += 0.5;
 	}
 	
+	
 	public void fire() {
 		if (cooldown > 0) {
 			reduceCooldown();

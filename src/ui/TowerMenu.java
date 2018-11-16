@@ -110,7 +110,8 @@ public class TowerMenu {
 				TOP < y && y < TOP+ROW*Numbers.TILE_SIZE;
 	}
 	
-	public static boolean handleClick(MouseEvent e) {
+	public static void handleClick(MouseEvent e) {
+		if (e.isConsumed()) return ;
 		System.out.println("clicked at" + posToGrid(e.getX(), e.getY()));
 //		GameManager.getInstance().setSelectedTile(null);
 		if (shouldHandle(e)) {
@@ -120,9 +121,9 @@ public class TowerMenu {
 			if (0 <= s && s <= images.length) {
 				GameManager.getInstance().setTowerChoice(grid.first+grid.second*COL);				
 			}
-			return true;
+			return ;
 		}
-		return false;
+		return ;
 	}
 	
 	private static cpp.pii posToGrid(double x, double y){

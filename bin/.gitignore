@@ -1,3 +1,14 @@
+/animation/
+/buff/
+/bush/
+/constants/
+/controller/
+/font/
+/main/
 /model/
+/monster/
+/projectile/
+/tile/
+/tower/
 /ui/
 /util/
