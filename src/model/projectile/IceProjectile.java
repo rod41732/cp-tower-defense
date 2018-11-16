@@ -17,7 +17,10 @@ public class IceProjectile extends NormalProjectile {
 			double vx, double vy, double maxRange, double damage) {
 		super(Images.iceBullet ,x, y, vx, vy, maxRange, damage); // default size ?
 	}
-	
+	@Override
+	public boolean shouldCollide(Monster m) {
+		return !m.hasBuff(new MoveSpeedBuff(1, 1)) && super.shouldCollide(m);
+	}
 
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {

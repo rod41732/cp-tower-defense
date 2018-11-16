@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import buff.Buff;
+import buff.MoveSpeedBuff;
 import controller.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -22,6 +23,8 @@ public abstract class Monster extends Entity {
 	protected double vy;
 	protected String name;
 	protected ArrayList<Buff> buffs = new ArrayList<>();
+	protected static Image coldImage = new Image("monster/bear_cold.png", 64, 64, true, true);
+	
 	
 	protected double moveSpeedMultiplier;
 	protected double damageTakenMultiplier;
@@ -51,7 +54,12 @@ public abstract class Monster extends Entity {
 	}
 	
 	public void render(GraphicsContext gc) {
-		super.render(gc);
+		if (hasBuff(new MoveSpeedBuff(1,1))) {
+			gc.drawImage(coldImage, getRenderX(), getRenderY());
+		}
+		else {
+			super.render(gc);			
+		}
 		gc.setFill(Color.GREEN);
 		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*100, 3);
 		gc.setFill(Color.RED);
@@ -126,6 +134,13 @@ public abstract class Monster extends Entity {
 				buffs.remove(i);
 		}
 		buffs.add(b);
+	}
+	
+	public boolean hasBuff(Buff buffType) {
+		for (Buff b: buffs)
+			if (b.getClass() == buffType.getClass()) 
+				return true;
+		return false;
 	}
 	
 	
