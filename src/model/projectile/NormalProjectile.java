@@ -21,7 +21,7 @@ public class NormalProjectile extends Projectile {
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
 			m.takeDamage(damage);
-			setExpired(true);		
+			forceExpire();	
 		}
 		return isExpired();
 	}

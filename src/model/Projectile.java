@@ -16,19 +16,11 @@ public abstract class Projectile extends Entity implements IExpirable {
 	protected boolean isExpired = false;
 	
 	public Projectile(Image image, double x, double y,
-			double vx, double vy, double maxRange) {
+			double vx, double vy, double maxDistance) {
 		super(image, x, y, 0.3); // default size ?
 		this.vx = vx;
 		this.vy = vy;
-		this.maxDistance = maxRange;
-	}
-	
-	
-	public void move() {
-		x += vx/60;
-		y += vy/60;
-		distance += GameUtil.distance(0, 0, vx/60, vy/60);
-		age += 1000./60;
+		this.maxDistance = maxDistance;
 	}
 	
 	public boolean shouldCollide(Monster m) {
@@ -38,11 +30,32 @@ public abstract class Projectile extends Entity implements IExpirable {
 	// return true if projectile "isExpired" after colliding (usually true) but not for piercing shot
 	public abstract boolean collideWith(Monster m);
 	
+	
+	public void onTick() {
+		preUpdate();
+		move();
+		age();
+	}
+	
+	public void move() {
+		x += vx/60;
+		y += vy/60;
+		distance += GameUtil.distance(0, 0, vx/60, vy/60);
+	}
+	
+	public void preUpdate() {
+		
+	}
+	
+	private void age() {
+		age += 1000./60;
+	}
+	
 	public boolean isExpired() {
 		return isExpired || Double.compare(distance, maxDistance) > 0;
 	}
 
-	public void setExpired(boolean isExpired) {
-		this.isExpired = isExpired;
+	public void forceExpire() {
+		isExpired = true;
 	}
 }

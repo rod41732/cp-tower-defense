@@ -26,7 +26,7 @@ public class IceProjectile extends NormalProjectile {
 		if (shouldCollide(m)) {
 			m.takeDamage(damage);
 			m.addBuff(new MoveSpeedBuff(2000, -0.7));
-			setExpired(true);		
+			forceExpire();	
 		}
 		return isExpired();
 	}
