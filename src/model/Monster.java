@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+
+import buff.Buff;
 import controller.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -18,6 +21,13 @@ public abstract class Monster extends Entity {
 	protected double vx;
 	protected double vy;
 	protected String name;
+	protected ArrayList<Buff> buffs = new ArrayList<>();
+	
+	protected double moveSpeedMultiplier;
+	protected double damageTakenMultiplier;
+	
+	
+	
 	protected int money;
 	// AI
 	
@@ -32,8 +42,8 @@ public abstract class Monster extends Entity {
 	}
 	
 	public void move() {
-		x += vx;
-		y += vy;
+		x += vx*Math.max(moveSpeedMultiplier, 0.1);
+		y += vy*Math.max(moveSpeedMultiplier, 0.1);
 	}
 	
 	public boolean isTargetableBy(BombTower t) {
@@ -50,6 +60,7 @@ public abstract class Monster extends Entity {
 	
 	// return false is damage is negated
 	public boolean takeDamage(double damage) {
+		damage *= damageTakenMultiplier;
 		damage -= armor;
 		if (damage <= 0) return false;
 		System.out.printf("%s took %.2f damage\n", name, damage);
@@ -58,6 +69,7 @@ public abstract class Monster extends Entity {
 	}
 	
 	public boolean takePureDamage(double damage) {
+		damage *= damageTakenMultiplier;
 		if (damage <= 0) return false;
 		System.out.printf("%s took %.2f damage\n", name, damage);
 		health -= damage;
@@ -80,5 +92,42 @@ public abstract class Monster extends Entity {
 		return String.format("%s at %s HP:%.2f Armor:%.2f MS:%.2f",
 				name, getPosition(), health, armor, moveSpeed);
 	}
+
+	public double getMoveSpeedMultiplier() {
+		return moveSpeedMultiplier;
+	}
+
+	public void setMoveSpeedMultiplier(double moveSpeedMultiplier) {
+		this.moveSpeedMultiplier = moveSpeedMultiplier;
+	}
+	public void addMoveSpeedMultiplier(double moveSpeedMultiplier) {
+		this.moveSpeedMultiplier += moveSpeedMultiplier;
+	}
+
+	public double getDamageTakenMultiplier() {
+		return damageTakenMultiplier;
+	}
+
+	public void setDamageTakenMultiplier(double damageTakenMultiplier) {
+		this.damageTakenMultiplier = damageTakenMultiplier;
+	}
+
+	public void addDamageTakenMultiplier(double damageTakenMultiplier) {
+		this.damageTakenMultiplier += damageTakenMultiplier;
+	}
+	public ArrayList<Buff> getBuffs() {
+		return buffs;
+	}
+	
+	public void addBuff(Buff b){
+		
+		for (int i=0; i<buffs.size(); i++) {
+			if (b.getClass() == buffs.get(i).getClass())
+				buffs.remove(i);
+		}
+		buffs.add(b);
+	}
+	
+	
 	
 }

@@ -15,6 +15,7 @@ import model.Monster;
 import model.Particle;
 import model.Tile;
 import model.Tower;
+import model.monster.FlyingMonster;
 import model.monster.GroundMonster;
 import model.projectile.NormalProjectile;
 import model.tower.BombTower;
@@ -300,7 +301,7 @@ public class GameManager {
 	}
 	
 	public void spawnMonster(double x, double y) {
-		monsters.add(new GroundMonster("Bear", Images.bear, x, y, 0.4, 60, 0, 1.5, 10));
+		monsters.add(new FlyingMonster("Bear", Images.bear, x, y, 0.4, 60, 0, 1.5, 10));
 	}
 	
 	public void spawnMonster(Monster m) {

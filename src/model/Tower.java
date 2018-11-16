@@ -1,6 +1,9 @@
 package model;
 
 
+import java.util.ArrayList;
+
+import buff.Buff;
 import constants.Images;
 import constants.Numbers;
 import controller.GameManager;
@@ -28,8 +31,9 @@ public class Tower extends Tile {
 	protected double cooldown; // in ms
 	protected double range; 
 	protected int value = 20;
-	
+	protected double attackSpeedMultiplier;
 	protected Monster target;
+	protected ArrayList<Buff> buffs = new ArrayList<>();
 	private double minDist;
 	
 	public Tower(Image img, double cellX, double cellY,
@@ -125,9 +129,48 @@ public class Tower extends Tile {
 		this.value = value;
 	}
 
+	public void reduceCooldown() {
+		attackSpeedMultiplier = 1;
+		for (int i=buffs.size()-1; i>=0; i--) {
+			Buff b = buffs.get(i);
+			b.applyTo(this);
+			b.age();
+			if (b.isExpired()) {
+				System.out.println(b + "is expired");
+				buffs.remove(i);
+			}
+		}
+		cooldown -= 1000/16*attackSpeedMultiplier;
+	}
+	
+	
+	
+	public ArrayList<Buff> getBuffs() {
+		return buffs;
+	}
+
+	public void addBuff(Buff b) {
+		for (int i=0; i<buffs.size(); i++) {
+			if (b.getClass() == buffs.get(i).getClass())
+				buffs.remove(i);
+		}
+		buffs.add(b);
+	}
+
+	public double getAttackSpeedMultiplier() {
+		return attackSpeedMultiplier;
+	}
+
+	public void setAttackSpeedMultiplier(double attackSpeedMultiplier) {
+		this.attackSpeedMultiplier = attackSpeedMultiplier;
+	}
+
+	public void addAttackSpeedMultiplier(double attackSpeedMultiplier) {
+		this.attackSpeedMultiplier += attackSpeedMultiplier;
+	}
+
 	public void fire() {
 		System.out.println("Current cd" + cooldown);
-		if (cooldown > 0) cooldown -= 1000./16;
 		if (target == null) return;
 		if (cooldown > 0) return;
 		

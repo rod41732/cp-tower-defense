@@ -1,5 +1,7 @@
 package model.projectile;
 
+import buff.DamageTakenDebuff;
+import buff.MoveSpeedBuff;
 import constants.Images;
 import controller.GameManager;
 import javafx.scene.image.Image;
@@ -26,7 +28,9 @@ public class Bomb extends NormalProjectile {
 			System.out.println("Boom");
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
 				if (Double.compare(ms.distanceTo(impact.first, impact.second), 3) < 0) {
-					ms.takeDamage(damage);
+//					ms.takeDamage(damage);
+					ms.addBuff(new MoveSpeedBuff(1000, -0.3));
+					ms.addBuff(new DamageTakenDebuff(3000, 5));
 					System.out.println("boom =>" + ms);
 				}
 			}

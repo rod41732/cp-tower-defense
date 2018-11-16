@@ -35,8 +35,8 @@ public class BombTower extends Tower {
 	}
 	
 	public void fire() {
+		reduceCooldown();
 		if (cooldown > 0) {
-			cooldown -= 16; // 1 tick = 16 ms
 			return ;
 		}
 		if (target == null) return;

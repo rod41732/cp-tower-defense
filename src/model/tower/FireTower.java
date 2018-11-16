@@ -1,6 +1,7 @@
 package model.tower;
 
 
+import buff.AttackSpeedBuff;
 import constants.Images;
 import constants.Numbers;
 import controller.GameManager;
@@ -33,10 +34,8 @@ public class FireTower extends Tower {
 	}
 	
 	public void fire() {
-		if (cooldown > 0) {
-			cooldown -= 16; // 1 tick = 16 ms
-			return ;
-		}
+		reduceCooldown();
+		if (cooldown > 0) return;
 		if (target == null) return;
 		
 		cpp.pff v = GameUtil.unitVector(this, target);

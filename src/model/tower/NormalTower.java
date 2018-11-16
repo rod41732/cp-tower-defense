@@ -24,7 +24,7 @@ public class NormalTower extends Tower {
 	
 	public void fire() {
 		if (cooldown > 0) {
-			cooldown -= 16; // 1 tick = 16 ms
+			reduceCooldown();
 			return ;
 		}
 		if (target == null) return;
