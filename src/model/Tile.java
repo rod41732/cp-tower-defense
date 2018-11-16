@@ -17,5 +17,13 @@ public class Tile extends Entity{
 		return true;
 	}
 	
+	public boolean affectsAir() {
+		return false;
+	}
+	
+	public boolean affectsGround() {
+		return true;
+	}
+	
 }
 

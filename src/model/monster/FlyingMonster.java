@@ -4,6 +4,7 @@ import buff.Buff;
 import controller.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
+import model.Tile;
 import util.GameUtil;
 import util.cpp;
 
@@ -33,6 +34,10 @@ public class FlyingMonster extends Monster {
 			}
 		}
 		super.move();
+	}
+	
+	public boolean isAffectedBy(Tile t) {
+		return t.affectsAir();
 	}
 	
 	public String toString() {

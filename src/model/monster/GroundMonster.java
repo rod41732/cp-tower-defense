@@ -4,6 +4,7 @@ import buff.Buff;
 import controller.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
+import model.Tile;
 import util.GameUtil;
 import util.cpp;
 
@@ -31,7 +32,9 @@ public class GroundMonster extends Monster {
 		else targetTile = null;
 		
 	}
-	
+	public boolean isAffectedBy(Tile t) {
+		return t.affectsGround();
+	}
 	public void move() {
 		findPath();
 		if (targetTile == null) return; 

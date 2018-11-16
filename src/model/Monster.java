@@ -49,9 +49,7 @@ public abstract class Monster extends Entity {
 		y += vy*Math.max(moveSpeedMultiplier, 0.1);
 	}
 	
-	public boolean isTargetableBy(BombTower t) {
-		return true;
-	}
+	public abstract boolean isAffectedBy(Tile t);
 	
 	public void render(GraphicsContext gc) {
 		if (hasBuff(new MoveSpeedBuff(1,1))) {
