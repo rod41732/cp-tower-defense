@@ -157,6 +157,16 @@ public class Tower extends Tile {
 		buffs.add(b);
 	}
 
+	
+	@Override 
+	public boolean isPlaceable() {
+		return false;
+	}
+	
+	public boolean isWalkable() {
+		return false;
+	}
+	
 	public double getAttackSpeedMultiplier() {
 		return attackSpeedMultiplier;
 	}

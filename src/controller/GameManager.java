@@ -50,16 +50,23 @@ public class GameManager {
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private ArrayList<Projectile> projectiles = new ArrayList<>(); 
 	private ArrayList<Particle> particles = new ArrayList<>();
-	private int[][] tileState = new int[100][100]; // TODO: Fix yolo allocation
-	private cpp.pii[][] path;
+	private Tile[][]placedTiles = new Tile[Numbers.COLUMNS][Numbers.ROWS]; // TODO: Fix yolo allocation
+	private cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 
+	public boolean isPlaceable(int x, int y) {
+		return placedTiles[x][y] == null || placedTiles[x][y].isPlaceable();
+	}
 	
+	public boolean isWalkable(int x, int y) {
+		return placedTiles[x][y] == null || placedTiles[x][y].isWalkable();
+	}
 	
 	public GameManager() {
 		try {
-			path = Algorithm.BFS(tileState, endCol, endRow, startCol, startRow);
+			path = Algorithm.BFS(endCol, endRow, startCol, startRow);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("this shouldn't happen");
 		}
 		for (int i=0; i<Numbers.WIN_WIDTH; i+=Numbers.TILE_SIZE) {
@@ -134,7 +141,7 @@ public class GameManager {
 		if (path != null) {
 			gc.setFill(new Color(0, 0, 0, 0.5)); // just dim
 			cpp.pii pos = new cpp.pii(startCol, startRow);
-			while (pos.first != endCol || pos.second!= endRow) {
+			while (pos != null && (pos.first != endCol || pos.second != endRow)) {
 				gc.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
 						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 				pos = path[pos.first][pos.second];
@@ -231,8 +238,8 @@ public class GameManager {
 					message = "removed";
 					break;
 				}
-			tileState[x][y] = 0;
-			path = Algorithm.BFS(tileState.clone(), endCol, endRow, startCol, startRow);
+			placedTiles[x][y] = null;
+			path = Algorithm.BFS(endCol, endRow, startCol, startRow);
 		}
 		catch (Exception e) {
 			System.out.println("can't remove tower, this shouldn't happen");
@@ -246,56 +253,42 @@ public class GameManager {
 	}
 
 	public void handleTileClick(int x, int y) {
+		selectedTile = placedTiles[x][y];
+		if (selectedTile != null)
+			return ;
+		if (towerChoice < 0) {
+			message = "Please select a tower";
+			return ;
+		}
+		System.out.println("try to add tower to" + x +"." + y);
+		Tower t;
+		switch (towerChoice) {
+			case 0:				
+				t = new BombTower(Images.bombTower ,x+0.5, y+0.5, 10, 800, 2.5); break;
+			case 1:
+				t = new NormalTower(Images.normalTower ,x+0.5, y+0.5, 3, 100, 4.5); break;
+			case 2:
+				t = new FireTower(Images.fireTower, x+0.5, y+0.5, 10, 2000, 5); break;
+			case 3:
+				t = new IceTower(Images.iceTower, x+0.5, y+0.5, 4, 500, 5); break;
+			default:
+				return;
+		}
+		towerChoice = -1;
 		try {
-			pii currentTile = new pii(x, y);
-			if (tileState[x][y] > 0) {
-				for (Tower t: towers) {
-					System.out.println("tile :" + currentTile + "tower: " + t.getPosition());
-					if (t.getPosition().containedBy(currentTile)) {
-						selectedTile = t; // tile can be either tower of ground
-						towerChoice = -1;
-						return ;
-					}
-				}
-				return ;
-			}
-			
-			// reset when click on space
-			selectedTile = null;
-			if (towerChoice < 0) {
-				message = "Please select a tower";
-				return ;
-			}
-			System.out.println("try to add tower to" + x +"." + y);
-			tileState[x][y] = 1;
-			Algorithm.BFS(tileState.clone(), endCol, endRow, startCol, startRow);
-			
+			placedTiles[x][y] = t;
+			Algorithm.BFS(endCol, endRow, startCol, startRow);
 			message = "OK";
-			if (towerChoice == 0) {
-				towers.add(new BombTower(Images.bombTower ,x+0.5, y+0.5, 10, 800, 2.5));				
-			}
-			else if (towerChoice == 1){
-				towers.add(new NormalTower(Images.normalTower ,x+0.5, y+0.5, 3, 100, 4.5));
-			}
-			else if (towerChoice == 2) {
-				towers.add(new FireTower(Images.fireTower, x+0.5, y+0.5, 10, 2000, 5));
-			}
-			else if (towerChoice == 3) {
-				towers.add(new IceTower(Images.iceTower, x+0.5, y+0.5, 4, 500, 5));
-			}
-			else {
-				tileState[x][y] = 0;
-			}
-			towerChoice = -1;
+			towers.add(t);
 		}
 		catch (Exception e) {
-			tileState[x][y] = 0;
+			placedTiles[x][y] = null;
 			System.out.println("You can't build here");
 			message = "You can't build there";
 		}
 		finally {
 			try {
-				path = Algorithm.BFS(tileState, endCol, endRow, startCol, startRow);
+				path = Algorithm.BFS(endCol, endRow, startCol, startRow);
 				path[endCol][endRow] = new cpp.pii(endCol+1, endRow);
 			}
 			catch(Exception e) {

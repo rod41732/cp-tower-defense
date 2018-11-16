@@ -6,7 +6,9 @@ import java.util.Queue;
 
 import constants.Numbers;
 import constants.Other;
+import controller.GameManager;
 import javafx.util.Pair;
+import model.Tile;
 
 public class Algorithm {
 	
@@ -27,10 +29,11 @@ public class Algorithm {
 	}
 	
 	
-	public static cpp.pii[][] BFS(int[][] tileState, int fromCol, int fromRow, int toCol, int toRow) throws Exception {
+	public static cpp.pii[][] BFS(int fromCol, int fromRow, int toCol, int toRow) throws Exception {
 		
 		initialize();
-		if (tileState[fromCol][fromRow] == 0) {
+		GameManager gi = GameManager.getInstance();
+		if (gi.isWalkable(fromCol, fromRow)) {
 			q.add(new cpp.xyt(fromCol, fromRow, 0));
 			dist[fromCol][fromRow] = 0;			
 		}
@@ -42,11 +45,22 @@ public class Algorithm {
 //			System.out.println("current is " + top);
 			for (int[] rc: Other.dir) {
 				int nx = x+rc[0], ny = y+rc[1], nt = t+1;
-				if (nx < 0 || nx >= TABLE_C || ny < 0 || ny >= TABLE_R || dist[nx][ny] <= nt
-						|| tileState[nx][ny] > 0) continue;
-				dist[nx][ny] = nt;
-				pred[nx][ny] = new cpp.pii(x, y);
-				q.add(new cpp.xyt(nx, ny, nt));
+				if (nx < 0 || nx >= TABLE_C || ny < 0 || ny >= TABLE_R) { 
+					continue;
+				} else if (nt >= dist[nx][ny] || !gi.isWalkable(nx, ny)) { // in bound but not shorted/						
+					if (nt <= dist[nx][ny]  && !gi.isWalkable(nx, ny)) { // shortest path buth on blocked tile 
+						// set pred to available (current) tile to fix stuck
+						dist[nx][ny] = nt;
+						pred[nx][ny] = new cpp.pii(x, y);						
+					}
+					continue;
+				}
+				else {
+					dist[nx][ny] = nt;
+					pred[nx][ny] = new cpp.pii(x, y);
+					q.add(new cpp.xyt(nx, ny, nt));					
+				}
+				
 			}
 		}
 		
