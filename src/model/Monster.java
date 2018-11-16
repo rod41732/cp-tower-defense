@@ -44,12 +44,9 @@ public abstract class Monster extends Entity {
 		this.money = money;
 	}
 	
-	public void move() {
-		x += vx*Math.max(moveSpeedMultiplier, 0.1);
-		y += vy*Math.max(moveSpeedMultiplier, 0.1);
-	}
-	
 	public abstract boolean isAffectedBy(Tile t);
+	public abstract boolean isAffectedByGround();
+	public abstract boolean isAffectedByAir();
 	
 	public void render(GraphicsContext gc) {
 		if (hasBuff(new MoveSpeedBuff(1,1))) {
@@ -62,6 +59,32 @@ public abstract class Monster extends Entity {
 		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*100, 3);
 		gc.setFill(Color.RED);
 		gc.fillRect(getRenderX()+health/maxHealth*100, getRenderY()-10, 100-health/maxHealth*100, 3);
+	}
+	
+	public void onTick() {
+		preUpdate();
+		updateBuff();
+		updateVelocity();
+//		collideWithTile();
+		move(); // update v without considering 
+	}
+	
+	public void move() {
+		x += vx*Math.max(moveSpeedMultiplier, 0.1)/60;
+		y += vy*Math.max(moveSpeedMultiplier, 0.1)/60;
+	}
+	
+	protected void preUpdate() {
+		
+	}
+	
+	protected abstract void updateVelocity();
+	
+	protected void updateBuff() {
+		moveSpeedMultiplier = 1;
+		damageTakenMultiplier = 1;
+		for (Buff b: buffs)
+			b.applyTo(this);
 	}
 	
 	// return false is damage is negated
@@ -82,12 +105,12 @@ public abstract class Monster extends Entity {
 		return true;
 	}
 	
-	public boolean isDead() {
-		return Double.compare(health, 0) <= 0;
-	}
-	
 	public void forceKill() {
 		health = -1;
+	}
+	
+	public boolean isDead() {
+		return Double.compare(health, 0) <= 0;
 	}
 	
 	public int getMoney() {
@@ -99,34 +122,20 @@ public abstract class Monster extends Entity {
 				name, getPosition(), health, armor, moveSpeed);
 	}
 
-	public double getMoveSpeedMultiplier() {
-		return moveSpeedMultiplier;
-	}
-
-	public void setMoveSpeedMultiplier(double moveSpeedMultiplier) {
-		this.moveSpeedMultiplier = moveSpeedMultiplier;
-	}
 	public void addMoveSpeedMultiplier(double moveSpeedMultiplier) {
 		this.moveSpeedMultiplier += moveSpeedMultiplier;
 	}
 
-	public double getDamageTakenMultiplier() {
-		return damageTakenMultiplier;
-	}
-
-	public void setDamageTakenMultiplier(double damageTakenMultiplier) {
-		this.damageTakenMultiplier = damageTakenMultiplier;
-	}
 
 	public void addDamageTakenMultiplier(double damageTakenMultiplier) {
 		this.damageTakenMultiplier += damageTakenMultiplier;
 	}
+
 	public ArrayList<Buff> getBuffs() {
 		return buffs;
 	}
 	
-	public void addBuff(Buff b){
-		
+	public void addBuff(Buff b){	
 		for (int i=0; i<buffs.size(); i++) {
 			if (b.getClass() == buffs.get(i).getClass())
 				buffs.remove(i);
@@ -134,13 +143,10 @@ public abstract class Monster extends Entity {
 		buffs.add(b);
 	}
 	
-	public boolean hasBuff(Buff buffType) {
+	public boolean hasBuff(Buff buffInstance) {
 		for (Buff b: buffs)
-			if (b.getClass() == buffType.getClass()) 
+			if (b.getClass() == buffInstance.getClass()) 
 				return true;
 		return false;
 	}
-	
-	
-	
 }

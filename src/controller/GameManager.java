@@ -85,8 +85,8 @@ public class GameManager {
 		for (Tower t: towers) t.onTick();
 		for (Projectile p: projectiles) p.onTick();
 		for (Monster m: monsters) {
-			m.move();
-			if (Double.compare(m.distanceTo(endCol+0.5, endRow+0.5), 0.1) < 0) {
+			m.onTick();
+			if (m.getPosition().containedBy(new cpp.pii(endCol, endRow))) {
 				m.forceKill();
 				lives -= 1;
 				message = "a monster reached end";
