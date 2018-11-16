@@ -21,18 +21,27 @@ public class Particle extends Entity implements IExpirable {
 		this.maxAge = maxAge;
 	}
 	
+	public void onTick() {
+		// TODO change these const
+		age();
+		updateFrame();
+		move();
+	}
+	
+	private void age() {
+		age += 1000./60;
+		frameCount = 0;
+	}
+	
+	private void updateFrame() {
+		
+	}
+	
 	private void move() {
 		x += vx/60;
 		y += vy/60;
 	}
 	
-	public void update() {
-		// TODO change these const
-		age += 16;
-		frameCount += 1;
-		image = frames[(frameCount/4)%nFrames];
-		move();
-	}
 	
 	@Override
 	public boolean isExpired() {
