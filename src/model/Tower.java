@@ -140,7 +140,7 @@ public class Tower extends Tile {
 				buffs.remove(i);
 			}
 		}
-		cooldown -= 1000/16*attackSpeedMultiplier;
+		cooldown -= 1000/60*attackSpeedMultiplier;
 	}
 	
 	

@@ -28,9 +28,8 @@ public class Bomb extends NormalProjectile {
 			System.out.println("Boom");
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
 				if (Double.compare(ms.distanceTo(impact.first, impact.second), 3) < 0) {
-//					ms.takeDamage(damage);
-					ms.addBuff(new MoveSpeedBuff(1000, -0.3));
-					ms.addBuff(new DamageTakenDebuff(3000, 5));
+					ms.takeDamage(damage);
+//					ms.addBuff(new DamageTakenDebuff(3000, 5));
 					System.out.println("boom =>" + ms);
 				}
 			}

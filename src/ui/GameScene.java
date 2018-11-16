@@ -78,6 +78,8 @@ public class GameScene extends Scene {
 				GameManager.getInstance().setTowerChoice(1);
 			} else if (e.getCode() == KeyCode.DIGIT3) {
 				GameManager.getInstance().setTowerChoice(2);
+			} else if (e.getCode() == KeyCode.DIGIT4) {
+				GameManager.getInstance().setTowerChoice(3);
 			} else if (e.getCode() == KeyCode.S) {
 				GameManager.getInstance().sellTower();
 			} else if (e.getCode() == KeyCode.D) {

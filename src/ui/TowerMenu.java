@@ -25,7 +25,7 @@ public class TowerMenu {
 	private static double TOP = 0;
 	private static int COL = 3;
 	private static int ROW = 3;
-	private static Image[] images = {Images.tower2, Images.tower1, Images.tower3};
+	private static Image[] images = {Images.bombTower, Images.normalTower, Images.fireTower, Images.iceTower};
 	private static cpp.pff sellButtonPos = new cpp.pff(LEFT,  Numbers.WIN_HEIGHT-300);
 	private static cpp.pff upButtonPos = new cpp.pff(LEFT,  Numbers.WIN_HEIGHT-200);
 	private static boolean sellButtonEnabled = false, upButtonEnabled = false;

@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import main.Main;
 import model.Monster;
 import model.Particle;
+import model.Projectile;
 import model.Tile;
 import model.Tower;
 import model.monster.FlyingMonster;
@@ -20,6 +21,7 @@ import model.monster.GroundMonster;
 import model.projectile.NormalProjectile;
 import model.tower.BombTower;
 import model.tower.FireTower;
+import model.tower.IceTower;
 import model.tower.NormalTower;
 import ui.TowerMenu;
 import util.Algorithm;
@@ -46,7 +48,7 @@ public class GameManager {
 	private ArrayList<Tower> towers = new ArrayList<>();
 	private ArrayList<Monster> monsters = new ArrayList<>();
 	private ArrayList<Tile> tiles = new ArrayList<>();
-	private ArrayList<NormalProjectile> projectiles = new ArrayList<>(); 
+	private ArrayList<Projectile> projectiles = new ArrayList<>(); 
 	private ArrayList<Particle> particles = new ArrayList<>();
 	private int[][] tileState = new int[100][100]; // TODO: Fix yolo allocation
 	private cpp.pii[][] path;
@@ -86,7 +88,7 @@ public class GameManager {
 		}
 		// removes
 		for (int i=projectiles.size()-1; i>=0; i--) {
-			NormalProjectile p = projectiles.get(i);
+			Projectile p = projectiles.get(i);
 			p.move();
 			if (p.isExpired()) projectiles.remove(i);
 			else
@@ -126,7 +128,7 @@ public class GameManager {
 				t.render(gc);
 		for (Tower t: towers) t.render(gc);
 		for (Monster m: monsters) m.render(gc);
-		for (NormalProjectile p: projectiles) p.render(gc);
+		for (Projectile p: projectiles) p.render(gc);
 		for (Particle p: particles) p.render(gc);
 		
 		if (path != null) {
@@ -151,13 +153,16 @@ public class GameManager {
 			Tower floatingTower = null;
 			int sx = getSelectedPosition().first, sy = getSelectedPosition().second;
 			if (towerChoice == 0) {
-				floatingTower = new BombTower(Images.tower2 , sx+0.5, sy+0.5, 10, 800, 2.5);				
+				floatingTower = new BombTower(Images.bombTower , sx+0.5, sy+0.5, 10, 800, 2.5);				
 			}
 			else if (towerChoice == 1){
-				floatingTower = new NormalTower(Images.tower1 ,sx+0.5, sy+0.5, 3, 100, 4.5);
+				floatingTower = new NormalTower(Images.normalTower ,sx+0.5, sy+0.5, 3, 100, 4.5);
 			}
 			else if (towerChoice == 2) {
-				floatingTower = new FireTower(Images.tower3, sx+0.5, sy+0.5, 10, 2000, 5);
+				floatingTower = new FireTower(Images.fireTower, sx+0.5, sy+0.5, 10, 2000, 5);
+			}
+			else if (towerChoice == 3) {
+				floatingTower = new IceTower(Images.iceTower ,sx+0.5, sy+0.5, 10, 2000, 4);
 			}
 			if (floatingTower != null) {
 				floatingTower.render(gc, true);				
@@ -267,13 +272,16 @@ public class GameManager {
 			
 			message = "OK";
 			if (towerChoice == 0) {
-				towers.add(new BombTower(Images.tower2 ,x+0.5, y+0.5, 10, 800, 2.5));				
+				towers.add(new BombTower(Images.bombTower ,x+0.5, y+0.5, 10, 800, 2.5));				
 			}
 			else if (towerChoice == 1){
-				towers.add(new NormalTower(Images.tower1 ,x+0.5, y+0.5, 3, 100, 4.5));
+				towers.add(new NormalTower(Images.normalTower ,x+0.5, y+0.5, 3, 100, 4.5));
 			}
 			else if (towerChoice == 2) {
-				towers.add(new FireTower(Images.tower3, x+0.5, y+0.5, 10, 2000, 5));
+				towers.add(new FireTower(Images.fireTower, x+0.5, y+0.5, 10, 2000, 5));
+			}
+			else if (towerChoice == 3) {
+				towers.add(new IceTower(Images.iceTower, x+0.5, y+0.5, 4, 500, 5));
 			}
 			else {
 				tileState[x][y] = 0;
@@ -404,7 +412,7 @@ public class GameManager {
 		return tiles;
 	}
 
-	public ArrayList<NormalProjectile> getBullets() {
+	public ArrayList<Projectile> getBullets() {
 		return projectiles;
 	}
 	

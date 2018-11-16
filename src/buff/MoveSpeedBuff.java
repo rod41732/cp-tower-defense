@@ -10,6 +10,7 @@ public class MoveSpeedBuff  extends Buff {
 	public MoveSpeedBuff(double duration, double multiplier) {
 		super("MoveSpeed ", "Increase movespeed", duration);
 		this.mutliplier = multiplier;
+		this.age = 0;
 	}
 	
 	@Override

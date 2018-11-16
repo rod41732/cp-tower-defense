@@ -5,16 +5,17 @@ import constants.Images;
 import controller.GameManager;
 import javafx.scene.image.Image;
 import model.Tower;
+import model.projectile.IceProjectile;
 import model.projectile.NormalProjectile;
 import util.GameUtil;
 import util.cpp;
 
-public class NormalTower extends Tower {
+public class IceTower extends Tower {
 
 	// TODO : more fields
 	
 	
-	public NormalTower(Image image ,double cellX, double cellY, double attack, double cooldown, double range) {
+	public IceTower(Image image ,double cellX, double cellY, double attack, double cooldown, double range) {
 		super(image, cellX, cellY, attack, cooldown, range);
 	}
 	
@@ -35,7 +36,7 @@ public class NormalTower extends Tower {
 		
 
 		GameManager.getInstance().getBullets().add(new 
-				NormalProjectile(Images.bullet1, x, y, v.first*15, v.second*15, range, 10));
+				IceProjectile(x, y, v.first*15, v.second*15, range, attack));
 		
 		cooldown = attackCooldown;
 		clearTarget();

@@ -8,13 +8,15 @@ public class Images {
 	public static final Image tile1 = new Image("tile/tile1.png", 64, 64, true, true);
 	public static final Image tile2 = new Image("tile/tile2.png", 64, 64, true, true);
 	
-	public static final Image tower1 = new Image("tower/tower1.png", 64, 64, true, true);
-	public static final Image tower2 = new Image("tower/missile1.png", 64, 64, true, true);
-	public static final Image tower3 = new Image("tower/flame.png", 64, 64, true, true);
+	public static final Image normalTower = new Image("tower/tower1.png", 64, 64, true, true);
+	public static final Image bombTower = new Image("tower/missile1.png", 64, 64, true, true);
+	public static final Image fireTower = new Image("tower/flame.png", 64, 64, true, true);
+	public static final Image iceTower = new Image("tower/ice.png", 64, 64, true, true);
 	public static final Image bear = new Image("monster/bear.png", 64, 64, true, true);
 	public static final Image bullet1 = new Image("projectile/bullet1.png", 30, 30, true, true);
 	public static final Image bullet2 = new Image("projectile/bullet2.png", 30, 30, true, true);
 	public static final Image bullet3 = new Image("projectile/bullet3.png", 30, 30, true, true);
+	public static final Image iceBullet = new Image("projectile/iceBullet.png", 30, 30, true, true);
 	
 	public static final Image buttonSell = new Image("ui/button/button_sell.png", 192, 60, true, true);
 	public static final Image buttonSellDisabled = new Image("ui/button/button_sell_disabled.png", 192, 60, true, true);
