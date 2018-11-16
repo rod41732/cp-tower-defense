@@ -35,22 +35,15 @@ public class BombTower extends Tower {
 	}
 	
 	public void fire() {
-		reduceCooldown();
-		if (cooldown > 0) {
-			return ;
-		}
-		if (target == null) return;
-		
-		cpp.pff v = GameUtil.unitVector(this, target);
-		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
-				getX(), getY(), target.getX(), target.getY(), v);
-		
+		if (currentTarget == null) return;
+		cpp.pff v = GameUtil.unitVector(this, currentTarget);
+//		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
+//				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 
 		GameManager.getInstance().getBullets().add(new 
 				Bomb(Images.bullet2, x, y, v.first*9, v.second*9, range, attack, RADIUS));
 		
-		cooldown = attackCooldown;
-		clearTarget();
+		currentCooldown = attackCooldown;
 	}
 	
 	public String toString() {

@@ -14,11 +14,21 @@ import util.cpp;
 
 public class IceTower extends Tower {
 
-	// TODO : more fields
+	private static final double BASE_ATTACK = 3;
+	private static final double BASE_COOLDOWN = 750;
+	private static final double BASE_RANGE = 3.5;
+	private static final Image DEFAULT_IMAGE = Images.iceTower;
 	
-	
-	public IceTower(Image image ,double cellX, double cellY, double attack, double cooldown, double range) {
+	public IceTower(Image image, double cellX, double cellY, double attack, double cooldown, double range) {
 		super(image, cellX, cellY, attack, cooldown, range);
+	}
+	
+	public IceTower(double cellX, double cellY, double attack, double cooldown, double range) {
+		super(DEFAULT_IMAGE, cellX, cellY, attack, cooldown, range);
+	}
+	
+	public IceTower(double cellX, double cellY) {
+		super(DEFAULT_IMAGE, cellX, cellY, BASE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
 	}
 	
 	@Override
@@ -32,26 +42,20 @@ public class IceTower extends Tower {
 	}
 	
 	public void fire() {
-		if (cooldown > 0) {
-			reduceCooldown();
-			return ;
-		}
-		if (target == null) return;
+		if (currentTarget == null) return;
 		
-		cpp.pff v = GameUtil.unitVector(this, target);
+		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
-				getX(), getY(), target.getX(), target.getY(), v);
+				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		
 
 		GameManager.getInstance().getBullets().add(new 
 				IceProjectile(x, y, v.first*15, v.second*15, range, attack));
 		
-		cooldown = attackCooldown;
-		clearTarget();
+		currentCooldown = attackCooldown;
 	}
 	
 	public String toString() {
-		return "Normal Tower";
+		return "Ice Tower";
 	}
-	
 }

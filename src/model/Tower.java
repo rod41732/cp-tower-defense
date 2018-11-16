@@ -24,15 +24,17 @@ public class Tower extends Tile {
 
 	// TODO : more fields
 	
+	private static final String TOWER_NAME = "Default tower";
 	
 	protected double rotation = 0;
-	protected double attack;
 	protected double attackCooldown = 1000;
-	protected double cooldown; // in ms
+	protected double attack;
+	protected int price = 20;
 	protected double range; 
-	protected int value = 20;
+
+	protected double currentCooldown; 
 	protected double attackSpeedMultiplier;
-	protected Monster target;
+	protected Monster currentTarget;
 	protected ArrayList<Buff> buffs = new ArrayList<>();
 	private double minDist;
 	
@@ -42,11 +44,6 @@ public class Tower extends Tile {
 		this.attack = attack;
 		this.attackCooldown = attackCooldown;
 		this.range = range;
-	}
-	
-	public void clearTarget() {
-		target = null;
-		minDist = 0;
 	}
 	
 	@Override
@@ -83,68 +80,97 @@ public class Tower extends Tile {
 	}
 	
 	
-	public boolean isInRange(Monster m) {
-		return Double.compare(distanceTo(m), range) < 0;
+	public void upgrade() {
+		range += 0.5;
+	}	
+	
+	// important metadat 
+	@Override 
+	public boolean isPlaceable() {
+		return false;
 	}
 	
-	// change target to monster m if it's closer than current monster
-	public boolean shouldAcquireTarget() {
-		return Double.compare(cooldown, 0) <= 0;
+	@Override
+	public boolean isWalkable() {
+		return false;
 	}
 	
-	public void tryTarget(Monster m) {
-		// TODO
-		if ((target == null || Double.compare(distanceTo(m), minDist) < 0) && isInRange(m)){
-			if (m.isDead()) return ;
-			rotateTo(m);
-			target = m;
-			minDist = distanceTo(m);
+	
+	// methods related to firing
+	public void onTick() {
+		preUpdate(); // tower can do anything here
+		updateBuff();
+		updateCooldown();
+		if (shouldAcquireTarget()) {
+			acquireTarget();
+			fire();			
+		}
+		clearTarget();
+	}
+	
+	public void preUpdate() {
+	}
+	
+	// TODO: change this and change texture
+	@Override
+	public void rotateTo(Entity e) {
+		super.rotateTo(e);
+		rotation -= 90; // fix bad alignment in pic
+	}
+	
+	
+	private void updateBuff() {
+		attackSpeedMultiplier = 1;
+		for (Buff b: buffs) {
+			b.applyTo(this);
 		}
 	}
 	
-	// acquire nearest target
-	public void acquireTarget() {
-		if (!shouldAcquireTarget()) return ;
+	private void updateCooldown() {
+		currentCooldown -= 1000./60 * attackSpeedMultiplier;
+	}
+	
+	private boolean shouldAcquireTarget() {
+		return Double.compare(currentCooldown, 0) <= 0;
+	}
+	
+	private void acquireTarget() {
 		for (Monster m: GameManager.getInstance().getMonsters())
 			tryTarget(m);
 	}
 	
-	public void rotateTo(Monster m) {
-		double angle = Math.toDegrees(Math.atan2(m.getY()-y, m.getX()-x));
-		rotation = angle-90;
+	public boolean isInRange(Monster m) {
+		return Double.compare(distanceTo(m), range) < 0;
 	}
 	
-	public void upgrade() {
-		range += 0.5;
-	}
-	
-
-	
-	
-	public int getValue() {
-		return value;
-	}
-
-	public void setValue(int value) {
-		this.value = value;
-	}
-
-	public void reduceCooldown() {
-		attackSpeedMultiplier = 1;
-		for (int i=buffs.size()-1; i>=0; i--) {
-			Buff b = buffs.get(i);
-			b.applyTo(this);
-			b.age();
-			if (b.isExpired()) {
-				System.out.println(b + "is expired");
-				buffs.remove(i);
-			}
+	public void tryTarget(Monster m) {
+		// TODO
+		if ((currentTarget == null || Double.compare(distanceTo(m), minDist) < 0) && isInRange(m)){
+			if (m.isDead()) return ;
+			currentTarget = m;
+			minDist = distanceTo(m);
 		}
-		cooldown -= 1000/60*attackSpeedMultiplier;
 	}
 	
 	
+	// by the way, some tower doesn't need target to fire (spammer)
+	public void fire() {
+		if (currentTarget == null) {
+			return;
+		}
+		rotateTo(currentTarget);
+		cpp.pff v = GameUtil.unitVector(this, currentTarget);
+		GameManager.getInstance().getBullets().add(new 
+				Bomb(Images.bullet1,x, y, v.first*9, v.second*9, range, 1, 2));
+		currentCooldown = attackCooldown; // some tower like gatling  cannon might not update like this
+	}
 	
+	public void clearTarget() {
+		currentTarget = null;
+		minDist = 0;
+	}
+	
+	// getters setters
 	public ArrayList<Buff> getBuffs() {
 		return buffs;
 	}
@@ -156,17 +182,16 @@ public class Tower extends Tile {
 		}
 		buffs.add(b);
 	}
+	
+	
+	public int getValue() {
+		return price;
+	}
 
-	
-	@Override 
-	public boolean isPlaceable() {
-		return false;
+	public void setValue(int value) {
+		this.price = value;
 	}
-	
-	public boolean isWalkable() {
-		return false;
-	}
-	
+
 	public double getAttackSpeedMultiplier() {
 		return attackSpeedMultiplier;
 	}
@@ -178,26 +203,11 @@ public class Tower extends Tile {
 	public void addAttackSpeedMultiplier(double attackSpeedMultiplier) {
 		this.attackSpeedMultiplier += attackSpeedMultiplier;
 	}
-
-	public void fire() {
-		System.out.println("Current cd" + cooldown);
-		if (target == null) return;
-		if (cooldown > 0) return;
-		
-		cpp.pff v = GameUtil.unitVector(this, target);
-//		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
-//				getX(), getY(), target.getX(), target.getY(), v);
-		
-
-		GameManager.getInstance().getBullets().add(new 
-				Bomb(Images.bullet1,x, y, v.first*9, v.second*9, range, 1, 2));
-		
-		cooldown = attackCooldown;
-		clearTarget();
-	}
+	
+	
 	
 	public String toString() {
-		return "Tower";
+		return TOWER_NAME + " at " + getPosition();
 	}
 	
 	public String description() {

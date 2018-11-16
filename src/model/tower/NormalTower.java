@@ -24,26 +24,17 @@ public class NormalTower extends Tower {
 	
 	
 	public void fire() {
-		if (cooldown > 0) {
-			reduceCooldown();
-			return ;
-		}
-		if (target == null) return;
-		
-		cpp.pff v = GameUtil.unitVector(this, target);
-		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
-				getX(), getY(), target.getX(), target.getY(), v);
-		
-
+		if (currentTarget == null) return;
+		cpp.pff v = GameUtil.unitVector(this, currentTarget);
+//		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
+//				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		GameManager.getInstance().getBullets().add(new 
 				NormalProjectile(Images.bullet1, x, y, v.first*15, v.second*15, range, 10));
 		
-		cooldown = attackCooldown;
-		clearTarget();
+		currentCooldown = attackCooldown;
 	}
 	
 	public String toString() {
 		return "Normal Tower";
 	}
-	
 }
