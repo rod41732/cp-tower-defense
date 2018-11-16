@@ -19,7 +19,7 @@ public class Entity {
 	protected double x; 
 	protected double y;
 	protected double size;
-	
+	protected double rotation = 0;
 	
 	public Entity(Image image, double x, double y, double size) {
 		this.image = image;
@@ -54,6 +54,10 @@ public class Entity {
 	
 	public void render(GraphicsContext gc) {
 		gc.drawImage(image, getRenderX(), getRenderY());
+	}
+	
+	public void rotateTo(Entity e) {
+		rotation = Math.toDegrees(Math.atan2(e.getY()-y, e.getX()-x));
 	}
 	
 	public double getX() {
