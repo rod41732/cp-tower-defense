@@ -17,6 +17,7 @@ import model.Projectile;
 import model.Tile;
 import model.Tower;
 import model.monster.FlyingMonster;
+import model.monster.SplittingMonster;
 import model.tower.BombTower;
 import model.tower.FireTower;
 import model.tower.IceTower;
@@ -108,7 +109,8 @@ public class GameManager {
 		for (int i=monsters.size()-1; i>=0; i--) {
 			if (monsters.get(i).isDead()) {
 				money += monsters.get(i).getMoney();
-				monsters.remove(i);				
+				monsters.get(i).onDeath();
+				monsters.remove(i);			
 			}
 		}
 		for (int i=particles.size()-1; i>=0; i--) {
@@ -287,8 +289,7 @@ public class GameManager {
 		}
 		catch (Exception e) {
 			placedTiles[x][y] = null;
-			System.out.println("You can't build here");
-			message = "You can't build there";
+			SnackBar.play("You can't place there.\nBlocking path is not allowed");
 		}
 		finally {
 			try {
@@ -306,7 +307,7 @@ public class GameManager {
 	}
 	
 	public void spawnMonster(double x, double y) {
-		monsters.add(new FlyingMonster("Bear", Images.bear, x, y, 0.4, 60, 0, 1.5, 10));
+		monsters.add(new SplittingMonster("Eleplant", Images.elephant, x, y, 0.4, 60, 0, 1.5, 10));
 	}
 	
 	public void spawnMonster(Monster m) {
@@ -324,8 +325,12 @@ public class GameManager {
 		catch (Exception e) {
 			System.out.println("nextwave: path not found");
 		}
-		if (shouldSpawnNextWave())
-			MonsterSpawner.getInstace().play();
+		if (shouldSpawnNextWave()) {
+			MonsterSpawner.getInstace().play();			
+		}
+		else {
+			SnackBar.play("Please wait until end of the wave");
+		}
 	}
 	
 	public void upgradeTower() {
