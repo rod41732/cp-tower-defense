@@ -7,11 +7,13 @@ public class Images {
 	public static final Image tile1 = new Image("tile/tile1.png", 64, 64, true, true);
 	public static final Image tile2 = new Image("tile/tile2.png", 64, 64, true, true);
 	
+	public static final Image bear = new Image("monster/bear.png", 64, 64, true, true);
+	public static final Image elephant = new Image("monster/elephant.png", 64, 64, true, true);
+	public static final Image moose = new Image("monster/moose.png", 64, 64, true, true);
 	public static final Image normalTower = new Image("tower/tower1.png", 64, 64, true, true);
 	public static final Image bombTower = new Image("tower/missile1.png", 64, 64, true, true);
 	public static final Image fireTower = new Image("tower/flame.png", 64, 64, true, true);
 	public static final Image iceTower = new Image("tower/ice.png", 64, 64, true, true);
-	public static final Image bear = new Image("monster/bear.png", 64, 64, true, true);
 	public static final Image normalBullet = new Image("projectile/normalBullet.png", 30, 30, true, true);
 	public static final Image bomb = new Image("projectile/bomb.png", 30, 30, true, true);
 	public static final Image fireBullet = new Image("projectile/fireBullet.png", 30, 30, true, true);
