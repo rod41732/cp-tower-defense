@@ -21,10 +21,9 @@ public class FireProjectile extends NormalProjectile {
 		this.fireDamage = fireDamage;
 	}
 
-
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
-			cpp.pff impact = getPosition();
+			cpp.pff impact = m.getPosition();
 			m.takeDamage(damage);
 			GameManager.getInstance().spawnParticle(new AoE(Images.flame, impact.first, impact.second, 0, 0, 1000, 0.5, fireDamage));
 			System.out.println("Firee!!!");
