@@ -41,7 +41,7 @@ public class GameScene extends Scene {
 			GameManager.getInstance().requestNextWave();
 		});
 		
-		Button sell = new Button("upgrade");
+		Button sell = new Button("sell");
 		sell.setFont(new Font("KenVector Future Regular", 20));
 		sell.setStyle("-fx-background-image: url('ui/button/button_sell.png');");
 		sell.setPrefWidth(190);
@@ -58,11 +58,36 @@ public class GameScene extends Scene {
 		});
 		
 		sell.setOnAction(e -> {
-			GameManager.getInstance().upgradeTower();
+			GameManager.getInstance().sellTower();
 		});
 		
 		sell.setLayoutX(1200);
 		sell.setLayoutY(700);
+//		
+		
+		Button next = new Button("next");
+		next.setFont(new Font("KenVector Future Regular", 20));
+		next.setStyle("-fx-background-image: url('ui/button/button_sell.png');");
+		next.setPrefWidth(190);
+		next.setPrefHeight(49);
+		next.setPadding(Insets.EMPTY);
+		
+		next.setOnMousePressed(e -> {
+			next.setStyle("-fx-background-image: url('ui/button/button_sell_hover.png');");
+			next.setPrefHeight(45);
+		});
+		next.setOnMouseReleased(e -> {
+			next.setStyle("-fx-background-image: url('ui/button/button_sell.png');");
+			next.setPrefHeight(49);
+		});
+		
+		next.setOnAction(e -> {
+			GameManager.getInstance().requestNextWave();
+		});
+		
+		next.setLayoutX(1200);
+		next.setLayoutY(820);
+		
 //		
 		Button upgrade = new Button("upgrade");
 		upgrade.setFont(new Font("KenVector Future Regular", 20));
@@ -141,7 +166,7 @@ public class GameScene extends Scene {
 		gameTick.play();
 		
 //		root.getChildren().addAll(canvas, back, upgrade, next, sell);
-		root.getChildren().addAll(canvas, back, next, sell, upgrade);
+		root.getChildren().addAll(canvas, back, sell, next, upgrade);
 		
 		
 	}
