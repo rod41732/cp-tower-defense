@@ -37,6 +37,20 @@ public class Main extends Application {
 	public static void setScene(Scene scene) {
 		stage.setScene(scene);
 	}
+
+	public static MainMenu getMainMenu() {
+		return mainMenu;
+	}
+
+	public static GameScene getGameScene() {
+		return gameScene;
+	}
+
+	public static Settings getSettings() {
+		return settings;
+	}
+	
+	
 	
 	
 	
