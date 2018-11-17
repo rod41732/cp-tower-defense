@@ -2,9 +2,7 @@ package model.projectile;
 
 import buff.MoveSpeedBuff;
 import constants.Images;
-import javafx.scene.image.Image;
 import model.Monster;
-import model.Projectile;
 
 public class IceProjectile extends NormalProjectile {
 	

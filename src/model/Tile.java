@@ -24,6 +24,10 @@ public class Tile extends Entity{
 	public boolean affectsGround() {
 		return true;
 	}
+
+	public double getSpeedModifier() {
+		return speedModifier;
+	}
 	
 }
 

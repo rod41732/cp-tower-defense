@@ -1,7 +1,5 @@
 package model.projectile;
 
-import buff.DamageTakenDebuff;
-import buff.MoveSpeedBuff;
 import constants.Images;
 import controller.GameManager;
 import javafx.scene.image.Image;

@@ -1,6 +1,5 @@
 package model.monster;
 
-import buff.Buff;
 import controller.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;

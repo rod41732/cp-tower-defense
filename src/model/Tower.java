@@ -9,13 +9,8 @@ import constants.Numbers;
 import controller.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import model.Entity;
-import model.monster.GroundMonster;
 import model.projectile.Bomb;
-import model.projectile.NormalProjectile;
 import util.GameUtil;
 import util.Render;
 import util.cpp;
@@ -161,7 +156,7 @@ public class Tower extends Tile {
 		rotateTo(currentTarget);
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		GameManager.getInstance().getBullets().add(new 
-				Bomb(Images.bullet1,x, y, v.first*9, v.second*9, range, 1, 2));
+				Bomb(Images.normalBullet,x, y, v.first*9, v.second*9, range, 1, 2));
 		currentCooldown = attackCooldown; // some tower like gatling  cannon might not update like this
 	}
 	
@@ -170,7 +165,7 @@ public class Tower extends Tile {
 		minDist = 0;
 	}
 	
-	// getters setters
+	// getters setters 
 	public ArrayList<Buff> getBuffs() {
 		return buffs;
 	}

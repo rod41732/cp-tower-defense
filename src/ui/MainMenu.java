@@ -1,14 +1,11 @@
 package ui;
 
 
-import com.sun.media.jfxmedia.events.PlayerEvent;
-
 import constants.Numbers;
 import controller.GameManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

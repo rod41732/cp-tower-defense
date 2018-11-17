@@ -3,7 +3,7 @@ package model;
 import controller.GameManager;
 import javafx.scene.image.Image;
 
-public class AoE extends Particle implements IExpirable {
+public class AoE extends Particle {
 
 	
 //	protected double radius;

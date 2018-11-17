@@ -4,13 +4,9 @@ import java.util.ArrayList;
 
 import buff.Buff;
 import buff.MoveSpeedBuff;
-import controller.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import model.tower.BombTower;
-import util.GameUtil;
-import util.cpp;
 
 public abstract class Monster extends Entity {
 	

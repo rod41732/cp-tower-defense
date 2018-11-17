@@ -1,10 +1,5 @@
 package ui;
 
-import java.util.ArrayList;
-
-import com.sun.javafx.tk.FontLoader;
-import com.sun.javafx.tk.Toolkit;
-
 import constants.Images;
 import constants.Numbers;
 import controller.GameManager;
@@ -29,6 +24,7 @@ public class TowerMenu {
 	private static cpp.pff sellButtonPos = new cpp.pff(LEFT,  Numbers.WIN_HEIGHT-300);
 	private static cpp.pff upButtonPos = new cpp.pff(LEFT,  Numbers.WIN_HEIGHT-200);
 	private static boolean sellButtonEnabled = false, upButtonEnabled = false;
+	
 	public static void render(GraphicsContext gc) {
 		gc.setFill(new Color(0, 1, 1, 1));
 		gc.fillRect(LEFT, TOP, COL*Numbers.TILE_SIZE, ROW*Numbers.TILE_SIZE);

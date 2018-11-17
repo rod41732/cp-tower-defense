@@ -1,7 +1,6 @@
 package buff;
 
 import model.Entity;
-import model.Monster;
 import model.Tower;
 
 public class AttackSpeedBuff  extends Buff {

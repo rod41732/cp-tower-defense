@@ -17,15 +17,12 @@ import model.Projectile;
 import model.Tile;
 import model.Tower;
 import model.monster.FlyingMonster;
-import model.monster.GroundMonster;
-import model.projectile.NormalProjectile;
 import model.tower.BombTower;
 import model.tower.FireTower;
 import model.tower.IceTower;
 import model.tower.NormalTower;
 import ui.TowerMenu;
 import util.Algorithm;
-import util.GameUtil;
 import util.cpp;
 import util.cpp.pii;
 
@@ -128,7 +125,6 @@ public class GameManager {
 	public void render(GraphicsContext gc) {
 		renderTickCount += 1;
 		Main.gameScene.next.setDisable(!shouldSpawnNextWave());
-	/// rendering
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
 		for (Tile t: tiles) 
@@ -150,27 +146,27 @@ public class GameManager {
 			gc.setFill(Color.BLACK);
 		}
 		
-		gc.setFont(Font.font("Consolas", 12));
-		for (int i=0; i<Numbers.COLUMNS; i++)
-			for (int j=0; j<Numbers.ROWS; j++)
-				gc.fillText(String.format("%s\n%s\n", new cpp.pii(i, j), path[i][j]),
-						i*Numbers.TILE_SIZE, j*Numbers.TILE_SIZE+16);
+//		gc.setFont(Font.font("Consolas", 12));
+//		for (int i=0; i<Numbers.COLUMNS; i++)
+//			for (int j=0; j<Numbers.ROWS; j++)
+//				gc.fillText(String.format("%s\n%s\n", new cpp.pii(i, j), path[i][j]),
+//						i*Numbers.TILE_SIZE, j*Numbers.TILE_SIZE+16);
 		
 		
 		if (towerChoice != -1) {
 			Tower floatingTower = null;
 			int sx = getSelectedPosition().first, sy = getSelectedPosition().second;
 			if (towerChoice == 0) {
-				floatingTower = new BombTower(Images.bombTower , sx+0.5, sy+0.5, 10, 800, 2.5);				
+				floatingTower = new BombTower(sx+0.5, sy+0.5);				
 			}
 			else if (towerChoice == 1){
-				floatingTower = new NormalTower(Images.normalTower ,sx+0.5, sy+0.5, 3, 100, 4.5);
+				floatingTower = new NormalTower(sx+0.5, sy+0.5);
 			}
 			else if (towerChoice == 2) {
-				floatingTower = new FireTower(Images.fireTower, sx+0.5, sy+0.5, 10, 2000, 5);
+				floatingTower = new FireTower(sx+0.5, sy+0.5);
 			}
 			else if (towerChoice == 3) {
-				floatingTower = new IceTower(Images.iceTower ,sx+0.5, sy+0.5, 10, 2000, 4);
+				floatingTower = new IceTower(sx+0.5, sy+0.5);
 			}
 			if (floatingTower != null) {
 				floatingTower.render(gc, true);				
