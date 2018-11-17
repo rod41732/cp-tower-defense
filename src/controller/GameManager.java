@@ -102,18 +102,6 @@ public class GameManager {
 				}
 			}
 		}
-		
-		if (selectedTile != null) {
-			TowerMenu.getSellButton().setShown(true);
-			TowerMenu.getUpgradeButton().setShown(true);
-			TowerMenu.getSellButton().setEnabled(true);
-			TowerMenu.getUpgradeButton().setEnabled(true);
-		}
-		else {
-			TowerMenu.getSellButton().setShown(false);
-			TowerMenu.getUpgradeButton().setShown(false);
-		}
-		
 		// cleanUp
 		for (int i=monsters.size()-1; i>=0; i--) {
 			if (monsters.get(i).isDead()) {

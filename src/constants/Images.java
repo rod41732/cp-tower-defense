@@ -17,12 +17,12 @@ public class Images {
 	public static final Image fireBullet = new Image("projectile/fireBullet.png", 30, 30, true, true);
 	public static final Image iceBullet = new Image("projectile/iceBullet.png", 30, 30, true, true);
 	
-	public static final Image buttonSell = new Image("ui/button/button_sell.png", 192, 60, true, true);
-	public static final Image buttonSellDisabled = new Image("ui/button/button_sell_disabled.png", 192, 60, true, true);
-	public static final Image buttonSellHover = new Image("ui/button/button_sell_hover.png", 192, 60, true, true);
-	public static final Image buttonUpgrade = new Image("ui/button/button_upgrade.png", 192, 60, true, true);
-	public static final Image buttonUpgradeDisabled = new Image("ui/button/button_upgrade_disabled.png", 192, 60, true, true);
-	public static final Image buttonUpgradeHover = new Image("ui/button/button_upgrade_hover.png", 192, 60, true, true);
+	public static final Image buttonSell = new Image("ui/button/button_sell.png", 190, 49, true, true);
+	public static final Image buttonSellDisabled = new Image("ui/button/button_sell_disabled.png", 190, 45, true, true);
+	public static final Image buttonSellHover = new Image("ui/button/button_sell_hover.png", 190, 45, true, true);
+	public static final Image buttonUpgrade = new Image("ui/button/button_upgrade.png", 190, 49, true, true);
+	public static final Image buttonUpgradeDisabled = new Image("ui/button/button_upgrade_disabled.png", 190, 49, true, true);
+	public static final Image buttonUpgradeHover = new Image("ui/button/button_upgrade_hover.png", 190, 49, true, true);
 	
 	public static final Image[] explosion = new Image[16];
 	public static final Image[] flame = new Image[16];
