@@ -20,9 +20,20 @@ public class Images {
 	public static final Image buttonSell = new Image("ui/button/button_sell.png", 190, 49, true, true);
 	public static final Image buttonSellDisabled = new Image("ui/button/button_sell_disabled.png", 190, 45, true, true);
 	public static final Image buttonSellHover = new Image("ui/button/button_sell_hover.png", 190, 45, true, true);
+	public static final Image buttonSellPressed = new Image("ui/button/button_sell_pressed.png", 190, 45, true, true);
 	public static final Image buttonUpgrade = new Image("ui/button/button_upgrade.png", 190, 49, true, true);
 	public static final Image buttonUpgradeDisabled = new Image("ui/button/button_upgrade_disabled.png", 190, 49, true, true);
 	public static final Image buttonUpgradeHover = new Image("ui/button/button_upgrade_hover.png", 190, 49, true, true);
+	public static final Image buttonUpgradePressed = new Image("ui/button/button_upgrade_pressed.png", 190, 45, true, true);
+	public static final Image buttonNext = new Image("ui/button/button_next.png", 190, 49, true, true);
+	public static final Image buttonNextDisabled = new Image("ui/button/button_next_disabled.png", 190, 49, true, true);
+	public static final Image buttonNextHover = new Image("ui/button/button_next_hover.png", 190, 49, true, true);
+	public static final Image buttonNextPressed = new Image("ui/button/button_next_pressed.png", 190, 45, true, true);
+	public static final Image buttonPause = new Image("ui/button/button_pause.png", 190, 49, true, true);
+	public static final Image buttonPauseDisabled = new Image("ui/button/button_pause_disabled.png", 190, 49, true, true);
+	public static final Image buttonPauseHover = new Image("ui/button/button_pause_hover.png", 190, 49, true, true);
+	public static final Image buttonPausePressed = new Image("ui/button/button_pause_pressed.png", 190, 45, true, true);
+	
 	
 	public static final Image[] explosion = new Image[16];
 	public static final Image[] flame = new Image[16];

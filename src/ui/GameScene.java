@@ -1,6 +1,7 @@
 package ui;
 
 
+import constants.Images;
 import constants.Numbers;
 import controller.GameManager;
 import controller.MonsterSpawner;
@@ -22,24 +23,14 @@ import model.Tower;
 
 public class GameScene extends Scene {
 	public Button next;
+	private Button resumeButton, toMenuButton; // for pause menu
+	
+	
 	public GameScene() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Pane root = (Pane) getRoot();
 		Canvas canvas = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		Button back = new Button("Back to menu");
-		back.setOnAction(e -> {
-			GameManager.getInstance().setRunning(false);
-			Main.setScene(Main.mainMenu);
-			Main.mainMenu.resume();
-		});
-		
-		next = new Button("Next Wave");
-		next.setFont(new Font("KenVector Future Regular", 20));
-		next.setLayoutX(1400);
-		next.setLayoutY(700);
-		next.setOnAction(e -> {
-			GameManager.getInstance().requestNextWave();
-		});
+		Font buttonFont = new Font("KenVector Future Regular", 20);
 		
 		Button sell = new Button("sell");
 		sell.setFont(new Font("KenVector Future Regular", 20));
@@ -65,60 +56,59 @@ public class GameScene extends Scene {
 		sell.setLayoutY(700);
 //		
 		
-		Button next = new Button("next");
-		next.setFont(new Font("KenVector Future Regular", 20));
-		next.setStyle("-fx-background-image: url('ui/button/button_sell.png');");
-		next.setPrefWidth(190);
-		next.setPrefHeight(49);
-		next.setPadding(Insets.EMPTY);
-		
-		next.setOnMousePressed(e -> {
-			next.setStyle("-fx-background-image: url('ui/button/button_sell_hover.png');");
-			next.setPrefHeight(45);
-		});
-		next.setOnMouseReleased(e -> {
-			next.setStyle("-fx-background-image: url('ui/button/button_sell.png');");
-			next.setPrefHeight(49);
-		});
-		
+		next = ButtonMaker.make(Images.buttonNext, Images.buttonNextPressed,
+				buttonFont, "Next Wave");
 		next.setOnAction(e -> {
 			GameManager.getInstance().requestNextWave();
 		});
-		
 		next.setLayoutX(1200);
 		next.setLayoutY(820);
 		
 //		
-		Button upgrade = new Button("upgrade");
-		upgrade.setFont(new Font("KenVector Future Regular", 20));
-		upgrade.setStyle("-fx-background-image: url('ui/button/button_sell.png');");
-		upgrade.setPrefWidth(190);
-		upgrade.setPrefHeight(49);
-		upgrade.setPadding(Insets.EMPTY);
-		
-		upgrade.setOnMousePressed(e -> {
-			upgrade.setStyle("-fx-background-image: url('ui/button/button_sell_hover.png');");
-			upgrade.setPrefHeight(45);
-		});
-		upgrade.setOnMouseReleased(e -> {
-			upgrade.setStyle("-fx-background-image: url('ui/button/button_sell.png');");
-			upgrade.setPrefHeight(49);
-		});
-		
+		Button upgrade = ButtonMaker.make(Images.buttonUpgrade, Images.buttonUpgradePressed,
+				buttonFont, "Upgrade");
 		upgrade.setOnAction(e -> {
 			GameManager.getInstance().upgradeTower();
 		});
 		
 		upgrade.setLayoutX(1200);
 		upgrade.setLayoutY(760);
-//		
+		
+		
+		toMenuButton = ButtonMaker.make(Images.buttonNext, Images.buttonNextPressed, buttonFont, "Main menu");
+		toMenuButton.setOnAction(e -> {
+			GameManager.getInstance().setPaused(true);
+			PauseMenu.hide();
+			Main.setScene(Main.mainMenu);
+			Main.mainMenu.resume();
+		});
+		toMenuButton.setVisible(false);
+		toMenuButton.setLayoutX(800);
+		toMenuButton.setLayoutY(500);
+		
+		resumeButton = ButtonMaker.make(Images.buttonUpgrade, Images.buttonUpgradePressed, buttonFont, "Resume");
+		resumeButton.setOnAction(e -> {
+			GameManager.getInstance().setPaused(false);
+			PauseMenu.hide();
+		});
+		resumeButton.setVisible(false);
+		resumeButton.setLayoutX(800);
+		resumeButton.setLayoutY(400);
+		
 //		Button sell = new Button("Sell");
 //		sell.setOnAction(e -> {
 //			GameManager.getInstance().sellTower();
 //		});
 //		sell.setLayoutX(1400);
 //		sell.setLayoutY(760);
-		
+		Button pauseButton = ButtonMaker.make(Images.buttonPause, Images.buttonPausePressed,
+				buttonFont, "Pause");
+		pauseButton.setOnAction(e -> {
+			PauseMenu.show();
+			GameManager.getInstance().setPaused(true);
+		});
+		pauseButton.setLayoutX(1200);
+		pauseButton.setLayoutY(500);
 		
 		
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e ->  {
@@ -134,6 +124,7 @@ public class GameScene extends Scene {
 		});
 		
 		setOnMouseClicked(e -> {
+			PauseMenu.handleMouseClick(e);
 			TowerMenu.handleClick(e);
 			GameManager.getInstance().handleClick(e);								
 		});
@@ -156,7 +147,7 @@ public class GameScene extends Scene {
 			} else if (e.getCode() == KeyCode.D) {
 				GameManager.getInstance().upgradeTower();
 			}
-			
+			e.consume();
 		});
 		
 		
@@ -166,8 +157,18 @@ public class GameScene extends Scene {
 		gameTick.play();
 		
 //		root.getChildren().addAll(canvas, back, upgrade, next, sell);
-		root.getChildren().addAll(canvas, back, sell, next, upgrade);
+		root.getChildren().addAll(canvas, sell, next, toMenuButton, pauseButton, resumeButton, upgrade);
 		
 		
+	}
+
+
+	public Button getResumeButton() {
+		return resumeButton;
+	}
+
+
+	public Button getToMenuButton() {
+		return toMenuButton;
 	}
 }

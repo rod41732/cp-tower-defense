@@ -21,6 +21,8 @@ import model.tower.BombTower;
 import model.tower.FireTower;
 import model.tower.IceTower;
 import model.tower.NormalTower;
+import ui.PauseMenu;
+import ui.SnackBar;
 import ui.TowerMenu;
 import util.Algorithm;
 import util.cpp;
@@ -183,6 +185,8 @@ public class GameManager {
 		gc.fillText("last msg:" + message, 20, 140);
 		gc.fillText("Lives = " + lives , 20, 160);
 		TowerMenu.render(gc);
+		PauseMenu.render(gc);
+		SnackBar.render(gc);
 	}
 
 
@@ -233,7 +237,7 @@ public class GameManager {
 			for (int i=towers.size()-1; i>=0; i--)
 				if (towers.get(i).getPosition().containedBy(currentTile)) {
 					towers.remove(i);
-					message = "removed";
+					SnackBar.play("removed");
 					break;
 				}
 			placedTiles[x][y] = null;
