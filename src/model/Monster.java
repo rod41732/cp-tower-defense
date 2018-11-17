@@ -74,6 +74,10 @@ public abstract class Monster extends Entity {
 		
 	}
 	
+	public void onDeath() {
+		
+	}
+	
 	protected abstract void updateVelocity();
 	
 	protected void updateBuff() {
