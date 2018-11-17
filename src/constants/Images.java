@@ -33,7 +33,7 @@ public class Images {
 	public static final Image buttonPauseDisabled = new Image("ui/button/button_pause_disabled.png", 190, 49, true, true);
 	public static final Image buttonPauseHover = new Image("ui/button/button_pause_hover.png", 190, 49, true, true);
 	public static final Image buttonPausePressed = new Image("ui/button/button_pause_pressed.png", 190, 45, true, true);
-	
+	public static final Image pauseMenuPanel = new Image("ui/pause_menu_panel.png", 300, 300, true, true);
 	
 	public static final Image[] explosion = new Image[16];
 	public static final Image[] flame = new Image[16];

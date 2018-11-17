@@ -22,9 +22,9 @@ import main.Main;
 import model.Tower;
 
 public class GameScene extends Scene {
-	public Button next;
-	private Button resumeButton, toMenuButton; // for pause menu
-	
+	private Button nextButton;
+	private Button resumeButton, toMenuButton, pauseButton; // for pause menu
+	private Button sellButton, upgradeButton;
 	
 	public GameScene() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
@@ -32,85 +32,62 @@ public class GameScene extends Scene {
 		Canvas canvas = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Font buttonFont = new Font("KenVector Future Regular", 20);
 		
-		Button sell = new Button("sell");
-		sell.setFont(new Font("KenVector Future Regular", 20));
-		sell.setStyle("-fx-background-image: url('ui/button/button_sell.png');");
-		sell.setPrefWidth(190);
-		sell.setPrefHeight(49);
-		sell.setPadding(Insets.EMPTY);
-		
-		sell.setOnMousePressed(e -> {
-			sell.setStyle("-fx-background-image: url('ui/button/button_sell_hover.png');");
-			sell.setPrefHeight(45);
-		});
-		sell.setOnMouseReleased(e -> {
-			sell.setStyle("-fx-background-image: url('ui/button/button_sell.png');");
-			sell.setPrefHeight(49);
-		});
-		
-		sell.setOnAction(e -> {
+		sellButton = ButtonMaker.make(1400, 700,Images.buttonSell, Images.buttonSellPressed,
+				buttonFont, "Sell Tower");		
+		sellButton.setOnAction(e -> {
 			GameManager.getInstance().sellTower();
 		});
-		
-		sell.setLayoutX(1200);
-		sell.setLayoutY(700);
-//		
-		
-		next = ButtonMaker.make(Images.buttonNext, Images.buttonNextPressed,
+
+		nextButton = ButtonMaker.make(20, 80, Images.buttonNext, Images.buttonNextPressed,
 				buttonFont, "Next Wave");
-		next.setOnAction(e -> {
+		nextButton.setOnAction(e -> {
 			GameManager.getInstance().requestNextWave();
 		});
-		next.setLayoutX(1200);
-		next.setLayoutY(820);
 		
-//		
-		Button upgrade = ButtonMaker.make(Images.buttonUpgrade, Images.buttonUpgradePressed,
-				buttonFont, "Upgrade");
-		upgrade.setOnAction(e -> {
+		upgradeButton = ButtonMaker.make(1400, 760, Images.buttonUpgrade, Images.buttonUpgradePressed, buttonFont, "Upgrade");
+		upgradeButton.setOnAction(e -> {
 			GameManager.getInstance().upgradeTower();
-		});
+		});		
 		
-		upgrade.setLayoutX(1200);
-		upgrade.setLayoutY(760);
-		
-		
-		toMenuButton = ButtonMaker.make(Images.buttonNext, Images.buttonNextPressed, buttonFont, "Main menu");
+		toMenuButton = ButtonMaker.make(700, 480, Images.buttonNext, Images.buttonNextPressed, buttonFont, "Main menu");
+		toMenuButton.setVisible(false);
 		toMenuButton.setOnAction(e -> {
 			GameManager.getInstance().setPaused(true);
 			PauseMenu.hide();
 			Main.setScene(Main.mainMenu);
 			Main.mainMenu.resume();
 		});
-		toMenuButton.setVisible(false);
-		toMenuButton.setLayoutX(800);
-		toMenuButton.setLayoutY(500);
 		
-		resumeButton = ButtonMaker.make(Images.buttonUpgrade, Images.buttonUpgradePressed, buttonFont, "Resume");
+		resumeButton = ButtonMaker.make(700, 400, Images.buttonUpgrade, Images.buttonUpgradePressed, buttonFont, "Resume");
+		resumeButton.setVisible(false);
 		resumeButton.setOnAction(e -> {
 			GameManager.getInstance().setPaused(false);
+			resumeButton.setVisible(false);
 			PauseMenu.hide();
+			
+			pauseButton.setVisible(true);
+			nextButton.setVisible(true);
+			sellButton.setVisible(true);
+			upgradeButton.setVisible(true);
 		});
-		resumeButton.setVisible(false);
-		resumeButton.setLayoutX(800);
-		resumeButton.setLayoutY(400);
 		
-//		Button sell = new Button("Sell");
-//		sell.setOnAction(e -> {
-//			GameManager.getInstance().sellTower();
-//		});
-//		sell.setLayoutX(1400);
-//		sell.setLayoutY(760);
-		Button pauseButton = ButtonMaker.make(Images.buttonPause, Images.buttonPausePressed,
+		pauseButton = ButtonMaker.make(20, 20, Images.buttonPause, Images.buttonPausePressed,
 				buttonFont, "Pause");
 		pauseButton.setOnAction(e -> {
 			PauseMenu.show();
+			resumeButton.setVisible(true);
 			GameManager.getInstance().setPaused(true);
+			
+			pauseButton.setVisible(false);
+			nextButton.setVisible(false);
+			sellButton.setVisible(false);
+			upgradeButton.setVisible(false);
 		});
-		pauseButton.setLayoutX(1200);
-		pauseButton.setLayoutY(500);
 		
-		
+		root.getChildren().addAll(canvas, sellButton, nextButton,
+				toMenuButton, pauseButton, resumeButton, upgradeButton);
+
+		Timeline gameTick = new Timeline();
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e ->  {
 			if (GameManager.getInstance().isRunning()) {
 				if (!GameManager.getInstance().isPaused())
@@ -118,7 +95,10 @@ public class GameScene extends Scene {
 				GameManager.getInstance().render(canvas.getGraphicsContext2D());				
 			}
 		});
-		
+		gameTick.getKeyFrames().add(render);
+		gameTick.setCycleCount(Timeline.INDEFINITE);
+		gameTick.play();
+
 		setOnMouseMoved(e -> {
 			GameManager.getInstance().updateMousePos(e.getX(), e.getY());
 		});
@@ -147,26 +127,32 @@ public class GameScene extends Scene {
 			} else if (e.getCode() == KeyCode.D) {
 				GameManager.getInstance().upgradeTower();
 			}
-			e.consume();
+			e.consume(); // prevent 'ding' sound 
 		});
-		
-		
-		Timeline gameTick = new Timeline();
-		gameTick.getKeyFrames().add(render);
-		gameTick.setCycleCount(Timeline.INDEFINITE);
-		gameTick.play();
-		
-//		root.getChildren().addAll(canvas, back, upgrade, next, sell);
-		root.getChildren().addAll(canvas, sell, next, toMenuButton, pauseButton, resumeButton, upgrade);
 		
 		
 	}
 
+
+	public Button getNextButton() {
+		return nextButton;
+	}
+
+	public Button getPauseButton() {
+		return pauseButton;
+	}
+
+	public Button getSellButton() {
+		return sellButton;
+	}
+
+	public Button getUpgradeButton() {
+		return upgradeButton;
+	}
 
 	public Button getResumeButton() {
 		return resumeButton;
 	}
-
 
 	public Button getToMenuButton() {
 		return toMenuButton;

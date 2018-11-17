@@ -125,7 +125,7 @@ public class GameManager {
 
 	public void render(GraphicsContext gc) {
 		renderTickCount += 1;
-		Main.gameScene.next.setDisable(!shouldSpawnNextWave());
+		Main.gameScene.getNextButton().setDisable(!shouldSpawnNextWave());
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
 		for (Tile t: tiles) 

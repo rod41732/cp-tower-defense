@@ -14,8 +14,10 @@ import javafx.scene.text.Font;
 public class ButtonMaker {
 
 	
-	public static Button make(Image imgNormal, Image imgHover, Image imgDisable, Image imgPressed, Font font, String text) {
+	public static Button make(double x, double y, Image imgNormal, Image imgHover, Image imgDisable, Image imgPressed, Font font, String text) {
 		Button btn = new Button(text);
+		btn.setLayoutX(x);
+		btn.setLayoutY(y);
 		BackgroundImage bn = new BackgroundImage(imgNormal, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		Background bgNormal = new Background(bn);
@@ -63,16 +65,16 @@ public class ButtonMaker {
 		return btn;
 	}
 	
-	public static Button make(Image imgNormal, Image imgPressed, Font font, String text) {
+	public static Button make(double x, double y, Image imgNormal, Image imgPressed, Font font, String text) {
 		Button btn = new Button(text);
+		btn.setLayoutX(x);
+		btn.setLayoutY(y);
 		BackgroundImage bn = new BackgroundImage(imgNormal, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		Background bgNormal = new Background(bn);
 		BackgroundImage bp = new BackgroundImage(imgPressed, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		Background bgPressed = new Background(bp);
-		
-		
 		
 		btn.setFont(font);
 		btn.setBackground(bgNormal);
