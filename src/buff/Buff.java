@@ -15,7 +15,7 @@ public abstract class Buff implements IExpirable {
 	}
 	
 	public void age() {
-		age += 1000./16;
+		age += 1000./60;
 	}
 	
 	public boolean isExpired() {

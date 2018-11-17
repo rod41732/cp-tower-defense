@@ -13,6 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import main.Main;
+import model.Tower;
 
 public class GameScene extends Scene {
 	public Button next;
@@ -60,6 +61,7 @@ public class GameScene extends Scene {
 		
 		setOnMouseMoved(e -> {
 			GameManager.getInstance().updateMousePos(e.getX(), e.getY());
+			TowerMenu.handleMouseMove(e);
 		});
 		
 		setOnMouseClicked(e -> {
@@ -69,7 +71,7 @@ public class GameScene extends Scene {
 		
 		setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.G) {
-				MonsterSpawner.getInstace().play();				
+				GameManager.getInstance().requestNextWave();			
 			} else if (e.getCode() == KeyCode.P) {
 				GameManager.getInstance().setPaused(!GameManager.getInstance().isPaused());
 			} else if (e.getCode() == KeyCode.DIGIT1) {

@@ -79,8 +79,13 @@ public abstract class Monster extends Entity {
 	protected void updateBuff() {
 		moveSpeedMultiplier = 1;
 		damageTakenMultiplier = 1;
-		for (Buff b: buffs)
+		for (int i=buffs.size()-1; i>=0; i--) {
+			Buff b = buffs.get(i);
+			b.age();
 			b.applyTo(this);
+			if (b.isExpired())
+				buffs.remove(i);
+		}
 	}
 	
 	// return false is damage is negated

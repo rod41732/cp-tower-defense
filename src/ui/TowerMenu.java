@@ -1,5 +1,7 @@
 package ui;
 
+import java.util.ArrayList;
+
 import constants.Images;
 import constants.Numbers;
 import controller.GameManager;
@@ -21,9 +23,25 @@ public class TowerMenu {
 	private static int COL = 3;
 	private static int ROW = 3;
 	private static Image[] images = {Images.bombTower, Images.normalTower, Images.fireTower, Images.iceTower};
-	private static cpp.pff sellButtonPos = new cpp.pff(LEFT,  Numbers.WIN_HEIGHT-300);
-	private static cpp.pff upButtonPos = new cpp.pff(LEFT,  Numbers.WIN_HEIGHT-200);
-	private static boolean sellButtonEnabled = false, upButtonEnabled = false;
+	private static ArrayList<Button> buttons = new ArrayList<>();
+	
+	private static Button upgradeButton, sellButton;
+	
+	
+	static {
+		upgradeButton = new Button(Images.buttonUpgrade,
+				Images.buttonUpgradeHover, Images.buttonUpgradeDisabled, 1400, 575);
+		upgradeButton.setHandler(e -> {
+			GameManager.getInstance().upgradeTower();
+		});
+		sellButton = new Button(Images.buttonSell, Images.buttonSellHover,
+				Images.buttonSellDisabled, 1400, 655);
+		sellButton.setHandler(e -> {
+			GameManager.getInstance().sellTower();
+		});
+		buttons.add(upgradeButton);
+		buttons.add(sellButton);
+	}
 	
 	public static void render(GraphicsContext gc) {
 		gc.setFill(new Color(0, 1, 1, 1));
@@ -44,18 +62,9 @@ public class TowerMenu {
 			renderTowerInfo(gc, t);
 
 		
-		if (sellButtonEnabled) {
-			gc.drawImage(Images.buttonSell, sellButtonPos.first, sellButtonPos.second);			
-		}
-		else {
-			gc.drawImage(Images.buttonSellDisabled, sellButtonPos.first, sellButtonPos.second);
-		}
-		if (upButtonEnabled) {
-			gc.drawImage(Images.buttonUpgrade, upButtonPos.first, upButtonPos.second);			
-		}
-		else {
-			gc.drawImage(Images.buttonUpgradeDisabled, upButtonPos.first, upButtonPos.second);
-		}
+		
+		for (Button b: buttons) b.render(gc);					
+		
 	}
 
 	
@@ -90,25 +99,18 @@ public class TowerMenu {
 		
 		double x = e.getX();
 		double y = e.getY();
-		if (sellButtonPos.first <= x && x <= sellButtonPos.first + 190 && 
-			sellButtonPos.second <= y && y <= sellButtonPos.second + 60 ) {
-			GameManager.getInstance().sellTower();
-			System.out.println("sell");
-			return true;
-		}
-		if (upButtonPos.first <= x && x <= upButtonPos.first + 190 && 
-				upButtonPos.second <= y && y <= upButtonPos.second + 60 ) {
-			System.out.println("up");
-				GameManager.getInstance().upgradeTower();
-				return true;
-			}
 		return LEFT < x && x < LEFT+COL*Numbers.TILE_SIZE &&
 				TOP < y && y < TOP+ROW*Numbers.TILE_SIZE;
 	}
 	
+	public static void handleMouseMove(MouseEvent e) {
+		for (Button b: buttons) b.handleHover(e);			
+	}
+	
 	public static void handleClick(MouseEvent e) {
 		if (e.isConsumed()) return ;
-		System.out.println("clicked at" + posToGrid(e.getX(), e.getY()));
+		
+		for (Button b: buttons) b.handleClick(e);			
 //		GameManager.getInstance().setSelectedTile(null);
 		if (shouldHandle(e)) {
 			cpp.pii grid = posToGrid(e.getX(), e.getY());
@@ -118,13 +120,25 @@ public class TowerMenu {
 				GameManager.getInstance().setTowerChoice(grid.first+grid.second*COL);				
 			}
 			return ;
-		}
+		}		
 		return ;
 	}
 	
 	private static cpp.pii posToGrid(double x, double y){
 		return new cpp.pff((x-LEFT)/Numbers.TILE_SIZE, (y-TOP)/Numbers.TILE_SIZE).toI();
 	}
+
+
+	public static Button getUpgradeButton() {
+		return upgradeButton;
+	}
+
+
+	public static Button getSellButton() {
+		return sellButton;
+	}
+	
+	
 	
 	
 }

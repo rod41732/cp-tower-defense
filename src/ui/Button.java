@@ -1,49 +1,74 @@
 package ui;
 
-import constants.Images;
-import controller.GameManager;
+
+import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
-public class Button extends UIElement {
+public class Button {
 
-	protected Image button, hover, image;
-	protected double w, h;
+	protected Image button, hover, disabled;
+	protected double x, y, w, h;
+	protected EventHandler<MouseEvent> handler;
 	
-	public Button(Image button, Image hover,double x, double y) {
-		super(x, y);
-		this.image = button;
+	protected boolean isEnabled = false;
+	protected boolean isHovered = false;
+	protected boolean isShown = false;
+	
+
+	public Button(Image button, Image hover, Image disabled, double x, double y) {
+		this.x = x;
+		this.y = y;
 		this.button = button;
+		this.disabled = disabled;
 		this.hover = hover;
 		this.w = button.getWidth();
 		this.h = button.getHeight();
 	}
 	
-	@Override
+
 	public void render(GraphicsContext gc) {
-		gc.drawImage(button, x, y);
+		if (!isShown) return ;
+		if (!isEnabled) {
+			gc.drawImage(disabled, x, y);
+		}
+		else {
+			if (isHovered) {
+				gc.drawImage(hover, x, y);
+			}else {
+				gc.drawImage(button, x, y);				
+			}
+		}
 	}
 
 	private boolean inBound(double x, double y) {
 		return this.x < x && x < this.x+w &&
 				this.y < y && y < this.y+h;
 	}
-	
-	@Override
+
 	public void handleHover(MouseEvent e) {
-		if (inBound(e.getX(), e.getY())) {
-			e.consume();
-			image = hover;
-		}
-		else {
-			image = button;
-		}
+		isHovered = inBound(e.getX(), e.getY()) && !e.isConsumed();
+	}	
+	
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
-	@Override
+
+	public void setShown(boolean isShown) {
+		this.isShown = isShown;
+	}
+
+
+	public void setHandler(EventHandler<MouseEvent> handler) {
+		this.handler = handler;
+	}
+
 	public void handleClick(MouseEvent e) {
-		GameManager.getInstance().update();
+		if (isEnabled && inBound(e.getX(), e.getY()) && !e.isConsumed()) {
+			this.handler.handle(e);			
+		}
 	}
 
 }

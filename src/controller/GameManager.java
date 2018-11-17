@@ -47,7 +47,7 @@ public class GameManager {
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private ArrayList<Projectile> projectiles = new ArrayList<>(); 
 	private ArrayList<Particle> particles = new ArrayList<>();
-	private Tile[][] placedTiles = new Tile[Numbers.COLUMNS][Numbers.ROWS]; // TODO: Fix yolo allocation
+	private Tile[][] placedTiles = new Tile[Numbers.COLUMNS][Numbers.ROWS];
 	private cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 
 	public boolean isPlaceable(int x, int y) {
@@ -101,6 +101,17 @@ public class GameManager {
 					break;
 				}
 			}
+		}
+		
+		if (selectedTile != null) {
+			TowerMenu.getSellButton().setShown(true);
+			TowerMenu.getUpgradeButton().setShown(true);
+			TowerMenu.getSellButton().setEnabled(true);
+			TowerMenu.getUpgradeButton().setEnabled(true);
+		}
+		else {
+			TowerMenu.getSellButton().setShown(false);
+			TowerMenu.getUpgradeButton().setShown(false);
 		}
 		
 		// cleanUp
@@ -178,6 +189,7 @@ public class GameManager {
 		gc.setStroke(Color.BLACK);
 		gc.setFont(Font.font("Consolas", 20));
 		gc.fillText("Selected " + selX + "," + selY, 20, 60);
+		gc.fillText(selX*Numbers.TILE_SIZE + "," + selY*Numbers.TILE_SIZE, 400, 60);
 		gc.fillText("Money = " + money, 20, 100);
 		gc.fillText("selcted Tower = " + selectedTile , 20, 120);
 		gc.fillText("last msg:" + message, 20, 140);
@@ -252,8 +264,10 @@ public class GameManager {
 
 	public void handleTileClick(int x, int y) {
 		selectedTile = placedTiles[x][y];
-		if (selectedTile != null)
+		if (selectedTile != null) {
+			towerChoice = -1;
 			return ;
+		}
 		if (towerChoice < 0) {
 			message = "Please select a tower";
 			return ;
@@ -262,13 +276,13 @@ public class GameManager {
 		Tower t;
 		switch (towerChoice) {
 			case 0:				
-				t = new BombTower(Images.bombTower ,x+0.5, y+0.5, 10, 800, 2.5); break;
+				t = new BombTower(x+0.5, y+0.5); break;
 			case 1:
-				t = new NormalTower(Images.normalTower ,x+0.5, y+0.5, 3, 100, 4.5); break;
+				t = new NormalTower(x+0.5, y+0.5); break;
 			case 2:
-				t = new FireTower(Images.fireTower, x+0.5, y+0.5, 10, 2000, 5); break;
+				t = new FireTower(x+0.5, y+0.5); break;
 			case 3:
-				t = new IceTower(Images.iceTower, x+0.5, y+0.5, 4, 500, 5); break;
+				t = new IceTower(x+0.5, y+0.5); break;
 			default:
 				return;
 		}
@@ -312,6 +326,12 @@ public class GameManager {
 	}
 	
 	public void requestNextWave() {
+		try {
+			path = Algorithm.BFS(endCol, endRow, startCol, startRow);			
+		}
+		catch (Exception e) {
+			System.out.println("nextwave: path not found");
+		}
 		if (shouldSpawnNextWave())
 			MonsterSpawner.getInstace().play();
 	}
