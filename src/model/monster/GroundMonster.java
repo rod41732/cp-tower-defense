@@ -18,8 +18,6 @@ public class GroundMonster extends Monster {
 	public void updateVelocity() {
 		cpp.pii[][] path = GameManager.getInstance().getPath();
 		cpp.pii cur = getPosition().toI();
-		System.out.printf("%s is at %s = %s\n", name,
-				getPosition(), getPosition().toI());
 		
 		int gridX = cur.first;
 		int gridY = cur.second;
@@ -28,11 +26,9 @@ public class GroundMonster extends Monster {
 		// find target tile
 		cpp.pff targetPos;
 		try {
-			System.out.println(path[gridX][gridY]);
 			if (path[gridX][gridY] != null) {
 				targetPos = path[gridX][gridY].toF();
 				cpp.pff v_hat = GameUtil.unitVector(x, y, targetPos.first+0.5, targetPos.second+0.5);
-				System.out.printf("%s has %s * %s spped\n", name, v_hat, moveSpeed);
 				vx = v_hat.first * moveSpeed;
 				vy = v_hat.second * moveSpeed;
 			}

@@ -21,7 +21,6 @@ public class Tower extends Tile {
 	
 	private static final String TOWER_NAME = "Default tower";
 	
-	protected double rotation = 0;
 	protected double attackCooldown = 1000;
 	protected double attack;
 	protected int price = 20;
@@ -43,7 +42,7 @@ public class Tower extends Tile {
 	
 	@Override
 	public void render(GraphicsContext gc) {
-		Render.drawRotatedImage(gc, image, rotation-180, getRenderX(), getRenderY());
+		Render.drawRotatedImage(gc, image, rotation, getRenderX(), getRenderY());
 		if ((GameManager.getInstance().getSelectedTile() != null && distanceTo(GameManager.getInstance().getSelectedTile()) < 0.1)) {
 			double tz = Numbers.TILE_SIZE;
 			double t = GameManager.getInstance().getRenderTickCount()%120;
@@ -59,7 +58,7 @@ public class Tower extends Tile {
 	}
 
 	public void render(GraphicsContext gc, boolean showRadius) {
-		Render.drawRotatedImage(gc, image, rotation-180, getRenderX(), getRenderY());
+		Render.drawRotatedImage(gc, image, rotation, getRenderX(), getRenderY());
 		if (showRadius) {
 			double tz = Numbers.TILE_SIZE;
 			double t = GameManager.getInstance().getRenderTickCount()%120;
@@ -110,7 +109,7 @@ public class Tower extends Tile {
 	@Override
 	public void rotateTo(Entity e) {
 		super.rotateTo(e);
-		rotation -= 90; // fix bad alignment in pic
+		rotation += 90; // fix bad alignment in pic
 	}
 	
 	

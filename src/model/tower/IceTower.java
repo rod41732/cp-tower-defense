@@ -47,7 +47,7 @@ public class IceTower extends Tower {
 		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
 				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		
-
+		rotateTo(currentTarget);
 		GameManager.getInstance().getBullets().add(new 
 				IceProjectile(x, y, v.first*15, v.second*15, range, attack));
 		

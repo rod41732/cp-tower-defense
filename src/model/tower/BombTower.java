@@ -1,6 +1,8 @@
 package model.tower;
 
 
+import javax.management.RuntimeErrorException;
+
 import constants.Images;
 import controller.GameManager;
 import javafx.scene.image.Image;
@@ -35,7 +37,8 @@ public class BombTower extends Tower {
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 //		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
-
+		rotateTo(currentTarget);
+		System.out.println(rotation);
 		GameManager.getInstance().getBullets().add(new 
 				Bomb(Images.bomb, x, y, v.first*9, v.second*9, range, attack, RADIUS));
 		

@@ -36,6 +36,7 @@ public class NormalTower extends Tower {
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 //		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
+		rotateTo(currentTarget);
 		GameManager.getInstance().getBullets().add(new 
 				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10));
 		
