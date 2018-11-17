@@ -12,20 +12,22 @@ import util.cpp;
 public class FireTower extends Tower {
 
 	// TODO : more fields
-	private static final double BASE_FIRE_ATTACK = 10;
+	private static final double BASE_ATTACK = 5;
 	private static final double BASE_COOLDOWN = 750;
 	private static final double BASE_RANGE = 3.5;
 	private static final double FIRE_RADIUS = 0.7;
 	private static final Image DEFAULT_IMAGE = Images.fireTower;
-	
+	private static final double BASE_FIRE_DAMAGE = 10;
 	private double fireDamage;
 	
-	public FireTower(Image image ,double cellX, double cellY, double fireAttack, double cooldown, double range) {
-		super(image, cellX, cellY, fireAttack, cooldown, range);
+	public FireTower(Image image ,double cellX, double cellY, double fireDamage, double cooldown, double range) {
+		super(image, cellX, cellY, BASE_ATTACK, cooldown, range);
+		this.fireDamage = fireDamage;
 	}
 	
 	public FireTower(double cellX, double cellY) {
-		super(DEFAULT_IMAGE, cellX, cellY, BASE_FIRE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
+		super(DEFAULT_IMAGE, cellX, cellY, BASE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
+		this.fireDamage = BASE_FIRE_DAMAGE;
 	}
 	
 	public void upgrade() {
@@ -38,7 +40,7 @@ public class FireTower extends Tower {
 //		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		GameManager.getInstance().getBullets().add(new 
-				FireProjectile(Images.bullet3, x, y, v.first*9, v.second*9, range, attack, FIRE_RADIUS));
+				FireProjectile(x, y, v.first*9, v.second*9, range, attack, FIRE_RADIUS, fireDamage));
 		currentCooldown = attackCooldown;
 	}
 	@Override 

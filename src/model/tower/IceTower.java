@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 import model.Monster;
 import model.Tower;
 import model.projectile.IceProjectile;
-import model.projectile.NormalProjectile;
 import util.GameUtil;
 import util.cpp;
 

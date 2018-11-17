@@ -2,27 +2,19 @@ package model.tower;
 
 
 import constants.Images;
-import constants.Numbers;
 import controller.GameManager;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
-import model.Entity;
 import model.Tower;
-import model.monster.GroundMonster;
 import model.projectile.Bomb;
-import model.projectile.FireProjectile;
-import model.projectile.NormalProjectile;
 import util.GameUtil;
-import util.Render;
 import util.cpp;
 
 public class BombTower extends Tower {
 
-	// TODO : more fields
-	
+	private static final double BASE_ATTACK = 12;
+	private static final double BASE_COOLDOWN = 1250;
+	private static final double BASE_RANGE = 3.5;
+	private static final Image DEFAULT_IMAGE = Images.bombTower;
 	
 	private static final double RADIUS = 2;
 	
@@ -30,6 +22,10 @@ public class BombTower extends Tower {
 		super(image, cellX, cellY, attack, cooldown, range);
 	}
 	
+	public BombTower(double cellX, double cellY) {
+		super(DEFAULT_IMAGE, cellX, cellY, BASE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
+	}
+
 	public void upgrade() {
 		range += 0.5;
 	}
@@ -41,7 +37,7 @@ public class BombTower extends Tower {
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 
 		GameManager.getInstance().getBullets().add(new 
-				Bomb(Images.bullet2, x, y, v.first*9, v.second*9, range, attack, RADIUS));
+				Bomb(Images.bomb, x, y, v.first*9, v.second*9, range, attack, RADIUS));
 		
 		currentCooldown = attackCooldown;
 	}

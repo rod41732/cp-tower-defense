@@ -12,11 +12,19 @@ import util.cpp;
 public class NormalTower extends Tower {
 
 	// TODO : more fields
-	
+	private static final double BASE_ATTACK = 7;
+	private static final double BASE_COOLDOWN = 500;
+	private static final double BASE_RANGE = 4.5;
+	private static final Image DEFAULT_IMAGE = Images.normalTower;
 	
 	public NormalTower(Image image ,double cellX, double cellY, double attack, double cooldown, double range) {
 		super(image, cellX, cellY, attack, cooldown, range);
 	}
+	
+	public NormalTower(double cellX, double cellY) {
+		super(DEFAULT_IMAGE, cellX, cellY, BASE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
+	}
+	
 	
 	public void upgrade() {
 		range += 0.5;
@@ -29,7 +37,7 @@ public class NormalTower extends Tower {
 //		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		GameManager.getInstance().getBullets().add(new 
-				NormalProjectile(Images.bullet1, x, y, v.first*15, v.second*15, range, 10));
+				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10));
 		
 		currentCooldown = attackCooldown;
 	}
