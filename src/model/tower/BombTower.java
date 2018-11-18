@@ -39,7 +39,7 @@ public class BombTower extends Tower {
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		rotateTo(currentTarget);
 		System.out.println(rotation);
-		GameManager.getInstance().getBullets().add(new 
+		GameManager.getInstance().getProjectiles().add(new 
 				Bomb(Images.bomb, x, y, v.first*9, v.second*9, range, attack, RADIUS));
 		
 		currentCooldown = attackCooldown;

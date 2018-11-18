@@ -16,8 +16,7 @@ import model.Tower;
 import util.cpp;
 public class TowerMenu {
 	
-//	public static TowerMenu instance = new TowerMenu();
-	
+	// TODO: use buttons to check click (custom image buttons)
 	private static double LEFT = 1344;
 	private static double TOP = 0;
 	private static int COL = 3;

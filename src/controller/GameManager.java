@@ -33,16 +33,17 @@ public class GameManager {
 	
 	private static GameManager instance = new GameManager();
 	
-	private boolean isRunning = false;
+	// TODO: refactor field names
 	private boolean isPaused = false;
-	private double selX, selY = 0;
-	private int tileX = 0, tileY = 0;
+	private cpp.pff mousePos = new cpp.pff(0, 0);
+	private cpp.pii tilePos = new cpp.pii(0, 0);
 	private int renderTickCount = 0;
 	private int money = 1000;
 	private String message = "";
 	private Tile selectedTile;
 	private int towerChoice = -1;
-	private int startRow = 5, startCol = 0, endRow = 5, endCol = 19;
+	private cpp.pii startTilePos = new cpp.pii(0, 5);
+	private cpp.pii endTilePos = new cpp.pii(19, 5);
 	private int lives = 200;
 	
 	private ArrayList<Tower> towers = new ArrayList<>();
@@ -64,7 +65,8 @@ public class GameManager {
 	public GameManager() {
 		try {
 			placedTiles = new Tile[Numbers.COLUMNS][Numbers.ROWS];
-			path = Algorithm.BFS(endCol, endRow, startCol, startRow);
+			path = Algorithm.BFS(endTilePos.first, endTilePos.second,
+					startTilePos.first, startTilePos.second);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -81,12 +83,13 @@ public class GameManager {
 	
 	public void update() {
 		// update entity
+		Main.gameScene.getButtonManager().setAllowNextWave(shouldSpawnNextWave());
 		for (Particle p: particles) p.onTick();
 		for (Tower t: towers) t.onTick();
 		for (Projectile p: projectiles) p.onTick();
 		for (Monster m: monsters) {
 			m.onTick();
-			if (m.getPosition().containedBy(new cpp.pii(endCol, endRow))) {
+			if (m.getPosition().containedBy(endTilePos)) {
 				m.forceKill();
 				lives -= 1;
 				message = "a monster reached end";
@@ -127,12 +130,12 @@ public class GameManager {
 
 	public void render(GraphicsContext gc) {
 		renderTickCount += 1;
-		Main.gameScene.getNextButton().setDisable(!shouldSpawnNextWave());
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
-		for (Tile t: tiles) 
-			if (!t.getPosition().containedBy(new cpp.pii(tileX, tileY))) 
+		for (Tile t: tiles) {
+			if (!t.getPosition().containedBy(tilePos)) 
 				t.render(gc);
+		}
 		for (Tower t: towers) t.render(gc);
 		for (Monster m: monsters) m.render(gc);
 		for (Projectile p: projectiles) p.render(gc);
@@ -140,8 +143,9 @@ public class GameManager {
 		
 		if (path != null) {
 			gc.setFill(new Color(0, 0, 0, 0.5)); // just dim
-			cpp.pii pos = new cpp.pii(startCol, startRow);
-			while (pos != null && (pos.first != endCol || pos.second != endRow)) {
+			// need to copy
+			cpp.pii pos = new cpp.pii(startTilePos.first, startTilePos.second);
+			while (pos != null && !pos.equals(endTilePos)) {
 				gc.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
 						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 				pos = path[pos.first][pos.second];
@@ -180,8 +184,8 @@ public class GameManager {
 		gc.setFill(Color.MAGENTA);
 		gc.setStroke(Color.BLACK);
 		gc.setFont(Font.font("Consolas", 20));
-		gc.fillText("Selected " + selX + "," + selY, 20, 60);
-		gc.fillText(selX*Numbers.TILE_SIZE + "," + selY*Numbers.TILE_SIZE, 400, 60);
+		gc.fillText("Selected " + mousePos.first + "," + mousePos.second, 20, 60);
+		gc.fillText(mousePos.second*Numbers.TILE_SIZE + "," + mousePos.second*Numbers.TILE_SIZE, 400, 60);
 		gc.fillText("Money = " + money, 20, 100);
 		gc.fillText("selcted Tower = " + selectedTile , 20, 120);
 		gc.fillText("last msg:" + message, 20, 140);
@@ -193,10 +197,11 @@ public class GameManager {
 
 
 	public void updateMousePos(double x, double y) {
-		selX = x/Numbers.TILE_SIZE;
-		selY = y/Numbers.TILE_SIZE;
-		tileX = (int)selX;
-		tileY = (int)selY;
+		mousePos.first = x/Numbers.TILE_SIZE;
+		mousePos.second = y/Numbers.TILE_SIZE;
+		// don't want to create new object
+		tilePos.first = (int)mousePos.first;
+		tilePos.second = (int)mousePos.second;
 	}
 	
 	
@@ -243,19 +248,31 @@ public class GameManager {
 					break;
 				}
 			placedTiles[x][y] = null;
-			path = Algorithm.BFS(endCol, endRow, startCol, startRow);
+			path = Algorithm.BFS(endTilePos.first, endTilePos.second, startTilePos.first, startTilePos.second);
 		}
 		catch (Exception e) {
 			System.out.println("can't remove tower, this shouldn't happen");
 		}
-		path[endCol][endRow] = new cpp.pii(endCol+1, endRow+1);
 	}
 	
 	
-	public void setPaused(boolean isPaused) {
-		this.isPaused = isPaused;
+	public void pause() {
+		this.isPaused = true;
+		PauseMenu.show();
+		MonsterSpawner.getInstace().pause();
 	}
-
+	
+	public void resume() {
+		this.isPaused = false;
+		PauseMenu.hide();
+		MonsterSpawner.getInstace().resume();
+	}
+	
+	public void leaveGame() {
+		pause();
+		PauseMenu.hide();
+	}
+	
 	public void handleTileClick(int x, int y) {
 		selectedTile = placedTiles[x][y];
 		if (selectedTile != null) {
@@ -283,7 +300,7 @@ public class GameManager {
 		towerChoice = -1;
 		try {
 			placedTiles[x][y] = t;
-			Algorithm.BFS(endCol, endRow, startCol, startRow);
+			Algorithm.BFS(endTilePos.first, endTilePos.second, startTilePos.first, startTilePos.second);
 			message = "OK";
 			towers.add(t);
 		}
@@ -293,8 +310,7 @@ public class GameManager {
 		}
 		finally {
 			try {
-				path = Algorithm.BFS(endCol, endRow, startCol, startRow);
-				path[endCol][endRow] = new cpp.pii(endCol+1, endRow);
+				path = Algorithm.BFS(endTilePos.first, endTilePos.second, startTilePos.first, startTilePos.second);
 			}
 			catch(Exception e) {
 				// this shouldn't happen
@@ -320,7 +336,7 @@ public class GameManager {
 	
 	public void requestNextWave() {
 		try {
-			path = Algorithm.BFS(endCol, endRow, startCol, startRow);			
+			path = Algorithm.BFS(endTilePos.first, endTilePos.second, startTilePos.first, startTilePos.second);			
 		}
 		catch (Exception e) {
 			System.out.println("nextwave: path not found");
@@ -340,7 +356,7 @@ public class GameManager {
 	}
 	
 	public cpp.pii getSelectedPosition(){
-		return new cpp.pii(tileX, tileY);
+		return tilePos;
 	}
 
 	public Tile getSelectedTile() {
@@ -355,46 +371,11 @@ public class GameManager {
 		return instance;
 	}
 	
-	public double getSelX() {
-		return selX;
-	}
 
-	public void setSelX(int selX) {
-		this.selX = selX;
+	public cpp.pff getMousePosition() {
+		return mousePos;
 	}
-
-	public double getSelY() {
-		return selY;
-	}
-
-	public void setSelY(int selY) {
-		this.selY = selY;
-	}
-
-	public boolean isRunning() {
-		return isRunning;
-	}
-
 	
-	
-	
-	
-	public int getStartRow() {
-		return startRow;
-	}
-
-	public void setStartRow(int startRow) {
-		this.startRow = startRow;
-	}
-
-	public int getStartCol() {
-		return startCol;
-	}
-
-	public void setStartCol(int startCol) {
-		this.startCol = startCol;
-	}
-
 	public int getRenderTickCount() {
 		return renderTickCount;
 	}
@@ -402,12 +383,7 @@ public class GameManager {
 	public cpp.pii[][] getPath() {
 		return path;
 	}
-
-	public void setRunning(boolean isRunning) {
-		System.out.println("GameManager: Running state changed: " + isRunning);
-		this.isRunning = isRunning;
-	}
-
+	
 	public ArrayList<Tower> getTowers() {
 		return towers;
 	}
@@ -420,7 +396,7 @@ public class GameManager {
 		return tiles;
 	}
 
-	public ArrayList<Projectile> getBullets() {
+	public ArrayList<Projectile> getProjectiles() {
 		return projectiles;
 	}
 	
@@ -432,20 +408,6 @@ public class GameManager {
 
 	public void setTowerChoice(int towerChoice) {
 		selectedTile = null;
-		this.towerChoice = towerChoice;
+		this.towerChoice = towerChoice;	
 	}
-
-	public int getEndRow() {
-		return endRow;
-	}
-
-	public int getEndCol() {
-		return endCol;
-	}
-
-	
-	
-	
-	
-	
 }

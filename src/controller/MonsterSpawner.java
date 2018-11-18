@@ -32,6 +32,16 @@ public class MonsterSpawner {
 		stage.play();
 	}
 	
+	public void pause() {
+		stage.pause();
+	}
+	
+	public void resume() {
+		if (!isReady) 
+			stage.play();
+	}
+	
+	
 	public boolean isReady() {
 		return isReady;
 	}

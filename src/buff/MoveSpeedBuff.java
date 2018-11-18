@@ -6,7 +6,6 @@ import model.Monster;
 public class MoveSpeedBuff  extends Buff {
 
 	private double mutliplier;
-	
 	public MoveSpeedBuff(double duration, double multiplier) {
 		super("MoveSpeed ", "Increase movespeed", duration);
 		this.mutliplier = multiplier;

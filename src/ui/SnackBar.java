@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class SnackBar {
-	
+	// TODO: use queue to handle multiple requests ?
 	private static class DoubleWrapper implements WritableDoubleValue {
 		private double x;
 		public DoubleWrapper(double x) {
@@ -46,22 +46,10 @@ public class SnackBar {
 	private static DoubleWrapper y = new DoubleWrapper(0);
 	private static DoubleWrapper opacity = new DoubleWrapper(0);
 	private static double w = 200, h = 75;
-	public static void render(GraphicsContext gc) {
-		if (isShown) {
-			gc.setFill(Color.color(0, 0, 0, 0.8));
-			gc.fillRect(x.get(), y.get(), w, h);
-			gc.setFill(Color.color(1, 1, 1, 0.9));
-			gc.fillText(message, x.get(), y.get()+ 25);			
-		}
-	}
+	private static Timeline tl = new Timeline();
+	private static Timeline rev = new Timeline();
 	
-	public static void play(String msg) {
-		Timeline tl = new Timeline();
-		Timeline rev = new Timeline();
-		isShown = true;
-		y.set(800);
-		opacity.set(0.4);
-		message = msg;
+	static {
 		rev.getKeyFrames().add(new KeyFrame(Duration.seconds(0.350),
 				new KeyValue(y, 900, Interpolator.EASE_OUT)));
 		rev.getKeyFrames().add(new KeyFrame(Duration.seconds(0.170), 
@@ -75,8 +63,23 @@ public class SnackBar {
 		tl.setOnFinished(e -> {
 			rev.play();
 		});
-		
-		
+	}
+	public static void render(GraphicsContext gc) {
+		if (isShown) {
+			gc.setFill(Color.color(0, 0, 0, 0.8));
+			gc.fillRect(x.get(), y.get(), w, h);
+			gc.setFill(Color.color(1, 1, 1, 0.9));
+			gc.fillText(message, x.get(), y.get()+ 25);			
+		}
+	}
+	
+	public static void play(String msg) {
+		isShown = true;
+		y.set(800);
+		opacity.set(0.4);
+		message = msg;
+		tl.stop();
+		rev.stop();		
 		tl.play();
 	}
 }

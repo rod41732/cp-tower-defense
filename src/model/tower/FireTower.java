@@ -11,7 +11,7 @@ import util.cpp;
 
 public class FireTower extends Tower {
 
-	// TODO : more fields
+	// TODO : more fields like fire duration etc
 	private static final double BASE_ATTACK = 5;
 	private static final double BASE_COOLDOWN = 750;
 	private static final double BASE_RANGE = 3.5;
@@ -38,7 +38,7 @@ public class FireTower extends Tower {
 		if (currentTarget == null) return;
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);
-		GameManager.getInstance().getBullets().add(new 
+		GameManager.getInstance().getProjectiles().add(new 
 				FireProjectile(x, y, v.first*9, v.second*9, range, attack, FIRE_RADIUS, fireDamage));
 		currentCooldown = attackCooldown;
 	}

@@ -22,78 +22,21 @@ import main.Main;
 import model.Tower;
 
 public class GameScene extends Scene {
-	private Button nextButton;
-	private Button resumeButton, toMenuButton, pauseButton; // for pause menu
-	private Button sellButton, upgradeButton;
+	private ButtonManager buttonManager;
 	
 	public GameScene() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Pane root = (Pane) getRoot();
 		Canvas canvas = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		Font buttonFont = new Font("KenVector Future Regular", 20);
+		root.getChildren().add(canvas);
+		buttonManager = new ButtonManager(root);
 		
-		sellButton = ButtonMaker.make(1400, 700,Images.buttonSell, Images.buttonSellPressed,
-				buttonFont, "Sell Tower");		
-		sellButton.setOnAction(e -> {
-			GameManager.getInstance().sellTower();
-		});
-
-		nextButton = ButtonMaker.make(20, 80, Images.buttonNext, Images.buttonNextPressed,
-				buttonFont, "Next Wave");
-		nextButton.setOnAction(e -> {
-			GameManager.getInstance().requestNextWave();
-		});
 		
-		upgradeButton = ButtonMaker.make(1400, 760, Images.buttonUpgrade, Images.buttonUpgradePressed, buttonFont, "Upgrade");
-		upgradeButton.setOnAction(e -> {
-			GameManager.getInstance().upgradeTower();
-		});		
-		
-		toMenuButton = ButtonMaker.make(700, 480, Images.buttonNext, Images.buttonNextPressed, buttonFont, "Main menu");
-		toMenuButton.setVisible(false);
-		toMenuButton.setOnAction(e -> {
-			GameManager.getInstance().setPaused(true);
-			PauseMenu.hide();
-			Main.setScene(Main.mainMenu);
-			Main.mainMenu.resume();
-		});
-		
-		resumeButton = ButtonMaker.make(700, 400, Images.buttonUpgrade, Images.buttonUpgradePressed, buttonFont, "Resume");
-		resumeButton.setVisible(false);
-		resumeButton.setOnAction(e -> {
-			GameManager.getInstance().setPaused(false);
-			resumeButton.setVisible(false);
-			PauseMenu.hide();
-			
-			pauseButton.setVisible(true);
-			nextButton.setVisible(true);
-			sellButton.setVisible(true);
-			upgradeButton.setVisible(true);
-		});
-		
-		pauseButton = ButtonMaker.make(20, 20, Images.buttonPause, Images.buttonPausePressed,
-				buttonFont, "Pause");
-		pauseButton.setOnAction(e -> {
-			PauseMenu.show();
-			resumeButton.setVisible(true);
-			GameManager.getInstance().setPaused(true);
-			
-			pauseButton.setVisible(false);
-			nextButton.setVisible(false);
-			sellButton.setVisible(false);
-			upgradeButton.setVisible(false);
-		});
-		
-		root.getChildren().addAll(canvas, sellButton, nextButton,
-				toMenuButton, pauseButton, resumeButton, upgradeButton);
-
 		Timeline gameTick = new Timeline();
-		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e ->  {
-			if (GameManager.getInstance().isRunning()) {
-				if (!GameManager.getInstance().isPaused())
-					GameManager.getInstance().update();
-				GameManager.getInstance().render(canvas.getGraphicsContext2D());				
-			}
+		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e -> {
+			if (!GameManager.getInstance().isPaused())
+				GameManager.getInstance().update();
+			GameManager.getInstance().render(canvas.getGraphicsContext2D());					
 		});
 		gameTick.getKeyFrames().add(render);
 		gameTick.setCycleCount(Timeline.INDEFINITE);
@@ -112,8 +55,6 @@ public class GameScene extends Scene {
 		setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.G) {
 				GameManager.getInstance().requestNextWave();			
-			} else if (e.getCode() == KeyCode.P) {
-				GameManager.getInstance().setPaused(!GameManager.getInstance().isPaused());
 			} else if (e.getCode() == KeyCode.DIGIT1) {
 				GameManager.getInstance().setTowerChoice(0);
 			} else if (e.getCode() == KeyCode.DIGIT2) {
@@ -129,32 +70,10 @@ public class GameScene extends Scene {
 			}
 			e.consume(); // prevent 'ding' sound 
 		});
-		
-		
 	}
 
-
-	public Button getNextButton() {
-		return nextButton;
+	public ButtonManager getButtonManager() {
+		return buttonManager;
 	}
 
-	public Button getPauseButton() {
-		return pauseButton;
-	}
-
-	public Button getSellButton() {
-		return sellButton;
-	}
-
-	public Button getUpgradeButton() {
-		return upgradeButton;
-	}
-
-	public Button getResumeButton() {
-		return resumeButton;
-	}
-
-	public Button getToMenuButton() {
-		return toMenuButton;
-	}
 }

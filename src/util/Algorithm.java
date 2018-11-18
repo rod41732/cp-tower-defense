@@ -28,7 +28,7 @@ public class Algorithm {
 	
 	
 	public static cpp.pii[][] BFS(int fromCol, int fromRow, int toCol, int toRow) throws Exception {
-		
+		// TODO: fix bfs null pointer on init
 		initialize();
 		GameManager gi = GameManager.getInstance();
 		if (gi == null) return pred;

@@ -25,8 +25,6 @@ public class PauseMenu {
 	
 	public static void show() {
 		isShown = true;
-		Main.getGameScene().getResumeButton().setVisible(true);
-		Main.getGameScene().getToMenuButton().setVisible(true);
 	}
 	
 	public static void handleMouseClick(MouseEvent e) {
@@ -37,8 +35,6 @@ public class PauseMenu {
 	
 	public static void hide() {
 		isShown = false;
-		Main.getGameScene().getResumeButton().setVisible(false);
-		Main.getGameScene().getToMenuButton().setVisible(false);
 	}
 	
 	public static void fadeIn() {

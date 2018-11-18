@@ -138,7 +138,7 @@ public class Tower extends Tile {
 	}
 	
 	public void tryTarget(Monster m) {
-		// TODO
+		// onGround/ Air is checked on override function of each tower
 		if ((currentTarget == null || Double.compare(distanceTo(m), minDist) < 0) && isInRange(m)){
 			if (m.isDead()) return ;
 			currentTarget = m;
@@ -154,7 +154,7 @@ public class Tower extends Tile {
 		}
 		rotateTo(currentTarget);
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
-		GameManager.getInstance().getBullets().add(new 
+		GameManager.getInstance().getProjectiles().add(new 
 				Bomb(Images.normalBullet,x, y, v.first*9, v.second*9, range, 1, 2));
 		currentCooldown = attackCooldown; // some tower like gatling  cannon might not update like this
 	}

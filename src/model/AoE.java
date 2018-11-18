@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 public class AoE extends Particle {
 
 	
-//	protected double radius;
+	// TODO: finish more AoE
 	protected double damage;
 	
 	public AoE(Image[] images, double x, double y, double vx, double vy, double maxAge, double radius, double damage) {

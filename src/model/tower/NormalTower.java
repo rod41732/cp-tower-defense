@@ -37,7 +37,7 @@ public class NormalTower extends Tower {
 //		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		rotateTo(currentTarget);
-		GameManager.getInstance().getBullets().add(new 
+		GameManager.getInstance().getProjectiles().add(new 
 				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10));
 		
 		currentCooldown = attackCooldown;

@@ -49,7 +49,6 @@ public class MainMenu extends Scene {
 		start.setOnAction(e -> {
 			Main.setScene(Main.gameScene);
 			menuTick.pause();
-			GameManager.getInstance().setRunning(true);
 		});
 		
 		settings.setOnAction(e -> {

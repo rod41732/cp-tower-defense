@@ -36,11 +36,6 @@ public class cpp {
 			second = se;
 		}
 		
-		public boolean equals(Object o) {
-			if (!(o instanceof pff)) return false;
-			pff other = (pff) o;
-			return first == other.first && second == other.second;
-		}
 		public String toString() {
 			return String.format("F(%.2f, %.2f)", first, second);
 		}
@@ -54,6 +49,14 @@ public class cpp {
 		
 		public pii toI() {
 			return new cpp.pii((int)first, (int)second);
+		}
+		
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null) return false;
+			if (this.getClass() != o.getClass()) return false;
+			pii other = (pii) o;
+			return first == other.first && second == other.second;
 		}
 	}
 	
