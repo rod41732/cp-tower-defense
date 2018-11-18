@@ -19,6 +19,7 @@ import model.TileStack;
 import model.Tower;
 import model.monster.FlyingMonster;
 import model.monster.SplittingMonster;
+import model.tile.Barricade;
 import model.tower.BombTower;
 import model.tower.FireTower;
 import model.tower.IceTower;
@@ -67,7 +68,10 @@ public class GameManager {
 			for (int i=0;i<Numbers.COLUMNS; i++)
 				for (int j=0; j<Numbers.ROWS; j++) {
 					Tile t;
-					if ((i+j)%2 == 0) {
+					if (Math.random() < 0.05) {
+						t = new Barricade(Images.tileUnplaceable, i+0.5, j+0.5);
+					}
+					else if ((i+j)%2 == 0) {
 						t = new Tile(Images.tile1,i+0.5, j+0.5);
 					}
 					else {
@@ -249,17 +253,20 @@ public class GameManager {
 	
 	public void removeTower(int x, int y) {
 		try {
-			pii currentTile = new pii(x, y);
-			for (int i=towers.size()-1; i>=0; i--)
-				if (towers.get(i).getPosition().containedBy(currentTile)) {
-					towers.remove(i);
-					SnackBar.play("removed");
-					break;
-				}
-			placedTiles[x][y] = null;
+			Tile t = placedTiles[x][y].top();
+			if (!t.isSelectable()) return ; // don't remove that dansgame
+			placedTiles[x][y].pop();
+			if (t instanceof Tower) {
+				for (int i=0; i<towers.size(); i++)
+					if (t == towers.get(i)) {
+						towers.remove(i);
+						break;
+					}
+			}
 			path = Algorithm.BFS(endTilePos.first, endTilePos.second, startTilePos.first, startTilePos.second);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("can't remove tower, this shouldn't happen");
 		}
 	}
@@ -288,6 +295,7 @@ public class GameManager {
 		selectedTile = placedTiles[x][y].top();
 		if (!selectedTile.isPlaceable()) {
 			towerChoice = -1;
+			SnackBar.play("you can't place there\n beause there's already something on it");
 			return ;
 		}
 		System.out.println("no slec");
