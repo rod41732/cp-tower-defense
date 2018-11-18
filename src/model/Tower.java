@@ -40,12 +40,14 @@ public class Tower extends Tile {
 		this.range = range;
 	}
 	
+	// TODO: some how get tower animate again ?
 	@Override
 	public void render(GraphicsContext gc) {
 		Render.drawRotatedImage(gc, image, rotation, getRenderX(), getRenderY());
 		if ((GameManager.getInstance().getSelectedTile() != null && distanceTo(GameManager.getInstance().getSelectedTile()) < 0.1)) {
 			double tz = Numbers.TILE_SIZE;
-			double t = GameManager.getInstance().getRenderTickCount()%120;
+			double t = 0.5;
+//			double t = GameManager.getInstance().getRenderTickCount()%120;
 			double multiplier = t/60.;
 			if (multiplier > 1) multiplier = 2-multiplier;
 			multiplier = 0.3+0.7*multiplier;
@@ -61,7 +63,8 @@ public class Tower extends Tile {
 		Render.drawRotatedImage(gc, image, rotation, getRenderX(), getRenderY());
 		if (showRadius) {
 			double tz = Numbers.TILE_SIZE;
-			double t = GameManager.getInstance().getRenderTickCount()%120;
+			double t= 0.5;
+//			double t = GameManager.getInstance().getRenderTickCount()%120;
 			double multiplier = t/60.;
 			if (multiplier > 1) multiplier = 2-multiplier;
 			multiplier = 0.3+0.7*multiplier;
