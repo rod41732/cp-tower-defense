@@ -17,6 +17,10 @@ public class Tile extends Entity{
 		return true;
 	}
 	
+	public boolean isSelectable() {
+		return false;
+	}
+	
 	public boolean affectsAir() {
 		return false;
 	}

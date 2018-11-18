@@ -83,6 +83,7 @@ public class ButtonManager {
 		nextButton.setVisible(false);
 		sellButton.setVisible(false);
 		upgradeButton.setVisible(false);
+		toMenuButton.setVisible(true);
 	}
 	
 	private void onGameResume() {
@@ -92,6 +93,7 @@ public class ButtonManager {
 		nextButton.setVisible(true);
 		sellButton.setVisible(true);
 		upgradeButton.setVisible(true);
+		toMenuButton.setVisible(false);
 	}
 	
 	private void onGameLeft() {
@@ -103,6 +105,9 @@ public class ButtonManager {
 		upgradeButton.setVisible(false);
 		toMenuButton.setVisible(false);
 	}
+	
+	
+	
 	
 	public void setAllowNextWave(boolean allow) {
 		nextButton.setDisable(!allow);

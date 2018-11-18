@@ -347,6 +347,7 @@ public class GameManager {
 		}
 	}
 	
+	
 	public void upgradeTower() {
 		if (selectedTile != null) {
 			((Tower)selectedTile).upgrade();

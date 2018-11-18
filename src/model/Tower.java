@@ -93,6 +93,11 @@ public class Tower extends Tile {
 	}
 	
 	
+	@Override
+	public boolean isSelectable() {
+		return true;
+	}
+	
 	// methods related to firing
 	public void onTick() {
 		preUpdate(); // tower can do anything here
