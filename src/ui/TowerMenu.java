@@ -54,6 +54,9 @@ public class TowerMenu {
 //		double titleW = fontLoader.computeStringWidth("Bomb Tower", title);
 //		double titleH = fontLoader.getFontMetrics(title).getLineHeight();
 //		// TODO: better calculate this
+		// TODO : spaghetti
+				if (!(t instanceof Tower)) return ;
+				
 		Tower tw = (Tower) t;
 		
 		gc.fillRoundRect(left , top , 300, 200, 4, 4);

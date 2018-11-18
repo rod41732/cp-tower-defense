@@ -8,6 +8,11 @@ public class TileStack {
 
 	private Vector<Tile> layers = new Vector<>();
 	
+	
+	public TileStack() {
+		
+	}
+	
 	public TileStack(Tile baseTile) {
 		layers.add(baseTile);
 	}
@@ -24,11 +29,16 @@ public class TileStack {
 	}
 	
 	public void push(Tile t) {
+		System.out.println("push" + t);
 		layers.addElement(t);
 	}
 	
 	public void pop() {
 		layers.removeElementAt(layers.size()-1);
+	}
+	
+	public Tile top() {
+		return layers.get(layers.size()-1);
 	}
 	
 	public boolean isPlaceable() {

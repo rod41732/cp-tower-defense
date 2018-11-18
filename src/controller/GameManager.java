@@ -15,6 +15,7 @@ import model.Monster;
 import model.Particle;
 import model.Projectile;
 import model.Tile;
+import model.TileStack;
 import model.Tower;
 import model.monster.FlyingMonster;
 import model.monster.SplittingMonster;
@@ -50,7 +51,7 @@ public class GameManager {
 	private ArrayList<Tile> tiles = new ArrayList<>();
 	private ArrayList<Projectile> projectiles = new ArrayList<>(); 
 	private ArrayList<Particle> particles = new ArrayList<>();
-	private Tile[][] placedTiles = new Tile[Numbers.COLUMNS][Numbers.ROWS];
+	private TileStack[][] placedTiles = new TileStack[Numbers.COLUMNS][Numbers.ROWS];
 	private cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 
 	public boolean isPlaceable(int x, int y) {
@@ -63,7 +64,18 @@ public class GameManager {
 	
 	public GameManager() {
 		try {
-			placedTiles = new Tile[Numbers.COLUMNS][Numbers.ROWS];
+			for (int i=0;i<Numbers.COLUMNS; i++)
+				for (int j=0; j<Numbers.ROWS; j++) {
+					Tile t;
+					if ((i+j)%2 == 0) {
+						t = new Tile(Images.tile1,i+0.5, j+0.5);
+					}
+					else {
+						t = new Tile(Images.tile2, i+0.5, j+0.5);
+					}
+					System.out.printf("%d,%d -> %s\n", i, j, t);
+					placedTiles[i][j] = new TileStack(t);
+				}
 			path = Algorithm.BFS(endTilePos.first, endTilePos.second,
 					startTilePos.first, startTilePos.second);
 		}
@@ -74,8 +86,7 @@ public class GameManager {
 		for (int i=0; i<Numbers.WIN_WIDTH; i+=Numbers.TILE_SIZE) {
 			for (int j=0; j<Numbers.WIN_HEIGHT; j+=Numbers.TILE_SIZE) {
 				int ix = (int)((i)/Numbers.TILE_SIZE), iy = (int)((j)/Numbers.TILE_SIZE);
-				if ((ix+iy)%2 == 0) tiles.add(new Tile(Images.tile1, ix+0.5, iy+0.5));
-				else if ((ix+iy)%2 != 0) tiles.add(new Tile(Images.tile2, ix+0.5, iy+0.5));
+				
 			}
 		}
 	}
@@ -130,11 +141,9 @@ public class GameManager {
 	public void render(GraphicsContext gc) {
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
-		for (Tile t: tiles) {
-			if (!t.getPosition().containedBy(tilePos)) 
-				t.render(gc);
-		}
-		for (Tower t: towers) t.render(gc);
+		for (TileStack[] col: placedTiles)
+			for (TileStack ts: col)
+				ts.render(gc);
 		for (Monster m: monsters) m.render(gc);
 		for (Projectile p: projectiles) p.render(gc);
 		for (Particle p: particles) p.render(gc);
@@ -228,6 +237,8 @@ public class GameManager {
 	
 	public void sellTower() {
 		if (selectedTile == null) return;
+		// TODO : spaghetti
+		if (!(selectedTile instanceof Tower)) return ;
 		Tower t = (Tower)selectedTile;
 		money += t.getValue();
 		cpp.pii pos = t.getPosition().toI();
@@ -272,11 +283,14 @@ public class GameManager {
 	}
 	
 	public void handleTileClick(int x, int y) {
-		selectedTile = placedTiles[x][y];
-		if (selectedTile != null) {
+		System.out.println("hand");
+//System.out.println("selec" + selectedTile.isWalkable());
+		selectedTile = placedTiles[x][y].top();
+		if (!selectedTile.isPlaceable()) {
 			towerChoice = -1;
 			return ;
 		}
+		System.out.println("no slec");
 		if (towerChoice < 0) {
 			message = "Please select a tower";
 			return ;
@@ -297,13 +311,14 @@ public class GameManager {
 		}
 		towerChoice = -1;
 		try {
-			placedTiles[x][y] = t;
+			System.out.println("tried + " + t);
+			placedTiles[x][y].push(t);;
 			Algorithm.BFS(endTilePos.first, endTilePos.second, startTilePos.first, startTilePos.second);
 			message = "OK";
 			towers.add(t);
 		}
 		catch (Exception e) {
-			placedTiles[x][y] = null;
+			placedTiles[x][y].pop();
 			SnackBar.play("You can't place there.\nBlocking path is not allowed");
 		}
 		finally {
