@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import model.monster.GroundMonster;
+import util.cpp;
 
 public class MonsterSpawner {
 	
@@ -17,8 +18,8 @@ public class MonsterSpawner {
 		
 		stage = new Timeline();
 		stage.getKeyFrames().add(new KeyFrame(Duration.seconds(1./3), e ->  {
-			GameManager gi = GameManager.getInstance();
-			GameManager.getInstance().spawnMonster(new GroundMonster("Bear", Images.bear, gi.getStartCol()+0.5, gi.getStartRow()+0.5,
+			cpp.pii startTile = GameManager.getInstance().getStartTilePos();
+			GameManager.getInstance().spawnMonster(new GroundMonster("Bear", Images.bear, startTile.first+0.5, startTile.second+0.5,
 					0.3, 60, 1.5, 3, 10));
 			System.out.println("spawned monster");
 		}));

@@ -37,7 +37,6 @@ public class GameManager {
 	private boolean isPaused = false;
 	private cpp.pff mousePos = new cpp.pff(0, 0);
 	private cpp.pii tilePos = new cpp.pii(0, 0);
-	private int renderTickCount = 0;
 	private int money = 1000;
 	private String message = "";
 	private Tile selectedTile;
@@ -129,7 +128,6 @@ public class GameManager {
 	}
 
 	public void render(GraphicsContext gc) {
-		renderTickCount += 1;
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
 		for (Tile t: tiles) {
@@ -376,9 +374,6 @@ public class GameManager {
 		return mousePos;
 	}
 	
-	public int getRenderTickCount() {
-		return renderTickCount;
-	}
 
 	public cpp.pii[][] getPath() {
 		return path;
@@ -401,6 +396,14 @@ public class GameManager {
 	}
 	
 	
+
+	public cpp.pii getStartTilePos() {
+		return startTilePos;
+	}
+
+	public cpp.pii getEndTilePos() {
+		return endTilePos;
+	}
 
 	public int getTowerChoice() {
 		return towerChoice;
