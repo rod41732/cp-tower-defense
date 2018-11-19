@@ -180,7 +180,7 @@ public class GameManager {
 		return isPaused;
 	}
 
-	private Tower createTower(int towerChoice, int x, int y) {
+	public Tower createTower(int towerChoice, int x, int y) {
 		Tower t = null;
 		switch (towerChoice) {
 		case 0:				

@@ -1,6 +1,8 @@
 package ui;
 
 
+import java.util.ArrayList;
+
 import constants.Images;
 import controller.GameManager;
 import javafx.scene.control.Button;
@@ -9,6 +11,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import main.Main;
+import model.Tower;
 import model.tower.BombTower;
 import model.tower.NormalTower;
 
@@ -20,6 +23,9 @@ public class ButtonManager {
 	private Button pauseButton; // for pause menu
 	private Button sellButton;
 	private Button upgradeButton;
+	
+	private ArrayList<ToggleButton> toggleButtons = new ArrayList<>();
+	private ToggleGroup toggleGroup;
 	
 	
 	public ButtonManager(Pane pane) {
@@ -65,15 +71,18 @@ public class ButtonManager {
 
 		
 		
-		ToggleGroup tg = new ToggleGroup();
-		ToggleButton twr = ButtonMaker.makeTowerButton(1300, 400, Images.towerButton, Images.towerButtonPressed, new BombTower(0, 0), buttonFontSmall);
-		ToggleButton twr2 = ButtonMaker.makeTowerButton(1300, 400, Images.towerButton, Images.towerButtonPressed, new NormalTower(0, 0), buttonFontSmall);
-
-		tg.getToggles().addAll(twr, twr2);
-		
+		toggleGroup = new ToggleGroup();
+		for (int i=0; i<4; i++) {
+			Tower twr = GameManager.getInstance().createTower(i, 0, 0);
+			ToggleButton tg = ButtonMaker.makeTowerButton(1300+(i%3)*64, (i/3)*128,
+					Images.towerButton, Images.towerButtonPressed, twr, buttonFontSmall);
+			toggleButtons.add(tg);
+		}
+		toggleGroup.getToggles().addAll(toggleButtons);
 		
 		pane.getChildren().addAll(pauseButton, resumeButton, toMenuButton,
-				nextButton, upgradeButton, sellButton, twr, twr2);
+				nextButton, upgradeButton, sellButton);
+		pane.getChildren().addAll(toggleButtons);
 	}
 	
 	private void onGamePause() {
