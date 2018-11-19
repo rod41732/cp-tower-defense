@@ -106,7 +106,7 @@ public class ButtonMaker {
 	}
 
 //	@SuppressWarnings("unchecked")
-	public static ToggleButton makeTowerButton(double x, double y, Image imgNormal, Image imgPressed, Tower t,Font font) {
+	public static ToggleButton makeTowerButton(double x, double y, Image imgNormal, Image imgPressed, Tower t,Font font, int value) {
 		ToggleButton btn;
 
 		btn = new ToggleButton();
@@ -127,7 +127,7 @@ public class ButtonMaker {
 		// specific to tower
 		btn.setGraphic(new ImageView(t.getImage()));
 		btn.setText("$" + t.getPrice());
-		btn.setUserData(t);
+		btn.setUserData(value);
 		btn.setContentDisplay(ContentDisplay.TOP);
 		btn.setAlignment(Pos.CENTER);
 		
@@ -147,6 +147,7 @@ public class ButtonMaker {
 					
 		return btn;
 	}
+	
 	
 	
 }

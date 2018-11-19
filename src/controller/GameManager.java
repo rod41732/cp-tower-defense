@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import constants.Images;
 import constants.Numbers;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Toggle;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -75,7 +76,6 @@ public class GameManager {
 				placedTiles[i][j] = new TileStack();
 		MonsterSpawner.getInstace().stop();
 		money = 0;
-		towerChoice = -1;
 		selectedTile = null;
 	}
 	
@@ -91,7 +91,7 @@ public class GameManager {
 				placedTiles[i][j] = new TileStack();
 		MonsterSpawner.getInstace().stop();
 		money = 0;
-		towerChoice = -1;
+		setTowerChoice(-1);
 		selectedTile = null;
 	}
 	
@@ -226,9 +226,14 @@ public class GameManager {
 //						i*Numbers.TILE_SIZE, j*Numbers.TILE_SIZE+16);
 		
 		
-		
-		Tower floatingTower = createTower(towerChoice, tilePos.first, tilePos.second);
-		if (floatingTower != null) floatingTower.render(gc, true);
+		try {
+			int choice = (int)Main.gameScene.getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
+			Tower floatingTower = createTower(choice, tilePos.first, tilePos.second);
+			floatingTower.render(gc, true);			
+		}
+		catch (NullPointerException e) {
+			// nothing to handle (just not remder)
+		}
 		
 		
 		gc.setFill(Color.MAGENTA);
@@ -298,7 +303,7 @@ public class GameManager {
 		cpp.pii pos = t.getPosition().toI();
 		removeTower(pos.first, pos.second);
 		selectedTile = null;
-		towerChoice = -1;
+		setTowerChoice(-1);
 	}
 	
 	public void removeTower(int x, int y) {
@@ -342,9 +347,9 @@ public class GameManager {
 	public void handleTileClick(int x, int y) {
 
 		try {
-
+			towerChoice = getTowerChoice();
 			Tower t = createTower(towerChoice, x, y);
-			towerChoice = -1;
+			setTowerChoice(-1);
 			selectedTile = placedTiles[x][y].top();
 
 			// no select => muse select
@@ -477,11 +482,26 @@ public class GameManager {
 	}
 
 	public int getTowerChoice() {
-		return towerChoice;
+		int choice;
+		try {
+			choice = (int)Main.gameScene.getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
+		}
+		catch (Exception e) {		
+			choice = -1;
+		}
+		return choice;
 	}
 
 	public void setTowerChoice(int towerChoice) {
-		selectedTile = null;
-		this.towerChoice = towerChoice;	
+		try {
+			Toggle what = Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(towerChoice);
+			Main.getGameScene().getButtonManager().getToggleGroup().selectToggle(what);
+		}
+		catch (IndexOutOfBoundsException e) {
+			Main.getGameScene().getButtonManager().getToggleGroup().selectToggle(null);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

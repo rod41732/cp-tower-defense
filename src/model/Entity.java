@@ -67,6 +67,8 @@ public class Entity {
 		return y;
 	}
 	
+	
+	
 	public Image getImage() {
 		return image;
 	}

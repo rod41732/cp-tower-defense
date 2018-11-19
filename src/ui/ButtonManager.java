@@ -75,7 +75,7 @@ public class ButtonManager {
 		for (int i=0; i<4; i++) {
 			Tower twr = GameManager.getInstance().createTower(i, 0, 0);
 			ToggleButton tg = ButtonMaker.makeTowerButton(1300+(i%3)*64, (i/3)*128,
-					Images.towerButton, Images.towerButtonPressed, twr, buttonFontSmall);
+					Images.towerButton, Images.towerButtonPressed, twr, buttonFontSmall, i);
 			toggleButtons.add(tg);
 		}
 		toggleGroup.getToggles().addAll(toggleButtons);
@@ -121,6 +121,10 @@ public class ButtonManager {
 	
 	
 	
+	public ToggleGroup getToggleGroup() {
+		return toggleGroup;
+	}
+
 	public void setAllowNextWave(boolean allow) {
 		nextButton.setDisable(!allow);
 	}
