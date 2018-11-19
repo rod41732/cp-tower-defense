@@ -185,12 +185,23 @@ public class Tower extends Tile {
 		buffs.add(b);
 	}
 	
-	
+	public double getAttackCooldown() {
+		return attackCooldown;
+	}
+
+	public double getAttack() {
+		return attack;
+	}
+
+	public double getRange() {
+		return range;
+	}
+
 	public int getPrice() {
 		return price;
 	}
 
-	public void setPrie(int price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
