@@ -229,7 +229,9 @@ public class GameManager {
 		try {
 			int choice = (int)Main.gameScene.getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
 			Tower floatingTower = createTower(choice, tilePos.first, tilePos.second);
-			floatingTower.render(gc, true);			
+			if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
+				floatingTower.render(gc, true);							
+			}
 		}
 		catch (NullPointerException e) {
 			// nothing to handle (just not remder)
@@ -330,6 +332,7 @@ public class GameManager {
 	public void pause() {
 		this.isPaused = true;
 		PauseMenu.show();
+		setTowerChoice(-1);
 		MonsterSpawner.getInstace().pause();
 	}
 	
