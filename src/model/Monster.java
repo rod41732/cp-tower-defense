@@ -111,6 +111,7 @@ public abstract class Monster extends Entity {
 	}
 	
 	public void forceKill() {
+		money = 0; // no money on force kill
 		health = -1;
 	}
 	
