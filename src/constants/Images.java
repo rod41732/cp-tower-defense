@@ -48,8 +48,8 @@ public class Images {
 	public static Image buttonPausePressed = new Image("ui/button/button_pause_pressed.png", 190, 45, true, true);
 	
 	public static Image pauseMenuPanel = new Image("ui/pause_menu_panel.png", 300, 300, true, true);
-	public static Image towerButton = new Image("ui/tower_button.png", 64, 128, false, true);
-	public static Image towerButtonPressed = new Image("ui/tower_button_pressed.png", 64, 128, false, true);
+	public static Image towerButton = new Image("ui/tower_button.png", 85, 128, false, true);
+	public static Image towerButtonPressed = new Image("ui/tower_button_pressed.png", 85, 128, false, true);
 	
 	
 	
