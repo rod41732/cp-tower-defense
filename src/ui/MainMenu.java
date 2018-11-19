@@ -46,6 +46,9 @@ public class MainMenu extends Scene {
 		menuTick = new Timeline();
 		menuTick.setAutoReverse(true); // so animation is reverse
 		menuTick.getKeyFrames().addAll(titleAnimX, titleAnimY);
+		menuTick.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5),e->{
+			start.setDisable(!GameManager.getInstance().isInitialized());
+		}));
 		menuTick.setCycleCount(Timeline.INDEFINITE);
 		menuTick.play();
 		

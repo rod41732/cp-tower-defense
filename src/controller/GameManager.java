@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import constants.Images;
 import constants.Numbers;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -25,6 +26,7 @@ import model.tower.FireTower;
 import model.tower.IceTower;
 import model.tower.NormalTower;
 import ui.PauseMenu;
+import ui.RichTextBox;
 import ui.SnackBar;
 import ui.TowerMenu;
 import util.Algorithm;
@@ -95,6 +97,11 @@ public class GameManager {
 		selectedTile = null;
 	}
 	
+	
+	public boolean isInitialized() {
+		return isInitialized;
+	}
+
 	public void initialize() {
 		if (isInitialized) return ;
 		try {
