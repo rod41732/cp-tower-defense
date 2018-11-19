@@ -120,7 +120,6 @@ public class GameManager {
 					else {
 						t = new Tile(Images.tile2, i+0.5, j+0.5);
 					}
-					System.out.printf("%d,%d -> %s\n", i, j, t);
 					placedTiles[i][j] = new TileStack(t);
 				}
 			path = Algorithm.BFS(endTilePos.first, endTilePos.second,
@@ -129,7 +128,7 @@ public class GameManager {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("this shouldn't happen");
+			System.out.println("can't initialize. this shouldn't happen");
 		}
 	}
 	
@@ -372,8 +371,6 @@ public class GameManager {
 			}
 			
 		
-
-			System.out.println("tried + " + t);
 			placedTiles[x][y].push(t);
 			Algorithm.BFS(endTilePos.first, endTilePos.second, startTilePos.first, startTilePos.second);
 			towers.add(t);

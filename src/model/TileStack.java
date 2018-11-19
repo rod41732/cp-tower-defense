@@ -29,7 +29,6 @@ public class TileStack {
 	}
 	
 	public void push(Tile t) {
-		System.out.println("push" + t);
 		layers.addElement(t);
 	}
 	

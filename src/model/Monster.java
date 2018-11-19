@@ -97,7 +97,6 @@ public abstract class Monster extends Entity {
 		damage *= damageTakenMultiplier;
 		damage -= armor;
 		if (damage <= 0) return false;
-		System.out.printf("%s took %.2f damage\n", name, damage);
 		health -= damage;
 		return true;
 	}
@@ -105,7 +104,6 @@ public abstract class Monster extends Entity {
 	public boolean takePureDamage(double damage) {
 		damage *= damageTakenMultiplier;
 		if (damage <= 0) return false;
-		System.out.printf("%s took %.2f damage\n", name, damage);
 		health -= damage;
 		return true;
 	}
