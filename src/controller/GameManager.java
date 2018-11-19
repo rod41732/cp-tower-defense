@@ -235,12 +235,23 @@ public class GameManager {
 		
 		gc.setFill(Color.MAGENTA);
 		gc.setStroke(Color.BLACK);
-		gc.setFont(Font.font("Consolas", 20));
-		gc.fillText("Selected " + mousePos.first + "," + mousePos.second, 200, 60);
-		gc.fillText(mousePos.second*Numbers.TILE_SIZE + "," + mousePos.second*Numbers.TILE_SIZE, 400, 60);
-		gc.fillText("Money = " + money, 200, 100);
-		gc.fillText("selcted Tower = " + selectedTile , 200, 120);
-		gc.fillText("Lives = " + lives , 200, 160);
+		
+		
+		ArrayList<Image> imgs= new ArrayList<>();
+		ArrayList<String> texts = new ArrayList<>();
+		imgs.add(Images.cooldownIcon);
+		imgs.add(Images.coinIcon);
+		imgs.add(Images.liveIcon);
+//		imgs.add(Images.normalTower);
+		texts.add("Level 1");
+		texts.add("$" + money);
+		texts.add("lives" + lives);
+//		texts.add(String.format("Pos %.2f, .2f = %.2f, %.2f\n Tower = %s", mousePos.first, mousePos.second, 
+//				mousePos.first*Numbers.TILE_SIZE, mousePos.second*Numbers.TILE_SIZE, selectedTile));
+		RichTextBox info = new RichTextBox(imgs, texts, 20, 20);
+		info.render(gc);
+		
+		gc.setFont(Font.font("Consolas", 20));;
 		TowerMenu.render(gc);
 		PauseMenu.render(gc);
 		SnackBar.render(gc);
