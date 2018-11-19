@@ -36,16 +36,16 @@ public class GameManager {
 	private static GameManager instance = new GameManager();
 	
 	// TODO: refactor field names
-	private boolean isPaused = false;
+	private boolean isPaused;
 	private cpp.pff mousePos = new cpp.pff(0, 0);
 	private cpp.pii tilePos = new cpp.pii(0, 0);
-	private int money = 1000;
-	private String message = "";
+	private int money;
 	private Tile selectedTile;
-	private int towerChoice = -1;
-	private cpp.pii startTilePos = new cpp.pii(0, 5);
-	private cpp.pii endTilePos = new cpp.pii(19, 5);
-	private int lives = 200;
+	private int towerChoice;
+	private cpp.pii startTilePos;
+	private cpp.pii endTilePos;
+	private int lives;
+	private boolean isInitialized;
 	
 	private ArrayList<Tower> towers = new ArrayList<>();
 	private ArrayList<Monster> monsters = new ArrayList<>();
@@ -64,7 +64,45 @@ public class GameManager {
 	}
 	
 	public GameManager() {
+		isInitialized = false;
+		towers.clear();
+		monsters.clear();
+		tiles.clear();
+		projectiles.clear();
+		particles.clear();
+		for (int i=0;i < Numbers.COLUMNS; i++)
+			for (int j=0; j<Numbers.ROWS; j++)
+				placedTiles[i][j] = new TileStack();
+		MonsterSpawner.getInstace().stop();
+		money = 0;
+		towerChoice = -1;
+		selectedTile = null;
+	}
+	
+	public void newGame() { // reset all
+		isInitialized = false;
+		towers.clear();
+		monsters.clear();
+		tiles.clear();
+		projectiles.clear();
+		particles.clear();
+		for (int i=0;i < Numbers.COLUMNS; i++)
+			for (int j=0; j<Numbers.ROWS; j++)
+				placedTiles[i][j] = new TileStack();
+		MonsterSpawner.getInstace().stop();
+		money = 0;
+		towerChoice = -1;
+		selectedTile = null;
+	}
+	
+	public void initialize() {
+		if (isInitialized) return ;
 		try {
+			isInitialized = true;
+			money = 1000;
+			lives = 200;
+			startTilePos = new cpp.pii(0, 5);
+			endTilePos = new cpp.pii(19, 5);
 			for (int i=0;i<Numbers.COLUMNS; i++)
 				for (int j=0; j<Numbers.ROWS; j++) {
 					Tile t;
@@ -82,16 +120,11 @@ public class GameManager {
 				}
 			path = Algorithm.BFS(endTilePos.first, endTilePos.second,
 					startTilePos.first, startTilePos.second);
+			money = 100;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("this shouldn't happen");
-		}
-		for (int i=0; i<Numbers.WIN_WIDTH; i+=Numbers.TILE_SIZE) {
-			for (int j=0; j<Numbers.WIN_HEIGHT; j+=Numbers.TILE_SIZE) {
-				int ix = (int)((i)/Numbers.TILE_SIZE), iy = (int)((j)/Numbers.TILE_SIZE);
-				
-			}
 		}
 	}
 	
@@ -106,7 +139,7 @@ public class GameManager {
 			if (m.getPosition().containedBy(endTilePos)) {
 				m.forceKill();
 				lives -= 1;
-				message = "a monster reached end";
+				SnackBar.play("monster reached end");
 			}
 		}
 		
@@ -142,6 +175,23 @@ public class GameManager {
 		return isPaused;
 	}
 
+	private Tower createTower(int towerChoice, int x, int y) {
+		Tower t = null;
+		switch (towerChoice) {
+		case 0:				
+			t = new BombTower(x+0.5, y+0.5); break;
+		case 1:
+			t = new NormalTower(x+0.5, y+0.5); break;
+		case 2:
+			t = new FireTower(x+0.5, y+0.5); break;
+		case 3:
+			t = new IceTower(x+0.5, y+0.5); break;
+		}
+		return t;
+	}
+	
+	
+	
 	public void render(GraphicsContext gc) {
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
@@ -171,36 +221,19 @@ public class GameManager {
 //						i*Numbers.TILE_SIZE, j*Numbers.TILE_SIZE+16);
 		
 		
-		if (towerChoice != -1) {
-			Tower floatingTower = null;
-			int sx = getSelectedPosition().first, sy = getSelectedPosition().second;
-			if (towerChoice == 0) {
-				floatingTower = new BombTower(sx+0.5, sy+0.5);				
-			}
-			else if (towerChoice == 1){
-				floatingTower = new NormalTower(sx+0.5, sy+0.5);
-			}
-			else if (towerChoice == 2) {
-				floatingTower = new FireTower(sx+0.5, sy+0.5);
-			}
-			else if (towerChoice == 3) {
-				floatingTower = new IceTower(sx+0.5, sy+0.5);
-			}
-			if (floatingTower != null) {
-				floatingTower.render(gc, true);				
-			}
-			floatingTower = null;
-		}
+		
+		Tower floatingTower = createTower(towerChoice, tilePos.first, tilePos.second);
+		if (floatingTower != null) floatingTower.render(gc, true);
+		
 		
 		gc.setFill(Color.MAGENTA);
 		gc.setStroke(Color.BLACK);
 		gc.setFont(Font.font("Consolas", 20));
-		gc.fillText("Selected " + mousePos.first + "," + mousePos.second, 20, 60);
+		gc.fillText("Selected " + mousePos.first + "," + mousePos.second, 200, 60);
 		gc.fillText(mousePos.second*Numbers.TILE_SIZE + "," + mousePos.second*Numbers.TILE_SIZE, 400, 60);
-		gc.fillText("Money = " + money, 20, 100);
-		gc.fillText("selcted Tower = " + selectedTile , 20, 120);
-		gc.fillText("last msg:" + message, 20, 140);
-		gc.fillText("Lives = " + lives , 20, 160);
+		gc.fillText("Money = " + money, 200, 100);
+		gc.fillText("selcted Tower = " + selectedTile , 200, 120);
+		gc.fillText("Lives = " + lives , 200, 160);
 		TowerMenu.render(gc);
 		PauseMenu.render(gc);
 		SnackBar.render(gc);
@@ -234,7 +267,7 @@ public class GameManager {
 			spawnMonster(e.getX()/Numbers.TILE_SIZE, e.getY()/Numbers.TILE_SIZE);
 		}
 		else {
-			removeTower((int)(e.getX()/Numbers.TILE_SIZE), (int)(e.getY()/Numbers.TILE_SIZE));
+			sellTower();
 		}
 		return ;
 	}
@@ -244,7 +277,7 @@ public class GameManager {
 		// TODO : spaghetti
 		if (!(selectedTile instanceof Tower)) return ;
 		Tower t = (Tower)selectedTile;
-		money += t.getValue();
+		money += t.getPrice()/2;
 		cpp.pii pos = t.getPosition().toI();
 		removeTower(pos.first, pos.second);
 		selectedTile = null;
@@ -290,44 +323,42 @@ public class GameManager {
 	}
 	
 	public void handleTileClick(int x, int y) {
-		System.out.println("hand");
-//System.out.println("selec" + selectedTile.isWalkable());
-		selectedTile = placedTiles[x][y].top();
-		if (!selectedTile.isPlaceable()) {
-			towerChoice = -1;
-			SnackBar.play("you can't place there\n beause there's already something on it");
-			return ;
-		}
-		System.out.println("no slec");
-		if (towerChoice < 0) {
-			message = "Please select a tower";
-			return ;
-		}
-		System.out.println("try to add tower to" + x +"." + y);
-		Tower t;
-		switch (towerChoice) {
-			case 0:				
-				t = new BombTower(x+0.5, y+0.5); break;
-			case 1:
-				t = new NormalTower(x+0.5, y+0.5); break;
-			case 2:
-				t = new FireTower(x+0.5, y+0.5); break;
-			case 3:
-				t = new IceTower(x+0.5, y+0.5); break;
-			default:
-				return;
-		}
-		towerChoice = -1;
+
 		try {
+
+			Tower t = createTower(towerChoice, x, y);
+			towerChoice = -1;
+			selectedTile = placedTiles[x][y].top();
+
+			// no select => muse select
+			if (t == null) {
+				if (!selectedTile.isSelectable()) {
+					selectedTile = null;
+					throw new Exception("No tower selected");
+				}
+				return;
+			}
+			// selected => try build
+			if (!selectedTile.isPlaceable()) {
+				throw new Exception("already something on tile");
+			}
+			
+			if (t.getPrice() > money) {
+				throw new Exception("no money");
+			}
+			
+		
+
 			System.out.println("tried + " + t);
-			placedTiles[x][y].push(t);;
+			placedTiles[x][y].push(t);
 			Algorithm.BFS(endTilePos.first, endTilePos.second, startTilePos.first, startTilePos.second);
-			message = "OK";
 			towers.add(t);
+			money -= t.getPrice();
 		}
 		catch (Exception e) {
-			placedTiles[x][y].pop();
-			SnackBar.play("You can't place there.\nBlocking path is not allowed");
+			if (e.getMessage().charAt(0) == 'Y') // "Y" ou don't block path 
+				placedTiles[x][y].pop();
+			SnackBar.play(e.getMessage());
 		}
 		finally {
 			try {

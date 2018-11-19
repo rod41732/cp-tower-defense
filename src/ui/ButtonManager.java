@@ -86,7 +86,7 @@ public class ButtonManager {
 		toMenuButton.setVisible(true);
 	}
 	
-	private void onGameResume() {
+	public void onGameResume() {
 		GameManager.getInstance().resume();
 		resumeButton.setVisible(false);
 		pauseButton.setVisible(true);
@@ -98,6 +98,8 @@ public class ButtonManager {
 	
 	private void onGameLeft() {
 		GameManager.getInstance().leaveGame();
+		Main.setScene(Main.mainMenu);
+		Main.mainMenu.resume();
 		resumeButton.setVisible(false);
 		pauseButton.setVisible(false);
 		nextButton.setVisible(false);

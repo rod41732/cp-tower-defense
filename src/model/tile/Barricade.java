@@ -14,7 +14,7 @@ public class Barricade extends Tile {
 	}
 	
 	public boolean isWalkable() {
-		return false;
+		return true;
 	}
 	
 	public boolean isSelectable() {

@@ -186,12 +186,12 @@ public class Tower extends Tile {
 	}
 	
 	
-	public int getValue() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setValue(int value) {
-		this.price = value;
+	public void setPrie(int price) {
+		this.price = price;
 	}
 
 	public double getAttackSpeedMultiplier() {

@@ -21,7 +21,7 @@ public class MonsterSpawner {
 			cpp.pii startTile = GameManager.getInstance().getStartTilePos();
 			GameManager.getInstance().spawnMonster(new GroundMonster("Bear", Images.bear, startTile.first+0.5, startTile.second+0.5,
 					0.3, 60, 1.5, 3, 10));
-			System.out.println("spawned monster");
+//			System.out.println("spawned monster");
 		}));
 		stage.setOnFinished(e -> {
 			isReady = true;
@@ -30,14 +30,23 @@ public class MonsterSpawner {
 	}
 	public void play() {
 		isReady = false;
+		System.out.println("monster starts");
 		stage.play();
 	}
 	
 	public void pause() {
+		System.out.println("monster pause");
 		stage.pause();
 	}
 	
+	public void stop() {
+		System.out.println("monster stop");
+		isReady = true;
+		stage.stop();
+	}
+	
 	public void resume() {
+		System.out.println("monster resume");
 		if (!isReady) 
 			stage.play();
 	}

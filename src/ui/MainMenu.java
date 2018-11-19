@@ -30,8 +30,11 @@ public class MainMenu extends Scene {
 		title.setFont(Font.font("Consolas", 72));
 		Button settings = new Button("Settings");
 		settings.setFont(Font.font("Tahoma", 40));
-		Button start = new Button("Play");
+		Button start = new Button("Resume ?");
 		start.setFont(Font.font("Tahoma", 40));
+		
+		Button newGame = new Button("new game!!");
+		newGame.setFont(Font.font("Tahoma", 40));
 		
 		KeyFrame titleAnimX = new KeyFrame(Duration.seconds(0.5), 
 				new KeyValue(title.scaleXProperty(), 1.5)
@@ -46,7 +49,23 @@ public class MainMenu extends Scene {
 		menuTick.setCycleCount(Timeline.INDEFINITE);
 		menuTick.play();
 		
+		
+
+		newGame.setOnAction(e -> {
+			
+			GameManager.getInstance().newGame();
+			GameManager.getInstance().initialize();
+			Main.gameScene.onJoin();
+			Main.setScene(Main.gameScene);
+			menuTick.pause();
+		});
+		
+		
 		start.setOnAction(e -> {
+			
+//			GameManager.getInstance().newGame();
+			GameManager.getInstance().initialize();
+			Main.gameScene.onJoin();
 			Main.setScene(Main.gameScene);
 			menuTick.pause();
 		});
@@ -56,7 +75,7 @@ public class MainMenu extends Scene {
 			menuTick.pause(); // to make it playable, it should be resumable from other clas
 		});
 	
-		menus.getChildren().addAll(title, start, settings);
+		menus.getChildren().addAll(title, start, settings, newGame);
 		menus.setMinWidth(Numbers.WIN_WIDTH);
 		root.getChildren().addAll(menus);
 	}

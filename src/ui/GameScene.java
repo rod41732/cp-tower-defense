@@ -23,7 +23,7 @@ import model.Tower;
 
 public class GameScene extends Scene {
 	private ButtonManager buttonManager;
-	
+	private Timeline gameTick;
 	public GameScene() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Pane root = (Pane) getRoot();
@@ -32,7 +32,7 @@ public class GameScene extends Scene {
 		buttonManager = new ButtonManager(root);
 		
 		
-		Timeline gameTick = new Timeline();
+		gameTick = new Timeline();
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e -> {
 			if (!GameManager.getInstance().isPaused())
 				GameManager.getInstance().update();
@@ -40,7 +40,7 @@ public class GameScene extends Scene {
 		});
 		gameTick.getKeyFrames().add(render);
 		gameTick.setCycleCount(Timeline.INDEFINITE);
-		gameTick.play();
+//		gameTick.play();
 
 		setOnMouseMoved(e -> {
 			GameManager.getInstance().updateMousePos(e.getX(), e.getY());
@@ -70,6 +70,15 @@ public class GameScene extends Scene {
 			}
 			e.consume(); // prevent 'ding' sound 
 		});
+	}
+	
+	public void onLeave() {
+		gameTick.pause();
+	}
+	
+	public void onJoin() {
+		gameTick.play();
+		buttonManager.onGameResume();
 	}
 
 	public ButtonManager getButtonManager() {

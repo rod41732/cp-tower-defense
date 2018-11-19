@@ -41,6 +41,10 @@ public class TileStack {
 		return layers.get(layers.size()-1);
 	}
 	
+	public void clear() {
+		layers.clear();
+	}
+	
 	public boolean isPlaceable() {
 		for (Tile t: layers)
 			if (!t.isPlaceable()) return false;
@@ -49,7 +53,7 @@ public class TileStack {
 	
 	public boolean isWalkable() {
 		for (Tile t: layers)
-			if (!t.isPlaceable()) return false;
+			if (!t.isWalkable()) return false;
 		return true;
 	}
 
