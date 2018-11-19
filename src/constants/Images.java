@@ -21,6 +21,13 @@ public class Images {
 	public static final Image fireBullet = new Image("projectile/fireBullet.png", 30, 30, true, true);
 	public static final Image iceBullet = new Image("projectile/iceBullet.png", 30, 30, true, true);
 	
+	public static final Image attackIcon = new Image("icon/attack.png", 32, 32, true, true);
+	public static final Image bombIcon = new Image("icon/bomb.png", 32, 32, true, true);
+	public static final Image cooldownIcon = new Image("icon/cooldown.png", 32, 32, true, true);
+	public static final Image targetIcon = new Image("icon/target.png", 32, 32, true, true);
+	public static final Image liveIcon = new Image("icon/live.png", 32, 32, true, true);
+	public static final Image coinIcon = new Image("icon/coin.png", 32, 32, true, true);
+	
 	public static final Image buttonSell = new Image("ui/button/button_sell.png", 190, 49, true, true);
 	public static final Image buttonSellDisabled = new Image("ui/button/button_sell_disabled.png", 190, 45, true, true);
 	public static final Image buttonSellHover = new Image("ui/button/button_sell_hover.png", 190, 45, true, true);
