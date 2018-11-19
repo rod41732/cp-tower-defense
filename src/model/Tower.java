@@ -23,7 +23,7 @@ public class Tower extends Tile {
 	
 	protected double attackCooldown = 1000;
 	protected double attack;
-	protected int price = 20;
+	protected int price;
 	protected double range; 
 
 	protected double currentCooldown; 
@@ -163,7 +163,7 @@ public class Tower extends Tile {
 		rotateTo(currentTarget);
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		GameManager.getInstance().getProjectiles().add(new 
-				Bomb(Images.normalBullet,x, y, v.first*9, v.second*9, range, 1, 2));
+				Bomb(Images.normalBullet,x, y, v.x*9, v.second*9, range, 1, 2));
 		currentCooldown = attackCooldown; // some tower like gatling  cannon might not update like this
 	}
 	
@@ -198,7 +198,7 @@ public class Tower extends Tile {
 	}
 
 	public int getPrice() {
-		return price;
+		return this.price;
 	}
 
 	public void setPrice(int price) {

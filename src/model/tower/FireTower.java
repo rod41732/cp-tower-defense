@@ -18,16 +18,15 @@ public class FireTower extends Tower {
 	private static final double FIRE_RADIUS = 0.7;
 	private static final Image DEFAULT_IMAGE = Images.fireTower;
 	private static final double BASE_FIRE_DAMAGE = 10;
-	private double fireDamage;
+	private static final int BASE_PRICE = 35;
 	
-	public FireTower(Image image ,double cellX, double cellY, double fireDamage, double cooldown, double range) {
-		super(image, cellX, cellY, BASE_ATTACK, cooldown, range);
-		this.fireDamage = fireDamage;
-	}
+	
+	private double fireDamage;
 	
 	public FireTower(double cellX, double cellY) {
 		super(DEFAULT_IMAGE, cellX, cellY, BASE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
 		this.fireDamage = BASE_FIRE_DAMAGE;
+		this.price = BASE_PRICE;
 	}
 	
 	public void upgrade() {
@@ -39,7 +38,7 @@ public class FireTower extends Tower {
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);
 		GameManager.getInstance().getProjectiles().add(new 
-				FireProjectile(x, y, v.first*9, v.second*9, range, attack, FIRE_RADIUS, fireDamage));
+				FireProjectile(x, y, v.x*9, v.second*9, range, attack, FIRE_RADIUS, fireDamage));
 		currentCooldown = attackCooldown;
 	}
 	@Override 

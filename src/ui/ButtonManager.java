@@ -2,25 +2,15 @@ package ui;
 
 
 import constants.Images;
-import constants.Numbers;
 import controller.GameManager;
-import controller.MonsterSpawner;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 import main.Main;
-import model.Tower;
+import model.tower.BombTower;
+import model.tower.NormalTower;
 
 public class ButtonManager {
 	
@@ -34,14 +24,14 @@ public class ButtonManager {
 	
 	public ButtonManager(Pane pane) {
 		Font buttonFont = new Font("KenVector Future Regular", 20);
-		
-		sellButton = ButtonMaker.make(1400, 700,Images.buttonSell, Images.buttonSellPressed,
+		Font buttonFontSmall = new Font("KenVector Future Regular", 12);
+		sellButton = ButtonMaker.make(1400, 700, Images.buttonSell, Images.buttonSellPressed,
 				buttonFont, "Sell Tower");		
 		sellButton.setOnAction(e -> {
 			GameManager.getInstance().sellTower();
 		});
 
-		nextButton = ButtonMaker.make(20, 80, Images.buttonNext, Images.buttonNextPressed,
+		nextButton = ButtonMaker.make(1020, 80, Images.buttonNext, Images.buttonNextPressed,
 				buttonFont, "Next Wave");
 		nextButton.setOnAction(e -> {
 			GameManager.getInstance().requestNextWave();
@@ -66,23 +56,34 @@ public class ButtonManager {
 			onGameResume();
 		});
 		
-		pauseButton = ButtonMaker.make(20, 20, Images.buttonPause, Images.buttonPausePressed,
+		pauseButton = ButtonMaker.make(1020, 20, Images.buttonPause, Images.buttonPausePressed,
 				buttonFont, "Pause");
 		pauseButton.setOnAction(e -> {
 			onGamePause();
 		});		
 		
+
+		
+		
+		ToggleGroup tg = new ToggleGroup();
+		ToggleButton twr = ButtonMaker.makeTowerButton(1300, 400, Images.towerButton, Images.towerButtonPressed, new BombTower(0, 0), buttonFontSmall);
+		ToggleButton twr2 = ButtonMaker.makeTowerButton(1300, 400, Images.towerButton, Images.towerButtonPressed, new NormalTower(0, 0), buttonFontSmall);
+
+		tg.getToggles().addAll(twr, twr2);
+		
+		
 		pane.getChildren().addAll(pauseButton, resumeButton, toMenuButton,
-				nextButton, upgradeButton, sellButton);
+				nextButton, upgradeButton, sellButton, twr, twr2);
 	}
 	
 	private void onGamePause() {
 		GameManager.getInstance().pause();
 		resumeButton.setVisible(true);
 		pauseButton.setVisible(false);
+		
 		nextButton.setVisible(false);
-		sellButton.setVisible(false);
-		upgradeButton.setVisible(false);
+		sellButton.setDisable(true);
+		upgradeButton.setDisable(true);
 		toMenuButton.setVisible(true);
 	}
 	
@@ -91,8 +92,8 @@ public class ButtonManager {
 		resumeButton.setVisible(false);
 		pauseButton.setVisible(true);
 		nextButton.setVisible(true);
-		sellButton.setVisible(true);
-		upgradeButton.setVisible(true);
+		sellButton.setDisable(false);
+		upgradeButton.setDisable(false);
 		toMenuButton.setVisible(false);
 	}
 	

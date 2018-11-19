@@ -29,26 +29,26 @@ public class cpp {
 //	}
 	
 	public static class pff {
-		public double first = 0, second = 0;
+		public double x = 0, second = 0;
 		
 		public pff(double fi, double se) {
-			first = fi;
+			x = fi;
 			second = se;
 		}
 		
 		public String toString() {
-			return String.format("F(%.2f, %.2f)", first, second);
+			return String.format("F(%.2f, %.2f)", x, second);
 		}
 		
 		public boolean containedBy(cpp.pii tile) {
-			return Double.compare(tile.first, first) < 0 &&
-					Double.compare(first, tile.first+1) < 0 &&
+			return Double.compare(tile.first, x) < 0 &&
+					Double.compare(x, tile.first+1) < 0 &&
 					Double.compare(tile.second, second) < 0 &&
 					Double.compare(second, tile.second+1) < 0;
 		}
 		
 		public pii toI() {
-			return new cpp.pii((int)first, (int)second);
+			return new cpp.pii((int)x, (int)second);
 		}
 		
 		public boolean equals(Object o) {
@@ -56,7 +56,7 @@ public class cpp {
 			if (o == null) return false;
 			if (this.getClass() != o.getClass()) return false;
 			pii other = (pii) o;
-			return first == other.first && second == other.second;
+			return x == other.first && second == other.second;
 		}
 	}
 	

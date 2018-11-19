@@ -1,8 +1,6 @@
 package model.tower;
 
 
-import javax.management.RuntimeErrorException;
-
 import constants.Images;
 import controller.GameManager;
 import javafx.scene.image.Image;
@@ -13,19 +11,17 @@ import util.cpp;
 
 public class BombTower extends Tower {
 
-	private static final double BASE_ATTACK = 12;
+	private static final double BASE_ATTACK = 15;
 	private static final double BASE_COOLDOWN = 1250;
 	private static final double BASE_RANGE = 3.5;
 	private static final Image DEFAULT_IMAGE = Images.bombTower;
+	private static final int BASE_PRICE = 25;
 	
 	private static final double RADIUS = 2;
-	
-	public BombTower(Image image ,double cellX, double cellY, double attack, double cooldown, double range) {
-		super(image, cellX, cellY, attack, cooldown, range);
-	}
-	
+		
 	public BombTower(double cellX, double cellY) {
 		super(DEFAULT_IMAGE, cellX, cellY, BASE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
+		this.price = BASE_PRICE;
 	}
 
 	public void upgrade() {
@@ -40,7 +36,7 @@ public class BombTower extends Tower {
 		rotateTo(currentTarget);
 		System.out.println(rotation);
 		GameManager.getInstance().getProjectiles().add(new 
-				Bomb(Images.bomb, x, y, v.first*9, v.second*9, range, attack, RADIUS));
+				Bomb(Images.bomb, x, y, v.x*9, v.second*9, range, attack, RADIUS));
 		
 		currentCooldown = attackCooldown;
 	}

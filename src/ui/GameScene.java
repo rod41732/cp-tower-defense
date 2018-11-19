@@ -1,25 +1,16 @@
 package ui;
 
 
-import constants.Images;
 import constants.Numbers;
 import controller.GameManager;
-import controller.MonsterSpawner;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.util.Duration;
-import main.Main;
-import model.Tower;
 
 public class GameScene extends Scene {
 	private ButtonManager buttonManager;
@@ -32,6 +23,10 @@ public class GameScene extends Scene {
 		buttonManager = new ButtonManager(root);
 		
 		
+		canvas.setOnMouseClicked(e -> {
+			System.out.println("c1");
+		});
+//		canvas2
 		gameTick = new Timeline();
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e -> {
 			if (!GameManager.getInstance().isPaused())

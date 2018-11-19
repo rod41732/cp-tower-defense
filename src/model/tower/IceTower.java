@@ -17,17 +17,11 @@ public class IceTower extends Tower {
 	private static final double BASE_COOLDOWN = 750;
 	private static final double BASE_RANGE = 3.5;
 	private static final Image DEFAULT_IMAGE = Images.iceTower;
-	
-	public IceTower(Image image, double cellX, double cellY, double attack, double cooldown, double range) {
-		super(image, cellX, cellY, attack, cooldown, range);
-	}
-	
-	public IceTower(double cellX, double cellY, double attack, double cooldown, double range) {
-		super(DEFAULT_IMAGE, cellX, cellY, attack, cooldown, range);
-	}
-	
+	private static final int BASE_PRICE = 25;
+		
 	public IceTower(double cellX, double cellY) {
 		super(DEFAULT_IMAGE, cellX, cellY, BASE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
+		this.price = BASE_PRICE;
 	}
 	
 	@Override
@@ -49,7 +43,7 @@ public class IceTower extends Tower {
 		
 		rotateTo(currentTarget);
 		GameManager.getInstance().getProjectiles().add(new 
-				IceProjectile(x, y, v.first*15, v.second*15, range, attack));
+				IceProjectile(x, y, v.x*15, v.second*15, range, attack));
 		
 		currentCooldown = attackCooldown;
 	}

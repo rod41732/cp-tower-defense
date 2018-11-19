@@ -18,7 +18,6 @@ import model.Projectile;
 import model.Tile;
 import model.TileStack;
 import model.Tower;
-import model.monster.FlyingMonster;
 import model.monster.SplittingMonster;
 import model.tile.Barricade;
 import model.tower.BombTower;
@@ -31,7 +30,6 @@ import ui.SnackBar;
 import ui.TowerMenu;
 import util.Algorithm;
 import util.cpp;
-import util.cpp.pii;
 
 public class GameManager {
 	
@@ -249,6 +247,7 @@ public class GameManager {
 //		texts.add(String.format("Pos %.2f, .2f = %.2f, %.2f\n Tower = %s", mousePos.first, mousePos.second, 
 //				mousePos.first*Numbers.TILE_SIZE, mousePos.second*Numbers.TILE_SIZE, selectedTile));
 		RichTextBox info = new RichTextBox(imgs, texts, 20, 20);
+		info.setAlignRight(true);
 		info.render(gc);
 		
 		gc.setFont(Font.font("Consolas", 20));;
@@ -259,10 +258,10 @@ public class GameManager {
 
 
 	public void updateMousePos(double x, double y) {
-		mousePos.first = x/Numbers.TILE_SIZE;
+		mousePos.x = x/Numbers.TILE_SIZE;
 		mousePos.second = y/Numbers.TILE_SIZE;
 		// don't want to create new object
-		tilePos.first = (int)mousePos.first;
+		tilePos.first = (int)mousePos.x;
 		tilePos.second = (int)mousePos.second;
 	}
 	
@@ -352,7 +351,6 @@ public class GameManager {
 			if (t == null) {
 				if (!selectedTile.isSelectable()) {
 					selectedTile = null;
-					throw new Exception("No tower selected");
 				}
 				return;
 			}

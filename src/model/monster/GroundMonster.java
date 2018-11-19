@@ -28,8 +28,8 @@ public class GroundMonster extends Monster {
 		try {
 			if (path[gridX][gridY] != null) {
 				targetPos = path[gridX][gridY].toF();
-				cpp.pff v_hat = GameUtil.unitVector(x, y, targetPos.first+0.5, targetPos.second+0.5);
-				vx = v_hat.first * moveSpeed;
+				cpp.pff v_hat = GameUtil.unitVector(x, y, targetPos.x+0.5, targetPos.second+0.5);
+				vx = v_hat.x * moveSpeed;
 				vy = v_hat.second * moveSpeed;
 			}
 			else {

@@ -1,8 +1,6 @@
 package util;
 
 import model.Entity;
-import model.monster.GroundMonster;
-import model.tower.BombTower;
 
 public class GameUtil {
 

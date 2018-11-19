@@ -1,14 +1,11 @@
 package util;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import constants.Numbers;
 import constants.Other;
 import controller.GameManager;
-import javafx.util.Pair;
-import model.Tile;
 
 public class Algorithm {
 	

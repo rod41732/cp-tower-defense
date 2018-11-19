@@ -1,15 +1,21 @@
 package ui;
 
-import javafx.event.EventHandler;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Font;
+import model.Tower;
 
 public class ButtonMaker {
 
@@ -30,6 +36,8 @@ public class ButtonMaker {
 		BackgroundImage bp = new BackgroundImage(imgPressed, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		Background bgPressed = new Background(bp);
+		
+		
 		
 		
 		
@@ -65,6 +73,7 @@ public class ButtonMaker {
 		return btn;
 	}
 	
+	
 	public static Button make(double x, double y, Image imgNormal, Image imgPressed, Font font, String text) {
 		Button btn = new Button(text);
 		btn.setLayoutX(x);
@@ -95,4 +104,49 @@ public class ButtonMaker {
 				
 		return btn;
 	}
+
+//	@SuppressWarnings("unchecked")
+	public static ToggleButton makeTowerButton(double x, double y, Image imgNormal, Image imgPressed, Tower t,Font font) {
+		ToggleButton btn;
+
+		btn = new ToggleButton();
+		btn.setLayoutX(x);
+		btn.setLayoutY(y);
+		BackgroundImage bn = new BackgroundImage(imgNormal, BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+		Background bgNormal = new Background(bn);
+		BackgroundImage bp = new BackgroundImage(imgPressed, BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+		Background bgPressed = new Background(bp);
+		
+		btn.setFont(font);
+		btn.backgroundProperty().bind(Bindings.when(btn.selectedProperty())
+				.then(bgPressed)
+				.otherwise(bgNormal));
+		
+		// specific to tower
+		btn.setGraphic(new ImageView(t.getImage()));
+		btn.setText("$" + t.getPrice());
+		btn.setUserData(t);
+		btn.setContentDisplay(ContentDisplay.TOP);
+		btn.setAlignment(Pos.CENTER);
+		
+		
+		btn.setPrefWidth(imgNormal.getWidth());
+		btn.setPrefHeight(imgNormal.getHeight());
+		btn.setPadding(Insets.EMPTY);
+		
+		btn.setOnMousePressed(e -> {
+			btn.setPrefWidth(imgPressed.getWidth());
+			btn.setPrefHeight(imgPressed.getHeight());
+		});
+		btn.setOnMouseReleased(e -> {
+			btn.setPrefWidth(imgNormal.getWidth());
+			btn.setPrefHeight(imgNormal.getHeight());
+		});
+					
+		return btn;
+	}
+	
+	
 }
