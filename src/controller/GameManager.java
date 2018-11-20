@@ -40,7 +40,7 @@ public class GameManager {
 	private static GameManager instance = new GameManager();
 	
 	// TODO: refactor field names
-	private boolean isPaused;
+
 	private cpp.pff mousePos = new cpp.pff(0, 0);
 	private cpp.pii tilePos = new cpp.pii(0, 0);
 	private int money;
@@ -178,10 +178,6 @@ public class GameManager {
 		}
 	}
 	
-	
-	public boolean isPaused() {
-		return isPaused;
-	}
 
 	public Tower createTower(int towerChoice, int x, int y) {
 		Tower t = null;
@@ -341,25 +337,7 @@ public class GameManager {
 		}
 	}
 	
-	
-	public void pause() {
-		this.isPaused = true;
-		PauseMenu.show();
-		setTowerChoice(-1);
-		MonsterSpawner.getInstace().pauseWave();
-	}
-	
-	public void resume() {
-		this.isPaused = false;
-		PauseMenu.hide();
-		MonsterSpawner.getInstace().resumeWave();
-	}
-	
-	public void leaveGame() {
-		pause();
-		PauseMenu.hide();
-	}
-	
+
 	public void handleTileClick(int x, int y) {
 
 		try {

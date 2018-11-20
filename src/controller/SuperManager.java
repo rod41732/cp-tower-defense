@@ -2,16 +2,17 @@ package controller;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import main.Main;
 
 public class SuperManager {
 	
 	private static SuperManager instance = new SuperManager();
 	
-	private BooleanProperty isInGameProp = new SimpleBooleanProperty(false);
-	private BooleanProperty isGamePausedProp = new SimpleBooleanProperty(false);
-	private BooleanProperty nextWaveAvailableProp = new SimpleBooleanProperty(false);
-	private BooleanProperty canUpgradeProp = new SimpleBooleanProperty(false);
-	private BooleanProperty canSellProp = new SimpleBooleanProperty(false);
+	private BooleanProperty isInGameProp = new SimpleBooleanProperty();
+	private BooleanProperty isGamePausedProp = new SimpleBooleanProperty();
+	private BooleanProperty nextWaveAvailableProp = new SimpleBooleanProperty();
+	private BooleanProperty canUpgradeProp = new SimpleBooleanProperty();
+	private BooleanProperty canSellProp = new SimpleBooleanProperty();
 	
 	
 	
@@ -40,6 +41,7 @@ public class SuperManager {
 		MonsterSpawner.getInstace().pauseWave();
 		isGamePausedProp.set(true);
 		isInGameProp.set(false);
+		Main.setScene(Main.getMainMenu());
 	}
 	
 	

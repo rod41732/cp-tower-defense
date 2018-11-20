@@ -3,6 +3,7 @@ package ui;
 
 import constants.Numbers;
 import controller.GameManager;
+import controller.SuperManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -52,19 +53,42 @@ public class MainMenuScene extends Scene {
 		menuTick.setCycleCount(Timeline.INDEFINITE);
 		menuTick.play();
 		
-		
 
+		SuperManager.getInstance().getIsInGameProp().set(false);
+		SuperManager.getInstance().getCanSellProp().set(false);
+		SuperManager.getInstance().getCanUpgradeProp().set(false);
+		SuperManager.getInstance().getIsGamePausedProp().set(false);
+		SuperManager.getInstance().getnextWaveAvailableProp().set(false);
+		SuperManager.getInstance().getIsInGameProp().set(true);
+		SuperManager.getInstance().getCanSellProp().set(true);
+		SuperManager.getInstance().getCanUpgradeProp().set(true);
+		SuperManager.getInstance().getIsGamePausedProp().set(true);
+		SuperManager.getInstance().getnextWaveAvailableProp().set(true);
+		SuperManager.getInstance().getIsInGameProp().set(false);
+		SuperManager.getInstance().getCanSellProp().set(false);
+		SuperManager.getInstance().getCanUpgradeProp().set(false);
+		SuperManager.getInstance().getIsGamePausedProp().set(false);
+		SuperManager.getInstance().getnextWaveAvailableProp().set(false);
+		
+		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
+			boolean inGame = nw.booleanValue();
+			if (!inGame) menuTick.play();
+			else menuTick.pause();
+		});
 		newGame.setOnAction(e -> {
-			
+			System.out.println("new game");
+
 			GameManager.getInstance().newGame();
 			GameManager.getInstance().initialize();
 			Main.setScene(Main.getGameScene());
+			SuperManager.getInstance().onResumeGame();
 			menuTick.pause();
 		});
 		
 		
 		start.setOnAction(e -> {
-			
+		
+			SuperManager.getInstance().getIsInGameProp().set(true);
 //			GameManager.getInstance().newGame();
 			GameManager.getInstance().initialize();
 			Main.setScene(Main.getGameScene());

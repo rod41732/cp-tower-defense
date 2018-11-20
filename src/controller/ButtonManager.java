@@ -52,21 +52,22 @@ public class ButtonManager {
 				buttonFont, "Main menu");
 		toMenuButton.setVisible(false);
 		toMenuButton.setOnAction(e -> {
-			SuperManager.getInstance().getIsInGameProp().set(false);
+			SuperManager.getInstance().onLeaveGame();
 		});
+		toMenuButton.setVisible(false);
 		
 		resumeButton = ButtonMaker.make(700, 400, Images.buttonUpgrade, Images.buttonUpgradePressed, buttonFont, "Resume");
 		resumeButton.setVisible(false);
 		resumeButton.setOnAction(e -> {
-			SuperManager.getInstance().getIsGamePausedProp().set(false);
+			SuperManager.getInstance().onResumeGame();
 		});
+		resumeButton.setVisible(false);
 		
 		pauseButton = ButtonMaker.make(1020, 20, Images.buttonPause, Images.buttonPausePressed,
 				buttonFont, "Pause");
 		pauseButton.setOnAction(e -> {
-			SuperManager.getInstance().getIsGamePausedProp().set(true);
+			SuperManager.getInstance().onGamePause();
 		});		
-		
 
 		
 		
@@ -107,23 +108,25 @@ public class ButtonManager {
 		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
 //			if (old.booleanValue() != nw.booleanValue()) return ;
 			boolean paused = nw.booleanValue();
-			resumeButton.setVisible(paused);
-			toMenuButton.setVisible(paused);
-			pauseButton.setVisible(!paused);
+			boolean inGame = SuperManager.getInstance().getIsInGameProp().get();
+			resumeButton.setVisible(paused && inGame);
+			toMenuButton.setVisible(paused && inGame);
+			pauseButton.setVisible(!paused && inGame);
+			nextButton.setVisible(!paused && inGame);
 			sellButton.setDisable(paused);
 			upgradeButton.setDisable(paused);
-			nextButton.setDisable(paused);
 		});
 		
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) ->{
 //			if (old.booleanValue() != nw.booleanValue()) return ;
 			boolean inGame = nw.booleanValue();
-			resumeButton.setVisible(inGame);
-			toMenuButton.setVisible(inGame);
-			pauseButton.setVisible(inGame);
+			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
+			resumeButton.setVisible(inGame && paused);
+			toMenuButton.setVisible(inGame && paused);
+			pauseButton.setVisible(inGame && !paused);
+			nextButton.setVisible(inGame && !paused);
 			sellButton.setVisible(inGame);
 			upgradeButton.setVisible(inGame);
-			nextButton.setVisible(inGame);
 		});
 	}
 

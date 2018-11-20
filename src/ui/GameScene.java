@@ -4,6 +4,7 @@ package ui;
 import constants.Numbers;
 import controller.ButtonManager;
 import controller.GameManager;
+import controller.SuperManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -30,13 +31,12 @@ public class GameScene extends Scene {
 //		canvas2
 		gameTick = new Timeline();
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e -> {
-			if (!GameManager.getInstance().isPaused())
+			if (!SuperManager.getInstance().getIsGamePausedProp().get())
 				GameManager.getInstance().update();
 			GameManager.getInstance().render(canvas.getGraphicsContext2D());					
 		});
 		gameTick.getKeyFrames().add(render);
 		gameTick.setCycleCount(Timeline.INDEFINITE);
-//		gameTick.play();
 
 		setOnMouseMoved(e -> {
 			GameManager.getInstance().updateMousePos(e.getX(), e.getY());
@@ -45,6 +45,13 @@ public class GameScene extends Scene {
 		setOnMouseClicked(e -> {
 			PauseMenu.handleMouseClick(e);
 			GameManager.getInstance().handleClick(e);								
+		});
+		
+		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
+			System.out.println("ig change");
+			boolean inGame = nw.booleanValue();
+			if (inGame) gameTick.play();
+			else gameTick.pause();
 		});
 		
 		setOnKeyPressed(e -> {
