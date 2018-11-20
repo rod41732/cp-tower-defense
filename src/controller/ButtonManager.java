@@ -30,25 +30,25 @@ public class ButtonManager {
 	public ButtonManager(Pane pane) {
 		Font buttonFont = new Font("KenVector Future Regular", 20);
 		Font buttonFontSmall = new Font("KenVector Future Regular", 12);
-		sellButton = ButtonMaker.make(1400, 700, Images.buttonSell, Images.buttonSellPressed,
+		sellButton = ButtonMaker.make(1400, 700, Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
 				buttonFont, "Sell Tower");		
 		sellButton.setOnAction(e -> {
 			GameManager.getInstance().sellTower();
 		});
 
-		nextButton = ButtonMaker.make(1020, 80, Images.buttonNext, Images.buttonNextPressed,
+		nextButton = ButtonMaker.make(1020, 80, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
 				buttonFont, "Next Wave");
 		nextButton.setOnAction(e -> {
 			GameManager.getInstance().requestNextWave();
 		});
 		
-		upgradeButton = ButtonMaker.make(1400, 760, Images.buttonUpgrade, Images.buttonUpgradePressed, 
+		upgradeButton = ButtonMaker.make(1400, 760, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
 				buttonFont, "Upgrade");
 		upgradeButton.setOnAction(e -> {
 			GameManager.getInstance().upgradeTower();
 		});		
 		
-		toMenuButton = ButtonMaker.make(700, 480, Images.buttonNext, Images.buttonNextPressed, 
+		toMenuButton = ButtonMaker.make(700, 480, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
 				buttonFont, "Main menu");
 		toMenuButton.setVisible(false);
 		toMenuButton.setOnAction(e -> {
@@ -56,14 +56,15 @@ public class ButtonManager {
 		});
 		toMenuButton.setVisible(false);
 		
-		resumeButton = ButtonMaker.make(700, 400, Images.buttonUpgrade, Images.buttonUpgradePressed, buttonFont, "Resume");
+		resumeButton = ButtonMaker.make(700, 400, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
+				buttonFont, "Resume");
 		resumeButton.setVisible(false);
 		resumeButton.setOnAction(e -> {
 			SuperManager.getInstance().onResumeGame();
 		});
 		resumeButton.setVisible(false);
 		
-		pauseButton = ButtonMaker.make(1020, 20, Images.buttonPause, Images.buttonPausePressed,
+		pauseButton = ButtonMaker.make(1020, 20, Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
 				buttonFont, "Pause");
 		pauseButton.setOnAction(e -> {
 			SuperManager.getInstance().onGamePause();
