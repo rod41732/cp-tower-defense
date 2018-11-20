@@ -7,7 +7,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -44,7 +43,6 @@ public class GameScene extends Scene {
 		
 		setOnMouseClicked(e -> {
 			PauseMenu.handleMouseClick(e);
-			TowerMenu.handleClick(e);
 			GameManager.getInstance().handleClick(e);								
 		});
 		
@@ -52,15 +50,19 @@ public class GameScene extends Scene {
 			if (e.getCode() == KeyCode.G) {
 				GameManager.getInstance().requestNextWave();			
 			} else if (e.getCode() == KeyCode.DIGIT1) {
+				GameManager.getInstance().setSelectedTile(null);
 				Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(0).setSelected(
 						!Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(0).isSelected());
 			} else if (e.getCode() == KeyCode.DIGIT2) {
+				GameManager.getInstance().setSelectedTile(null);
 				Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(1).setSelected(
 						!Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(1).isSelected());
 			} else if (e.getCode() == KeyCode.DIGIT3) {
+				GameManager.getInstance().setSelectedTile(null);
 				Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(2).setSelected(
 						!Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(2).isSelected());
 			} else if (e.getCode() == KeyCode.DIGIT4) {
+				GameManager.getInstance().setSelectedTile(null);
 				Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(3).setSelected(
 						!Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(3).isSelected());
 			} else if (e.getCode() == KeyCode.S) {

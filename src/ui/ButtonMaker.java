@@ -4,7 +4,6 @@ import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;

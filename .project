@@ -14,16 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>resources/monster/bear.png</name>
-			<type>1</type>
-			<location>D:/Progmeth_Projects/TowerDefense/resources/monster/bear.png</location>
-		</link>
-		<link>
-			<name>resources/projectile/normalBullet.png</name>
-			<type>1</type>
-			<location>D:/Progmeth_Projects/TowerDefense/resources/projectile/bullet1.png</location>
-		</link>
-	</linkedResources>
 </projectDescription>

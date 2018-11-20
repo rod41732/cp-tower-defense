@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class PauseMenu {
 	
@@ -18,7 +19,9 @@ public class PauseMenu {
 			gc.drawImage(Images.pauseMenuPanel, 650, 300);
 			gc.setFill(Color.color(0.55, 0.27, 0.10, 0.8));
 			gc.setFont(Font.font("KenVector Future Regular", 44));
-			gc.fillText("Paused", 700, 360);
+			gc.setTextAlign(TextAlignment.CENTER);
+			gc.fillText("Paused", 800, 360);
+			gc.setTextAlign(TextAlignment.LEFT);
 		}
 	}
 	

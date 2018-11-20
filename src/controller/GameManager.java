@@ -48,7 +48,6 @@ public class GameManager {
 	private cpp.pii endTilePos;
 	private int lives;
 	private boolean isInitialized;
-	private BooleanProperty readyToUpgrade = new SimpleBooleanProperty(false);
 	
 	private ArrayList<Tower> towers = new ArrayList<>();
 	private ArrayList<Monster> monsters = new ArrayList<>();
@@ -79,6 +78,7 @@ public class GameManager {
 		MonsterSpawner.getInstace().stop();
 		money = 0;
 		selectedTile = null;
+		
 		
 	}
 	
@@ -136,8 +136,11 @@ public class GameManager {
 	}
 	
 	public void update() {
-		// update entity
-		Main.gameScene.getButtonManager().setAllowNextWave(shouldSpawnNextWave());
+		Main.getGameScene().getButtonManager().setAllowUpgrade(selectedTile != null && ((Tower)selectedTile).getPrice() <= money);
+		Main.getGameScene().getButtonManager().setAllowUpgrade(false);
+		Main.getGameScene().getButtonManager().setAllowSell(selectedTile != null);
+		
+		Main.getGameScene().getButtonManager().setAllowNextWave(shouldSpawnNextWave());
 		for (Particle p: particles) p.onTick();
 		for (Tower t: towers) t.onTick();
 		for (Projectile p: projectiles) p.onTick();
@@ -200,6 +203,7 @@ public class GameManager {
 	
 	
 	public void render(GraphicsContext gc) {
+
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.setGlobalAlpha(1);
 		for (TileStack[] col: placedTiles)
@@ -249,10 +253,12 @@ public class GameManager {
 		imgs.add(Images.cooldownIcon);
 		imgs.add(Images.coinIcon);
 		imgs.add(Images.liveIcon);
+		imgs.add(Images.attackIcon);
 //		imgs.add(Images.normalTower);
 		texts.add("Level 1");
 		texts.add("$" + money);
 		texts.add("lives" + lives);
+		texts.add("selected = " + selectedTile + "\nchoice " +  getTowerChoice());
 //		texts.add(String.format("Pos %.2f, .2f = %.2f, %.2f\n Tower = %s", mousePos.first, mousePos.second, 
 //				mousePos.first*Numbers.TILE_SIZE, mousePos.second*Numbers.TILE_SIZE, selectedTile));
 		RichTextBox info = new RichTextBox(imgs, texts, 20, 20);
@@ -297,6 +303,13 @@ public class GameManager {
 		}
 		return ;
 	}
+	public boolean canUpgrade() {
+		return selectedTile != null && ((Tower)selectedTile).getPrice() <= money;
+	}
+	public boolean canSell() {
+		return selectedTile != null;
+	}
+	
 	
 	public void sellTower() {
 		if (selectedTile == null) return;
@@ -325,7 +338,7 @@ public class GameManager {
 			path = Algorithm.BFS(endTilePos.first, endTilePos.second, startTilePos.first, startTilePos.second);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			System.out.println("can't remove tower, this shouldn't happen");
 		}
 	}
@@ -356,21 +369,20 @@ public class GameManager {
 			setTowerChoice(-1);
 			selectedTile = placedTiles[x][y].top();
 
-			// no select => muse select
+			// no tower => muse select
 			if (t == null) {
-				if (!selectedTile.isSelectable()) {
-					selectedTile = null;
-				}
+				selectedTile = placedTiles[x][y].select();
 				return;
 			}
-			// selected => try build
+
+				// selected => try build
 			if (!selectedTile.isPlaceable()) {
 				throw new Exception("already something on tile");
 			}
 			
 			if (t.getPrice() > money) {
 				throw new Exception("no money");
-			}
+			}				
 			
 		
 			placedTiles[x][y].push(t);
@@ -380,6 +392,8 @@ public class GameManager {
 			selectedTile = t;
 		}
 		catch (Exception e) {
+			selectedTile = null;
+//			e.printStackTrace();
 			if (e.getMessage().charAt(0) == 'Y') // "Y" ou don't block path 
 				placedTiles[x][y].pop();
 			SnackBar.play(e.getMessage());
@@ -428,6 +442,7 @@ public class GameManager {
 	
 	public void upgradeTower() {
 		if (selectedTile != null) {
+			money -= ((Tower)selectedTile).getPrice(); 
 			((Tower)selectedTile).upgrade();
 		}
 	}
@@ -474,6 +489,8 @@ public class GameManager {
 		return projectiles;
 	}
 	
+	
+
 	
 
 	public cpp.pii getStartTilePos() {

@@ -12,8 +12,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import main.Main;
 import model.Tower;
-import model.tower.BombTower;
-import model.tower.NormalTower;
 
 public class ButtonManager {
 	
@@ -24,9 +22,12 @@ public class ButtonManager {
 	private Button sellButton;
 	private Button upgradeButton;
 	
-	private ArrayList<ToggleButton> toggleButtons = new ArrayList<>();
-	private ToggleGroup toggleGroup;
 	
+	
+	private ArrayList<ToggleButton> toggleButtons = new ArrayList<>();
+	private boolean allowButton = false;
+	private boolean allowSell = false;
+	private ToggleGroup toggleGroup;
 	
 	public ButtonManager(Pane pane) {
 		Font buttonFont = new Font("KenVector Future Regular", 20);
@@ -86,6 +87,7 @@ public class ButtonManager {
 	}
 	
 	private void onGamePause() {
+		allowButton = false;
 		GameManager.getInstance().pause();
 		resumeButton.setVisible(true);
 		pauseButton.setVisible(false);
@@ -97,16 +99,20 @@ public class ButtonManager {
 	}
 	
 	public void onGameResume() {
+		allowButton = true;
 		GameManager.getInstance().resume();
 		resumeButton.setVisible(false);
 		pauseButton.setVisible(true);
 		nextButton.setVisible(true);
+		sellButton.setVisible(true);
+		upgradeButton.setVisible(true);
 		sellButton.setDisable(false);
 		upgradeButton.setDisable(false);
 		toMenuButton.setVisible(false);
 	}
 	
 	private void onGameLeft() {
+		allowButton = false;
 		GameManager.getInstance().leaveGame();
 		Main.setScene(Main.mainMenu);
 		Main.mainMenu.resume();
@@ -126,7 +132,14 @@ public class ButtonManager {
 	}
 
 	public void setAllowNextWave(boolean allow) {
-		nextButton.setDisable(!allow);
+		nextButton.setDisable(!allow || !allowButton);
+	}
+	
+	public void setAllowUpgrade(boolean allow) {
+		upgradeButton.setDisable(!allow || !allowButton);
 	}
 
+	public void setAllowSell(boolean allow) {
+		sellButton.setDisable(!allow || !allowButton);
+	}
 }
