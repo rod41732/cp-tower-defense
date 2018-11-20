@@ -26,19 +26,17 @@ public class SuperManager {
 	
 	
 	public void onGamePause() {
-		MonsterSpawner.getInstace().pauseWave();
 		isGamePausedProp.set(true);
 		isInGameProp.set(true);
 	}
 	
 	public void onResumeGame() {
-		MonsterSpawner.getInstace().resumeWave();
 		isGamePausedProp.set(false);
 		isInGameProp.set(true);
+		Main.setScene(Main.getGameScene());
 	}
 	
 	public void onLeaveGame() {
-		MonsterSpawner.getInstace().pauseWave();
 		isGamePausedProp.set(true);
 		isInGameProp.set(false);
 		Main.setScene(Main.getMainMenu());
