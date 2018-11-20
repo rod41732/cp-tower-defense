@@ -19,7 +19,7 @@ import model.Tower;
 public class ButtonMaker {
 
 	
-	public static Button make(double x, double y, Image imgNormal, Image imgHover, Image imgDisable, Image imgPressed, Font font, String text) {
+	public static Button make(double x, double y, Image imgNormal, Image imgPressed, Image imgHover, Image imgDisable, Font font, String text) {
 		Button btn = new Button(text);
 		btn.setLayoutX(x);
 		btn.setLayoutY(y);
