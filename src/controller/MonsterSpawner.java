@@ -28,27 +28,31 @@ public class MonsterSpawner {
 		});
 		stage.setCycleCount(20);
 	}
-	public void play() {
+	public void nextWave() {
 		isReady = false;
 		System.out.println("monster starts");
 		stage.play();
 	}
 	
-	public void pause() {
+	public void pauseWave() {
 		System.out.println("monster pause");
 		stage.pause();
 	}
 	
-	public void stop() {
+	public void cancelWave() {
 		System.out.println("monster stop");
 		isReady = true;
 		stage.stop();
 	}
 	
-	public void resume() {
+	public void resumeWave() {
 		System.out.println("monster resume");
 		if (!isReady) 
 			stage.play();
+	}
+	
+	public void reset() {
+		
 	}
 	
 	

@@ -2,6 +2,7 @@ package ui;
 
 
 import constants.Numbers;
+import controller.ButtonManager;
 import controller.GameManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -72,15 +73,6 @@ public class GameScene extends Scene {
 			}
 			e.consume(); // prevent 'ding' sound 
 		});
-	}
-	
-	public void onLeave() {
-		gameTick.pause();
-	}
-	
-	public void onJoin() {
-		gameTick.play();
-		buttonManager.onGameResume();
 	}
 
 	public ButtonManager getButtonManager() {

@@ -13,8 +13,8 @@ public class Settings extends Scene {
 		Pane root = (Pane) getRoot();
 		Button back = new Button("Back to main menu");
 		back.setOnAction(e -> {
-			Main.setScene(Main.mainMenu);
-			Main.mainMenu.resume();
+			Main.setScene(Main.getMainMenu());
+			Main.getMainMenu().resume();
 		});
 		
 		root.getChildren().addAll(back);

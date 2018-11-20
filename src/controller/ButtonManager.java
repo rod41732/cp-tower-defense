@@ -1,10 +1,9 @@
-package ui;
+package controller;
 
 
 import java.util.ArrayList;
 
-import constants.Images;
-import controller.GameManager;
+import constants.Images;import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -12,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import main.Main;
 import model.Tower;
+import ui.ButtonMaker;
 
 public class ButtonManager {
 	
@@ -25,8 +25,6 @@ public class ButtonManager {
 	
 	
 	private ArrayList<ToggleButton> toggleButtons = new ArrayList<>();
-	private boolean allowButton = false;
-	private boolean allowSell = false;
 	private ToggleGroup toggleGroup;
 	
 	public ButtonManager(Pane pane) {
@@ -54,19 +52,19 @@ public class ButtonManager {
 				buttonFont, "Main menu");
 		toMenuButton.setVisible(false);
 		toMenuButton.setOnAction(e -> {
-			onGameLeft();
+			SuperManager.getInstance().getIsInGameProp().set(false);
 		});
 		
 		resumeButton = ButtonMaker.make(700, 400, Images.buttonUpgrade, Images.buttonUpgradePressed, buttonFont, "Resume");
 		resumeButton.setVisible(false);
 		resumeButton.setOnAction(e -> {
-			onGameResume();
+			SuperManager.getInstance().getIsGamePausedProp().set(false);
 		});
 		
 		pauseButton = ButtonMaker.make(1020, 20, Images.buttonPause, Images.buttonPausePressed,
 				buttonFont, "Pause");
 		pauseButton.setOnAction(e -> {
-			onGamePause();
+			SuperManager.getInstance().getIsGamePausedProp().set(true);
 		});		
 		
 
@@ -84,62 +82,54 @@ public class ButtonManager {
 		pane.getChildren().addAll(pauseButton, resumeButton, toMenuButton,
 				nextButton, upgradeButton, sellButton);
 		pane.getChildren().addAll(toggleButtons);
-	}
-	
-	private void onGamePause() {
-		allowButton = false;
-		GameManager.getInstance().pause();
-		resumeButton.setVisible(true);
-		pauseButton.setVisible(false);
 		
-		nextButton.setVisible(false);
-		sellButton.setDisable(true);
-		upgradeButton.setDisable(true);
-		toMenuButton.setVisible(true);
+		
+		SuperManager.getInstance().getCanSellProp().addListener((obs, old, nw) -> {
+//			if (old.booleanValue() != nw.booleanValue()) return ;
+			boolean canSell = nw.booleanValue();
+			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
+			sellButton.setDisable(!canSell || paused);
+		});
+		
+		SuperManager.getInstance().getCanUpgradeProp().addListener((obs, old, nw) -> {
+//			if (old.booleanValue() != nw.booleanValue()) return ;
+			boolean canUpgrade = nw.booleanValue();
+			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
+			upgradeButton.setDisable(!canUpgrade || paused);			
+		});
+		
+		SuperManager.getInstance().getnextWaveAvailableProp().addListener((obs, old, nw) -> {
+//			if (old.booleanValue() != nw.booleanValue()) return ;
+			boolean avail = nw.booleanValue();
+			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
+			nextButton.setDisable(!avail || paused);
+		});
+		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
+//			if (old.booleanValue() != nw.booleanValue()) return ;
+			boolean paused = nw.booleanValue();
+			resumeButton.setVisible(paused);
+			toMenuButton.setVisible(paused);
+			pauseButton.setVisible(!paused);
+			sellButton.setDisable(paused);
+			upgradeButton.setDisable(paused);
+			nextButton.setDisable(paused);
+		});
+		
+		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) ->{
+//			if (old.booleanValue() != nw.booleanValue()) return ;
+			boolean inGame = nw.booleanValue();
+			resumeButton.setVisible(inGame);
+			toMenuButton.setVisible(inGame);
+			pauseButton.setVisible(inGame);
+			sellButton.setVisible(inGame);
+			upgradeButton.setVisible(inGame);
+			nextButton.setVisible(inGame);
+		});
 	}
-	
-	public void onGameResume() {
-		allowButton = true;
-		GameManager.getInstance().resume();
-		resumeButton.setVisible(false);
-		pauseButton.setVisible(true);
-		nextButton.setVisible(true);
-		sellButton.setVisible(true);
-		upgradeButton.setVisible(true);
-		sellButton.setDisable(false);
-		upgradeButton.setDisable(false);
-		toMenuButton.setVisible(false);
-	}
-	
-	private void onGameLeft() {
-		allowButton = false;
-		GameManager.getInstance().leaveGame();
-		Main.setScene(Main.mainMenu);
-		Main.mainMenu.resume();
-		resumeButton.setVisible(false);
-		pauseButton.setVisible(false);
-		nextButton.setVisible(false);
-		sellButton.setVisible(false);
-		upgradeButton.setVisible(false);
-		toMenuButton.setVisible(false);
-	}
-	
-	
-	
-	
+
 	public ToggleGroup getToggleGroup() {
 		return toggleGroup;
 	}
-
-	public void setAllowNextWave(boolean allow) {
-		nextButton.setDisable(!allow || !allowButton);
-	}
 	
-	public void setAllowUpgrade(boolean allow) {
-		upgradeButton.setDisable(!allow || !allowButton);
-	}
-
-	public void setAllowSell(boolean allow) {
-		sellButton.setDisable(!allow || !allowButton);
-	}
+	
 }

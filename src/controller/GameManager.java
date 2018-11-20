@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import constants.Images;
 import constants.Numbers;
+import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.canvas.GraphicsContext;
@@ -75,11 +76,9 @@ public class GameManager {
 		for (int i=0;i < Numbers.COLUMNS; i++)
 			for (int j=0; j<Numbers.ROWS; j++)
 				placedTiles[i][j] = new TileStack();
-		MonsterSpawner.getInstace().stop();
+		MonsterSpawner.getInstace().cancelWave();
 		money = 0;
 		selectedTile = null;
-		
-		
 	}
 	
 	public void newGame() { // reset all
@@ -92,7 +91,7 @@ public class GameManager {
 		for (int i=0;i < Numbers.COLUMNS; i++)
 			for (int j=0; j<Numbers.ROWS; j++)
 				placedTiles[i][j] = new TileStack();
-		MonsterSpawner.getInstace().stop();
+		MonsterSpawner.getInstace().cancelWave();
 		money = 0;
 		setTowerChoice(-1);
 		selectedTile = null;
@@ -233,7 +232,7 @@ public class GameManager {
 		
 		
 		try {
-			int choice = (int)Main.gameScene.getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
+			int choice = (int)Main.getGameScene().getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
 			Tower floatingTower = createTower(choice, tilePos.first, tilePos.second);
 			if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
 				floatingTower.render(gc, true);							
@@ -348,13 +347,13 @@ public class GameManager {
 		this.isPaused = true;
 		PauseMenu.show();
 		setTowerChoice(-1);
-		MonsterSpawner.getInstace().pause();
+		MonsterSpawner.getInstace().pauseWave();
 	}
 	
 	public void resume() {
 		this.isPaused = false;
 		PauseMenu.hide();
-		MonsterSpawner.getInstace().resume();
+		MonsterSpawner.getInstace().resumeWave();
 	}
 	
 	public void leaveGame() {
@@ -432,7 +431,7 @@ public class GameManager {
 			System.out.println("nextwave: path not found");
 		}
 		if (shouldSpawnNextWave()) {
-			MonsterSpawner.getInstace().play();			
+			MonsterSpawner.getInstace().nextWave();			
 		}
 		else {
 			SnackBar.play("Please wait until end of the wave");
@@ -504,7 +503,7 @@ public class GameManager {
 	public int getTowerChoice() {
 		int choice;
 		try {
-			choice = (int)Main.gameScene.getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
+			choice = (int)Main.getGameScene().getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
 		}
 		catch (Exception e) {		
 			choice = -1;
