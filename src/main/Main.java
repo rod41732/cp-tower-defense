@@ -7,7 +7,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ui.GameScene;
-import ui.MainMenu;
+import ui.MainMenuScene;
 import ui.Settings;
 
 public class Main extends Application {
@@ -15,7 +15,7 @@ public class Main extends Application {
 	
 	private static Stage stage;
 	// TODO: Change
-	private static MainMenu mainMenu = new MainMenu();
+	private static MainMenuScene mainMenu = new MainMenuScene();
 	private static GameScene gameScene = new GameScene();
 	private static Settings settings = new Settings();
 	@Override
@@ -38,7 +38,7 @@ public class Main extends Application {
 		stage.setScene(scene);
 	}
 
-	public static MainMenu getMainMenu() {
+	public static MainMenuScene getMainMenu() {
 		return mainMenu;
 	}
 

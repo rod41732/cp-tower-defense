@@ -15,12 +15,12 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 import main.Main;
 
-public class MainMenu extends Scene {
+public class MainMenuScene extends Scene {
 	
 	private Timeline menuTick;
 	private Pane root;
 	
-	public MainMenu() {
+	public MainMenuScene() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		root = (Pane) getRoot();
 		
@@ -58,8 +58,7 @@ public class MainMenu extends Scene {
 			
 			GameManager.getInstance().newGame();
 			GameManager.getInstance().initialize();
-			Main.gameScene.onJoin();
-			Main.setScene(Main.gameScene);
+			Main.setScene(Main.getGameScene());
 			menuTick.pause();
 		});
 		
@@ -68,13 +67,12 @@ public class MainMenu extends Scene {
 			
 //			GameManager.getInstance().newGame();
 			GameManager.getInstance().initialize();
-			Main.gameScene.onJoin();
-			Main.setScene(Main.gameScene);
+			Main.setScene(Main.getGameScene());
 			menuTick.pause();
 		});
 		
 		settings.setOnAction(e -> {
-			Main.setScene(Main.settings);
+			Main.setScene(Main.getSettings());
 			menuTick.pause(); // to make it playable, it should be resumable from other clas
 		});
 	

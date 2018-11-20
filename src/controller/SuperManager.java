@@ -1,16 +1,17 @@
 package controller;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class SuperManager {
 	
 	private static SuperManager instance = new SuperManager();
 	
-	private BooleanProperty isInGameProp;
-	private BooleanProperty isGamePausedProp;
-	private BooleanProperty nextWaveAvailableProp;
-	private BooleanProperty canUpgradeProp;
-	private BooleanProperty canSellProp;
+	private BooleanProperty isInGameProp = new SimpleBooleanProperty(false);
+	private BooleanProperty isGamePausedProp = new SimpleBooleanProperty(false);
+	private BooleanProperty nextWaveAvailableProp = new SimpleBooleanProperty(false);
+	private BooleanProperty canUpgradeProp = new SimpleBooleanProperty(false);
+	private BooleanProperty canSellProp = new SimpleBooleanProperty(false);
 	
 	
 	

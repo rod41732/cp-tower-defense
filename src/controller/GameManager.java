@@ -135,11 +135,10 @@ public class GameManager {
 	}
 	
 	public void update() {
-		Main.getGameScene().getButtonManager().setAllowUpgrade(selectedTile != null && ((Tower)selectedTile).getPrice() <= money);
-		Main.getGameScene().getButtonManager().setAllowUpgrade(false);
-		Main.getGameScene().getButtonManager().setAllowSell(selectedTile != null);
+		SuperManager.getInstance().getCanUpgradeProp().set(selectedTile != null && ((Tower)selectedTile).getPrice() <= money);
+		SuperManager.getInstance().getCanSellProp().set(selectedTile != null);
+		SuperManager.getInstance().getnextWaveAvailableProp().set(shouldSpawnNextWave());
 		
-		Main.getGameScene().getButtonManager().setAllowNextWave(shouldSpawnNextWave());
 		for (Particle p: particles) p.onTick();
 		for (Tower t: towers) t.onTick();
 		for (Projectile p: projectiles) p.onTick();
