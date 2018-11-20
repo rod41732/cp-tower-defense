@@ -35,7 +35,18 @@ public class RichTextBox {
 		this.y = y;
 		this.images = images;
 		this.texts = texts;
+		calculateLayout();
+	}
+	
+	public void calculateLayout() {
+
+		if (images.size() == 0 || texts.size() == 0) return;
 		FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
+		
+		imgW.clear();
+		imgH.clear();
+		textW.clear();
+		textH.clear();
 		
 		for (Image img: images) {
 			if (img != null) {
@@ -69,8 +80,9 @@ public class RichTextBox {
 	
 	// 5Head calculation
 	public void render(GraphicsContext gc) {
+		if (images.size() == 0 || texts.size() == 0) return;
 		if (!isAlignRight) {
-			int n = imgH.size();
+			int n = Math.min(imgH.size(), textW.size());
 			gc.setFill(Color.LIGHTBLUE);
 			gc.fillRect(x, y, maxImgWidth+maxTextWidth+2*PADDING+SPACING,
 					imgH.get(n-1)+2*PADDING);

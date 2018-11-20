@@ -11,6 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import main.Main;
 
 public class GameScene extends Scene {
 	private ButtonManager buttonManager;
@@ -51,13 +52,17 @@ public class GameScene extends Scene {
 			if (e.getCode() == KeyCode.G) {
 				GameManager.getInstance().requestNextWave();			
 			} else if (e.getCode() == KeyCode.DIGIT1) {
-				GameManager.getInstance().setTowerChoice(0);
+				Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(0).setSelected(
+						!Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(0).isSelected());
 			} else if (e.getCode() == KeyCode.DIGIT2) {
-				GameManager.getInstance().setTowerChoice(1);
+				Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(1).setSelected(
+						!Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(1).isSelected());
 			} else if (e.getCode() == KeyCode.DIGIT3) {
-				GameManager.getInstance().setTowerChoice(2);
+				Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(2).setSelected(
+						!Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(2).isSelected());
 			} else if (e.getCode() == KeyCode.DIGIT4) {
-				GameManager.getInstance().setTowerChoice(3);
+				Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(3).setSelected(
+						!Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(3).isSelected());
 			} else if (e.getCode() == KeyCode.S) {
 				GameManager.getInstance().sellTower();
 			} else if (e.getCode() == KeyCode.D) {

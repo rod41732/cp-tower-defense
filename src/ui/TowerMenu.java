@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import main.Main;
 import model.Tile;
 import model.Tower;
 import util.cpp;
@@ -20,7 +21,7 @@ public class TowerMenu {
 	private static int COL = 3;
 	private static int ROW = 3;
 	private static Image[] images = {Images.bombTower, Images.normalTower, Images.fireTower, Images.iceTower};
-	
+	private static RichTextBox towerInfoPanel = new RichTextBox(new ArrayList<>(), new ArrayList<>(), LEFT, 400);
 	
 	public static void render(GraphicsContext gc) {
 		gc.setFill(new Color(0, 1, 1, 1));
@@ -37,8 +38,13 @@ public class TowerMenu {
 		
 		gc.setFill(Color.MAGENTA);
 		Tile t = GameManager.getInstance().getSelectedTile();
+		Tile t2 = GameManager.getInstance().createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
+				
 		if (t != null && t instanceof Tower)
 			renderTowerInfo(gc, t);
+		else if (t2 != null)
+			renderTowerInfo(gc, t2);
+		
 	}
 
 	
@@ -58,8 +64,12 @@ public class TowerMenu {
 		texts.add(""+tw.getRange() + " Tile");
 		texts.add(""+tw.getAttackCooldown() + " ms");
 		
-		RichTextBox info = new RichTextBox(imgs, texts, left, top);
-		info.render(gc);
+		towerInfoPanel.setImages(imgs);
+		towerInfoPanel.setTexts(texts);
+		towerInfoPanel.calculateLayout();
+		
+//		RichTextBox info = new RichTextBox(imgs, texts, left, top);
+		towerInfoPanel.render(gc);
 //		Images.attackIcon, Images.targetIcon, Images.cooldownIcon);
 		//		gc.setFill(Color.color(0, 0, 0, 0.8));
 //		Font title = Font.font("Consolas", FontWeight.BOLD, 22);

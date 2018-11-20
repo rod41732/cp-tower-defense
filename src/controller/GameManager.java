@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import constants.Images;
 import constants.Numbers;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Toggle;
 import javafx.scene.image.Image;
@@ -42,11 +44,11 @@ public class GameManager {
 	private cpp.pii tilePos = new cpp.pii(0, 0);
 	private int money;
 	private Tile selectedTile;
-	private int towerChoice;
 	private cpp.pii startTilePos;
 	private cpp.pii endTilePos;
 	private int lives;
 	private boolean isInitialized;
+	private BooleanProperty readyToUpgrade = new SimpleBooleanProperty(false);
 	
 	private ArrayList<Tower> towers = new ArrayList<>();
 	private ArrayList<Monster> monsters = new ArrayList<>();
@@ -77,6 +79,7 @@ public class GameManager {
 		MonsterSpawner.getInstace().stop();
 		money = 0;
 		selectedTile = null;
+		
 	}
 	
 	public void newGame() { // reset all
@@ -349,8 +352,7 @@ public class GameManager {
 	public void handleTileClick(int x, int y) {
 
 		try {
-			towerChoice = getTowerChoice();
-			Tower t = createTower(towerChoice, x, y);
+			Tower t = createTower(getTowerChoice(), x, y);
 			setTowerChoice(-1);
 			selectedTile = placedTiles[x][y].top();
 
@@ -375,6 +377,7 @@ public class GameManager {
 			Algorithm.BFS(endTilePos.first, endTilePos.second, startTilePos.first, startTilePos.second);
 			towers.add(t);
 			money -= t.getPrice();
+			selectedTile = t;
 		}
 		catch (Exception e) {
 			if (e.getMessage().charAt(0) == 'Y') // "Y" ou don't block path 
