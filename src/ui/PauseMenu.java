@@ -2,6 +2,7 @@ package ui;
 
 import constants.Images;
 import constants.Numbers;
+import controller.SuperManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -11,7 +12,12 @@ import javafx.scene.text.TextAlignment;
 public class PauseMenu {
 	
 	private static boolean isShown = false;
-	
+	static {
+		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
+			boolean pause = nw.booleanValue();
+			isShown = pause;
+		});
+	}
 	public static void render(GraphicsContext gc) {
 		if (isShown) {
 			gc.setFill(Color.color(0, 0, 0, 0.4));
@@ -25,20 +31,12 @@ public class PauseMenu {
 		}
 	}
 	
-	public static void show() {
-		isShown = true;
-	}
-	
 	public static void handleMouseClick(MouseEvent e) {
 		// blocks input
 		if (isShown)
 			e.consume();
 	}
-	
-	public static void hide() {
-		isShown = false;
-	}
-	
+
 	public static void fadeIn() {
 	}
 	

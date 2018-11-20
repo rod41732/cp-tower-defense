@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import constants.Images;
 import constants.Numbers;
+import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.canvas.GraphicsContext;
@@ -39,7 +40,7 @@ public class GameManager {
 	private static GameManager instance = new GameManager();
 	
 	// TODO: refactor field names
-	private boolean isPaused;
+
 	private cpp.pff mousePos = new cpp.pff(0, 0);
 	private cpp.pii tilePos = new cpp.pii(0, 0);
 	private int money;
@@ -75,11 +76,9 @@ public class GameManager {
 		for (int i=0;i < Numbers.COLUMNS; i++)
 			for (int j=0; j<Numbers.ROWS; j++)
 				placedTiles[i][j] = new TileStack();
-		MonsterSpawner.getInstace().stop();
+		MonsterSpawner.getInstace().cancelWave();
 		money = 0;
 		selectedTile = null;
-		
-		
 	}
 	
 	public void newGame() { // reset all
@@ -92,7 +91,7 @@ public class GameManager {
 		for (int i=0;i < Numbers.COLUMNS; i++)
 			for (int j=0; j<Numbers.ROWS; j++)
 				placedTiles[i][j] = new TileStack();
-		MonsterSpawner.getInstace().stop();
+		MonsterSpawner.getInstace().cancelWave();
 		money = 0;
 		setTowerChoice(-1);
 		selectedTile = null;
@@ -136,11 +135,10 @@ public class GameManager {
 	}
 	
 	public void update() {
-		Main.getGameScene().getButtonManager().setAllowUpgrade(selectedTile != null && ((Tower)selectedTile).getPrice() <= money);
-		Main.getGameScene().getButtonManager().setAllowUpgrade(false);
-		Main.getGameScene().getButtonManager().setAllowSell(selectedTile != null);
+		SuperManager.getInstance().getCanUpgradeProp().set(selectedTile != null && ((Tower)selectedTile).getPrice() <= money);
+		SuperManager.getInstance().getCanSellProp().set(selectedTile != null);
+		SuperManager.getInstance().getnextWaveAvailableProp().set(shouldSpawnNextWave());
 		
-		Main.getGameScene().getButtonManager().setAllowNextWave(shouldSpawnNextWave());
 		for (Particle p: particles) p.onTick();
 		for (Tower t: towers) t.onTick();
 		for (Projectile p: projectiles) p.onTick();
@@ -180,10 +178,6 @@ public class GameManager {
 		}
 	}
 	
-	
-	public boolean isPaused() {
-		return isPaused;
-	}
 
 	public Tower createTower(int towerChoice, int x, int y) {
 		Tower t = null;
@@ -225,15 +219,8 @@ public class GameManager {
 			gc.setFill(Color.BLACK);
 		}
 		
-//		gc.setFont(Font.font("Consolas", 12));
-//		for (int i=0; i<Numbers.COLUMNS; i++)
-//			for (int j=0; j<Numbers.ROWS; j++)
-//				gc.fillText(String.format("%s\n%s\n", new cpp.pii(i, j), path[i][j]),
-//						i*Numbers.TILE_SIZE, j*Numbers.TILE_SIZE+16);
-		
-		
 		try {
-			int choice = (int)Main.gameScene.getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
+			int choice = (int)Main.getGameScene().getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
 			Tower floatingTower = createTower(choice, tilePos.first, tilePos.second);
 			if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
 				floatingTower.render(gc, true);							
@@ -343,25 +330,7 @@ public class GameManager {
 		}
 	}
 	
-	
-	public void pause() {
-		this.isPaused = true;
-		PauseMenu.show();
-		setTowerChoice(-1);
-		MonsterSpawner.getInstace().pause();
-	}
-	
-	public void resume() {
-		this.isPaused = false;
-		PauseMenu.hide();
-		MonsterSpawner.getInstace().resume();
-	}
-	
-	public void leaveGame() {
-		pause();
-		PauseMenu.hide();
-	}
-	
+
 	public void handleTileClick(int x, int y) {
 
 		try {
@@ -432,7 +401,7 @@ public class GameManager {
 			System.out.println("nextwave: path not found");
 		}
 		if (shouldSpawnNextWave()) {
-			MonsterSpawner.getInstace().play();			
+			MonsterSpawner.getInstace().nextWave();			
 		}
 		else {
 			SnackBar.play("Please wait until end of the wave");
@@ -462,7 +431,6 @@ public class GameManager {
 	public static GameManager getInstance() {
 		return instance;
 	}
-	
 
 	public cpp.pff getMousePosition() {
 		return mousePos;
@@ -488,10 +456,6 @@ public class GameManager {
 	public ArrayList<Projectile> getProjectiles() {
 		return projectiles;
 	}
-	
-	
-
-	
 
 	public cpp.pii getStartTilePos() {
 		return startTilePos;
@@ -504,7 +468,7 @@ public class GameManager {
 	public int getTowerChoice() {
 		int choice;
 		try {
-			choice = (int)Main.gameScene.getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
+			choice = (int)Main.getGameScene().getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
 		}
 		catch (Exception e) {		
 			choice = -1;

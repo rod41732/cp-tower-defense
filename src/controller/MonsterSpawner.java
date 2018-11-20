@@ -27,28 +27,53 @@ public class MonsterSpawner {
 			isReady = true;
 		});
 		stage.setCycleCount(20);
+	
+		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
+			boolean pause = nw.booleanValue();
+			boolean inGame = SuperManager.getInstance().getIsInGameProp().get();
+			if (!pause && inGame) {
+				resumeWave();				
+			}
+			else {
+				pauseWave();
+			}
+		});
+		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
+			boolean inGame = nw.booleanValue();
+			boolean pause = SuperManager.getInstance().getIsGamePausedProp().get();
+			if (!pause && inGame) {
+				resumeWave();				
+			}
+			else {
+				pauseWave();
+			}
+		});
 	}
-	public void play() {
+	public void nextWave() {
 		isReady = false;
 		System.out.println("monster starts");
 		stage.play();
 	}
 	
-	public void pause() {
+	public void pauseWave() {
 		System.out.println("monster pause");
 		stage.pause();
 	}
 	
-	public void stop() {
+	public void cancelWave() {
 		System.out.println("monster stop");
 		isReady = true;
 		stage.stop();
 	}
 	
-	public void resume() {
+	public void resumeWave() {
 		System.out.println("monster resume");
 		if (!isReady) 
 			stage.play();
+	}
+	
+	public void reset() {
+		
 	}
 	
 	
