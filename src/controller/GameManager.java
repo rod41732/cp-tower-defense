@@ -219,13 +219,6 @@ public class GameManager {
 			gc.setFill(Color.BLACK);
 		}
 		
-//		gc.setFont(Font.font("Consolas", 12));
-//		for (int i=0; i<Numbers.COLUMNS; i++)
-//			for (int j=0; j<Numbers.ROWS; j++)
-//				gc.fillText(String.format("%s\n%s\n", new cpp.pii(i, j), path[i][j]),
-//						i*Numbers.TILE_SIZE, j*Numbers.TILE_SIZE+16);
-		
-		
 		try {
 			int choice = (int)Main.getGameScene().getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
 			Tower floatingTower = createTower(choice, tilePos.first, tilePos.second);
@@ -438,7 +431,6 @@ public class GameManager {
 	public static GameManager getInstance() {
 		return instance;
 	}
-	
 
 	public cpp.pff getMousePosition() {
 		return mousePos;
@@ -464,10 +456,6 @@ public class GameManager {
 	public ArrayList<Projectile> getProjectiles() {
 		return projectiles;
 	}
-	
-	
-
-	
 
 	public cpp.pii getStartTilePos() {
 		return startTilePos;

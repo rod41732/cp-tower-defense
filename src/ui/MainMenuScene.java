@@ -89,7 +89,7 @@ public class MainMenuScene extends Scene {
 		start.setOnAction(e -> {
 		
 			SuperManager.getInstance().getIsInGameProp().set(true);
-//			GameManager.getInstance().newGame();
+			
 			GameManager.getInstance().initialize();
 			Main.setScene(Main.getGameScene());
 			menuTick.pause();
