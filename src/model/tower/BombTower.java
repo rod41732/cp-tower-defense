@@ -3,6 +3,7 @@ package model.tower;
 
 import constants.Images;
 import controller.GameManager;
+import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.Tower;
 import model.projectile.Bomb;
@@ -10,23 +11,43 @@ import util.GameUtil;
 import util.cpp;
 
 public class BombTower extends Tower {
+	
+	public static String TOWER_NAME = "Bomb Tower";
 
-	private static final double BASE_ATTACK = 15;
-	private static final double BASE_COOLDOWN = 1250;
-	private static final double BASE_RANGE = 3.5;
+	private static final double[] ATTACK_VALUES = {15, 20, 25, 35, 50};
+	private static final double[] COOLDOWN_VALUES = {1250, 1150, 1000, 950, 700};
+	private static final double[] RANGE_VALUES = {3.5, 4, 4, 4.5, 4.5};
 	private static final Image DEFAULT_IMAGE = Images.bombTower;
-	private static final int BASE_PRICE = 25;
+	private static final int[] PRICE_VALUES = {25, 25, 30, 50, 60};
 	
 	private static final double RADIUS = 2;
 		
 	public BombTower(double cellX, double cellY) {
-		super(DEFAULT_IMAGE, cellX, cellY, BASE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
-		this.price = BASE_PRICE;
+		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
+		this.price = PRICE_VALUES[0];
+		this.level = 1;
 	}
 
-	public void upgrade() {
-		range += 0.5;
+	@Override
+	public void upgrade() throws FullyUpgradedException {
+		if (level == 5) {
+			throw new FullyUpgradedException();
+		}
+		else {
+			level += 1;
+			this.attack = ATTACK_VALUES[level-1];
+			this.attackCooldown = COOLDOWN_VALUES[level-1];
+			this.range = RANGE_VALUES[level-1];
+			this.price += PRICE_VALUES[level-1];
+		}
 	}
+	
+	@Override
+	public int getUpgradePrice() {
+		return PRICE_VALUES[level];
+	}
+	
+
 	
 	public void fire() {
 		if (currentTarget == null) return;
@@ -41,9 +62,6 @@ public class BombTower extends Tower {
 		currentCooldown = attackCooldown;
 	}
 	
-	public String toString() {
-		return "Bomb Tower";
-	}
 	
 	@Override
 	public String description() {

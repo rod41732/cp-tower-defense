@@ -7,6 +7,7 @@ import buff.Buff;
 import constants.Images;
 import constants.Numbers;
 import controller.GameManager;
+import exceptions.FullyUpgradedException;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -19,13 +20,14 @@ public class Tower extends Tile {
 
 	// TODO : more fields
 	
-	private static final String TOWER_NAME = "Default tower";
+	private static String TOWER_NAME = "Default tower";
 	
 	protected double attackCooldown = 1000;
 	protected double attack;
 	protected int price;
 	protected double range; 
-
+	protected int level;
+	
 	protected double currentCooldown; 
 	protected double attackSpeedMultiplier;
 	protected Monster currentTarget;
@@ -61,7 +63,7 @@ public class Tower extends Tile {
 	}
 
 	public void render(GraphicsContext gc, boolean showRadius) {
-		Render.drawRotatedImage(gc, image, rotation, getRenderX(), getRenderY());
+		super.render(gc);
 		if (showRadius) {
 			double tz = Numbers.TILE_SIZE;
 			double t= 0.5;
@@ -78,7 +80,7 @@ public class Tower extends Tile {
 	}
 	
 	
-	public void upgrade() {
+	public void upgrade() throws FullyUpgradedException {
 		range += 0.5;
 	}	
 	
@@ -218,10 +220,14 @@ public class Tower extends Tile {
 		this.attackSpeedMultiplier += attackSpeedMultiplier;
 	}
 	
+	public int getUpgradePrice() {
+		// TODO: FUNCTION STUB
+		return price;
+	}
 	
 	
 	public String toString() {
-		return TOWER_NAME + " at " + getPosition();
+		return TOWER_NAME + " " + getPosition();
 	}
 	
 	public String description() {
