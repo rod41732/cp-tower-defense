@@ -38,12 +38,13 @@ public class Tower extends Tile {
 		this.attack = attack;
 		this.attackCooldown = attackCooldown;
 		this.range = range;
+		this.level = 1;
 	}
 	
 	// TODO: some how get tower animate again ?
 	@Override
 	public void render(GraphicsContext gc) {
-		Render.drawRotatedImage(gc, image, rotation, getRenderX(), getRenderY());
+		super.render(gc);
 		if ((GameManager.getInstance().getSelectedTile() != null && distanceTo(GameManager.getInstance().getSelectedTile()) < 0.1)) {
 			double tz = Numbers.TILE_SIZE;
 			double t = 0.5;

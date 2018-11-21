@@ -4,6 +4,7 @@ import constants.Numbers;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import util.GameUtil;
+import util.Render;
 import util.cpp;
 
 
@@ -53,7 +54,7 @@ public class Entity {
 	}
 	
 	public void render(GraphicsContext gc) {
-		gc.drawImage(image, getRenderX(), getRenderY());
+		Render.drawRotatedImage(gc, image, rotation, getRenderX(), getRenderY());
 	}
 	
 	public void rotateTo(Entity e) {
