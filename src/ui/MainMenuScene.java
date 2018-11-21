@@ -1,7 +1,9 @@
 package ui;
 
 
+import constants.Images;
 import constants.Numbers;
+import constants.Other;
 import controller.GameManager;
 import controller.SuperManager;
 import javafx.animation.KeyFrame;
@@ -26,16 +28,14 @@ public class MainMenuScene extends Scene {
 		root = (Pane) getRoot();
 		
 		// make some butons
-		VBox menus = new VBox(20);
+		Pane menus = new Pane();
 		Label title = new Label("CP Tower Defense");
 		title.setFont(Font.font("Consolas", 72));
-		Button settings = new Button("Settings");
-		settings.setFont(Font.font("Tahoma", 40));
-		Button start = new Button("Resume ?");
-		start.setFont(Font.font("Tahoma", 40));
-		
-		Button newGame = new Button("new game!!");
-		newGame.setFont(Font.font("Tahoma", 40));
+		title.setLayoutX(700);
+		title.setLayoutY(300);
+		Button newGame = ButtonMaker.make(700, 200, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "New Game");
+		Button settings = ButtonMaker.make(700, 275, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Settings");
+		Button start = ButtonMaker.make(700, 350, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Resume");
 		
 		KeyFrame titleAnimX = new KeyFrame(Duration.seconds(0.5), 
 				new KeyValue(title.scaleXProperty(), 1.5)
