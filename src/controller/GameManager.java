@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import constants.Images;
 import constants.Numbers;
+import exceptions.FullyUpgradedException;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -410,9 +411,16 @@ public class GameManager {
 	
 	
 	public void upgradeTower() {
-		if (selectedTile != null) {
-			money -= ((Tower)selectedTile).getPrice(); 
-			((Tower)selectedTile).upgrade();
+		if (selectedTile != null && canUpgrade()) {
+			try {
+				Tower twr = (Tower)selectedTile;
+				int price = twr.getUpgradePrice();
+				twr.upgrade();		
+				money -= price;
+			}
+			catch (FullyUpgradedException e) {
+				SnackBar.play("Already Fully upgraded");
+			}
 		}
 	}
 	

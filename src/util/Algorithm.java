@@ -6,6 +6,7 @@ import java.util.Queue;
 import constants.Numbers;
 import constants.Other;
 import controller.GameManager;
+import exceptions.PathBlockedException;
 
 public class Algorithm {
 	
@@ -24,7 +25,7 @@ public class Algorithm {
 	}
 	
 	
-	public static cpp.pii[][] BFS(int fromCol, int fromRow, int toCol, int toRow) throws Exception {
+	public static cpp.pii[][] BFS(int fromCol, int fromRow, int toCol, int toRow) throws PathBlockedException {
 		// TODO: fix bfs null pointer on init
 		initialize();
 		GameManager gi = GameManager.getInstance();
@@ -62,7 +63,7 @@ public class Algorithm {
 		
 		if (pred[toCol][toRow] == null) {
 			System.out.printf("pred is %s\n", pred[toCol][toRow]);
-			throw new Exception("You don't block path DansGame"); // TODO: Change to my except;
+			throw new PathBlockedException(); // TODO: Change to my except;
 		}
 		return pred;
 	}
