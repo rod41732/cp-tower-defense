@@ -61,6 +61,10 @@ public class Entity {
 		rotation = Math.toDegrees(Math.atan2(e.getY()-y, e.getX()-x));
 	}
 	
+	public double angleTo(Entity e) {
+		return Math.toDegrees(Math.atan2(e.getY()-y, e.getX()-x));
+	}
+	
 	public double getX() {
 		return x;
 	}
