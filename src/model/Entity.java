@@ -70,6 +70,10 @@ public class Entity {
 	
 	
 	
+	public double getSize() {
+		return size;
+	}
+
 	public Image getImage() {
 		return image;
 	}
