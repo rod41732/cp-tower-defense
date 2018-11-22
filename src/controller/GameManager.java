@@ -142,7 +142,11 @@ public class GameManager {
 		
 		for (Particle p: particles) p.onTick();
 		for (Tower t: towers) t.onTick();
-		for (Projectile p: projectiles) p.onTick();
+		int n = projectiles.size();
+		for (int i=n-1; i>=0; i--) {
+			Projectile p = projectiles.get(i);
+			p.onTick();
+		}
 		for (Monster m: monsters) {
 			m.onTick();
 			if (m.getPosition().containedBy(endTilePos)) {
@@ -261,10 +265,10 @@ public class GameManager {
 
 
 	public void updateMousePos(double x, double y) {
-		mousePos.x = x/Numbers.TILE_SIZE;
+		mousePos.first = x/Numbers.TILE_SIZE;
 		mousePos.second = y/Numbers.TILE_SIZE;
 		// don't want to create new object
-		tilePos.first = (int)mousePos.x;
+		tilePos.first = (int)mousePos.first;
 		tilePos.second = (int)mousePos.second;
 	}
 	
@@ -409,6 +413,10 @@ public class GameManager {
 		}
 	}
 	
+	public void addProjectile(Projectile p) {
+		projectiles.add(p);
+	}
+	
 	
 	public void upgradeTower() {
 		if (selectedTile != null && canUpgrade()) {
@@ -461,9 +469,6 @@ public class GameManager {
 		return tiles;
 	}
 
-	public ArrayList<Projectile> getProjectiles() {
-		return projectiles;
-	}
 
 	public cpp.pii getStartTilePos() {
 		return startTilePos;
