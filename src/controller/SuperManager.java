@@ -1,7 +1,9 @@
 package controller;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import main.Main;
 
 public class SuperManager {
@@ -13,7 +15,7 @@ public class SuperManager {
 	private BooleanProperty nextWaveAvailableProp = new SimpleBooleanProperty();
 	private BooleanProperty canUpgradeProp = new SimpleBooleanProperty();
 	private BooleanProperty canSellProp = new SimpleBooleanProperty();
-	
+	private IntegerProperty towerChoiceProp = new SimpleIntegerProperty();
 	
 	
 	public SuperManager() {
@@ -22,6 +24,7 @@ public class SuperManager {
 		nextWaveAvailableProp.set(false);
 		canUpgradeProp.set(false);
 		canSellProp.set(false);
+		towerChoiceProp.set(-1);
 	}
 	
 	
@@ -75,4 +78,9 @@ public class SuperManager {
 		return nextWaveAvailableProp;
 	}
 
+	public IntegerProperty getTowerChoiceProp() {
+		return towerChoiceProp;
+	}
+	
+	
 }

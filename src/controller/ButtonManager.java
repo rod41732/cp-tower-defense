@@ -3,8 +3,11 @@ package controller;
 
 import java.util.ArrayList;
 
-import constants.Images;import javafx.beans.value.ChangeListener;
+import constants.Images;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Button;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
@@ -69,7 +72,7 @@ public class ButtonManager {
 		pauseButton.setOnAction(e -> {
 			SuperManager.getInstance().onGamePause();
 		});		
-
+		
 		
 		
 		toggleGroup = new ToggleGroup();
@@ -81,10 +84,34 @@ public class ButtonManager {
 		}
 		toggleGroup.getToggles().addAll(toggleButtons);
 		
-		pane.getChildren().addAll(pauseButton, resumeButton, toMenuButton,
+		pane.getChildren().addAll(pauseButton, // resumeButton, toMenuButton,
 				nextButton, upgradeButton, sellButton);
 		pane.getChildren().addAll(toggleButtons);
 		
+		toggleGroup.selectedToggleProperty().addListener((obs, old, nw) -> {
+			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
+			boolean isPlacing = nw != null;
+			pauseButton.setVisible(!paused && !isPlacing);
+			nextButton.setVisible(!paused && !isPlacing);
+			
+//			System.out.println(obs.getValue());
+			try {
+				System.out.println(isPlacing ? (int)nw.getUserData() : -1);
+				SuperManager.getInstance().getTowerChoiceProp().set(isPlacing ? (int)nw.getUserData() : -1);				
+			}
+			catch (NullPointerException npe) {
+			}
+			 
+		});
+		SuperManager.getInstance().getTowerChoiceProp().addListener((obs, old, nw) -> {
+			int val = nw.intValue();
+			if (val >= 0) {
+				toggleGroup.selectToggle(toggleButtons.get(val)); 
+			}
+			else {
+				toggleGroup.selectToggle(null);
+			}
+		});
 		
 		SuperManager.getInstance().getCanSellProp().addListener((obs, old, nw) -> {
 //			if (old.booleanValue() != nw.booleanValue()) return ;
@@ -110,30 +137,49 @@ public class ButtonManager {
 //			if (old.booleanValue() != nw.booleanValue()) return ;
 			boolean paused = nw.booleanValue();
 			boolean inGame = SuperManager.getInstance().getIsInGameProp().get();
+			boolean isPlacing = toggleGroup.getSelectedToggle() != null;
+			boolean canUp = SuperManager.getInstance().getCanUpgradeProp().get();
+			boolean canSell = SuperManager.getInstance().getCanSellProp().get();
 			resumeButton.setVisible(paused && inGame);
 			toMenuButton.setVisible(paused && inGame);
-			pauseButton.setVisible(!paused && inGame);
-			nextButton.setVisible(!paused && inGame);
-			sellButton.setDisable(paused);
-			upgradeButton.setDisable(paused);
+			pauseButton.setVisible(!paused && inGame && !isPlacing);
+			nextButton.setVisible(!paused && inGame && !isPlacing);
+			sellButton.setDisable(paused || !canSell);
+			upgradeButton.setDisable(paused || !canUp);
+			for (ToggleButton tg: toggleButtons) {
+				tg.setDisable(paused);
+			}
 		});
-		
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) ->{
 //			if (old.booleanValue() != nw.booleanValue()) return ;
 			boolean inGame = nw.booleanValue();
 			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
+			boolean isPlacing = toggleGroup.getSelectedToggle() != null;
 			resumeButton.setVisible(inGame && paused);
 			toMenuButton.setVisible(inGame && paused);
-			pauseButton.setVisible(inGame && !paused);
-			nextButton.setVisible(inGame && !paused);
+			pauseButton.setVisible(inGame && !paused && !isPlacing);
+			nextButton.setVisible(inGame && !paused && !isPlacing);
 			sellButton.setVisible(inGame);
 			upgradeButton.setVisible(inGame);
 		});
+		
+	
 	}
+	
+	public void addMenuButtons(Pane pane) {
+		pane.getChildren().addAll(resumeButton, toMenuButton);
+	}
+//	public ToggleGroup getToggleGroup() {
+//		return toggleGroup;
+//	}
 
-	public ToggleGroup getToggleGroup() {
-		return toggleGroup;
-	}
+//	public Button getResumeButton() {
+//		return resumeButton;
+//	}
+//
+//	public Button getToMenuButton() {
+//		return toMenuButton;
+//	}
 	
 	
 }
