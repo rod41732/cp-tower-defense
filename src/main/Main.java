@@ -2,7 +2,6 @@ package main;
 //package main;
 
 import constants.Numbers;
-import controller.GameManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,12 +14,15 @@ public class Main extends Application {
 	
 	private static Stage stage;
 	// TODO: Change
-	private static MainMenuScene mainMenu = new MainMenuScene();
-	private static GameScene gameScene = new GameScene();
-	private static Settings settings = new Settings();
+	private static MainMenuScene mainMenu;
+	private static GameScene gameScene;
+	private static Settings settings;
 	@Override
-	public void start(Stage primaryStage) {
-		
+	public void start(Stage primaryStage) {		
+		mainMenu = new MainMenuScene();
+		gameScene = new GameScene();
+		settings = new Settings();
+
 		stage = primaryStage;
 		
 		stage.setScene(mainMenu);
