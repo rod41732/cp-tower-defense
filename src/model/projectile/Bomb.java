@@ -22,10 +22,10 @@ public class Bomb extends NormalProjectile {
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
 			cpp.pff impact = getPosition();
-			GameManager.getInstance().spawnParticle(new Particle(Images.explosion, impact.x, impact.second, 0, 0, 1000));
+			GameManager.getInstance().spawnParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
 			System.out.println("Boom");
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
-				if (Double.compare(ms.distanceTo(impact.x, impact.second), 3) < 0) {
+				if (Double.compare(ms.distanceTo(impact.first, impact.second), 3) < 0) {
 					ms.takeDamage(damage);
 //					ms.addBuff(new DamageTakenDebuff(3000, 5));
 					System.out.println("boom =>" + ms);

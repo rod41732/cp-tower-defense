@@ -18,7 +18,7 @@ public class FlyingMonster extends Monster {
 	protected void updateVelocity() {
 		cpp.pii targetTile = GameManager.getInstance().getEndTilePos();
 		cpp.pff v_hat = GameUtil.unitVector(x, y, targetTile.first+0.5, targetTile.second+0.5);
-		vx = v_hat.x * moveSpeed;
+		vx = v_hat.first * moveSpeed;
 		vy = v_hat.second * moveSpeed;
 	}
 	
