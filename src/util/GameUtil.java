@@ -28,7 +28,6 @@ public class GameUtil {
 	public static cpp.pff rotateVector(double x, double y, double degree) {
 		cpp.pff v = new cpp.pff(x*Math.cos(Math.toRadians(degree)) - y*Math.sin(Math.toRadians(degree)),
 				x*Math.sin(Math.toRadians(degree)) + y*Math.cos(Math.toRadians(degree)));
-		System.out.printf("%.2f %.2f rotated %.2f is %s", x, y, degree, v);
 		return v;
 	}
 }
