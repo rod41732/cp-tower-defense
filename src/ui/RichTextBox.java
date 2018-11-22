@@ -2,11 +2,17 @@ package ui;
 
 import java.util.ArrayList;
 
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
+import com.sun.javafx.scene.BoundsAccessor;
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
 
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -28,6 +34,7 @@ public class RichTextBox {
 	private ArrayList<Double> textW = new ArrayList<>();
 	private ArrayList<Double> textH = new ArrayList<>();
 	private boolean isAlignRight = false;
+	private boolean isShowing = true;
 	
 	@SuppressWarnings("restriction")
 	public RichTextBox(ArrayList<Image> images, ArrayList<String> texts, double x, double y) {
@@ -80,12 +87,17 @@ public class RichTextBox {
 	
 	// 5Head calculation
 	public void render(GraphicsContext gc) {
+		if (!isShowing) return;
 		if (images.size() == 0 || texts.size() == 0) return;
+		DropShadow shadow = new DropShadow();
+	    shadow.setOffsetY(1.0);
+	    shadow.setOffsetX(1.0);
+	    shadow.setColor(Color.color(0, 0, 0, 0.5));
+	    gc.setEffect(shadow);
 		if (!isAlignRight) {
 			int n = Math.min(imgH.size(), textW.size());
-			gc.setFill(Color.LIGHTBLUE);
-			gc.fillRect(x, y, maxImgWidth+maxTextWidth+2*PADDING+SPACING,
-					imgH.get(n-1)+2*PADDING);
+			double w = maxImgWidth+maxTextWidth+2*PADDING+SPACING, h =imgH.get(n-1)+2*PADDING; 
+			gc.setTextBaseline(VPos.CENTER);
 			for (int i=0; i<n; i++) {
 				Image current = images.get(i);
 				gc.drawImage(current, x + PADDING, y + PADDING + imgH.get(i)-current.getHeight());
@@ -93,22 +105,23 @@ public class RichTextBox {
 				gc.setFill(Color.RED);
 				gc.fillText(texts.get(i), x + maxImgWidth+PADDING+SPACING, y + imgH.get(i)+PADDING);
 			}			
+			gc.setTextBaseline(VPos.BOTTOM);
 		}
 		else {
 			int n = imgH.size();
-			gc.setFill(Color.LIGHTBLUE);
 			double w = maxImgWidth+maxTextWidth+2*PADDING+SPACING, h =imgH.get(n-1)+2*PADDING; 
-			gc.fillRect(x, y, w, h);
+
+			gc.setTextBaseline(VPos.CENTER);
 			for (int i=0; i<n; i++) {
 				Image current = images.get(i);
 				gc.drawImage(current, x + w - PADDING - current.getWidth(), y + PADDING + imgH.get(i)-current.getHeight());
 				gc.setFont(i == 0 ? titleFont : textFont);
 				gc.setFill(Color.RED);
-				gc.setTextBaseline(VPos.CENTER);
 				gc.fillText(texts.get(i), x + w - maxImgWidth-PADDING-SPACING - textW.get(i), y + imgH.get(i) - current.getHeight()/2 +PADDING);
-				gc.setTextBaseline(VPos.BOTTOM);
 			}
+			gc.setTextBaseline(VPos.BOTTOM);
 		}
+		gc.setEffect(null);
 	}
 
 	public boolean isAlignRight() {
@@ -150,6 +163,12 @@ public class RichTextBox {
 	public static Font getTextfont() {
 		return textFont;
 	}
-	
-	
+
+	public boolean isShowing() {
+		return isShowing;
+	}
+
+	public void setShowing(boolean isShowing) {
+		this.isShowing = isShowing;
+	}	
 }
