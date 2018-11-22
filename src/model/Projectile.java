@@ -41,7 +41,6 @@ public abstract class Projectile extends Entity implements IExpirable {
 		x += vx/60;
 		y += vy/60;
 		// TODO: fix temp code
-		System.out.println("rotaion" + rotation + " " + vx + "," + vy);
 		this.rotation = Math.toDegrees(Math.atan2(vy, vx));
 		rotation -= 90;
 		distance += GameUtil.distance(0, 0, vx/60, vy/60);
@@ -56,7 +55,7 @@ public abstract class Projectile extends Entity implements IExpirable {
 	}
 	
 	public boolean isExpired() {
-		return isExpired || Double.compare(distance, maxDistance) > 0;
+		return isExpired || distance >= maxDistance || age >= maxAge;
 	}
 
 	public void forceExpire() {
