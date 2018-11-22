@@ -58,7 +58,7 @@ public class GameManager {
 	private ArrayList<Particle> particles = new ArrayList<>();
 	private TileStack[][] placedTiles = new TileStack[Numbers.COLUMNS][Numbers.ROWS];
 	private cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
-
+	private RichTextBox infoBox;
 	private GraphicsContext tileGC, otherGC;
 	
 	public void setGC(GraphicsContext tileGC, GraphicsContext otherGC) {
@@ -87,6 +87,15 @@ public class GameManager {
 		MonsterSpawner.getInstace().cancelWave();
 		money = 0;
 		selectedTile = null;
+		ArrayList<Image> imgs= new ArrayList<>();
+		ArrayList<String> texts = new ArrayList<>();
+		imgs.add(Images.cooldownIcon);
+		imgs.add(Images.coinIcon);
+		imgs.add(Images.liveIcon);
+		texts.add("Level 99999");
+		texts.add("$" + 999999);
+		texts.add("lives" + 999999);
+		infoBox = new RichTextBox(imgs, texts, 20, 20);
 	}
 	
 	public void newGame() { // reset all
@@ -143,7 +152,8 @@ public class GameManager {
 	}
 	
 	public void update() {
-		SuperManager.getInstance().getCanUpgradeProp().set(selectedTile != null && ((Tower)selectedTile).getPrice() <= money);
+		SuperManager.getInstance().getCanUpgradeProp().set(selectedTile != null 
+				&& ((Tower)selectedTile).getUpgradePrice() <= money && ((Tower)selectedTile).getUpgradePrice() >= 0);
 		SuperManager.getInstance().getCanSellProp().set(selectedTile != null);
 		SuperManager.getInstance().getnextWaveAvailableProp().set(shouldSpawnNextWave());
 		
@@ -208,7 +218,7 @@ public class GameManager {
 	
 	
 	
-	public void render(GraphicsContext otherGC, GraphicsContext tileGC) {
+	public void render(GraphicsContext otherGC, GraphicsContext tileGC, GraphicsContext overlayGC) {
 
 		otherGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		otherGC.setGlobalAlpha(1);
@@ -219,21 +229,22 @@ public class GameManager {
 		for (Projectile p: projectiles) p.render(otherGC);
 		for (Particle p: particles) p.render(otherGC);
 		
-		if (Main.getGameScene().getButtonManager().getToggleGroup().getSelectedToggle() == null) {
+		if (SuperManager.getInstance().getTowerChoiceProp().get() == -1) {
 			if (path != null) {
-				otherGC.setFill(new Color(0, 0, 0, 0.5)); // just dim
+				tileGC.setFill(new Color(0, 0, 0, 0.5)); // just dim
 				// need to copy
 				cpp.pii pos = new cpp.pii(startTilePos.first, startTilePos.second);
 				while (pos != null && !pos.equals(endTilePos)) {
-					otherGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
+					tileGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
 							Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 					pos = path[pos.first][pos.second];
 				}
-				otherGC.setFill(Color.BLACK);
+				tileGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
+						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 			}			
 		}
 		else {
-			int choice = (int)Main.getGameScene().getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
+			int choice = SuperManager.getInstance().getTowerChoiceProp().get();
 			Tower floatingTower = createTower(choice, tilePos.first, tilePos.second);
 			if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
 				floatingTower.render(otherGC, true);							
@@ -244,28 +255,14 @@ public class GameManager {
 		
 		otherGC.setFill(Color.MAGENTA);
 		otherGC.setStroke(Color.BLACK);
-		
-		
-		ArrayList<Image> imgs= new ArrayList<>();
-		ArrayList<String> texts = new ArrayList<>();
-		imgs.add(Images.cooldownIcon);
-		imgs.add(Images.coinIcon);
-		imgs.add(Images.liveIcon);
-		imgs.add(Images.attackIcon);
-//		imgs.add(Images.normalTower);
-		texts.add("Level 1");
-		texts.add("$" + money);
-		texts.add("lives" + lives);
-		texts.add("selected = " + selectedTile + "\nchoice " +  getTowerChoice());
-//		texts.add(String.format("Pos %.2f, .2f = %.2f, %.2f\n Tower = %s", mousePos.first, mousePos.second, 
-//				mousePos.first*Numbers.TILE_SIZE, mousePos.second*Numbers.TILE_SIZE, selectedTile));
-		RichTextBox info = new RichTextBox(imgs, texts, 20, 20);
-		info.setAlignRight(true);
-		info.render(otherGC);
+		infoBox.getTexts().set(0, "level" + (int)Math.random()*4);
+		infoBox.getTexts().set(1, "$ " + money);
+		infoBox.getTexts().set(2, lives + " lives");
+		infoBox.render(otherGC);
 		
 		otherGC.setFont(Font.font("Consolas", 20));;
 		TowerMenu.render(otherGC);
-		PauseMenu.render(otherGC);
+		PauseMenu.render(overlayGC);
 		SnackBar.render(otherGC);
 	}
 
@@ -486,26 +483,15 @@ public class GameManager {
 	}
 
 	public int getTowerChoice() {
-		int choice;
-		try {
-			choice = (int)Main.getGameScene().getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
-		}
-		catch (Exception e) {		
-			choice = -1;
-		}
-		return choice;
+		return SuperManager.getInstance().getTowerChoiceProp().get();
 	}
 
 	public void setTowerChoice(int towerChoice) {
-		try {
-			Toggle what = Main.getGameScene().getButtonManager().getToggleGroup().getToggles().get(towerChoice);
-			Main.getGameScene().getButtonManager().getToggleGroup().selectToggle(what);
-		}
-		catch (IndexOutOfBoundsException e) {
-			Main.getGameScene().getButtonManager().getToggleGroup().selectToggle(null);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		SuperManager.getInstance().getTowerChoiceProp().set(towerChoice);
+		return;
+	}
+
+	public void addMoney(int i) {
+		money += i;
 	}
 }
