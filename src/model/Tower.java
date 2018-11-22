@@ -32,7 +32,7 @@ public class Tower extends Tile {
 	protected double attackSpeedMultiplier;
 	protected Monster currentTarget;
 	protected ArrayList<Buff> buffs = new ArrayList<>();
-	private double minDist;
+	protected double minDist;
 	
 	public Tower(Image img, double cellX, double cellY,
 			double attack, double attackCooldown, double range) {
