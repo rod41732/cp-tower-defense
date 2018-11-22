@@ -32,7 +32,8 @@ public class Algorithm {
 		if (gi == null) return pred;
 		if (gi.isWalkable(fromCol, fromRow)) {
 			q.add(new cpp.xyt(fromCol, fromRow, 0));
-			dist[fromCol][fromRow] = 0;			
+			dist[fromCol][fromRow] = 0;		
+			pred[fromCol][fromRow] = new cpp.pii(fromCol, fromRow);	
 		}
 		
 //		System.out.println("------------------------------------------------------");

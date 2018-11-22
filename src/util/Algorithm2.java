@@ -31,7 +31,8 @@ public class Algorithm2 {
 		if (gi == null) return pred;
 		if (gi.isWalkable(fromCol, fromRow) && (block.first != fromCol || block.second != fromRow)) {
 			q.add(new cpp.xyt(fromCol, fromRow, 0));
-			dist[fromCol][fromRow] = 0;			
+			dist[fromCol][fromRow] = 0;	
+			pred[fromCol][fromRow] = new cpp.pii(fromCol, fromRow);
 		}
 		else {
 			throw new PathBlockedException();
