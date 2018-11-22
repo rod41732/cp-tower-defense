@@ -44,7 +44,7 @@ public class BombTower extends Tower {
 	
 	@Override
 	public int getUpgradePrice() {
-		return PRICE_VALUES[level];
+		return level == 5 ? -1 : PRICE_VALUES[level];
 	}
 	
 
@@ -56,8 +56,8 @@ public class BombTower extends Tower {
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		rotateTo(currentTarget);
 		System.out.println(rotation);
-		GameManager.getInstance().getProjectiles().add(new 
-				Bomb(Images.bomb, x, y, v.x*9, v.second*9, range, attack, RADIUS));
+		GameManager.getInstance().addProjectile(new 
+				Bomb(Images.bomb, x, y, v.first*9, v.second*9, range, attack, RADIUS));
 		
 		currentCooldown = attackCooldown;
 	}

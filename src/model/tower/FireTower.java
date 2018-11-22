@@ -37,8 +37,8 @@ public class FireTower extends Tower {
 		if (currentTarget == null) return;
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);
-		GameManager.getInstance().getProjectiles().add(new 
-				FireProjectile(x, y, v.x*9, v.second*9, range, attack, FIRE_RADIUS, fireDamage));
+		GameManager.getInstance().addProjectile(new 
+				FireProjectile(x, y, v.first*9, v.second*9, range, attack, FIRE_RADIUS, fireDamage));
 		currentCooldown = attackCooldown;
 	}
 	@Override 

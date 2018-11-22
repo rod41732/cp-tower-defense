@@ -165,8 +165,8 @@ public class Tower extends Tile {
 		}
 		rotateTo(currentTarget);
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
-		GameManager.getInstance().getProjectiles().add(new 
-				Bomb(Images.normalBullet,x, y, v.x*9, v.second*9, range, 1, 2));
+		GameManager.getInstance().addProjectile(new 
+				Bomb(Images.normalBullet,x, y, v.first*9, v.second*9, range, 1, 2));
 		currentCooldown = attackCooldown; // some tower like gatling  cannon might not update like this
 	}
 	

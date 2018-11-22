@@ -6,6 +6,7 @@ import controller.GameManager;
 import javafx.scene.image.Image;
 import model.Tower;
 import model.projectile.NormalProjectile;
+import model.projectile.SplittingProjectile;
 import util.GameUtil;
 import util.cpp;
 
@@ -35,8 +36,11 @@ public class NormalTower extends Tower {
 //		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		rotateTo(currentTarget);
-		GameManager.getInstance().getProjectiles().add(new 
-				NormalProjectile(Images.normalBullet, x, y, v.x*15, v.second*15, range, 10));
+//		GameManager.getInstance().getProjectiles().add(new 
+//				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10));
+		GameManager.getInstance().addProjectile(new 
+				SplittingProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10, 
+						Math.min(distanceTo(currentTarget)*0.6, distanceTo(currentTarget)-currentTarget.getSize()-size)));
 		
 		currentCooldown = attackCooldown;
 	}
