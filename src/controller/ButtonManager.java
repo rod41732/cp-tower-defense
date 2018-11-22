@@ -172,7 +172,9 @@ public class ButtonManager {
 //	public ToggleGroup getToggleGroup() {
 //		return toggleGroup;
 //	}
-
+	public void setUpgradeText(String text) {
+		upgradeButton.setText(text);
+	}
 //	public Button getResumeButton() {
 //		return resumeButton;
 //	}

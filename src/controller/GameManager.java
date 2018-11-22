@@ -156,7 +156,16 @@ public class GameManager {
 				&& ((Tower)selectedTile).getUpgradePrice() <= money && ((Tower)selectedTile).getUpgradePrice() >= 0);
 		SuperManager.getInstance().getCanSellProp().set(selectedTile != null);
 		SuperManager.getInstance().getnextWaveAvailableProp().set(shouldSpawnNextWave());
-		
+		if (selectedTile == null) {
+			Main.getGameScene().getButtonManager().setUpgradeText("Upgrade");			
+		}
+		else {
+			int price = ((Tower)selectedTile).getUpgradePrice();
+			if (price <= 0) 
+				Main.getGameScene().getButtonManager().setUpgradeText("Fully Upgraded");
+			else 
+				Main.getGameScene().getButtonManager().setUpgradeText("$ " + price);
+		}
 		for (Particle p: particles) p.onTick();
 		for (Tower t: towers) t.onTick();
 		int n = projectiles.size();
