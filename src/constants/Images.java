@@ -18,6 +18,7 @@ public class Images {
 	public static Image fireTower = new Image("tower/flame.png", 64, 64, true, true);
 	public static Image iceTower = new Image("tower/ice.png", 64, 64, true, true);
 	public static Image normalBullet = new Image("projectile/normalBullet.png", 30, 30, true, true);
+	public static Image piercingBullet = new Image("projectile/piercingBullet.png", 48, 48, true, true);
 	public static Image bomb = new Image("projectile/bomb.png", 30, 30, true, true);
 	public static Image fireBullet = new Image("projectile/fireBullet.png", 30, 30, true, true);
 	public static Image iceBullet = new Image("projectile/iceBullet.png", 30, 30, true, true);
