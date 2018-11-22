@@ -17,9 +17,11 @@ public class TileStack {
 		layers.add(baseTile);
 	}
 
-	public void render(GraphicsContext gc) {
-		for (Tile t: layers)
-			t.render(gc);
+	public void render(GraphicsContext otherGC, GraphicsContext tileGC) { 
+		for (Tile t: layers) {
+			if (t instanceof Tower) t.render(otherGC);
+			else t.render(tileGC);
+		}
 	}
 	
 	// return top selectable tile

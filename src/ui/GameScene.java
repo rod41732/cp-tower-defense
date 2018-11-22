@@ -21,19 +21,25 @@ public class GameScene extends Scene {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Pane root = (Pane) getRoot();
 		Canvas canvas = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		root.getChildren().add(canvas);
+		Canvas canvas2 =  new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+
+		root.getChildren().add(canvas2); // TILE
+		root.getChildren().add(canvas); // Other
+		canvas2.setMouseTransparent(true);
 		buttonManager = new ButtonManager(root);
+		
 		
 		
 		canvas.setOnMouseClicked(e -> {
 			System.out.println("c1");
 		});
-//		canvas2
+
 		gameTick = new Timeline();
+		
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e -> {
 			if (!SuperManager.getInstance().getIsGamePausedProp().get())
 				GameManager.getInstance().update();
-			GameManager.getInstance().render(canvas.getGraphicsContext2D());					
+			GameManager.getInstance().render(canvas.getGraphicsContext2D(), canvas2.getGraphicsContext2D());					
 		});
 		gameTick.getKeyFrames().add(render);
 		gameTick.setCycleCount(Timeline.INDEFINITE);

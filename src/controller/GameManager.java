@@ -59,6 +59,13 @@ public class GameManager {
 	private TileStack[][] placedTiles = new TileStack[Numbers.COLUMNS][Numbers.ROWS];
 	private cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 
+	private GraphicsContext tileGC, otherGC;
+	
+	public void setGC(GraphicsContext tileGC, GraphicsContext otherGC) {
+		this.tileGC = tileGC;
+		this.otherGC = otherGC;
+	}
+	
 	public boolean isPlaceable(int x, int y) {
 		return placedTiles[x][y] == null || placedTiles[x][y].isPlaceable();
 	}
@@ -201,43 +208,42 @@ public class GameManager {
 	
 	
 	
-	public void render(GraphicsContext gc) {
+	public void render(GraphicsContext otherGC, GraphicsContext tileGC) {
 
-		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		gc.setGlobalAlpha(1);
+		otherGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+		otherGC.setGlobalAlpha(1);
 		for (TileStack[] col: placedTiles)
 			for (TileStack ts: col)
-				ts.render(gc);
-		for (Monster m: monsters) m.render(gc);
-		for (Projectile p: projectiles) p.render(gc);
-		for (Particle p: particles) p.render(gc);
+				ts.render(otherGC, tileGC);
+		for (Monster m: monsters) m.render(otherGC);
+		for (Projectile p: projectiles) p.render(otherGC);
+		for (Particle p: particles) p.render(otherGC);
 		
-		if (path != null) {
-			gc.setFill(new Color(0, 0, 0, 0.5)); // just dim
-			// need to copy
-			cpp.pii pos = new cpp.pii(startTilePos.first, startTilePos.second);
-			while (pos != null && !pos.equals(endTilePos)) {
-				gc.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
-						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
-				pos = path[pos.first][pos.second];
-			}
-			gc.setFill(Color.BLACK);
+		if (Main.getGameScene().getButtonManager().getToggleGroup().getSelectedToggle() == null) {
+			if (path != null) {
+				otherGC.setFill(new Color(0, 0, 0, 0.5)); // just dim
+				// need to copy
+				cpp.pii pos = new cpp.pii(startTilePos.first, startTilePos.second);
+				while (pos != null && !pos.equals(endTilePos)) {
+					otherGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
+							Numbers.TILE_SIZE, Numbers.TILE_SIZE);
+					pos = path[pos.first][pos.second];
+				}
+				otherGC.setFill(Color.BLACK);
+			}			
 		}
-		
-		try {
+		else {
 			int choice = (int)Main.getGameScene().getButtonManager().getToggleGroup().getSelectedToggle().getUserData();
 			Tower floatingTower = createTower(choice, tilePos.first, tilePos.second);
 			if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
-				floatingTower.render(gc, true);							
+				floatingTower.render(otherGC, true);							
 			}
 		}
-		catch (NullPointerException e) {
-			// nothing to handle (just not remder)
-		}
 		
 		
-		gc.setFill(Color.MAGENTA);
-		gc.setStroke(Color.BLACK);
+		
+		otherGC.setFill(Color.MAGENTA);
+		otherGC.setStroke(Color.BLACK);
 		
 		
 		ArrayList<Image> imgs= new ArrayList<>();
@@ -255,12 +261,12 @@ public class GameManager {
 //				mousePos.first*Numbers.TILE_SIZE, mousePos.second*Numbers.TILE_SIZE, selectedTile));
 		RichTextBox info = new RichTextBox(imgs, texts, 20, 20);
 		info.setAlignRight(true);
-		info.render(gc);
+		info.render(otherGC);
 		
-		gc.setFont(Font.font("Consolas", 20));;
-		TowerMenu.render(gc);
-		PauseMenu.render(gc);
-		SnackBar.render(gc);
+		otherGC.setFont(Font.font("Consolas", 20));;
+		TowerMenu.render(otherGC);
+		PauseMenu.render(otherGC);
+		SnackBar.render(otherGC);
 	}
 
 
@@ -465,10 +471,11 @@ public class GameManager {
 		return monsters;
 	}
 
-	public ArrayList<Tile> getTiles() {
-		return tiles;
-	}
+	
 
+	public TileStack[][] getPlacedTiles() {
+		return placedTiles;
+	}
 
 	public cpp.pii getStartTilePos() {
 		return startTilePos;
