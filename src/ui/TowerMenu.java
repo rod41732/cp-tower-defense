@@ -76,6 +76,7 @@ public class TowerMenu {
 								Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 						pos = path[pos.first][pos.second];
 					}
+					if (pos != null) // blocked path
 					gc.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
 							Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 				}
