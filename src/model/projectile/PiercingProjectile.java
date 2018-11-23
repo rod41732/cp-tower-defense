@@ -10,9 +10,9 @@ public class PiercingProjectile extends NormalProjectile {
 	
 	
 	public PiercingProjectile(Image image, double x, double y,
-			double vx, double vy, double maxRange, double damage) {
-		super(image, x, y, vx, vy, maxRange, damage); // default size ?
-		this.damage = damage;
+			double vx, double vy, double maxRange, double damagePerTick) {
+		super(image, x, y, vx, vy, maxRange, damagePerTick); // default size ?
+		this.damage = damagePerTick;
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public class PiercingProjectile extends NormalProjectile {
 	@Override
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
-			m.takePureDamage(3);
+			m.takePureDamage(damage);
 			System.out.println("monster take damage from" + this);
 			slowTick = 35;
 		}
