@@ -6,17 +6,8 @@ import model.Tile;
 public class Barricade extends Tile {
 
 	public Barricade(Image image, double x, double y) {
-		super(image, x, y);
+		super(image, x, y, true, false);
 	}
-
-	public boolean isPlaceable() {
-		return false;
-	}
-	
-	public boolean isWalkable() {
-		return true;
-	}
-	
 	public boolean isSelectable() {
 		return false;
 	}

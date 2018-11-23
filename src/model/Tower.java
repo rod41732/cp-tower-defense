@@ -36,7 +36,7 @@ public class Tower extends Tile {
 	
 	public Tower(Image img, double cellX, double cellY,
 			double attack, double attackCooldown, double range) {
-		super(img, cellX, cellY);
+		super(img, cellX, cellY, false, false);
 		this.attack = attack;
 		this.attackCooldown = attackCooldown;
 		this.range = range;

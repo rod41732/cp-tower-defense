@@ -5,16 +5,19 @@ import javafx.scene.image.Image;
 public class Tile extends Entity{
 	
 	private double speedModifier;
-	public Tile(Image image, double x, double y) {
+	private boolean isWalkable, isPlaceable;
+	public Tile(Image image, double x, double y, boolean isWalkable, boolean isPlaceable) {
 		super(image, x, y, 1);
+		this.isWalkable = isWalkable;
+		this.isPlaceable = isPlaceable;
 	}
 	
 	public boolean isPlaceable() {
-		return true;
+		return isPlaceable;
 	}
 	
 	public boolean isWalkable() {
-		return true;
+		return isWalkable;
 	}
 	
 	public boolean isSelectable() {
