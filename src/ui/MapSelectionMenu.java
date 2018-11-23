@@ -1,11 +1,15 @@
 package ui;
 
+import java.beans.EventHandler;
+import java.util.ArrayList;
+
 import constants.Images;
 import constants.Maps;
 import constants.Numbers;
 import constants.Other;
 import controller.GameManager;
 import controller.SuperManager;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -61,6 +65,24 @@ public class MapSelectionMenu extends Pane{
 			lbl.setTextAlignment(TextAlignment.CENTER);
 			lbl.setLayoutX(250+(i%3)*450);
 			lbl.setLayoutY(150+(i/3)*307+236);
+			// TODO: this has problem coz we need to set "int" data in some button to
+//			btn.setUserData(new ArrayList<Object>());
+//			((ArrayList<Object>)btn.getUserData()).add(new Timeline(
+//						new KeyFrame(Duration.seconds(0.2),
+//							new KeyValue(btn.scaleXProperty(), 1.1, Interpolator.EASE_BOTH),
+//							new KeyValue(btn.scaleYProperty(), 1.1, Interpolator.EASE_BOTH))
+//						));
+//			((ArrayList<Object>)btn.getUserData()).add(new Timeline(
+//					new KeyFrame(Duration.seconds(0.2),
+//						new KeyValue(btn.scaleXProperty(), 1.0, Interpolator.EASE_BOTH),
+//						new KeyValue(btn.scaleYProperty(), 1.0, Interpolator.EASE_BOTH))
+//					));
+//			btn.setOnMouseEntered(e -> {
+//				((Timeline)((ArrayList<Object>)btn.getUserData()).get(0)).play();
+//			});
+//			btn.setOnMouseExited(e -> {
+//				((Timeline)((ArrayList<Object>)btn.getUserData()).get(1)).play();
+//			});
 			
 			getChildren().addAll(btn, lbl);
 		}
