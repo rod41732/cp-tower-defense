@@ -5,7 +5,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -13,6 +15,9 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import model.Tower;
 
@@ -147,6 +152,56 @@ public class ButtonMaker {
 		return btn;
 	}
 	
-	
+	public static RadioButton makeMapSelectButton(double x, double y, Image imgNormal, Image imgPressed, int value) {
+		RadioButton btn;
+		btn = new RadioButton();
+		btn.getStyleClass().remove("radio-button");
+		btn.getStyleClass().add("toggle-button");
+		btn.setLayoutX(x);
+		btn.setLayoutY(y);
+		BackgroundImage bn = new BackgroundImage(imgNormal, BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+		Background bgNormal = new Background(bn);
+		BackgroundImage bp = new BackgroundImage(imgPressed, BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+		Background bgPressed = new Background(bp);
+		
+		btn.backgroundProperty().bind(Bindings.when(btn.selectedProperty())
+				.then(bgPressed)
+				.otherwise(bgNormal));
+		
+		// specific to tower
+		btn.setUserData(value);
+		btn.setContentDisplay(ContentDisplay.TOP);
+		btn.setAlignment(Pos.CENTER);
+		
+		
+		btn.setPrefWidth(imgNormal.getWidth());
+		btn.setPrefHeight(imgNormal.getHeight());
+		
+		ColorAdjust fade = new ColorAdjust(0, 0, -0.4, 0);
+		btn.setEffect(fade);
+		btn.setOnMousePressed(e -> {
+			btn.setPrefWidth(imgPressed.getWidth());
+			btn.setPrefHeight(imgPressed.getHeight());
+			btn.setEffect(null);
+		});
+		btn.setOnMouseReleased(e -> {
+			btn.setPrefWidth(imgNormal.getWidth());
+			btn.setPrefHeight(imgNormal.getHeight());
+//			btn.setEffect(fade);
+		});
+		
+		btn.selectedProperty().addListener((obs, old, nw) -> {
+			if (nw.booleanValue()) {
+				btn.setEffect(null);
+			} else {
+				btn.setEffect(fade);
+			}
+		});
+		
+					
+		return btn;
+	}
 	
 }
