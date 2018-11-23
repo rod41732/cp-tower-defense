@@ -25,7 +25,10 @@ public class GameScene extends Scene {
 		Canvas other = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Canvas tiles = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Canvas overlay = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		
+		other.setLayoutX(32);
+		other.setLayoutY(32);
+		tiles.setLayoutX(32);
+		tiles.setLayoutY(32);
 		
 		root.getChildren().add(tiles); // TILE
 		root.getChildren().add(other); // Other
