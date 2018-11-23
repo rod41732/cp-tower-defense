@@ -6,6 +6,9 @@ import constants.Numbers;
 import constants.Other;
 import controller.GameManager;
 import controller.SuperManager;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -15,6 +18,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 import main.Main;
 
 public class MapSelectionMenu extends Pane{
@@ -32,9 +36,14 @@ public class MapSelectionMenu extends Pane{
 		newGameButton.setOnAction(e -> {
 			GameManager.getInstance().newGame();
 			GameManager.getInstance().initialize((int)toggleGroup.getSelectedToggle().getUserData());
-			Main.setScene(Main.getGameScene());
 			SuperManager.getInstance().onResumeGame();
 			Main.getMainMenu().hideMapSelect();
+			Timeline tl = new Timeline();
+			tl.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5), e2-> {
+				
+			}));
+			tl.setOnFinished(e2 -> {Main.setScene(Main.getGameScene());});
+			
 		});
 		setLayoutY(Numbers.WIN_HEIGHT);
 		GraphicsContext gc = canvas.getGraphicsContext2D();

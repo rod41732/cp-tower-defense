@@ -42,7 +42,7 @@ public class MainMenuScene extends Scene {
 		title.setLayoutX(700);
 		title.setLayoutY(300);
 		Button resume = ButtonMaker.make(700, 350, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Resume");
-	
+		root.setStyle("-fx-background: red");
 		menuTick = new Timeline(new KeyFrame(Duration.seconds(0.5), 
 				new KeyValue(title.scaleXProperty(), 1.5),
 				new KeyValue(title.scaleYProperty(), 1.5)));
@@ -56,8 +56,14 @@ public class MainMenuScene extends Scene {
 		
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
 			boolean inGame = nw.booleanValue();
-			if (!inGame) menuTick.play();
-			else menuTick.pause();
+			if (!inGame) {
+				menuTick.play();
+				fadeIn();
+			}
+			else {
+				menuTick.pause();
+				fadeOut();
+			}
 		});
 		
 		Button newGame = ButtonMaker.make(700, 290, Images.buttonPause, Images.buttonPausePressed,
@@ -109,6 +115,18 @@ public class MainMenuScene extends Scene {
 		SuperManager.getInstance().getCanUpgradeProp().set(false);
 		SuperManager.getInstance().getIsGamePausedProp().set(false);
 		SuperManager.getInstance().getnextWaveAvailableProp().set(false);
+	}
+	
+	public void fadeIn() {
+		new Timeline(
+			new KeyFrame(Duration.seconds(0.5),
+				new KeyValue(root.opacityProperty(), 1))).play();
+	}
+	
+	public void fadeOut() {
+		new Timeline(
+				new KeyFrame(Duration.seconds(0.5),
+					new KeyValue(root.opacityProperty(), 0))).play();	
 	}
 }
 

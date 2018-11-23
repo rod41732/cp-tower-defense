@@ -6,6 +6,7 @@ import controller.ButtonManager;
 import controller.GameManager;
 import controller.SuperManager;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -19,9 +20,10 @@ import main.Main;
 public class GameScene extends Scene {
 	private ButtonManager buttonManager;
 	private Timeline gameTick;
+	private Pane root;
 	public GameScene() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		Pane root = (Pane) getRoot();
+		root = (Pane) getRoot();
 		Canvas other = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Canvas tiles = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Canvas overlay = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
@@ -47,10 +49,16 @@ public class GameScene extends Scene {
 		
 		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
 			boolean pause = nw.booleanValue();
-			if (pause) overlay.setMouseTransparent(false);
-			else overlay.setMouseTransparent(true);
+			if (pause) {
+				overlay.setMouseTransparent(false);
+			}
+			else {
+				overlay.setMouseTransparent(true);
+			}
 			
 		});
+		
+		other.setOnMouseClicked(e -> {System.out.println("c1");});
 		
 		
 		gameTick.getKeyFrames().add(render);
@@ -65,11 +73,18 @@ public class GameScene extends Scene {
 			GameManager.getInstance().handleClick(e);								
 		});
 		
+		root.setOpacity(0);
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
 			System.out.println("ig change");
 			boolean inGame = nw.booleanValue();
-			if (inGame) gameTick.play();
-			else gameTick.pause();
+			if (inGame) {
+				fadeIn();
+				gameTick.play();
+			}
+			else {
+				fadeOut();
+				gameTick.pause();
+			}
 		});
 		
 		setOnKeyPressed(e -> {
@@ -104,6 +119,17 @@ public class GameScene extends Scene {
 
 	public ButtonManager getButtonManager() {
 		return buttonManager;
+	}
+	public void fadeIn() {
+		new Timeline(
+			new KeyFrame(Duration.seconds(0.5),
+				new KeyValue(root.opacityProperty(), 1))).play();
+	}
+	
+	public void fadeOut() {
+		new Timeline(
+				new KeyFrame(Duration.seconds(0.5),
+					new KeyValue(root.opacityProperty(), 0))).play();	
 	}
 
 }
