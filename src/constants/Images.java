@@ -53,6 +53,8 @@ public class Images {
 	public static Image towerButton = new Image("ui/tower_button.png", 85, 128, false, true);
 	public static Image towerButtonPressed = new Image("ui/tower_button_pressed.png", 85, 128, false, true);
 	
+	public static Image map0Preview = new Image("map/map0.png", 335, 207, false, true);
+	public static Image map1Preview = new Image("map/map1.png", 335, 207, false, true);
 	
 	
 	

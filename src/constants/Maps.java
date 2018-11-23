@@ -31,7 +31,7 @@ public class Maps {
 		tm1.put(1, Images.tileUnwalkable);
 		tm1.put(2, Images.tileUnplaceable);
 		tm1.put(3, Images.tileNormal1);
-		maps.add(new Map(m1, tm1, new cpp.pii(0, 6), new cpp.pii(20, 6)));
+		maps.add(new Map(m1, tm1, new cpp.pii(0, 6), new cpp.pii(20, 6), Images.map0Preview));
 		
 		int[][] m2 = {	
 				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -52,8 +52,7 @@ public class Maps {
 		tm2.put(0,  Images.tileBoth);
 		tm2.put(1, Images.tileNormal1);
 		tm2.put(2, Images.tileUnplaceable);
-		maps.add(new Map(m2, tm2, new cpp.pii(0, 11), new cpp.pii(20, 4)));
-		
+		maps.add(new Map(m2, tm2, new cpp.pii(0, 11), new cpp.pii(20, 4), Images.map1Preview));
 		
 	}
 	
