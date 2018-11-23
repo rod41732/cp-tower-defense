@@ -26,8 +26,10 @@ public class MainMenuScene extends Scene {
 	
 	private Timeline menuTick;
 	private Pane root;
-	private boolean showOverlay = false;
+	private MapSelectionMenu mapMenu;
+	private boolean isMapMenuShown = false;
 	
+	private Timeline showMapMenu, hideMapMenu;
 	
 	public MainMenuScene() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
@@ -39,27 +41,59 @@ public class MainMenuScene extends Scene {
 		title.setFont(Font.font("Consolas", 72));
 		title.setLayoutX(700);
 		title.setLayoutY(300);
-		Button newGame = ButtonMaker.make(700, 200, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "New Game");
-		Button settings = ButtonMaker.make(700, 275, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Settings");
-		Button start = ButtonMaker.make(700, 350, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Resume");
-		
-		KeyFrame titleAnimX = new KeyFrame(Duration.seconds(0.5), 
-				new KeyValue(title.scaleXProperty(), 1.5)
-				); 
-		KeyFrame titleAnimY = new KeyFrame(Duration.seconds(0.5), 
-				new KeyValue(title.scaleYProperty(), 1.5)
-				); 
-		
-		menuTick = new Timeline();
-		menuTick.setAutoReverse(true); // so animation is reverse
-		menuTick.getKeyFrames().addAll(titleAnimX, titleAnimY);
+		Button resume = ButtonMaker.make(700, 350, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Resume");
+	
+		menuTick = new Timeline(new KeyFrame(Duration.seconds(0.5), 
+				new KeyValue(title.scaleXProperty(), 1.5),
+				new KeyValue(title.scaleYProperty(), 1.5)));
 		menuTick.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5),e->{
-			start.setDisable(!GameManager.getInstance().isInitialized());
+			resume.setDisable(!GameManager.getInstance().isInitialized());
 		}));
+		menuTick.setAutoReverse(true); 
 		menuTick.setCycleCount(Timeline.INDEFINITE);
 		menuTick.play();
+		tickle();
 		
-		// tickle the superManager;
+		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
+			boolean inGame = nw.booleanValue();
+			if (!inGame) menuTick.play();
+			else menuTick.pause();
+		});
+		
+		Button newGame = ButtonMaker.make(700, 290, Images.buttonPause, Images.buttonPausePressed,
+				Other.normalButtonFont, "new game ...");
+		newGame.setOnAction(e -> {
+			showMapSelect();
+		});
+		resume.setOnAction(e -> {
+			SuperManager.getInstance().getIsInGameProp().set(true);			
+			Main.setScene(Main.getGameScene());
+			menuTick.pause();
+		});
+		menus.getChildren().addAll(title, resume);
+		mapMenu = new MapSelectionMenu();
+		mapMenu.setLayoutY(Numbers.WIN_HEIGHT);
+		showMapMenu = new Timeline(new KeyFrame(Duration.seconds(0.3), 
+				new KeyValue(mapMenu.layoutYProperty(), 0)));		
+		hideMapMenu = new Timeline(new KeyFrame(Duration.seconds(0.3), 
+				new KeyValue(mapMenu.layoutYProperty(), 900)));
+				
+		root.getChildren().addAll(menus, newGame, mapMenu);	
+	}
+	
+	public void showMapSelect() {
+		menuTick.pause();
+		showMapMenu.play();
+		isMapMenuShown = true;
+	}
+	
+	public void hideMapSelect() {
+		menuTick.play();
+		hideMapMenu.play();
+		isMapMenuShown = false;
+	}
+	
+	public void tickle() {
 		SuperManager.getInstance().getIsInGameProp().set(false);
 		SuperManager.getInstance().getCanSellProp().set(false);
 		SuperManager.getInstance().getCanUpgradeProp().set(false);
@@ -75,89 +109,9 @@ public class MainMenuScene extends Scene {
 		SuperManager.getInstance().getCanUpgradeProp().set(false);
 		SuperManager.getInstance().getIsGamePausedProp().set(false);
 		SuperManager.getInstance().getnextWaveAvailableProp().set(false);
-		
-		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
-			boolean inGame = nw.booleanValue();
-			if (!inGame) menuTick.play();
-			else menuTick.pause();
-		});
-		newGame.setOnAction(e -> {
-			System.out.println("new game");
-
-			GameManager.getInstance().newGame();
-			GameManager.getInstance().initialize();
-			Main.setScene(Main.getGameScene());
-			SuperManager.getInstance().onResumeGame();
-			menuTick.pause();
-		});
-		
-		
-		start.setOnAction(e -> {
-		
-			SuperManager.getInstance().getIsInGameProp().set(true);
-			
-			GameManager.getInstance().initialize();
-			Main.setScene(Main.getGameScene());
-			menuTick.pause();
-		});
-		
-		settings.setOnAction(e -> {
-			Main.setScene(Main.getSettings());
-			menuTick.pause(); // to make it playable, it should be resumable from other clas
-		});
-	
-		// TODO: change back
-//		menus.getChildren().addAll(title, start, settings, newGame);
-		menus.getChildren().addAll(title, start, settings);
-		menus.setMinWidth(Numbers.WIN_WIDTH);
-		root.getChildren().addAll(menus);
-		
-		// ---------------------------
-		Pane overlay = new Pane();
-		Canvas test = new Canvas(1600, 900);
-		overlay.getChildren().add(test);
-		Button back = ButtonMaker.make(0, 0, Images.buttonUpgrade, Images.buttonUpgradePressed, Other.normalButtonFont, "Back");
-		overlay.getChildren().add(back);
-		
-		overlay.setMouseTransparent(false);
-		overlay.setLayoutY(900);
-		
-		test.getGraphicsContext2D().setFill(Color.color(1, 1,0, 0.5));
-		test.getGraphicsContext2D().fillRect(0, 0, 1600, 900);
-		Timeline show = new Timeline(new KeyFrame(Duration.seconds(0.5), 
-				new KeyValue(overlay.layoutYProperty(), 0)
-		));
-		Timeline hide = new Timeline(new KeyFrame(Duration.seconds(0.5), 
-				new KeyValue(overlay.layoutYProperty(), 900)
-		));
-		test.setOnMouseClicked(e -> {
-			System.out.println("yoinked");
-			e.consume();
-		});
-		back.setOnAction(e -> {
-			hide.play();
-			showOverlay = false;
-		}); 
-		
-		setOnKeyPressed(e -> {
-			if (e.getCode() == KeyCode.M) {
-				if (!showOverlay) {
-					show.play();
-					System.out.println("play");
-//					toggle.setRate(1);
-				}
-				else {
-					hide.play();
-				}
-				showOverlay = !showOverlay;
-			}
-		});
-		overlay.getChildren().add(newGame);
-		root.getChildren().add(overlay);
-		// ------------------------
-	}
-	
-	public void resume() {
-		menuTick.play();
 	}
 }
+
+
+
+

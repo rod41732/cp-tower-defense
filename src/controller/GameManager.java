@@ -2,8 +2,10 @@ package controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import constants.Images;
+import constants.Maps;
 import constants.Numbers;
 import exceptions.FullyUpgradedException;
 import javafx.animation.Timeline;
@@ -66,12 +68,15 @@ public class GameManager {
 		this.otherGC = otherGC;
 	}
 	
+	public boolean boundCheck(int x, int y) {
+		return 0 <= x && x < Numbers.COLUMNS && 0 <= y && y < Numbers.ROWS;
+	}
 	public boolean isPlaceable(int x, int y) {
-		return placedTiles[x][y] == null || placedTiles[x][y].isPlaceable();
+		return  boundCheck(x, y) && placedTiles[x][y].isPlaceable();
 	}
 	
 	public boolean isWalkable(int x, int y) {
-		return placedTiles[x][y] == null || placedTiles[x][y].isWalkable();
+		return boundCheck(x, y) && placedTiles[x][y].isWalkable();
 	}
 	
 	public GameManager() {
@@ -119,27 +124,22 @@ public class GameManager {
 		return isInitialized;
 	}
 
-	public void initialize() {
+	public void initialize(int mapId) {
 		if (isInitialized) return ;
+		Map m = Maps.getMap(mapId);
+		HashMap<Integer, Image> tileMap = m.getTileMap();
+		int[][] tiles = m.getTiles();
 		try {
 			isInitialized = true;
 			money = 1000;
 			lives = 200;
-			startTilePos = new cpp.pii(0, 5);
-			endTilePos = new cpp.pii(19, 5);
-			for (int i=0;i<Numbers.COLUMNS; i++)
+			startTilePos = m.getStart();
+			endTilePos = m.getEnd();
+			for (int i=0; i<Numbers.COLUMNS; i++)
 				for (int j=0; j<Numbers.ROWS; j++) {
-					Tile t;
-					if (Math.random() < 0.05) {
-						t = new Barricade(Images.tileUnplaceable, i+0.5, j+0.5);
-					}
-					else if ((i+j)%2 == 0) {
-						t = new Tile(Images.tile1,i+0.5, j+0.5);
-					}
-					else {
-						t = new Tile(Images.tile2, i+0.5, j+0.5);
-					}
-					placedTiles[i][j] = new TileStack(t);
+					int t = tiles[j][i];
+					System.out.printf("%d,%d -> %d%d\n", i, j, t%4&2, t%4%2);
+					placedTiles[i][j].push(new Tile(tileMap.get(t/4), i+0.5, j+0.5, ((t%4)&2) > 0, ((t%4)%2) > 0));
 				}
 			path = Algorithm.BFS(endTilePos.first, endTilePos.second,
 					startTilePos.first, startTilePos.second);
@@ -150,6 +150,8 @@ public class GameManager {
 			System.out.println("can't initialize. this shouldn't happen");
 		}
 	}
+	
+	
 	
 	public void update() {
 		SuperManager.getInstance().getCanUpgradeProp().set(selectedTile != null 
@@ -248,8 +250,10 @@ public class GameManager {
 							Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 					pos = path[pos.first][pos.second];
 				}
-				tileGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
-						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
+				if (pos != null) {
+					tileGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
+							Numbers.TILE_SIZE, Numbers.TILE_SIZE);					
+				}
 			}			
 		}
 		else {
@@ -277,6 +281,8 @@ public class GameManager {
 
 
 	public void updateMousePos(double x, double y) {
+		x -= Numbers.LEFT_OFFSET;
+		y -= Numbers.TOP_OFFSET;
 		mousePos.first = x/Numbers.TILE_SIZE;
 		mousePos.second = y/Numbers.TILE_SIZE;
 		// don't want to create new object
@@ -295,12 +301,14 @@ public class GameManager {
 	public void handleClick(MouseEvent e) {
 		if (e.isConsumed()) return;
 		if (!shouldHandle(e)) return ;
+		double x = e.getX()-Numbers.LEFT_OFFSET;
+		double y = e.getY()-Numbers.TOP_OFFSET;
 		if (e.getButton() == MouseButton.PRIMARY) {
-			handleTileClick((int)(e.getX()/Numbers.TILE_SIZE), (int)(e.getY()/Numbers.TILE_SIZE));			
+			handleTileClick((int)x/Numbers.TILE_SIZE, (int)y/Numbers.TILE_SIZE);			
 		}
 		else if (e.getButton() == MouseButton.SECONDARY) {
-			System.out.println("Spawn monster at" + new cpp.pff(e.getX()/Numbers.TILE_SIZE, e.getY()/Numbers.TILE_SIZE));
-			spawnMonster(e.getX()/Numbers.TILE_SIZE, e.getY()/Numbers.TILE_SIZE);
+			System.out.println("Spawn monster at" + new cpp.pff(x/Numbers.TILE_SIZE, x/Numbers.TILE_SIZE));
+			spawnMonster(x/Numbers.TILE_SIZE, y/Numbers.TILE_SIZE);
 		}
 		else {
 			sellTower();

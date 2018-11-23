@@ -5,10 +5,11 @@ import javafx.scene.image.Image;
 public class Images {
 	// TODO: change name to be more desciptive
 	public static Image bush1 = new Image("bush/bush1.png", 64, 64, true, true);
-	public static Image tile1 = new Image("tile/tile1.png", 64, 64, true, true);
-	public static Image tile2 = new Image("tile/tile2.png", 64, 64, true, true);
+	public static Image tileNormal1 = new Image("tile/tile1.png", 64, 64, true, true);
+	public static Image tileNormal2 = new Image("tile/tile2.png", 64, 64, true, true);
 	public static Image tileUnplaceable = new Image("tile/tileUnplaceable.png", 64, 64, true, true);
-	public static Image tileUnplaceable2 = new Image("tile/tileUnplaceable.png", 256, 256, true, true);
+	public static Image tileUnwalkable = new Image("tile/tileUnwalkable.png", 64, 64, true, true);
+	public static Image tileBoth = new Image("tile/tileBoth.png", 64, 64, true, true);
 	
 	public static Image bear = new Image("monster/bear.png", 64, 64, true, true);
 	public static Image elephant = new Image("monster/elephant.png", 64, 64, true, true);
