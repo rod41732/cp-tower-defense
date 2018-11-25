@@ -2,8 +2,8 @@ package ui;
 
 
 import constants.Numbers;
-import controller.GameManager;
 import controller.SuperManager;
+import controller.game.GameManager;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -19,6 +19,7 @@ public class GameScene extends Scene {
 	private GameButton buttonManager;
 	private Timeline gameTick;
 	private Pane root;
+	
 	public GameScene() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		root = (Pane) getRoot();
@@ -38,11 +39,14 @@ public class GameScene extends Scene {
 		tiles.setMouseTransparent(true);
 		buttonManager.addMenuButtons(root);
 		
+		GameManager.getInstance().setGC(other.getGraphicsContext2D(), tiles.getGraphicsContext2D(), overlay.getGraphicsContext2D());
+		
+		
 		gameTick = new Timeline();
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e -> {
 			if (!SuperManager.getInstance().getIsGamePausedProp().get())
-				GameManager.getInstance().update();
-			GameManager.getInstance().render(other.getGraphicsContext2D(), tiles.getGraphicsContext2D(), overlay.getGraphicsContext2D());					
+				GameManager.getInstance().updater.update(GameManager.getInstance());
+			GameManager.getInstance().render();					
 		});
 		
 		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
@@ -89,7 +93,7 @@ public class GameScene extends Scene {
 		
 		setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.G) {
-				GameManager.getInstance().requestNextWave();			
+				GameManager.getInstance().updater.requestNextWave(GameManager.getInstance());			
 			} else if (e.getCode() == KeyCode.DIGIT1) {
 				GameManager.getInstance().setSelectedTile(null);
 				IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
@@ -107,9 +111,9 @@ public class GameScene extends Scene {
 				IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 3 ? -1 : 3);
 			} else if (e.getCode() == KeyCode.S) {
-				GameManager.getInstance().sellTower();
+				GameManager.getInstance().towerManager.sellTower(GameManager.getInstance());
 			} else if (e.getCode() == KeyCode.D) {
-				GameManager.getInstance().upgradeTower();
+				GameManager.getInstance().updater.upgradeTower(GameManager.getInstance());
 			} else if (e.getCode() == KeyCode.Z) {
 				GameManager.getInstance().addMoney(1000);
 			}

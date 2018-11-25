@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import constants.Images;
 import constants.Numbers;
-import controller.GameManager;
 import controller.SuperManager;
+import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import exceptions.PathBlockedException;
 import javafx.scene.canvas.GraphicsContext;

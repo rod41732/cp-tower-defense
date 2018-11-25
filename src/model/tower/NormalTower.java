@@ -2,7 +2,7 @@ package model.tower;
 
 
 import constants.Images;
-import controller.GameManager;
+import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.Tower;

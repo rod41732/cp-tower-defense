@@ -1,6 +1,7 @@
-package controller;
+package controller.game;
 
 import constants.Images;
+import controller.SuperManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;

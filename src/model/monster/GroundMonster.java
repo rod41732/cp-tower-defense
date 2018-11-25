@@ -1,6 +1,6 @@
 package model.monster;
 
-import controller.GameManager;
+import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
 import model.Tile;

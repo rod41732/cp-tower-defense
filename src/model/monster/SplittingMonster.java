@@ -1,7 +1,7 @@
 package model.monster;
 
 import constants.Images;
-import controller.GameManager;
+import controller.game.GameManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;

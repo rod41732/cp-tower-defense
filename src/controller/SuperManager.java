@@ -1,5 +1,6 @@
 package controller;
 
+import controller.game.MonsterSpawner;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;

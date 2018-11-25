@@ -4,8 +4,8 @@ package ui;
 import java.util.ArrayList;
 
 import constants.Images;
-import controller.GameManager;
 import controller.SuperManager;
+import controller.game.GameManager;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
@@ -38,18 +38,18 @@ public class GameButton {
 		sellButton = ButtonMaker.make(1400, 780, Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
 				buttonFont, "Sell Tower");		
 		sellButton.setOnAction(e -> {
-			GameManager.getInstance().sellTower();
+			GameManager.getInstance().towerManager.sellTower(GameManager.getInstance());
 		});
 		nextButton = ButtonMaker.make(820, 0, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
 				buttonFont, "Next Wave");
 		nextButton.setOnAction(e -> {
-			GameManager.getInstance().requestNextWave();
+			GameManager.getInstance().updater.requestNextWave(GameManager.getInstance());
 		});
 		
 		upgradeButton = ButtonMaker.make(1400, 840, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
 				buttonFont, "Upgrade");
 		upgradeButton.setOnAction(e -> {
-			GameManager.getInstance().upgradeTower();
+			GameManager.getInstance().updater.upgradeTower(GameManager.getInstance());
 		});		
 		
 		toMenuButton = ButtonMaker.make(700, 480, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
@@ -96,14 +96,9 @@ public class GameButton {
 			pauseButton.setDisable(paused || isPlacing);
 			nextButton.setDisable(paused || isPlacing);
 			
-//			System.out.println(obs.getValue());
-			try {
-				System.out.println(isPlacing ? (int)nw.getUserData() : -1);
-				SuperManager.getInstance().getTowerChoiceProp().set(isPlacing ? (int)nw.getUserData() : -1);				
-			}
-			catch (NullPointerException npe) {
-			}
-			 
+
+			SuperManager.getInstance().getTowerChoiceProp().set(isPlacing ? (int)nw.getUserData() : -1);				
+					 
 		});
 		SuperManager.getInstance().getTowerChoiceProp().addListener((obs, old, nw) -> {
 			int val = nw.intValue();
@@ -116,29 +111,21 @@ public class GameButton {
 		});
 		
 		SuperManager.getInstance().getCanSellProp().addListener((obs, old, nw) -> {
-//			if (old.booleanValue() != nw.booleanValue()) return ;
 			boolean canSell = nw.booleanValue();
-			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
-			sellButton.setDisable(!canSell || paused);
+			sellButton.setDisable(!canSell);
 		});
 		
 		SuperManager.getInstance().getCanUpgradeProp().addListener((obs, old, nw) -> {
-//			if (old.booleanValue() != nw.booleanValue()) return ;
 			boolean canUpgrade = nw.booleanValue();
-			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
-			upgradeButton.setDisable(!canUpgrade || paused);			
+			upgradeButton.setDisable(!canUpgrade);			
 		});
 		
 		SuperManager.getInstance().getnextWaveAvailableProp().addListener((obs, old, nw) -> {
-//			if (old.booleanValue() != nw.booleanValue()) return ;
 			boolean avail = nw.booleanValue();
-			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
-			nextButton.setDisable(!avail || paused);
+			nextButton.setDisable(!avail);
 		});
 		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
-//			if (old.booleanValue() != nw.booleanValue()) return ;
 			boolean paused = nw.booleanValue();
-//			boolean inGame = SuperManager.getInstance().getIsInGameProp().get();
 			boolean isPlacing = toggleGroup.getSelectedToggle() != null;
 			boolean canUp = SuperManager.getInstance().getCanUpgradeProp().get();
 			boolean canSell = SuperManager.getInstance().getCanSellProp().get();
@@ -159,19 +146,7 @@ public class GameButton {
 	public void addMenuButtons(Pane pane) {
 		pane.getChildren().addAll(resumeButton, toMenuButton);
 	}
-//	public ToggleGroup getToggleGroup() {
-//		return toggleGroup;
-//	}
 	public void setUpgradeText(String text) {
 		upgradeButton.setText(text);
-	}
-//	public Button getResumeButton() {
-//		return resumeButton;
-//	}
-//
-//	public Button getToMenuButton() {
-//		return toMenuButton;
-//	}
-	
-	
+	}	
 }

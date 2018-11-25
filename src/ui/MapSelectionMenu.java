@@ -7,8 +7,8 @@ import constants.Images;
 import constants.Maps;
 import constants.Numbers;
 import constants.Other;
-import controller.GameManager;
 import controller.SuperManager;
+import controller.game.GameManager;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -39,7 +39,7 @@ public class MapSelectionMenu extends Pane{
 		ToggleGroup toggleGroup = new ToggleGroup();
 		newGameButton.setOnAction(e -> {
 			GameManager.getInstance().newGame();
-			GameManager.getInstance().initialize((int)toggleGroup.getSelectedToggle().getUserData());
+			GameManager.getInstance().loadMap((int)toggleGroup.getSelectedToggle().getUserData());
 			SuperManager.getInstance().onResumeGame();
 			Main.getMainMenu().hideMapSelect();
 			Timeline tl = new Timeline();

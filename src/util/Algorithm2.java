@@ -5,7 +5,7 @@ import java.util.Queue;
 
 import constants.Numbers;
 import constants.Other;
-import controller.GameManager;
+import controller.game.GameManager;
 import exceptions.PathBlockedException;
 
 public class Algorithm2 {

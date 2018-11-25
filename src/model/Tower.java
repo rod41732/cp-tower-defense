@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import buff.Buff;
 import constants.Images;
 import constants.Numbers;
-import controller.GameManager;
+import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
