@@ -47,8 +47,9 @@ public class Updater {
 		});
 	}
 	public void update() {
-//		System.out.println("update");
-		System.out.println("sel " + gm.selectedTile);
+		if (!(gm.selectedTile instanceof Tower)) {
+			gm.selectedTile = null;
+		}
 		SuperManager.getInstance().getCanUpgradeProp().set(gm.selectedTile != null 
 				&& ((Tower)gm.selectedTile).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTile).getUpgradePrice() >= 0);
 		SuperManager.getInstance().getCanSellProp().set(gm.selectedTile != null);
