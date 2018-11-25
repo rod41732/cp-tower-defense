@@ -17,7 +17,6 @@ public class SplittingMonster extends GroundMonster {
 	
 	public void onDeath() {
 		pff pos = getPosition();
-		System.out.println("split");
 		Timeline tl = new Timeline();
 		tl.getKeyFrames().add(new KeyFrame(Duration.seconds(0.1), e ->  {
 			GameManager.getInstance().updater.spawnMonster(new GroundMonster("Moose", Images.moose,

@@ -2,10 +2,8 @@ package controller.game;
 
 import constants.Images;
 import controller.SuperManager;
-import exceptions.FullyUpgradedException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.util.Duration;
 import main.Main;
 import model.Monster;
@@ -112,7 +110,7 @@ public class Updater {
 			gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);			
 		}
 		catch (Exception e) {
-			System.out.println("nextwave: path not found");
+			e.printStackTrace();
 		}
 		if (shouldSpawnNextWave()) {
 			MonsterSpawner.getInstace().nextWave();			

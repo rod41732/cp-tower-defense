@@ -10,8 +10,6 @@ import exceptions.FullyUpgradedException;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import util.GameUtil;
-import util.cpp;
 
 public abstract class Tower extends Tile {
 

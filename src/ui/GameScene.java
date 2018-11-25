@@ -8,10 +8,8 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -33,16 +31,13 @@ public class GameScene extends Scene {
 		
 		root.getChildren().add(tiles); // TILE
 		root.getChildren().add(other); // Other
-		buttonManager = new GameButton(root);
 		root.getChildren().add(overlay);
+		buttonManager = new GameButton(root);
 		overlay.setMouseTransparent(true);
 		tiles.setMouseTransparent(true);
 		buttonManager.addMenuButtons(root);
 		
-		GameManager.getInstance().setGC(other.getGraphicsContext2D(), tiles.getGraphicsContext2D(), overlay.getGraphicsContext2D());
-		
-
-		
+		GameManager.getInstance().setGC(other.getGraphicsContext2D(), tiles.getGraphicsContext2D(), overlay.getGraphicsContext2D());	
 		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
 			boolean pause = nw.booleanValue();
 			if (pause) {
@@ -54,7 +49,6 @@ public class GameScene extends Scene {
 			
 		});
 		
-		other.setOnMouseClicked(e -> {System.out.println("c1");});
 		setOnMouseMoved(e -> {
 			GameManager.getInstance().updateMousePos(GameManager.getInstance(), e.getX(), e.getY());
 		});
@@ -64,11 +58,8 @@ public class GameScene extends Scene {
 			GameManager.getInstance().handleClick(e);								
 		});
 		
-		root.setOpacity(0);
-		root.setScaleX(1.2);
-		root.setScaleY(1.2);
+		fadeOut();
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
-			System.out.println("ig change");
 			boolean inGame = nw.booleanValue();
 			if (inGame) {
 				fadeIn();

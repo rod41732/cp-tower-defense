@@ -2,7 +2,6 @@ package controller.game;
 
 import constants.Numbers;
 import exceptions.FullyUpgradedException;
-import exceptions.PathBlockedException;
 import model.Tile;
 import model.Tower;
 import model.tower.BombTower;
@@ -49,8 +48,8 @@ public class TowerManager {
 			gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
 		}
 		catch (Exception e) {
-	//			e.printStackTrace();
-			System.out.println("can't remove tower, this shouldn't happen");
+			System.err.println("can't remove tower, this shouldn't happen");
+				e.printStackTrace();
 		}
 	}
 

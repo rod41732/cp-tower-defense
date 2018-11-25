@@ -38,7 +38,8 @@ public class GroundMonster extends Monster {
 			}			
 		}
 		catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
+			forceKill(); // to remove buggy monster
 		}
 		
 	}

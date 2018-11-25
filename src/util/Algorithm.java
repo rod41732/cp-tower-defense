@@ -36,11 +36,9 @@ public class Algorithm {
 			pred[fromCol][fromRow] = new cpp.pii(fromCol, fromRow);	
 		}
 		
-//		System.out.println("------------------------------------------------------");
 		while (!q.isEmpty()) {
 			cpp.xyt top = q.remove();
 			int x = top.x, y = top.y, t = top.t;
-//			System.out.println("current is " + top);
 			for (int[] rc: Other.dir) {
 				int nx = x+rc[0], ny = y+rc[1], nt = t+1;
 				if (nx < 0 || nx >= TABLE_C || ny < 0 || ny >= TABLE_R) { 

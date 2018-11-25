@@ -8,7 +8,6 @@ import constants.Numbers;
 import controller.SuperManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -79,12 +78,10 @@ public class Renderer {
 
 	
 	public void render() {
-//		System.out.println("rendering");
 		otherGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		otherGC.setGlobalAlpha(1);
 		for (TileStack[] col: gm.placedTiles) 
 			for (TileStack ts: col) {
-//				System.out.println("r1");
 				ts.render(otherGC, tileGC);
 			}
 		
@@ -110,7 +107,7 @@ public class Renderer {
 		}
 		else {
 			int choice = SuperManager.getInstance().getTowerChoiceProp().get();
-			Tower floatingTower = GameManager.getInstance().towerManager.createTower(choice, gm.tilePos.first, gm.tilePos.second);
+			Tower floatingTower = GameManager.getInstance().createTower(choice, gm.tilePos.first, gm.tilePos.second);
 			if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
 				floatingTower.render(otherGC, true);							
 			}
