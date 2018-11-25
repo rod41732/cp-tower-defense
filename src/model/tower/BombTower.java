@@ -50,7 +50,7 @@ public class BombTower extends Tower {
 		if (currentTarget == null) return;
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);
-		GameManager.getInstance().updater.addProjectile(GameManager.getInstance(), new 
+		GameManager.getInstance().updater.addProjectile(new 
 				Missile(Images.bomb, x, y, v.first*9, v.second*9, range, attack, splashRadius));
 		
 		currentCooldown = attackCooldown;

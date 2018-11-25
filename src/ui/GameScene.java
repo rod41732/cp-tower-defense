@@ -45,7 +45,7 @@ public class GameScene extends Scene {
 		gameTick = new Timeline();
 		KeyFrame render = new KeyFrame(Duration.seconds(1./60), e -> {
 			if (!SuperManager.getInstance().getIsGamePausedProp().get())
-				GameManager.getInstance().updater.update(GameManager.getInstance());
+				GameManager.getInstance().updater.update();
 			GameManager.getInstance().render();					
 		});
 		
@@ -72,7 +72,7 @@ public class GameScene extends Scene {
 		
 		setOnMouseClicked(e -> {
 			PauseMenu.handleMouseClick(e);
-			GameManager.getInstance().handler.handleClick(GameManager.getInstance(), e);								
+			GameManager.getInstance().handler.handleClick(e);								
 		});
 		
 		root.setOpacity(0);
@@ -93,7 +93,7 @@ public class GameScene extends Scene {
 		
 		setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.G) {
-				GameManager.getInstance().updater.requestNextWave(GameManager.getInstance());			
+				GameManager.getInstance().updater.requestNextWave();			
 			} else if (e.getCode() == KeyCode.DIGIT1) {
 				GameManager.getInstance().setSelectedTile(null);
 				IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
@@ -111,9 +111,9 @@ public class GameScene extends Scene {
 				IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 3 ? -1 : 3);
 			} else if (e.getCode() == KeyCode.S) {
-				GameManager.getInstance().towerManager.sellTower(GameManager.getInstance());
+				GameManager.getInstance().towerManager.sellTower();
 			} else if (e.getCode() == KeyCode.D) {
-				GameManager.getInstance().updater.upgradeTower(GameManager.getInstance());
+				GameManager.getInstance().updater.upgradeTower();
 			} else if (e.getCode() == KeyCode.Z) {
 				GameManager.getInstance().addMoney(1000);
 			}

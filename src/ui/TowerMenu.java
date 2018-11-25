@@ -45,21 +45,21 @@ public class TowerMenu {
 			renderTowerInfo(gc, t2, false);
 		
 		
-		GameManager gi = GameManager.getInstance();
-		cpp.pii tilePos = gi.getSelectedPosition();
+		GameManager gm = GameManager.getInstance();
+		cpp.pii tilePos = gm.getSelectedPosition();
 		int choice = SuperManager.getInstance().getTowerChoiceProp().get();
 		if (choice != -1) {	
 			try {
-				Tower floatingTower = gi.towerManager.createTower(choice, tilePos.first, tilePos.second);
+				Tower floatingTower = gm.towerManager.createTower(choice, tilePos.first, tilePos.second);
 				if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
 					floatingTower.render(gc, true);							
 				}
-				cpp.pii start = gi.getStartTilePos(), end = gi.getEndTilePos();
+				cpp.pii start = gm.getStartTilePos(), end = gm.getEndTilePos();
 				
 				if (!tilePos.equals(lastPos)) {
 					lastPos.first = tilePos.first;
 					lastPos.second = tilePos.second;
-					if (gi.towerManager.isPlaceable(gi, tilePos.first, tilePos.second)) {
+					if (gm.towerManager.isPlaceable(tilePos.first, tilePos.second)) {
 						path = Algorithm2.BFS(end.first, end.second, start.first, start.second, tilePos);
 						isError = false;
 					}

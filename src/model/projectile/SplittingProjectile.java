@@ -27,11 +27,11 @@ public class SplittingProjectile extends NormalProjectile {
 			cpp.pff v1 = GameUtil.rotateVector(vx, vy, 20);
 			cpp.pff v2 = GameUtil.rotateVector(vx, vy, -20);
 			forceExpire();
-			GameManager.getInstance().updater.addProjectile(GameManager.getInstance(), new NormalProjectile(Images.normalBullet,
+			GameManager.getInstance().updater.addProjectile(new NormalProjectile(Images.normalBullet,
 					x, y, vx, vy,maxDistance-splitDistance, damage));
-			GameManager.getInstance().updater.addProjectile(GameManager.getInstance(), new NormalProjectile(Images.normalBullet,
+			GameManager.getInstance().updater.addProjectile(new NormalProjectile(Images.normalBullet,
 					x, y, v1.first, v1.second, maxDistance-splitDistance, damage));
-			GameManager.getInstance().updater.addProjectile(GameManager.getInstance(), new NormalProjectile(Images.normalBullet,
+			GameManager.getInstance().updater.addProjectile(new NormalProjectile(Images.normalBullet,
 					x, y, v2.first, v2.second, maxDistance-splitDistance, damage));
 		}
 	}

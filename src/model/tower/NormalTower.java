@@ -48,12 +48,12 @@ public class NormalTower extends Tower {
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		rotateTo(currentTarget);
 		if (level < 5) {
-		GameManager.getInstance().updater.addProjectile(GameManager.getInstance(), new 
+		GameManager.getInstance().updater.addProjectile(new 
 				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10));
 			
 		}
 		else {
-			GameManager.getInstance().updater.addProjectile(GameManager.getInstance(), new 
+			GameManager.getInstance().updater.addProjectile(new 
 					SplittingProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10, 
 							Math.min(distanceTo(currentTarget)*0.6, distanceTo(currentTarget)-currentTarget.getSize()-size)));			
 		}

@@ -38,18 +38,18 @@ public class GameButton {
 		sellButton = ButtonMaker.make(1400, 780, Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
 				buttonFont, "Sell Tower");		
 		sellButton.setOnAction(e -> {
-			GameManager.getInstance().towerManager.sellTower(GameManager.getInstance());
+			GameManager.getInstance().towerManager.sellTower();
 		});
 		nextButton = ButtonMaker.make(820, 0, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
 				buttonFont, "Next Wave");
 		nextButton.setOnAction(e -> {
-			GameManager.getInstance().updater.requestNextWave(GameManager.getInstance());
+			GameManager.getInstance().updater.requestNextWave();
 		});
 		
 		upgradeButton = ButtonMaker.make(1400, 840, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
 				buttonFont, "Upgrade");
 		upgradeButton.setOnAction(e -> {
-			GameManager.getInstance().updater.upgradeTower(GameManager.getInstance());
+			GameManager.getInstance().updater.upgradeTower();
 		});		
 		
 		toMenuButton = ButtonMaker.make(700, 480, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
