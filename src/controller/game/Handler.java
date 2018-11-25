@@ -102,33 +102,40 @@ public class Handler {
 		return ;
 	}
 	public void handleKeyPress(KeyEvent e) {
-		
-		if (e.getCode() == KeyCode.G) {
-			GameManager.getInstance().requestNextWave();			
-		} else if (e.getCode() == KeyCode.DIGIT1) {
-			GameManager.getInstance().setSelectedTile(null);
-			IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
-			prop.set(prop.get() == 0 ? -1 : 0);
-		} else if (e.getCode() == KeyCode.DIGIT2) {
-			GameManager.getInstance().setSelectedTile(null);
-			IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
-			prop.set(prop.get() == 1 ? -1 : 1);
-		} else if (e.getCode() == KeyCode.DIGIT3) {
-			GameManager.getInstance().setSelectedTile(null);
-			IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
-			prop.set(prop.get() == 2 ? -1 : 2);
-		} else if (e.getCode() == KeyCode.DIGIT4) {
-			GameManager.getInstance().setSelectedTile(null);
-			IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
-			prop.set(prop.get() == 3 ? -1 : 3);
-		} else if (e.getCode() == KeyCode.S) {
-			GameManager.getInstance().sellTower();
-		} else if (e.getCode() == KeyCode.D) {
-			GameManager.getInstance().upgradeTower();
-		} else if (e.getCode() == KeyCode.Z) {
-			GameManager.getInstance().addMoney(1000);
-		}
-//		e.consume(); // prevent 'ding' sound 
+		if (SuperManager.getInstance().getIsGamePausedProp().get()) {
+			e.consume();
+			
+			IntegerProperty prop;
+			switch (e.getCode()) {
+			case G:
+				GameManager.getInstance().requestNextWave();			
+				break;
+			case S:
+				GameManager.getInstance().sellTower();
+				break;
+			case D:
+				GameManager.getInstance().upgradeTower();
+				break;
+			default:
+				GameManager.getInstance().setSelectedTile(null);
+			case DIGIT1:
+				prop = SuperManager.getInstance().getTowerChoiceProp();
+				prop.set(prop.get() == 0 ? -1 : 0);
+				break;
+			case DIGIT2:
+				prop = SuperManager.getInstance().getTowerChoiceProp();
+				prop.set(prop.get() == 1 ? -1 : 1);
+				break;
+			case DIGIT3:
+				prop = SuperManager.getInstance().getTowerChoiceProp();
+				prop.set(prop.get() == 2 ? -1 : 2);
+				break;
+			case DIGIT4:
+				prop = SuperManager.getInstance().getTowerChoiceProp();
+				prop.set(prop.get() == 3 ? -1 : 3);
+				break;	
+			}
+		} 
 	}
 	
 	public void setTowerChoice(int towerChoice) {
