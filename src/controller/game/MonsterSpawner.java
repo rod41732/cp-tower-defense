@@ -13,14 +13,18 @@ public class MonsterSpawner {
 	private static MonsterSpawner instance = new MonsterSpawner();
 	private Timeline stage;
 	private boolean isReady = true;
+	private GameManager gm;
 	
+	public void bindTo(GameManager gm) {
+		this.gm = gm;
+	}
 	
 	public MonsterSpawner() {
 		
 		stage = new Timeline();
 		stage.getKeyFrames().add(new KeyFrame(Duration.seconds(1./3), e ->  {
-			cpp.pii startTile = GameManager.getInstance().getStartTilePos();
-			GameManager.getInstance().updater.spawnMonster(GameManager.getInstance(), new GroundMonster("Bear", Images.bear, startTile.first+0.5, startTile.second+0.5,
+			cpp.pii startTile = gm.getStartTilePos();
+			gm.updater.spawnMonster(new GroundMonster("Bear", Images.bear, startTile.first+0.5, startTile.second+0.5,
 					0.3, 60, 1.5, 3, 10));
 //			System.out.println("spawned monster");
 		}));

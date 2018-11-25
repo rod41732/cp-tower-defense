@@ -62,6 +62,8 @@ public class GameManager {
 		renderer = new Renderer(this);
 		updater = new Updater(this);
 		towerManager = new TowerManager(this);
+		handler = new Handler(this);
+		MonsterSpawner.getInstace().bindTo(this);
 	}
 	
 	public void setGC(GraphicsContext otherGC, GraphicsContext tileGC, GraphicsContext overlayGC) {

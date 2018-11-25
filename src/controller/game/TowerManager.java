@@ -16,37 +16,37 @@ import util.cpp.pii;
 public class TowerManager {
 
 	
-	private GameManager game;
+	private GameManager gm;
 	
 	public TowerManager(GameManager game) {
-		this.game = game;
+		this.gm = game;
 	}
 
-	public void sellTower(GameManager gameManager) {
-		if (gameManager.selectedTile == null) return;
+	public void sellTower() {
+		if (gm.selectedTile == null) return;
 		// TODO : spaghetti
-		if (!(gameManager.selectedTile instanceof Tower)) return ;
-		Tower t = (Tower)gameManager.selectedTile;
-		gameManager.money += t.getPrice()/2;
+		if (!(gm.selectedTile instanceof Tower)) return ;
+		Tower t = (Tower)gm.selectedTile;
+		gm.money += t.getPrice()/2;
 		pii pos = t.getPosition().toI();
-		gameManager.towerManager.removeTower(gameManager, pos.first, pos.second);
-		gameManager.selectedTile = null;
-		gameManager.handler.setTowerChoice(-1);
+		removeTower(pos.first, pos.second);
+		gm.selectedTile = null;
+		gm.handler.setTowerChoice(-1);
 	}
 
-	public void removeTower(GameManager gameManager, int x, int y) {
+	public void removeTower(int x, int y) {
 		try {
-			Tile t = gameManager.placedTiles[x][y].top();
+			Tile t = gm.placedTiles[x][y].top();
 			if (!t.isSelectable()) return ; // don't remove that dansgame
-			gameManager.placedTiles[x][y].pop();
+			gm.placedTiles[x][y].pop();
 			if (t instanceof Tower) {
-				for (int i=0; i<gameManager.towers.size(); i++)
-					if (t == gameManager.towers.get(i)) {
-						gameManager.towers.remove(i);
+				for (int i=0; i<gm.towers.size(); i++)
+					if (t == gm.towers.get(i)) {
+						gm.towers.remove(i);
 						break;
 					}
 			}
-			gameManager.path = Algorithm.BFS(gameManager.endTilePos.first, gameManager.endTilePos.second, gameManager.startTilePos.first, gameManager.startTilePos.second);
+			gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
 		}
 		catch (Exception e) {
 	//			e.printStackTrace();
@@ -54,38 +54,38 @@ public class TowerManager {
 		}
 	}
 
-	public void handleTileClick(GameManager gameManager, int x, int y) {
+	public void handleTileClick(int x, int y) {
 	
 		try {
-			Tower t = gameManager.towerManager.createTower(gameManager.getTowerChoice(), x, y);
-			gameManager.handler.setTowerChoice(-1);
-			gameManager.selectedTile = gameManager.placedTiles[x][y].top();
+			Tower t = createTower(gm.getTowerChoice(), x, y);
+			gm.handler.setTowerChoice(-1);
+			gm.selectedTile = gm.placedTiles[x][y].top();
 	
 			// no tower => muse select
 			if (t == null) {
-				gameManager.selectedTile = gameManager.placedTiles[x][y].select();
+				gm.selectedTile = gm.placedTiles[x][y].select();
 				return;
 			}
 	
 				// selected => try build
-			if (!gameManager.selectedTile.isPlaceable()) {
+			if (!gm.selectedTile.isPlaceable()) {
 				throw new Exception("already something on tile");
 			}
 			
-			if (t.getPrice() > gameManager.money) {
+			if (t.getPrice() > gm.money) {
 				throw new Exception("no money");
 			}				
 			
 		
-			gameManager.placedTiles[x][y].push(t);
-			Algorithm.BFS(gameManager.endTilePos.first, gameManager.endTilePos.second, gameManager.startTilePos.first, gameManager.startTilePos.second);
-			gameManager.towers.add(t);
-			gameManager.money -= t.getPrice();
-			gameManager.selectedTile = t;
+			gm.placedTiles[x][y].push(t);
+			Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
+			gm.towers.add(t);
+			gm.money -= t.getPrice();
+			gm.selectedTile = t;
 		}
 		catch (PathBlockedException e) {
-			gameManager.selectedTile = null;
-			gameManager.placedTiles[x][y].pop();
+			gm.selectedTile = null;
+			gm.placedTiles[x][y].pop();
 			SnackBar.play(e.getMessage());
 		}
 		catch (Exception e) {
@@ -93,7 +93,7 @@ public class TowerManager {
 		}
 		finally {
 			try {
-				gameManager.path = Algorithm.BFS(gameManager.endTilePos.first, gameManager.endTilePos.second, gameManager.startTilePos.first, gameManager.startTilePos.second);
+				gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
 			}
 			catch(Exception e) {
 				// this shouldn't happen
@@ -102,12 +102,12 @@ public class TowerManager {
 		return ;
 	}
 
-	public boolean canUpgrade(GameManager gameManager) {
-		return gameManager.selectedTile != null && ((Tower)gameManager.selectedTile).getPrice() <= gameManager.money;
+	public boolean canUpgrade() {
+		return gm.selectedTile != null && ((Tower)gm.selectedTile).getPrice() <= gm.money;
 	}
 
-	public boolean canSell(GameManager gameManager) {
-		return gameManager.selectedTile != null;
+	public boolean canSell() {
+		return gm.selectedTile != null;
 	}
 
 	public Tower createTower(int towerChoice, int x, int y) {
@@ -129,12 +129,12 @@ public class TowerManager {
 		return 0 <= x && x < Numbers.COLUMNS && 0 <= y && y < Numbers.ROWS;
 	}
 
-	public boolean isPlaceable(GameManager gameManager, int x, int y) {
-		return  boundCheck(x, y) && gameManager.placedTiles[x][y].isPlaceable();
+	public boolean isPlaceable(int x, int y) {
+		return  boundCheck(x, y) && gm.placedTiles[x][y].isPlaceable();
 	}
 
-	public boolean isWalkable(GameManager gameManager, int x, int y) {
-		return boundCheck(x, y) && gameManager.placedTiles[x][y].isWalkable();
+	public boolean isWalkable(int x, int y) {
+		return boundCheck(x, y) && gm.placedTiles[x][y].isWalkable();
 	}
 
 }

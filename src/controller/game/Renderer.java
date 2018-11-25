@@ -27,14 +27,14 @@ import util.cpp;
 public class Renderer {
 
 
-	private GameManager game;
+	private GameManager gm;
 	private GraphicsContext otherGC, tileGC, overlayGC;
 	private RichTextBox infoBox;
 	private Thread renderLoop;
 	private boolean shouldRender;
 	
-	public Renderer(GameManager game) {
-		this.game = game;
+	public Renderer(GameManager gm) {
+		this.gm = gm;
 		ArrayList<Image> imgs= new ArrayList<>();
 		ArrayList<String> texts = new ArrayList<>();
 		imgs.add(Images.cooldownIcon);
@@ -73,11 +73,11 @@ public class Renderer {
 	
 
 	public boolean isPlaceable(int x, int y) {
-		return  game.towerManager.boundCheck(x, y) && game.placedTiles[x][y].isPlaceable();
+		return  gm.towerManager.boundCheck(x, y) && gm.placedTiles[x][y].isPlaceable();
 	}
 	
 	public boolean isWalkable(int x, int y) {
-		return game.towerManager.boundCheck(x, y) && game.placedTiles[x][y].isWalkable();
+		return gm.towerManager.boundCheck(x, y) && gm.placedTiles[x][y].isWalkable();
 	}
 	
 
@@ -85,22 +85,22 @@ public class Renderer {
 	public void render() {
 		otherGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		otherGC.setGlobalAlpha(1);
-		for (TileStack[] col: game.placedTiles)
+		for (TileStack[] col: gm.placedTiles)
 			for (TileStack ts: col)
 				ts.render(otherGC, tileGC);
-		for (Monster m: game.monsters) m.render(otherGC);
-		for (Projectile p: game.projectiles) p.render(otherGC);
-		for (Particle p: game.particles) p.render(otherGC);
+		for (Monster m: gm.monsters) m.render(otherGC);
+		for (Projectile p: gm.projectiles) p.render(otherGC);
+		for (Particle p: gm.particles) p.render(otherGC);
 		
 		if (SuperManager.getInstance().getTowerChoiceProp().get() == -1) {
-			if (game.path != null) {
+			if (gm.path != null) {
 				tileGC.setFill(new Color(0, 0, 0, 0.5)); // just dim
 				// need to copy
-				cpp.pii pos = new cpp.pii(game.startTilePos.first, game.startTilePos.second);
-				while (pos != null && !pos.equals(game.endTilePos)) {
+				cpp.pii pos = new cpp.pii(gm.startTilePos.first, gm.startTilePos.second);
+				while (pos != null && !pos.equals(gm.endTilePos)) {
 					tileGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
 							Numbers.TILE_SIZE, Numbers.TILE_SIZE);
-					pos = game.path[pos.first][pos.second];
+					pos = gm.path[pos.first][pos.second];
 				}
 				if (pos != null) {
 					tileGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
@@ -110,7 +110,7 @@ public class Renderer {
 		}
 		else {
 			int choice = SuperManager.getInstance().getTowerChoiceProp().get();
-			Tower floatingTower = GameManager.getInstance().towerManager.createTower(choice, game.tilePos.first, game.tilePos.second);
+			Tower floatingTower = GameManager.getInstance().towerManager.createTower(choice, gm.tilePos.first, gm.tilePos.second);
 			if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
 				floatingTower.render(otherGC, true);							
 			}
@@ -121,8 +121,8 @@ public class Renderer {
 		otherGC.setFill(Color.MAGENTA);
 		otherGC.setStroke(Color.BLACK);
 		infoBox.getTexts().set(0, "level" + (int)(Math.random()*4));
-		infoBox.getTexts().set(1, "$ " + game.money);
-		infoBox.getTexts().set(2, game.lives + " lives\n tile" + game.mousePos.first*Numbers.TILE_SIZE + ". " + game.mousePos.second*Numbers.TILE_SIZE);
+		infoBox.getTexts().set(1, "$ " + gm.money);
+		infoBox.getTexts().set(2, gm.lives + " lives\n tile" + gm.mousePos.first*Numbers.TILE_SIZE + ". " + gm.mousePos.second*Numbers.TILE_SIZE);
 		infoBox.render(otherGC);
 		
 		otherGC.setFont(Font.font("Consolas", 20));;
