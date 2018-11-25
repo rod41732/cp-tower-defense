@@ -30,6 +30,9 @@ public class MonsterSpawner {
 		}));
 		stage.setOnFinished(e -> {
 			isReady = true;
+			SuperManager.getInstance().getGameStateProp().set(2);
+			// TODO: Experimental
+			SuperManager.getInstance().getIsGamePausedProp().set(true);
 		});
 		stage.setCycleCount(20);
 	

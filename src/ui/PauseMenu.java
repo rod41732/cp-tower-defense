@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 public class PauseMenu {
+	private static String[] TEXTS = {"Paused", "Game Over", "You Win"};
 	
 	private static boolean isShown = false;
 	static {
@@ -27,7 +28,8 @@ public class PauseMenu {
 			gc.setFill(Color.color(0.55, 0.27, 0.10, 0.8));
 			gc.setFont(Font.font("KenVector Future Regular", 44));
 			gc.setTextAlign(TextAlignment.CENTER);
-			gc.fillText("Paused", 800, 360);
+			
+			gc.fillText(TEXTS[SuperManager.getInstance().getGameStateProp().get()], 800, 360);
 			gc.setTextAlign(TextAlignment.LEFT);
 		}
 	}
@@ -38,12 +40,5 @@ public class PauseMenu {
 			e.consume();
 	}
 
-	public static void fadeIn() {
-	}
-	
-	public static void fadeOut() {
-		
-	}
-	
 	
 }

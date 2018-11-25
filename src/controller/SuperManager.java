@@ -20,7 +20,7 @@ public class SuperManager {
 	private BooleanProperty canUpgradeProp = new SimpleBooleanProperty();
 	private BooleanProperty canSellProp = new SimpleBooleanProperty();
 	private IntegerProperty towerChoiceProp = new SimpleIntegerProperty();
-	private BooleanProperty gameOver = new SimpleBooleanProperty(false);
+	private IntegerProperty gameStateProp = new SimpleIntegerProperty();
 	
 	public SuperManager() {
 		isInGameProp.set(false);
@@ -28,7 +28,7 @@ public class SuperManager {
 		nextWaveAvailableProp.set(false);
 		canUpgradeProp.set(false);
 		canSellProp.set(false);
-		gameOver.set(false);
+		gameStateProp.set(0);
 		towerChoiceProp.set(-1);
 	}
 	
@@ -88,6 +88,11 @@ public class SuperManager {
 	public IntegerProperty getTowerChoiceProp() {
 		return towerChoiceProp;
 	}
+
+	public IntegerProperty getGameStateProp() {
+		return gameStateProp;
+	}
+	
 	
 	
 }
