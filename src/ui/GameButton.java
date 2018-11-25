@@ -78,7 +78,7 @@ public class GameButton {
 		
 		toggleGroup = new ToggleGroup();
 		for (int i=0; i<4; i++) {
-			Tower twr = GameManager.getInstance().createTower(i, 0, 0);
+			Tower twr = GameManager.getInstance().towerManager.createTower(i, 0, 0);
 			ToggleButton tg = ButtonMaker.makeTowerButton(1344+(i%3)*85, (i/3)*128,
 					Images.towerButton, Images.towerButtonPressed, twr, buttonFontSmall, i);
 			toggleButtons.add(tg);

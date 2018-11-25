@@ -1,5 +1,6 @@
 package controller.game;
 
+import constants.Images;
 import controller.SuperManager;
 import exceptions.FullyUpgradedException;
 import main.Main;
@@ -7,6 +8,7 @@ import model.Monster;
 import model.Particle;
 import model.Projectile;
 import model.Tower;
+import model.monster.SplittingMonster;
 import ui.SnackBar;
 import util.Algorithm;
 
@@ -20,7 +22,7 @@ public class Updater {
 		SuperManager.getInstance().getCanUpgradeProp().set(gm.selectedTile != null 
 				&& ((Tower)gm.selectedTile).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTile).getUpgradePrice() >= 0);
 		SuperManager.getInstance().getCanSellProp().set(gm.selectedTile != null);
-		SuperManager.getInstance().getnextWaveAvailableProp().set(gm.shouldSpawnNextWave());
+		SuperManager.getInstance().getnextWaveAvailableProp().set(gm.updater.shouldSpawnNextWave(gm));
 		if (gm.selectedTile == null) {
 			Main.getGameScene().getButtonManager().setUpgradeText("Upgrade");			
 		}
@@ -74,7 +76,7 @@ public class Updater {
 		}
 	}
 	public void upgradeTower(GameManager gm) {
-		if (gm.selectedTile != null && gm.canUpgrade()) {
+		if (gm.selectedTile != null && gm.towerManager.canUpgrade(gm)) {
 			try {
 				Tower twr = (Tower)gm.selectedTile;
 				int price = twr.getUpgradePrice();
@@ -93,11 +95,26 @@ public class Updater {
 		catch (Exception e) {
 			System.out.println("nextwave: path not found");
 		}
-		if (gameManager.shouldSpawnNextWave()) {
+		if (gameManager.updater.shouldSpawnNextWave(gameManager)) {
 			MonsterSpawner.getInstace().nextWave();			
 		}
 		else {
 			SnackBar.play("Please wait until end of the wave");
 		}
+	}
+	public void spawnParticle(GameManager gameManager, Particle p) {
+		gameManager.particles.add(p);
+	}
+	public void spawnMonster(GameManager gameManager, double x, double y) {
+		gameManager.monsters.add(new SplittingMonster("Eleplant", Images.elephant, x, y, 0.4, 60, 0, 1.5, 10));
+	}
+	public void spawnMonster(GameManager gameManager, Monster m) {
+		gameManager.monsters.add(m);
+	}
+	public boolean shouldSpawnNextWave(GameManager gameManager) {
+		return MonsterSpawner.getInstace().isReady() && gameManager.monsters.size() == 0;
+	}
+	public void addProjectile(GameManager gameManager, Projectile p) {
+		gameManager.projectiles.add(p);
 	}
 }

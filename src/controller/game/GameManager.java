@@ -4,15 +4,11 @@ package controller.game;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import constants.Images;
 import constants.Maps;
 import constants.Numbers;
 import controller.SuperManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import main.Main;
 import model.Map;
 import model.Monster;
 import model.Particle;
@@ -20,11 +16,6 @@ import model.Projectile;
 import model.Tile;
 import model.TileStack;
 import model.Tower;
-import model.monster.SplittingMonster;
-import model.tower.BombTower;
-import model.tower.FireTower;
-import model.tower.IceTower;
-import model.tower.NormalTower;
 import util.Algorithm;
 import util.cpp;
 
@@ -53,17 +44,7 @@ public class GameManager {
 	private Renderer renderer;
 	public Updater updater;
 	public TowerManager towerManager;
-	
-	public boolean boundCheck(int x, int y) {
-		return 0 <= x && x < Numbers.COLUMNS && 0 <= y && y < Numbers.ROWS;
-	}
-	public boolean isPlaceable(int x, int y) {
-		return  boundCheck(x, y) && placedTiles[x][y].isPlaceable();
-	}
-	
-	public boolean isWalkable(int x, int y) {
-		return boundCheck(x, y) && placedTiles[x][y].isWalkable();
-	}
+	public Handler handler;
 	
 	public GameManager() {
 		isInitialized = false;
@@ -80,6 +61,7 @@ public class GameManager {
 		selectedTile = null;
 		renderer = new Renderer(this);
 		updater = new Updater(this);
+		towerManager = new TowerManager(this);
 	}
 	
 	public void setGC(GraphicsContext otherGC, GraphicsContext tileGC, GraphicsContext overlayGC) {
@@ -98,7 +80,7 @@ public class GameManager {
 				placedTiles[i][j] = new TileStack();
 		MonsterSpawner.getInstace().cancelWave();
 		money = 0;
-		setTowerChoice(-1);
+		handler.setTowerChoice(-1);
 		selectedTile = null;
 	}
 	
@@ -129,96 +111,15 @@ public class GameManager {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("can't initialize. this shouldn't happen");
+			System.err.println("can't initialize. this shouldn't happen");
 		}
 	}
 
-	public Tower createTower(int towerChoice, int x, int y) {
-		Tower t = null;
-		switch (towerChoice) {
-		case 0:				
-			t = new BombTower(x+0.5, y+0.5); break;
-		case 1:
-			t = new NormalTower(x+0.5, y+0.5); break;
-		case 2:
-			t = new FireTower(x+0.5, y+0.5); break;
-		case 3:
-			t = new IceTower(x+0.5, y+0.5); break;
-		}
-		return t;
-	}
-	
-	
-	
 	public void render() {	
 		renderer.render();
 	}
 
 
-	public void updateMousePos(double x, double y) {
-		x -= Numbers.LEFT_OFFSET;
-		y -= Numbers.TOP_OFFSET;
-		mousePos.first = x/Numbers.TILE_SIZE;
-		mousePos.second = y/Numbers.TILE_SIZE;
-		// don't want to create new object
-		tilePos.first = (int)mousePos.first;
-		tilePos.second = (int)mousePos.second;
-	}
-	
-	
-	private boolean shouldHandle(MouseEvent e) {
-		double x = e.getX();
-		double y = e.getY();
-		return 0 <= x && x <= Numbers.COLUMNS*Numbers.TILE_SIZE &&
-				0 <= y && y <= Numbers.ROWS*Numbers.TILE_SIZE ;
-	}
-	
-	public void handleClick(MouseEvent e) {
-		if (e.isConsumed()) return;
-		if (!shouldHandle(e)) return ;
-		double x = e.getX()-Numbers.LEFT_OFFSET;
-		double y = e.getY()-Numbers.TOP_OFFSET;
-		if (e.getButton() == MouseButton.PRIMARY) {
-			towerManager.handleTileClick(this, (int)x/Numbers.TILE_SIZE, (int)y/Numbers.TILE_SIZE);			
-		}
-		else if (e.getButton() == MouseButton.SECONDARY) {
-			System.out.println("Spawn monster at" + new cpp.pff(x/Numbers.TILE_SIZE, x/Numbers.TILE_SIZE));
-			spawnMonster(x/Numbers.TILE_SIZE, y/Numbers.TILE_SIZE);
-		}
-		else {
-			towerManager.sellTower(this);
-		}
-		return ;
-	}
-	public boolean canUpgrade() {
-		return selectedTile != null && ((Tower)selectedTile).getPrice() <= money;
-	}
-	public boolean canSell() {
-		return selectedTile != null;
-	}
-	
-	
-	public void spawnParticle(Particle p) {
-		particles.add(p);
-	}
-	
-	public void spawnMonster(double x, double y) {
-		monsters.add(new SplittingMonster("Eleplant", Images.elephant, x, y, 0.4, 60, 0, 1.5, 10));
-	}
-	
-	public void spawnMonster(Monster m) {
-		monsters.add(m);
-	}
-	
-	public boolean shouldSpawnNextWave() {
-		return MonsterSpawner.getInstace().isReady() && monsters.size() == 0;
-	}
-	
-	public void addProjectile(Projectile p) {
-		projectiles.add(p);
-	}
-	
-	
 	public cpp.pii getSelectedPosition(){
 		return tilePos;
 	}
@@ -268,11 +169,6 @@ public class GameManager {
 
 	public int getTowerChoice() {
 		return SuperManager.getInstance().getTowerChoiceProp().get();
-	}
-
-	public void setTowerChoice(int towerChoice) {
-		SuperManager.getInstance().getTowerChoiceProp().set(towerChoice);
-		return;
 	}
 
 	public void addMoney(int i) {

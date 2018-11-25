@@ -4,16 +4,13 @@ package model;
 import java.util.ArrayList;
 
 import buff.Buff;
-import constants.Images;
 import constants.Numbers;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import model.projectile.Missile;
 import util.GameUtil;
-import util.Render;
 import util.cpp;
 
 public abstract class Tower extends Tile {
@@ -168,8 +165,6 @@ public abstract class Tower extends Tile {
 		}
 		rotateTo(currentTarget);
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
-		GameManager.getInstance().addProjectile(new 
-				Missile(Images.normalBullet,x, y, v.first*9, v.second*9, range, 1, 2));
 		currentCooldown = attackCooldown; // some tower like gatling  cannon might not update like this
 	}
 	

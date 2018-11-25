@@ -30,7 +30,7 @@ public class Algorithm {
 		initialize();
 		GameManager gi = GameManager.getInstance();
 		if (gi == null) return pred;
-		if (gi.isWalkable(fromCol, fromRow)) {
+		if (gi.towerManager.isWalkable(gi, fromCol, fromRow)) {
 			q.add(new cpp.xyt(fromCol, fromRow, 0));
 			dist[fromCol][fromRow] = 0;		
 			pred[fromCol][fromRow] = new cpp.pii(fromCol, fromRow);	
@@ -45,8 +45,8 @@ public class Algorithm {
 				int nx = x+rc[0], ny = y+rc[1], nt = t+1;
 				if (nx < 0 || nx >= TABLE_C || ny < 0 || ny >= TABLE_R) { 
 					continue;
-				} else if (nt >= dist[nx][ny] || !gi.isWalkable(nx, ny)) { // in bound but not shorted/						
-					if (nt <= dist[nx][ny]  && !gi.isWalkable(nx, ny) && nx != toCol && ny != toRow) { // shortest path but on blocked tile 
+				} else if (nt >= dist[nx][ny] || !gi.towerManager.isWalkable(gi, nx, ny)) { // in bound but not shorted/						
+					if (nt <= dist[nx][ny]  && !gi.towerManager.isWalkable(gi, nx, ny) && nx != toCol && ny != toRow) { // shortest path but on blocked tile 
 						// set pred to available (current) tile to fix stuck
 						dist[nx][ny] = nt;
 						pred[nx][ny] = new cpp.pii(x, y);						

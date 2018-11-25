@@ -29,7 +29,7 @@ public class IceProjectile extends NormalProjectile {
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
 			cpp.pff impact = m.getPosition();
-			GameManager.getInstance().spawnParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
+			GameManager.getInstance().updater.spawnParticle(GameManager.getInstance(), new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
 				if (ms.distanceTo(impact.first, impact.second) <= splashRadius+ms.getSize()) {
 					ms.addBuff(new MoveSpeedBuff(2000, slowness));

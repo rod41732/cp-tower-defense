@@ -71,15 +71,13 @@ public class Renderer {
 		this.overlayGC = overlayGC;
 	}
 	
-	public boolean boundCheck(int x, int y) {
-		return 0 <= x && x < Numbers.COLUMNS && 0 <= y && y < Numbers.ROWS;
-	}
+
 	public boolean isPlaceable(int x, int y) {
-		return  boundCheck(x, y) && game.placedTiles[x][y].isPlaceable();
+		return  game.towerManager.boundCheck(x, y) && game.placedTiles[x][y].isPlaceable();
 	}
 	
 	public boolean isWalkable(int x, int y) {
-		return boundCheck(x, y) && game.placedTiles[x][y].isWalkable();
+		return game.towerManager.boundCheck(x, y) && game.placedTiles[x][y].isWalkable();
 	}
 	
 
@@ -112,7 +110,7 @@ public class Renderer {
 		}
 		else {
 			int choice = SuperManager.getInstance().getTowerChoiceProp().get();
-			Tower floatingTower = GameManager.getInstance().createTower(choice, game.tilePos.first, game.tilePos.second);
+			Tower floatingTower = GameManager.getInstance().towerManager.createTower(choice, game.tilePos.first, game.tilePos.second);
 			if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
 				floatingTower.render(otherGC, true);							
 			}

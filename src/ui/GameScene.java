@@ -67,12 +67,12 @@ public class GameScene extends Scene {
 		gameTick.setCycleCount(Timeline.INDEFINITE);
 
 		setOnMouseMoved(e -> {
-			GameManager.getInstance().updateMousePos(e.getX(), e.getY());
+			GameManager.getInstance().handler.updateMousePos(GameManager.getInstance(), e.getX(), e.getY());
 		});
 		
 		setOnMouseClicked(e -> {
 			PauseMenu.handleMouseClick(e);
-			GameManager.getInstance().handleClick(e);								
+			GameManager.getInstance().handler.handleClick(GameManager.getInstance(), e);								
 		});
 		
 		root.setOpacity(0);

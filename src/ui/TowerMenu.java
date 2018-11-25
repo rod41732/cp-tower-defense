@@ -37,7 +37,7 @@ public class TowerMenu {
 		
 		gc.setFill(Color.MAGENTA);
 		Tile t = GameManager.getInstance().getSelectedTile();
-		Tile t2 = GameManager.getInstance().createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
+		Tile t2 = GameManager.getInstance().towerManager.createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
 				
 		if (t != null && t instanceof Tower)
 			renderTowerInfo(gc, t, true);
@@ -50,7 +50,7 @@ public class TowerMenu {
 		int choice = SuperManager.getInstance().getTowerChoiceProp().get();
 		if (choice != -1) {	
 			try {
-				Tower floatingTower = gi.createTower(choice, tilePos.first, tilePos.second);
+				Tower floatingTower = gi.towerManager.createTower(choice, tilePos.first, tilePos.second);
 				if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
 					floatingTower.render(gc, true);							
 				}
@@ -59,7 +59,7 @@ public class TowerMenu {
 				if (!tilePos.equals(lastPos)) {
 					lastPos.first = tilePos.first;
 					lastPos.second = tilePos.second;
-					if (gi.isPlaceable(tilePos.first, tilePos.second)) {
+					if (gi.towerManager.isPlaceable(gi, tilePos.first, tilePos.second)) {
 						path = Algorithm2.BFS(end.first, end.second, start.first, start.second, tilePos);
 						isError = false;
 					}
