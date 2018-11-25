@@ -2,23 +2,21 @@ package ui;
 
 
 import constants.Numbers;
-import controller.ButtonManager;
 import controller.GameManager;
 import controller.SuperManager;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import main.Main;
 
 public class GameScene extends Scene {
-	private ButtonManager buttonManager;
+	private GameButton buttonManager;
 	private Timeline gameTick;
 	private Pane root;
 	public GameScene() {
@@ -27,14 +25,14 @@ public class GameScene extends Scene {
 		Canvas other = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Canvas tiles = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Canvas overlay = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		other.setLayoutX(32);
-		other.setLayoutY(32);
-		tiles.setLayoutX(32);
-		tiles.setLayoutY(32);
+		other.setLayoutX(Numbers.LEFT_OFFSET);
+		other.setLayoutY(Numbers.TOP_OFFSET);
+		tiles.setLayoutX(Numbers.LEFT_OFFSET);
+		tiles.setLayoutY(Numbers.TOP_OFFSET);
 		
 		root.getChildren().add(tiles); // TILE
 		root.getChildren().add(other); // Other
-		buttonManager = new ButtonManager(root);
+		buttonManager = new GameButton(root);
 		root.getChildren().add(overlay);
 		overlay.setMouseTransparent(true);
 		tiles.setMouseTransparent(true);
@@ -74,6 +72,8 @@ public class GameScene extends Scene {
 		});
 		
 		root.setOpacity(0);
+		root.setScaleX(1.2);
+		root.setScaleY(1.2);
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
 			System.out.println("ig change");
 			boolean inGame = nw.booleanValue();
@@ -117,19 +117,23 @@ public class GameScene extends Scene {
 		});
 	}
 
-	public ButtonManager getButtonManager() {
+	public GameButton getButtonManager() {
 		return buttonManager;
 	}
 	public void fadeIn() {
 		new Timeline(
-			new KeyFrame(Duration.seconds(0.5),
-				new KeyValue(root.opacityProperty(), 1))).play();
+			new KeyFrame(Duration.seconds(0.3),
+				new KeyValue(root.opacityProperty(), 1, Interpolator.EASE_BOTH),
+				new KeyValue(root.scaleXProperty(),  1, Interpolator.EASE_BOTH),
+				new KeyValue(root.scaleYProperty(), 1, Interpolator.EASE_BOTH))).play();
 	}
 	
 	public void fadeOut() {
 		new Timeline(
 				new KeyFrame(Duration.seconds(0.5),
-					new KeyValue(root.opacityProperty(), 0))).play();	
+					new KeyValue(root.opacityProperty(), 0, Interpolator.EASE_BOTH),
+					new KeyValue(root.scaleXProperty(),  1.2, Interpolator.EASE_BOTH),
+					new KeyValue(root.scaleYProperty(), 1.2, Interpolator.EASE_BOTH))).play();
 	}
 
 }

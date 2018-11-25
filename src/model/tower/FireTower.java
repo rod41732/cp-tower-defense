@@ -3,6 +3,7 @@ package model.tower;
 
 import constants.Images;
 import controller.GameManager;
+import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.Tower;
 import model.projectile.FireProjectile;
@@ -12,25 +13,55 @@ import util.cpp;
 public class FireTower extends Tower {
 
 	// TODO : more fields like fire duration etc
-	private static final double BASE_ATTACK = 5;
-	private static final double BASE_COOLDOWN = 750;
-	private static final double BASE_RANGE = 3.5;
-	private static final double FIRE_RADIUS = 0.7;
+	private static final double[] ATTACK_VALUES = {15, 20, 25, 35, 50};
+	private static final double[] COOLDOWN_VALUES = {1250, 1150, 1000, 950, 700};
+	private static final double[] RANGE_VALUES = {3.5, 4, 4, 4.5, 4.5};
+	private static final double[] FIRE_RADIUS_VALUES = {0.4, 0.5, 0.6, 0.7, 0.8};
+	private static final int[] PRICE_VALUES = {25, 25, 30, 50, 60};
+	private static final int FIRE_DURATION = 1000;
 	private static final Image DEFAULT_IMAGE = Images.fireTower;
-	private static final double BASE_FIRE_DAMAGE = 10;
-	private static final int BASE_PRICE = 35;
 	
 	
 	private double fireDamage;
 	
 	public FireTower(double cellX, double cellY) {
-		super(DEFAULT_IMAGE, cellX, cellY, BASE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
-		this.fireDamage = BASE_FIRE_DAMAGE;
-		this.price = BASE_PRICE;
+		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
+		this.fireDamage = ATTACK_VALUES[0];
+		this.price = PRICE_VALUES[0];
 	}
 	
-	public void upgrade() {
-		range += 0.5;
+	@Override
+	public void upgrade() throws FullyUpgradedException {
+		if (level == 5) {
+			throw new FullyUpgradedException();
+		}
+		else {
+			level += 1;
+			this.attack = ATTACK_VALUES[level-1];
+			this.attackCooldown = COOLDOWN_VALUES[level-1];
+			this.range = RANGE_VALUES[level-1];
+			this.price += PRICE_VALUES[level-1];
+		}
+	}
+	
+	@Override
+	public double getUpgradedAttackCooldown() {
+		return COOLDOWN_VALUES[level];
+	}
+	
+	@Override
+	public double getUpgradedAttack() {
+		return ATTACK_VALUES[level];
+	}
+
+	@Override
+	public double getUpgradedRange() {
+		return RANGE_VALUES[level];
+	}
+	
+	@Override
+	public int getUpgradePrice() {
+		return PRICE_VALUES[level];
 	}
 	
 	public void fire() {
@@ -38,7 +69,7 @@ public class FireTower extends Tower {
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);
 		GameManager.getInstance().addProjectile(new 
-				FireProjectile(x, y, v.first*9, v.second*9, range, attack, FIRE_RADIUS, fireDamage));
+				FireProjectile(x, y, v.first*9, v.second*9, range, attack, FIRE_RADIUS_VALUES[level-1], fireDamage));
 		currentCooldown = attackCooldown;
 	}
 	@Override 
@@ -48,7 +79,7 @@ public class FireTower extends Tower {
 	
 	@Override 
 	public String description() {
-		return super.description() + String.format("Fire radius: %.2f\n", FIRE_RADIUS);
+		return super.description() + String.format("Fire radius: %.2f\n", FIRE_RADIUS_VALUES[level-1]);
 	}
 	
 }

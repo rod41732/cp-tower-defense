@@ -2,18 +2,24 @@ package model.projectile;
 
 import buff.MoveSpeedBuff;
 import constants.Images;
+import controller.GameManager;
 import model.Monster;
+import model.Particle;
+import util.cpp;
 
 public class IceProjectile extends NormalProjectile {
 	
-	protected double vx, vy;
-	protected double damage;
+	private double slowness;
+	private double splashRadius;
+	
 	
 	protected boolean isExpired = false;
 	
 	public IceProjectile(double x, double y,
-			double vx, double vy, double maxRange, double damage) {
+			double vx, double vy, double maxRange, double damage, double slowness, double splashRadius) {
 		super(Images.iceBullet ,x, y, vx, vy, maxRange, damage); // default size ?
+		this.slowness = slowness;
+		this.splashRadius = splashRadius;
 	}
 	@Override
 	public boolean shouldCollide(Monster m) {
@@ -22,9 +28,14 @@ public class IceProjectile extends NormalProjectile {
 
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
-			m.takeDamage(damage);
-			m.addBuff(new MoveSpeedBuff(2000, -0.7));
-			forceExpire();	
+			cpp.pff impact = m.getPosition();
+			GameManager.getInstance().spawnParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
+			for (Monster ms: GameManager.getInstance().getMonsters()) {
+				if (ms.distanceTo(impact.first, impact.second) <= splashRadius+ms.getSize()) {
+					ms.addBuff(new MoveSpeedBuff(2000, slowness));
+				}
+			}
+			forceExpire();
 		}
 		return isExpired();
 	}

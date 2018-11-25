@@ -1,9 +1,12 @@
 package controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.util.Duration;
 import main.Main;
 
 public class SuperManager {
@@ -16,7 +19,6 @@ public class SuperManager {
 	private BooleanProperty canUpgradeProp = new SimpleBooleanProperty();
 	private BooleanProperty canSellProp = new SimpleBooleanProperty();
 	private IntegerProperty towerChoiceProp = new SimpleIntegerProperty();
-	
 	
 	public SuperManager() {
 		isInGameProp.set(false);
@@ -42,7 +44,9 @@ public class SuperManager {
 	public void onLeaveGame() {
 		isGamePausedProp.set(true);
 		isInGameProp.set(false);
-		Main.setScene(Main.getMainMenu());
+		new Timeline(new KeyFrame(Duration.seconds(0.3), e -> {
+			Main.setScene(Main.getMainMenu());			
+		})).play();
 	}
 	
 	

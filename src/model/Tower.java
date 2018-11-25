@@ -11,12 +11,12 @@ import exceptions.FullyUpgradedException;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import model.projectile.Bomb;
+import model.projectile.Missile;
 import util.GameUtil;
 import util.Render;
 import util.cpp;
 
-public class Tower extends Tile {
+public abstract class Tower extends Tile {
 
 	// TODO : more fields
 	
@@ -80,7 +80,10 @@ public class Tower extends Tile {
 	}
 	
 	
+	
 	public void upgrade() throws FullyUpgradedException {
+		if (level == 5) throw new FullyUpgradedException();
+		level += 1;
 		range += 0.5;
 	}	
 	
@@ -166,7 +169,7 @@ public class Tower extends Tile {
 		rotateTo(currentTarget);
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		GameManager.getInstance().addProjectile(new 
-				Bomb(Images.normalBullet,x, y, v.first*9, v.second*9, range, 1, 2));
+				Missile(Images.normalBullet,x, y, v.first*9, v.second*9, range, 1, 2));
 		currentCooldown = attackCooldown; // some tower like gatling  cannon might not update like this
 	}
 	
@@ -199,6 +202,16 @@ public class Tower extends Tile {
 	public double getRange() {
 		return range;
 	}
+	
+	public boolean canUpgrade() {
+		return level < 5;
+	}
+	
+	public abstract double getUpgradedAttackCooldown();
+
+	public abstract double  getUpgradedAttack();
+
+	public abstract double getUpgradedRange();
 
 	public int getPrice() {
 		return this.price;
@@ -220,10 +233,7 @@ public class Tower extends Tile {
 		this.attackSpeedMultiplier += attackSpeedMultiplier;
 	}
 	
-	public int getUpgradePrice() {
-		// TODO: FUNCTION STUB
-		return price;
-	}
+	public abstract int getUpgradePrice();
 	
 	
 	public String toString() {

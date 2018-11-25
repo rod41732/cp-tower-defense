@@ -270,7 +270,7 @@ public class GameManager {
 		otherGC.setStroke(Color.BLACK);
 		infoBox.getTexts().set(0, "level" + (int)Math.random()*4);
 		infoBox.getTexts().set(1, "$ " + money);
-		infoBox.getTexts().set(2, lives + " lives");
+		infoBox.getTexts().set(2, lives + " lives\n tile" + mousePos.first*Numbers.TILE_SIZE + ". " + mousePos.second*Numbers.TILE_SIZE);
 		infoBox.render(otherGC);
 		
 		otherGC.setFont(Font.font("Consolas", 20));;

@@ -3,6 +3,7 @@ package model.tower;
 
 import constants.Images;
 import controller.GameManager;
+import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.Tower;
 import model.projectile.NormalProjectile;
@@ -13,20 +14,30 @@ import util.cpp;
 public class NormalTower extends Tower {
 
 	// TODO : more fields
-	private static final double BASE_ATTACK = 7;
-	private static final double BASE_COOLDOWN = 500;
-	private static final double BASE_RANGE = 4.5;
+	private static final double[] ATTACK_VALUES = {7, 12, 15, 20, 15};
+	private static final double[] COOLDOWN_VALUES = {700, 650, 650, 650, 650};
+	private static final double[] RANGE_VALUES = {2.5, 2.5, 3, 3, 4};
+	private static final int[] PRICE_VALUES = {7, 10, 15, 15, 30};
 	private static final Image DEFAULT_IMAGE = Images.normalTower;
-	private static final int BASE_PRICE = 7;
 		
 	public NormalTower(double cellX, double cellY) {
-		super(DEFAULT_IMAGE, cellX, cellY, BASE_ATTACK, BASE_COOLDOWN, BASE_RANGE);
-		this.price = BASE_PRICE;
+		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
+		this.price = PRICE_VALUES[0];
 	}
 	
 	
-	public void upgrade() {
-		range += 0.5;
+	@Override
+	public void upgrade() throws FullyUpgradedException {
+		if (level == 5) {
+			throw new FullyUpgradedException();
+		}
+		else {
+			level += 1;
+			this.attack = ATTACK_VALUES[level-1];
+			this.attackCooldown = COOLDOWN_VALUES[level-1];
+			this.range = RANGE_VALUES[level-1];
+			this.price += PRICE_VALUES[level-1];
+		}
 	}
 	
 	
@@ -36,16 +47,45 @@ public class NormalTower extends Tower {
 //		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
 //				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		rotateTo(currentTarget);
-//		GameManager.getInstance().getProjectiles().add(new 
-//				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10));
+		if (level < 5) {
 		GameManager.getInstance().addProjectile(new 
-				SplittingProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10, 
-						Math.min(distanceTo(currentTarget)*0.6, distanceTo(currentTarget)-currentTarget.getSize()-size)));
+				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10));
+			
+		}
+		else {
+			GameManager.getInstance().addProjectile(new 
+					SplittingProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10, 
+							Math.min(distanceTo(currentTarget)*0.6, distanceTo(currentTarget)-currentTarget.getSize()-size)));			
+		}
 		
 		currentCooldown = attackCooldown;
 	}
 	
+
+
+	@Override
+	public int getUpgradePrice() {
+		return level == 5 ? -1 : PRICE_VALUES[level];
+	}
+	
+	@Override
+	public double getUpgradedAttackCooldown() {
+		return COOLDOWN_VALUES[level];
+	}
+
+	@Override
+	public double getUpgradedAttack() {
+		return ATTACK_VALUES[level];
+	}
+
+	@Override
+	public double getUpgradedRange() {
+		return RANGE_VALUES[level];
+	}
+
 	public String toString() {
 		return "Normal Tower";
 	}
+
 }
+

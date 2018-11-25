@@ -7,11 +7,11 @@ import model.Monster;
 import model.Particle;
 import util.cpp;
 
-public class Bomb extends NormalProjectile {
+public class Missile extends NormalProjectile {
 	
 	protected double radius;
 	
-	public Bomb(Image image, double x, double y,
+	public Missile(Image image, double x, double y,
 			double vx, double vy, double maxRange, double damage, double radius) {
 		super(image, x, y, vx, vy, maxRange, damage); // default size ?
 		this.radius = radius;
@@ -21,12 +21,11 @@ public class Bomb extends NormalProjectile {
 
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
-			cpp.pff impact = getPosition();
+			cpp.pff impact = m.getPosition();
 			GameManager.getInstance().spawnParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
-				if (Double.compare(ms.distanceTo(impact.first, impact.second), 3) < 0) {
+				if (distanceTo(impact.first, impact.second) < ms.getSize()+radius) {
 					ms.takeDamage(damage);
-//					ms.addBuff(new DamageTakenDebuff(3000, 5));
 				}
 			}
 			forceExpire();

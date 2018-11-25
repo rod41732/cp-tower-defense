@@ -6,6 +6,7 @@ import constants.Images;
 import constants.Numbers;
 import controller.GameManager;
 import controller.SuperManager;
+import exceptions.FullyUpgradedException;
 import exceptions.PathBlockedException;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -26,7 +27,8 @@ public class TowerMenu {
 	private static int COL = 3;
 	private static int ROW = 3;
 	private static Image[] images = {Images.bombTower, Images.normalTower, Images.fireTower, Images.iceTower};
-	private static RichTextBox towerInfoPanel = new RichTextBox(new ArrayList<>(), new ArrayList<>(), LEFT, 400);
+	private static RichTextBox towerInfoPanel = new RichTextBox(new ArrayList<>(), new ArrayList<>(), LEFT, 320);
+	private static RichTextBox upgradeInfo = new RichTextBox(new ArrayList<>(), new ArrayList<>(), LEFT, 515);
 	
 	private static cpp.pii lastPos = new cpp.pii(-1, -1);
 	private static cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
@@ -38,9 +40,9 @@ public class TowerMenu {
 		Tile t2 = GameManager.getInstance().createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
 				
 		if (t != null && t instanceof Tower)
-			renderTowerInfo(gc, t);
+			renderTowerInfo(gc, t, true);
 		else if (t2 != null)
-			renderTowerInfo(gc, t2);
+			renderTowerInfo(gc, t2, false);
 		
 		
 		GameManager gi = GameManager.getInstance();
@@ -97,7 +99,7 @@ public class TowerMenu {
 	}
 
 	
-	public static void renderTowerInfo(GraphicsContext gc, Tile t) {
+	public static void renderTowerInfo(GraphicsContext gc, Tile t, boolean showUpgrade) {
 		double top = 400;
 		double left = LEFT;
 		
@@ -118,5 +120,30 @@ public class TowerMenu {
 		towerInfoPanel.calculateLayout();
 		
 		towerInfoPanel.render(gc);
+		
+ 		imgs.clear();
+		imgs.add(Images.bombIcon);
+		imgs.add(Images.attackIcon);
+		imgs.add(Images.targetIcon);
+		imgs.add(Images.cooldownIcon);
+		texts.clear();
+		texts.add(""+tw.toString());
+		try {
+			if (!showUpgrade) throw new FullyUpgradedException(); // TODO: hacky
+			if (!tw.canUpgrade()) throw new FullyUpgradedException();
+			texts.add(""+tw.getUpgradedAttack() + " DPS");
+			texts.add(""+tw.getUpgradedRange() + " Tile");
+			texts.add(""+tw.getUpgradedAttackCooldown() + " ms");			
+			upgradeInfo.setImages(imgs);
+			upgradeInfo.setTexts(texts);
+			upgradeInfo.calculateLayout();
+			upgradeInfo.render(gc);
+		}
+		catch (FullyUpgradedException e) {
+			gc.setFill(Color.BLACK);
+			gc.fillRect(LEFT, 515, 200, 200);
+		}
+		
+		
 	}
 }

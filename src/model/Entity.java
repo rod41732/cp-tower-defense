@@ -54,7 +54,12 @@ public class Entity {
 	}
 	
 	public void render(GraphicsContext gc) {
-		Render.drawRotatedImage(gc, image, rotation, getRenderX(), getRenderY());
+		if (Double.compare(rotation, 0) == 0) { // don't rotate at 0
+			gc.drawImage(image, getRenderX(), getRenderY());
+		}
+		else {
+			Render.drawRotatedImage(gc, image, rotation, getRenderX(), getRenderY());			
+		}
 	}
 	
 	public void rotateTo(Entity e) {
