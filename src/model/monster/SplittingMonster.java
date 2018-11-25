@@ -19,7 +19,7 @@ public class SplittingMonster extends GroundMonster {
 		pff pos = getPosition();
 		Timeline tl = new Timeline();
 		tl.getKeyFrames().add(new KeyFrame(Duration.seconds(0.1), e ->  {
-			GameManager.getInstance().updater.spawnMonster(new GroundMonster("Moose", Images.moose,
+			GameManager.getInstance().spawnMonster(new GroundMonster("Moose", Images.moose,
 					pos.first+(Math.random()-0.5)*0.2, pos.second+(Math.random()-0.5)*0.2, 0.3, 30, 3, 1.5, 3));
 		}));
 		tl.setCycleCount(5);

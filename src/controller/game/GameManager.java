@@ -18,8 +18,10 @@ import model.Projectile;
 import model.Tile;
 import model.TileStack;
 import model.Tower;
+import model.monster.GroundMonster;
 import util.Algorithm;
 import util.cpp;
+import util.cpp.pii;
 
 public class GameManager {
 	
@@ -43,24 +45,13 @@ public class GameManager {
 	int lives;
 
 	private boolean isInitialized;
-	private Renderer renderer;
-	public Updater updater;
-	public TowerManager towerManager;
-	public Handler handler;
+	Renderer renderer;
+	Updater updater;
+	TowerManager towerManager;
+	Handler handler;
 	
 	public GameManager() {
-		isInitialized = false;
-		towers.clear();
-		monsters.clear();
-		tiles.clear();
-		projectiles.clear();
-		particles.clear();
-		for (int i=0;i < Numbers.COLUMNS; i++)
-			for (int j=0; j<Numbers.ROWS; j++)
-				placedTiles[i][j] = new TileStack();
-		MonsterSpawner.getInstace().cancelWave();
-		money = 0;
-		selectedTile = null;
+		reset();
 		renderer = new Renderer(this);
 		updater = new Updater(this);
 		towerManager = new TowerManager(this);
@@ -72,20 +63,20 @@ public class GameManager {
 		this.renderer.setGC(otherGC, tileGC, overlayGC);
 	}
 	
-	public void newGame() { // reset all
+	public void reset() { // reset all
 		isInitialized = false;
 		towers.clear();
 		monsters.clear();
 		tiles.clear();
 		projectiles.clear();
 		particles.clear();
+		selectedTile = null;
 		for (int i=0;i < Numbers.COLUMNS; i++)
 			for (int j=0; j<Numbers.ROWS; j++)
 				placedTiles[i][j] = new TileStack();
 		MonsterSpawner.getInstace().cancelWave();
 		money = 0;
 		handler.setTowerChoice(-1);
-		selectedTile = null;
 	}
 	
 	
@@ -93,17 +84,6 @@ public class GameManager {
 		return isInitialized;
 	}
 	
-	
-	
-
-	public Tower createTower(int towerChoice, int x, int y) {
-		return towerManager.createTower(towerChoice, x, y);
-	}
-
-	public void updateMousePos(GameManager gm, double x, double y) {
-		handler.updateMousePos(gm, x, y);
-	}
-
 	public void loadMap(int mapId) {
 		if (isInitialized) return ;
 		Map m = Maps.getMap(mapId);
@@ -129,9 +109,16 @@ public class GameManager {
 			System.err.println("can't initialize. this shouldn't happen");
 		}
 	}
+	
+	// --------------------------------------- Delegate stuffs 
+	public Tower createTower(int towerChoice, int x, int y) {
+		return towerManager.createTower(towerChoice, x, y);
+	}
 
-	
-	
+	public void updateMousePos(GameManager gm, double x, double y) {
+		handler.updateMousePos(gm, x, y);
+	}
+
 	public void update() {
 		updater.update();
 	}
@@ -156,27 +143,26 @@ public class GameManager {
 		handler.handleTileClick(x, y);
 	}
 
-	public cpp.pii getSelectedPosition(){
-		return tilePos;
+	public void spawnParticle(Particle p) {
+		updater.spawnParticle(p);
 	}
 
-	public Tile getSelectedTile() {
-		return selectedTile;
+	public void addProjectile(Projectile p) {
+		updater.addProjectile(p);
 	}
 
-	public void setSelectedTile(Tile selectedTile) {
-		this.selectedTile = selectedTile;
+	public boolean isPlaceable(int x, int y) {
+		return towerManager.isPlaceable(x, y);
+	}
+
+	public boolean isWalkable(int x, int y) {
+		return towerManager.isWalkable(x, y);
 	}
 
 	public static GameManager getInstance() {
 		return instance;
 	}
-
-	public cpp.pff getMousePosition() {
-		return mousePos;
-	}
 	
-
 	public cpp.pii[][] getPath() {
 		return path;
 	}
@@ -193,9 +179,31 @@ public class GameManager {
 		handler.handleKeyPress(e);
 	}
 	
+	public int getTowerChoice() {
+		return SuperManager.getInstance().getTowerChoiceProp().get();
+	}
+	
+	public void render() {
+		renderer.render();
+	}
+	
+	public void spawnMonster(Monster m) {
+		updater.spawnMonster(m);
+	}
+	
+	
+	
+	// getters 
+	public cpp.pii getSelectedPosition() {
+		return tilePos;
+	}
 
-	public TileStack[][] getPlacedTiles() {
-		return placedTiles;
+	public Tile getSelectedTile() {
+		return selectedTile;
+	}
+
+	public void addMoney(int i) {
+		money += i;
 	}
 
 	public cpp.pii getStartTilePos() {
@@ -206,15 +214,5 @@ public class GameManager {
 		return endTilePos;
 	}
 
-	public int getTowerChoice() {
-		return SuperManager.getInstance().getTowerChoiceProp().get();
-	}
-
-	public void addMoney(int i) {
-		money += i;
-	}
-
-	public void render() {
-		renderer.render();
-	}
+	
 }

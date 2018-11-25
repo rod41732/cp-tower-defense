@@ -128,6 +128,7 @@ public class Updater {
 	public void spawnMonster(Monster m) {
 		gm.monsters.add(m);
 	}
+	
 	public boolean shouldSpawnNextWave() {
 		return MonsterSpawner.getInstace().isReady() && gm.monsters.size() == 0;
 	}

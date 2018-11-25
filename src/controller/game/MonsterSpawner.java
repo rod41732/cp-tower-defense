@@ -24,7 +24,7 @@ public class MonsterSpawner {
 		
 		stage = new Timeline();
 		stage.getKeyFrames().add(new KeyFrame(Duration.seconds(1./3), e ->  {
-			cpp.pii startTile = gm.getStartTilePos();
+			cpp.pii startTile = gm.startTilePos;
 			gm.updater.spawnMonster(new GroundMonster("Bear", Images.bear, startTile.first+0.5, startTile.second+0.5,
 					0.3, 60, 1.5, 3, 10));
 		}));

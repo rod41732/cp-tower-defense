@@ -2,7 +2,9 @@ package controller.game;
 
 import constants.Numbers;
 import controller.SuperManager;
+import exceptions.NotEnoughMoneyException;
 import exceptions.PathBlockedException;
+import exceptions.UnplaceableException;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -43,7 +45,7 @@ public class Handler {
 			gm.updater.spawnMonster(x/Numbers.TILE_SIZE, y/Numbers.TILE_SIZE);
 		}
 		else {
-			gm.towerManager.sellTower();
+			gm.sellTower();
 		}
 		return ;
 	}
@@ -51,7 +53,7 @@ public class Handler {
 	public void handleTileClick(int x, int y) {
 		
 		try {
-			Tower t = gm.towerManager.createTower(gm.getTowerChoice(), x, y);
+			Tower t = gm.createTower(gm.getTowerChoice(), x, y);
 			gm.handler.setTowerChoice(-1);
 			gm.selectedTile = gm.placedTiles[x][y].top();
 			// no tower => muse select
@@ -66,7 +68,7 @@ public class Handler {
 			}
 			
 			if (t.getPrice() > gm.money) {
-				throw new Exception("no money");
+				throw new NotEnoughMoneyException();
 			}				
 			
 		
@@ -77,10 +79,15 @@ public class Handler {
 			gm.selectedTile = t;
 		}
 		catch (PathBlockedException e) {
-//			e.printStackTrace();
 			gm.selectedTile = null;
 			gm.placedTiles[x][y].pop();
-			SnackBar.play("path" + e.getMessage());
+			SnackBar.play("path blocked");
+		}
+		catch (NotEnoughMoneyException e) {
+			SnackBar.play("not enough money");
+		}
+		catch (UnplaceableException e) {
+			SnackBar.play("can't place there");
 		}
 		catch (Exception e) {
 			e.printStackTrace();

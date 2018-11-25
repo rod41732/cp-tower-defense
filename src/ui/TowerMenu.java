@@ -19,10 +19,6 @@ public class TowerMenu {
 	
 	// TODO: use buttons to check click (custom image buttons)
 	private static double LEFT = 1344;
-	private static double TOP = 0;
-	private static int COL = 3;
-	private static int ROW = 3;
-	private static Image[] images = {Images.bombTower, Images.normalTower, Images.fireTower, Images.iceTower};
 	private static RichTextBox towerInfoPanel = new RichTextBox(new ArrayList<>(), new ArrayList<>(), LEFT, 320);
 	private static RichTextBox upgradeInfo = new RichTextBox(new ArrayList<>(), new ArrayList<>(), LEFT, 515);
 	
@@ -33,7 +29,7 @@ public class TowerMenu {
 		
 		gc.setFill(Color.MAGENTA);
 		Tile t = GameManager.getInstance().getSelectedTile();
-		Tile t2 = GameManager.getInstance().towerManager.createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
+		Tile t2 = GameManager.getInstance().createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
 				
 		if (t != null && t instanceof Tower)
 			renderTowerInfo(gc, t, true);
@@ -46,7 +42,7 @@ public class TowerMenu {
 		int choice = SuperManager.getInstance().getTowerChoiceProp().get();
 		if (choice != -1) {	
 			try {
-				Tower floatingTower = gm.towerManager.createTower(choice, tilePos.first, tilePos.second);
+				Tower floatingTower = gm.createTower(choice, tilePos.first, tilePos.second);
 				if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
 					floatingTower.render(gc, true);							
 				}
@@ -55,7 +51,7 @@ public class TowerMenu {
 				if (!tilePos.equals(lastPos)) {
 					lastPos.first = tilePos.first;
 					lastPos.second = tilePos.second;
-					if (gm.towerManager.isPlaceable(tilePos.first, tilePos.second)) {
+					if (gm.isPlaceable(tilePos.first, tilePos.second)) {
 						path = Algorithm2.BFS(end.first, end.second, start.first, start.second, tilePos);
 						isError = false;
 					}
@@ -96,8 +92,7 @@ public class TowerMenu {
 
 	
 	public static void renderTowerInfo(GraphicsContext gc, Tile t, boolean showUpgrade) {
-		double top = 400;
-		double left = LEFT;
+
 		
 		ArrayList<Image> imgs = new ArrayList<>();
 		imgs.add(Images.bombIcon);
