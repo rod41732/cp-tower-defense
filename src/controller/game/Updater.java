@@ -3,6 +3,10 @@ package controller.game;
 import constants.Images;
 import controller.SuperManager;
 import exceptions.FullyUpgradedException;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.util.Duration;
 import main.Main;
 import model.Monster;
 import model.Particle;
@@ -14,11 +18,37 @@ import util.Algorithm;
 
 public class Updater {
 	private GameManager gm;
+	private Timeline updateLoop;
 	
 	public Updater(GameManager gm) {
 		this.gm= gm;
+
+		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
+			if (nw.booleanValue()) {
+				updateLoop.play();
+			}
+			else {
+				updateLoop.pause();
+			}
+		});
+		updateLoop = new Timeline(new KeyFrame(Duration.seconds(1./60), e -> {
+			update();
+		}));
+		updateLoop.setCycleCount(Timeline.INDEFINITE);
+		
+		
+		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
+			if (!nw.booleanValue()) {
+				updateLoop.play();
+			}
+			else {
+				updateLoop.pause();
+			}
+		});
 	}
 	public void update() {
+//		System.out.println("update");
+		System.out.println("sel " + gm.selectedTile);
 		SuperManager.getInstance().getCanUpgradeProp().set(gm.selectedTile != null 
 				&& ((Tower)gm.selectedTile).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTile).getUpgradePrice() >= 0);
 		SuperManager.getInstance().getCanSellProp().set(gm.selectedTile != null);
@@ -75,19 +105,7 @@ public class Updater {
 			}
 		}
 	}
-	public void upgradeTower() {
-		if (gm.selectedTile != null && gm.towerManager.canUpgrade()) {
-			try {
-				Tower twr = (Tower)gm.selectedTile;
-				int price = twr.getUpgradePrice();
-				twr.upgrade();		
-				gm.money -= price;
-			}
-			catch (FullyUpgradedException e) {
-				SnackBar.play("Already Fully upgraded");
-			}
-		}
-	}
+	
 	public void requestNextWave() {
 		try {
 			gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);			

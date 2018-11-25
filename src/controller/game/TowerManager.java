@@ -1,6 +1,7 @@
 package controller.game;
 
 import constants.Numbers;
+import exceptions.FullyUpgradedException;
 import exceptions.PathBlockedException;
 import model.Tile;
 import model.Tower;
@@ -10,7 +11,6 @@ import model.tower.IceTower;
 import model.tower.NormalTower;
 import ui.SnackBar;
 import util.Algorithm;
-import util.cpp;
 import util.cpp.pii;
 
 public class TowerManager {
@@ -54,53 +54,6 @@ public class TowerManager {
 		}
 	}
 
-	public void handleTileClick(int x, int y) {
-	
-		try {
-			Tower t = createTower(gm.getTowerChoice(), x, y);
-			gm.handler.setTowerChoice(-1);
-			gm.selectedTile = gm.placedTiles[x][y].top();
-	
-			// no tower => muse select
-			if (t == null) {
-				gm.selectedTile = gm.placedTiles[x][y].select();
-				return;
-			}
-	
-				// selected => try build
-			if (!gm.selectedTile.isPlaceable()) {
-				throw new Exception("already something on tile");
-			}
-			
-			if (t.getPrice() > gm.money) {
-				throw new Exception("no money");
-			}				
-			
-		
-			gm.placedTiles[x][y].push(t);
-			Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
-			gm.towers.add(t);
-			gm.money -= t.getPrice();
-			gm.selectedTile = t;
-		}
-		catch (PathBlockedException e) {
-			gm.selectedTile = null;
-			gm.placedTiles[x][y].pop();
-			SnackBar.play(e.getMessage());
-		}
-		catch (Exception e) {
-			SnackBar.play(e.getMessage());
-		}
-		finally {
-			try {
-				gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
-			}
-			catch(Exception e) {
-				// this shouldn't happen
-			}
-		}
-		return ;
-	}
 
 	public boolean canUpgrade() {
 		return gm.selectedTile != null && ((Tower)gm.selectedTile).getPrice() <= gm.money;
@@ -109,7 +62,19 @@ public class TowerManager {
 	public boolean canSell() {
 		return gm.selectedTile != null;
 	}
-
+	void upgradeTower() {
+		if (gm.selectedTile != null && gm.towerManager.canUpgrade()) {
+			try {
+				Tower twr = (Tower)gm.selectedTile;
+				int price = twr.getUpgradePrice();
+				twr.upgrade();		
+				gm.money -= price;
+			}
+			catch (FullyUpgradedException e) {
+				SnackBar.play("Already Fully upgraded");
+			}
+		}
+	}
 	public Tower createTower(int towerChoice, int x, int y) {
 		Tower t = null;
 		switch (towerChoice) {

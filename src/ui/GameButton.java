@@ -6,16 +6,11 @@ import java.util.ArrayList;
 import constants.Images;
 import controller.SuperManager;
 import controller.game.GameManager;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import main.Main;
 import model.Tower;
 
 public class GameButton {
@@ -38,18 +33,18 @@ public class GameButton {
 		sellButton = ButtonMaker.make(1400, 780, Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
 				buttonFont, "Sell Tower");		
 		sellButton.setOnAction(e -> {
-			GameManager.getInstance().towerManager.sellTower();
+			GameManager.getInstance().sellTower();
 		});
 		nextButton = ButtonMaker.make(820, 0, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
 				buttonFont, "Next Wave");
 		nextButton.setOnAction(e -> {
-			GameManager.getInstance().updater.requestNextWave();
+			GameManager.getInstance().requestNextWave();
 		});
 		
 		upgradeButton = ButtonMaker.make(1400, 840, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
 				buttonFont, "Upgrade");
 		upgradeButton.setOnAction(e -> {
-			GameManager.getInstance().updater.upgradeTower();
+			GameManager.getInstance().upgradeTower();
 		});		
 		
 		toMenuButton = ButtonMaker.make(700, 480, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
@@ -78,7 +73,7 @@ public class GameButton {
 		
 		toggleGroup = new ToggleGroup();
 		for (int i=0; i<4; i++) {
-			Tower twr = GameManager.getInstance().towerManager.createTower(i, 0, 0);
+			Tower twr = GameManager.getInstance().createTower(i, 0, 0);
 			ToggleButton tg = ButtonMaker.makeTowerButton(1344+(i%3)*85, (i/3)*128,
 					Images.towerButton, Images.towerButtonPressed, twr, buttonFontSmall, i);
 			toggleButtons.add(tg);

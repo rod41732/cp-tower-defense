@@ -7,8 +7,12 @@ import java.util.HashMap;
 import constants.Maps;
 import constants.Numbers;
 import controller.SuperManager;
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import model.Map;
 import model.Monster;
 import model.Particle;
@@ -90,6 +94,17 @@ public class GameManager {
 	public boolean isInitialized() {
 		return isInitialized;
 	}
+	
+	
+	
+
+	public Tower createTower(int towerChoice, int x, int y) {
+		return towerManager.createTower(towerChoice, x, y);
+	}
+
+	public void updateMousePos(GameManager gm, double x, double y) {
+		handler.updateMousePos(gm, x, y);
+	}
 
 	public void loadMap(int mapId) {
 		if (isInitialized) return ;
@@ -117,10 +132,31 @@ public class GameManager {
 		}
 	}
 
-	public void render() {	
-		renderer.render();
+	
+	
+	public void update() {
+		updater.update();
 	}
 
+	public void requestNextWave() {
+		updater.requestNextWave();
+	}
+
+	public void sellTower() {
+		towerManager.sellTower();
+	}
+
+	public void upgradeTower() {
+		towerManager.upgradeTower();
+	}
+
+	public void handleClick(MouseEvent e) {
+		handler.handleClick(e);
+	}
+
+	public void handleTileClick(int x, int y) {
+		handler.handleTileClick(x, y);
+	}
 
 	public cpp.pii getSelectedPosition(){
 		return tilePos;
@@ -154,7 +190,10 @@ public class GameManager {
 	public ArrayList<Monster> getMonsters() {
 		return monsters;
 	}
-
+	
+	public void handleKeyPress(KeyEvent e) {
+		handler.handleKeyPress(e);
+	}
 	
 
 	public TileStack[][] getPlacedTiles() {
@@ -175,5 +214,9 @@ public class GameManager {
 
 	public void addMoney(int i) {
 		money += i;
+	}
+
+	public void render() {
+		renderer.render();
 	}
 }

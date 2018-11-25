@@ -74,6 +74,7 @@ public class SnackBar {
 	}
 	
 	public static void play(String msg) {
+		System.out.println(msg);
 		isShown = true;
 		y.set(800);
 		opacity.set(0.4);

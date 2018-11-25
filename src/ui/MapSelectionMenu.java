@@ -1,17 +1,12 @@
 package ui;
 
-import java.beans.EventHandler;
-import java.util.ArrayList;
-
 import constants.Images;
 import constants.Maps;
 import constants.Numbers;
 import constants.Other;
 import controller.SuperManager;
 import controller.game.GameManager;
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

@@ -10,13 +10,9 @@ import exceptions.FullyUpgradedException;
 import exceptions.PathBlockedException;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import main.Main;
 import model.Tile;
-import model.TileStack;
 import model.Tower;
-import util.Algorithm;
 import util.Algorithm2;
 import util.cpp;
 public class TowerMenu {

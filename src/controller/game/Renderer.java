@@ -6,16 +6,17 @@ import java.util.ArrayList;
 import constants.Images;
 import constants.Numbers;
 import controller.SuperManager;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 import model.Monster;
 import model.Particle;
 import model.Projectile;
-import model.Tile;
 import model.TileStack;
 import model.Tower;
 import ui.PauseMenu;
@@ -30,8 +31,7 @@ public class Renderer {
 	private GameManager gm;
 	private GraphicsContext otherGC, tileGC, overlayGC;
 	private RichTextBox infoBox;
-	private Thread renderLoop;
-	private boolean shouldRender;
+	private Timeline renderLoop;
 	
 	public Renderer(GameManager gm) {
 		this.gm = gm;
@@ -45,24 +45,20 @@ public class Renderer {
 		texts.add("lives" + 999999);
 		infoBox = new RichTextBox(imgs, texts, 20, 20);
 		
+		
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
-			boolean inGame = nw.booleanValue();
-			shouldRender = inGame;
-			System.err.printf("[Renderer] state changed -> %s", nw);
-		});
-		
-		
-		renderLoop = new Thread(() -> {
-			while (true) {
-				try {
-					Thread.sleep(1000/60);
-					render();
-				}
-				catch (InterruptedException e) {
-					System.out.println("rendered interrupted");
-				}
+			if (nw.booleanValue()) {
+				renderLoop.play();
+			}
+			else {
+				renderLoop.pause();
 			}
 		});
+		renderLoop = new Timeline(new KeyFrame(Duration.seconds(1./60), e -> {
+			render();
+		}));
+		renderLoop.setCycleCount(Timeline.INDEFINITE);
+		
 	}
 	
 	public void setGC(GraphicsContext otherGC, GraphicsContext tileGC, GraphicsContext overlayGC) {
@@ -83,11 +79,15 @@ public class Renderer {
 
 	
 	public void render() {
+//		System.out.println("rendering");
 		otherGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		otherGC.setGlobalAlpha(1);
-		for (TileStack[] col: gm.placedTiles)
-			for (TileStack ts: col)
+		for (TileStack[] col: gm.placedTiles) 
+			for (TileStack ts: col) {
+//				System.out.println("r1");
 				ts.render(otherGC, tileGC);
+			}
+		
 		for (Monster m: gm.monsters) m.render(otherGC);
 		for (Projectile p: gm.projectiles) p.render(otherGC);
 		for (Particle p: gm.particles) p.render(otherGC);

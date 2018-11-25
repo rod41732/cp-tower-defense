@@ -4,7 +4,6 @@ import constants.Images;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
-import model.Particle;
 import util.GameUtil;
 import util.cpp;
 

@@ -164,7 +164,6 @@ public abstract class Tower extends Tile {
 			return;
 		}
 		rotateTo(currentTarget);
-		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		currentCooldown = attackCooldown; // some tower like gatling  cannon might not update like this
 	}
 	
@@ -185,6 +184,8 @@ public abstract class Tower extends Tile {
 		}
 		buffs.add(b);
 	}
+	
+	
 	
 	public double getAttackCooldown() {
 		return attackCooldown;
