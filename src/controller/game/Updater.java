@@ -103,6 +103,11 @@ public class Updater {
 				gm.particles.remove(i);
 			}
 		}
+		
+		if (gm.lives <= 0) {
+			SuperManager.getInstance().getGameStateProp().set(1); // VI LOST ZULUL
+			SuperManager.getInstance().getIsGamePausedProp().set(true);
+		}
 	}
 	
 	public void requestNextWave() {

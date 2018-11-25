@@ -42,7 +42,7 @@ public class MainMenuScene extends Scene {
 				new KeyValue(title.scaleXProperty(), 1.5),
 				new KeyValue(title.scaleYProperty(), 1.5)));
 		menuTick.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5),e->{
-			resume.setDisable(!GameManager.getInstance().isInitialized());
+			resume.setDisable(!GameManager.getInstance().isInitialized() || SuperManager.getInstance().getGameStateProp().get() != 0);
 		}));
 		menuTick.setAutoReverse(true); 
 		menuTick.setCycleCount(Timeline.INDEFINITE);

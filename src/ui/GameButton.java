@@ -3,6 +3,8 @@ package ui;
 
 import java.util.ArrayList;
 
+import javax.management.remote.SubjectDelegationPermission;
+
 import constants.Images;
 import controller.SuperManager;
 import controller.game.GameManager;
@@ -124,7 +126,8 @@ public class GameButton {
 			boolean isPlacing = toggleGroup.getSelectedToggle() != null;
 			boolean canUp = SuperManager.getInstance().getCanUpgradeProp().get();
 			boolean canSell = SuperManager.getInstance().getCanSellProp().get();
-			resumeButton.setVisible(paused);
+			boolean gameOver = SuperManager.getInstance().getGameStateProp().get() != 0;
+			resumeButton.setVisible(paused && !gameOver);
 			toMenuButton.setVisible(paused);
 			pauseButton.setDisable(paused || isPlacing);
 			nextButton.setDisable(paused || isPlacing);
