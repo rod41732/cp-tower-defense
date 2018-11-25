@@ -4,14 +4,12 @@ import constants.Numbers;
 import controller.SuperManager;
 import exceptions.PathBlockedException;
 import javafx.beans.property.IntegerProperty;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import model.Tower;
 import ui.SnackBar;
 import util.Algorithm;
-import util.cpp.pff;
 
 public class Handler {
 	private GameManager gm;
@@ -30,8 +28,8 @@ public class Handler {
 	public boolean shouldHandle(MouseEvent e) {
 		double x = e.getX();
 		double y = e.getY();
-		return 0 <= x && x <= Numbers.COLUMNS*Numbers.TILE_SIZE &&
-				0 <= y && y <= Numbers.ROWS*Numbers.TILE_SIZE ;
+		return 0 <= x && x <= Numbers.LEFT_OFFSET+Numbers.COLUMNS*Numbers.TILE_SIZE &&
+				0 <= y && y <= Numbers.TOP_OFFSET+Numbers.ROWS*Numbers.TILE_SIZE ;
 	}
 	public void handleClick(MouseEvent e) {
 		if (e.isConsumed()) return;
@@ -42,7 +40,6 @@ public class Handler {
 			handleTileClick((int)x/Numbers.TILE_SIZE, (int)y/Numbers.TILE_SIZE);			
 		}
 		else if (e.getButton() == MouseButton.SECONDARY) {
-			System.out.println("Spawn monster at" + new pff(x/Numbers.TILE_SIZE, x/Numbers.TILE_SIZE));
 			gm.updater.spawnMonster(x/Numbers.TILE_SIZE, y/Numbers.TILE_SIZE);
 		}
 		else {
@@ -85,26 +82,21 @@ public class Handler {
 			gm.placedTiles[x][y].pop();
 			SnackBar.play("path" + e.getMessage());
 		}
-		catch (NullPointerException e) {
-			e.printStackTrace();
-		}
 		catch (Exception e) {
-			SnackBar.play("path" +  e.getMessage());
+			e.printStackTrace();
 		}
 		finally {
 			try {
 				gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
 			}
-			catch(Exception e) {
-				// this shouldn't happen
+			catch(PathBlockedException e) {
 			}
 		}
 		return ;
 	}
 	public void handleKeyPress(KeyEvent e) {
-		if (SuperManager.getInstance().getIsGamePausedProp().get()) {
+		if (!SuperManager.getInstance().getIsGamePausedProp().get()) {
 			e.consume();
-			
 			IntegerProperty prop;
 			switch (e.getCode()) {
 			case G:
@@ -116,24 +108,32 @@ public class Handler {
 			case D:
 				GameManager.getInstance().upgradeTower();
 				break;
-			default:
-				GameManager.getInstance().setSelectedTile(null);
+			case Z: 
+				GameManager.getInstance().addMoney(1000); 
+				break;
 			case DIGIT1:
+				setTowerChoice(-1);
 				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 0 ? -1 : 0);
 				break;
 			case DIGIT2:
+				setTowerChoice(-1);
 				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 1 ? -1 : 1);
 				break;
 			case DIGIT3:
+
+				setTowerChoice(-1);
 				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 2 ? -1 : 2);
 				break;
 			case DIGIT4:
+				setTowerChoice(-1);
 				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 3 ? -1 : 3);
-				break;	
+				break;
+			default:
+				break;
 			}
 		} 
 	}
