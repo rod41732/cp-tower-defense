@@ -1,5 +1,6 @@
 package controller;
 
+import controller.game.MonsterSpawner;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -19,6 +20,7 @@ public class SuperManager {
 	private BooleanProperty canUpgradeProp = new SimpleBooleanProperty();
 	private BooleanProperty canSellProp = new SimpleBooleanProperty();
 	private IntegerProperty towerChoiceProp = new SimpleIntegerProperty();
+	private BooleanProperty gameOver = new SimpleBooleanProperty(false);
 	
 	public SuperManager() {
 		isInGameProp.set(false);
@@ -26,6 +28,7 @@ public class SuperManager {
 		nextWaveAvailableProp.set(false);
 		canUpgradeProp.set(false);
 		canSellProp.set(false);
+		gameOver.set(false);
 		towerChoiceProp.set(-1);
 	}
 	

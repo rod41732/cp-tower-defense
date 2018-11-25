@@ -3,8 +3,8 @@ package constants;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import controller.Map;
 import javafx.scene.image.Image;
+import model.Map;
 import util.cpp;
 
 public class Maps {

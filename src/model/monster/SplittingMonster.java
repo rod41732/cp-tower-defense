@@ -1,7 +1,7 @@
 package model.monster;
 
 import constants.Images;
-import controller.GameManager;
+import controller.game.GameManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
@@ -17,7 +17,6 @@ public class SplittingMonster extends GroundMonster {
 	
 	public void onDeath() {
 		pff pos = getPosition();
-		System.out.println("split");
 		Timeline tl = new Timeline();
 		tl.getKeyFrames().add(new KeyFrame(Duration.seconds(0.1), e ->  {
 			GameManager.getInstance().spawnMonster(new GroundMonster("Moose", Images.moose,

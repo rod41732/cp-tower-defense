@@ -1,17 +1,12 @@
 package ui;
 
-import java.beans.EventHandler;
-import java.util.ArrayList;
-
 import constants.Images;
 import constants.Maps;
 import constants.Numbers;
 import constants.Other;
-import controller.GameManager;
 import controller.SuperManager;
-import javafx.animation.Interpolator;
+import controller.game.GameManager;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -38,8 +33,8 @@ public class MapSelectionMenu extends Pane{
 		
 		ToggleGroup toggleGroup = new ToggleGroup();
 		newGameButton.setOnAction(e -> {
-			GameManager.getInstance().newGame();
-			GameManager.getInstance().initialize((int)toggleGroup.getSelectedToggle().getUserData());
+			GameManager.getInstance().reset();
+			GameManager.getInstance().loadMap((int)toggleGroup.getSelectedToggle().getUserData());
 			SuperManager.getInstance().onResumeGame();
 			Main.getMainMenu().hideMapSelect();
 			Timeline tl = new Timeline();

@@ -1,6 +1,6 @@
 package model;
 
-import controller.GameManager;
+import controller.game.GameManager;
 import javafx.scene.image.Image;
 
 public class AoE extends Particle {

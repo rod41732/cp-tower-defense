@@ -39,7 +39,6 @@ public class PiercingProjectile extends NormalProjectile {
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
 			m.takePureDamage(damage);
-			System.out.println("monster take damage from" + this);
 			slowTick = 35;
 		}
 		return isExpired();

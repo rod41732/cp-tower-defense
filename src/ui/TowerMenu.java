@@ -4,29 +4,21 @@ import java.util.ArrayList;
 
 import constants.Images;
 import constants.Numbers;
-import controller.GameManager;
 import controller.SuperManager;
+import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import exceptions.PathBlockedException;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import main.Main;
 import model.Tile;
-import model.TileStack;
 import model.Tower;
-import util.Algorithm;
 import util.Algorithm2;
 import util.cpp;
 public class TowerMenu {
 	
 	// TODO: use buttons to check click (custom image buttons)
 	private static double LEFT = 1344;
-	private static double TOP = 0;
-	private static int COL = 3;
-	private static int ROW = 3;
-	private static Image[] images = {Images.bombTower, Images.normalTower, Images.fireTower, Images.iceTower};
 	private static RichTextBox towerInfoPanel = new RichTextBox(new ArrayList<>(), new ArrayList<>(), LEFT, 320);
 	private static RichTextBox upgradeInfo = new RichTextBox(new ArrayList<>(), new ArrayList<>(), LEFT, 515);
 	
@@ -45,21 +37,21 @@ public class TowerMenu {
 			renderTowerInfo(gc, t2, false);
 		
 		
-		GameManager gi = GameManager.getInstance();
-		cpp.pii tilePos = gi.getSelectedPosition();
+		GameManager gm = GameManager.getInstance();
+		cpp.pii tilePos = gm.getSelectedPosition();
 		int choice = SuperManager.getInstance().getTowerChoiceProp().get();
 		if (choice != -1) {	
 			try {
-				Tower floatingTower = gi.createTower(choice, tilePos.first, tilePos.second);
+				Tower floatingTower = gm.createTower(choice, tilePos.first, tilePos.second);
 				if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
 					floatingTower.render(gc, true);							
 				}
-				cpp.pii start = gi.getStartTilePos(), end = gi.getEndTilePos();
+				cpp.pii start = gm.getStartTilePos(), end = gm.getEndTilePos();
 				
 				if (!tilePos.equals(lastPos)) {
 					lastPos.first = tilePos.first;
 					lastPos.second = tilePos.second;
-					if (gi.isPlaceable(tilePos.first, tilePos.second)) {
+					if (gm.isPlaceable(tilePos.first, tilePos.second)) {
 						path = Algorithm2.BFS(end.first, end.second, start.first, start.second, tilePos);
 						isError = false;
 					}
@@ -100,8 +92,7 @@ public class TowerMenu {
 
 	
 	public static void renderTowerInfo(GraphicsContext gc, Tile t, boolean showUpgrade) {
-		double top = 400;
-		double left = LEFT;
+
 		
 		ArrayList<Image> imgs = new ArrayList<>();
 		imgs.add(Images.bombIcon);

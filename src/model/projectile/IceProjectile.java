@@ -2,7 +2,7 @@ package model.projectile;
 
 import buff.MoveSpeedBuff;
 import constants.Images;
-import controller.GameManager;
+import controller.game.GameManager;
 import model.Monster;
 import model.Particle;
 import util.cpp;

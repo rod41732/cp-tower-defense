@@ -1,6 +1,6 @@
 package model.monster;
 
-import controller.GameManager;
+import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
 import model.Tile;
@@ -38,7 +38,8 @@ public class GroundMonster extends Monster {
 			}			
 		}
 		catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
+			forceKill(); // to remove buggy monster
 		}
 		
 	}

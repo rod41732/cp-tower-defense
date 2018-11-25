@@ -1,7 +1,7 @@
 package model.projectile;
 
 import constants.Images;
-import controller.GameManager;
+import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
 import model.Particle;
@@ -34,13 +34,10 @@ public class HomingMissle extends NormalProjectile {
 		if (shouldCollide(m) || distanceTo(target) < 0.2) { // collide with dead monster
 			cpp.pff impact = getPosition();
 			GameManager.getInstance().spawnParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
-			System.out.println("Boom");
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
 				if (Double.compare(ms.distanceTo(impact.first, impact.second), 3) < 0) {
-					ms.takeDamage(damage);
-//					ms.addBuff(new DamageTakenDebuff(3000, 5));
-					System.out.println("boom =>" + ms);
-				}
+					ms.takeDamage(damage);	
+					}
 			}
 			forceExpire();
 		}
