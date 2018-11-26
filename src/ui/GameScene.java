@@ -28,7 +28,7 @@ public class GameScene extends Scene {
 	public GameScene() {
 		super(new StackPane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		root = (StackPane) getRoot();
-		root.setLayoutY(16); // HAXX
+//		root.setLayoutY(16); // HAXX
 		GridPane main = new GridPane();
 		main.setHgap(0);
 		main.setVgap(0);
@@ -83,11 +83,11 @@ public class GameScene extends Scene {
 			
 		});
 		
-		setOnMouseMoved(e -> {
-			GameManager.getInstance().updateMousePos(GameManager.getInstance(), e.getX(), e.getY());
+		other.setOnMouseMoved(e -> {
+			GameManager.getInstance().updateMousePos(e);
 		});
 		
-		setOnMouseClicked(e -> {
+		other.setOnMouseClicked(e -> {
 			PauseMenu.handleMouseClick(e);
 			GameManager.getInstance().handleClick(e);								
 		});

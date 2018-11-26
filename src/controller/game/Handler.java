@@ -18,9 +18,9 @@ public class Handler {
 	public Handler(GameManager gm) {
 		this.gm = gm;
 	}
-	public void updateMousePos(GameManager gm, double x, double y) {
-		x -= Numbers.LEFT_OFFSET;
-		y -= Numbers.TOP_OFFSET;
+	public void updateMousePos(MouseEvent e) {
+		double x = e.getX();
+		double y = e.getY();
 		gm.mousePos.first = x/Numbers.TILE_SIZE;
 		gm.mousePos.second = y/Numbers.TILE_SIZE;
 		// don't want to create new object
@@ -30,15 +30,14 @@ public class Handler {
 	public boolean shouldHandle(MouseEvent e) {
 		double x = e.getX();
 		double y = e.getY();
-		return 0 <= x && x <= Numbers.LEFT_OFFSET+Numbers.COLUMNS*Numbers.TILE_SIZE &&
-				0 <= y && y <= Numbers.TOP_OFFSET+Numbers.ROWS*Numbers.TILE_SIZE ;
+		return 0 <= x && x <= Numbers.COLUMNS*Numbers.TILE_SIZE &&
+				0 <= y && y <= Numbers.ROWS*Numbers.TILE_SIZE ;
 	}
 	public void handleClick(MouseEvent e) {
 		if (e.isConsumed()) return;
 		if (!shouldHandle(e)) return ;
-		System.out.printf("%.2f, %.2f\n", e.getX()-Numbers.LEFT_OFFSET, e.getY()-Numbers.TOP_OFFSET);
-		double x = e.getX()-Numbers.LEFT_OFFSET;
-		double y = e.getY()-Numbers.TOP_OFFSET;
+		double x = e.getX();
+		double y = e.getY();
 		if (e.getButton() == MouseButton.PRIMARY) {
 			handleTileClick((int)x/Numbers.TILE_SIZE, (int)y/Numbers.TILE_SIZE);			
 		}

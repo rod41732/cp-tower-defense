@@ -26,7 +26,7 @@ public class GameUI {
 	private static TowerInfoPanel towerInfoPanel = new TowerInfoPanel();
 	private static TowerInfoPanel upgradeInfoPanel = new TowerInfoPanel();
 	
-	private static IconText levelPanel, moneyPanel, livePanel;
+	private static IconText levelPanel, moneyPanel, livePanel, debug;
 	
 	
 	
@@ -37,11 +37,12 @@ public class GameUI {
 		levelPanel = new IconText(Images.attackIcon, "Level 9999", Other.normalButtonFont);
 		moneyPanel = new IconText(Images.coinIcon, "Money " + GameManager.getInstance().getMoney(), Other.normalButtonFont);
 		livePanel = new IconText(Images.liveIcon, "Live " + GameManager.getInstance().getLives(), Other.normalButtonFont);
+		debug = new IconText(Images.liveIcon, "", Other.normalButtonFont);
 	}
 	
 	
 	public static void addinfo(Pane pane) {
-		pane.getChildren().addAll(levelPanel, moneyPanel, livePanel);
+		pane.getChildren().addAll(levelPanel, moneyPanel, livePanel, debug);
 	}
 	
 	public static void mountPanel(Pane pane) {
@@ -53,7 +54,8 @@ public class GameUI {
 		Tile t = GameManager.getInstance().getSelectedTile();
 		Tile t2 = GameManager.getInstance().createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
 			
-//		levelPanel.setText);
+		
+		debug.setText(GameManager.getInstance().getMousePos().toString());
 		moneyPanel.setText("Money " + GameManager.getInstance().getMoney());
 		livePanel.setText("Live" + GameManager.getInstance().getLives());
 		if (t != null && t instanceof Tower)

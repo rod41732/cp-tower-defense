@@ -113,9 +113,15 @@ public class GameManager {
 	public Tower createTower(int towerChoice, int x, int y) {
 		return towerManager.createTower(towerChoice, x, y);
 	}
+	
+	
 
-	public void updateMousePos(GameManager gm, double x, double y) {
-		handler.updateMousePos(gm, x, y);
+	public cpp.pff getMousePos() {
+		return mousePos;
+	}
+
+	public void updateMousePos(MouseEvent e) {
+		handler.updateMousePos(e);
 	}
 
 	public void update() {
