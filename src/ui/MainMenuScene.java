@@ -77,7 +77,7 @@ public class MainMenuScene extends Scene {
 		showMapMenu = new Timeline(new KeyFrame(Duration.seconds(0.3), 
 				new KeyValue(mapMenu.layoutYProperty(), 0)));		
 		hideMapMenu = new Timeline(new KeyFrame(Duration.seconds(0.3), 
-				new KeyValue(mapMenu.layoutYProperty(), 900)));
+				new KeyValue(mapMenu.layoutYProperty(), Numbers.WIN_HEIGHT)));
 				
 		root.getChildren().addAll(menus, newGame, mapMenu);	
 	}

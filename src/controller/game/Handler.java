@@ -36,13 +36,14 @@ public class Handler {
 	public void handleClick(MouseEvent e) {
 		if (e.isConsumed()) return;
 		if (!shouldHandle(e)) return ;
+		System.out.printf("%.2f, %.2f\n", e.getX()-Numbers.LEFT_OFFSET, e.getY()-Numbers.TOP_OFFSET);
 		double x = e.getX()-Numbers.LEFT_OFFSET;
 		double y = e.getY()-Numbers.TOP_OFFSET;
 		if (e.getButton() == MouseButton.PRIMARY) {
 			handleTileClick((int)x/Numbers.TILE_SIZE, (int)y/Numbers.TILE_SIZE);			
 		}
 		else if (e.getButton() == MouseButton.SECONDARY) {
-			gm.updater.spawnMonster(x/Numbers.TILE_SIZE, y/Numbers.TILE_SIZE);
+			SuperManager.getInstance().getTowerChoiceProp().set(-1);
 		}
 		else {
 			gm.sellTower();
@@ -104,7 +105,7 @@ public class Handler {
 	public void handleKeyPress(KeyEvent e) {
 		if (!SuperManager.getInstance().getIsGamePausedProp().get()) {
 			e.consume();
-			IntegerProperty prop;
+			IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
 			switch (e.getCode()) {
 			case G:
 				GameManager.getInstance().requestNextWave();			
@@ -119,24 +120,15 @@ public class Handler {
 				GameManager.getInstance().addMoney(1000); 
 				break;
 			case DIGIT1:
-				setTowerChoice(-1);
-				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 0 ? -1 : 0);
 				break;
 			case DIGIT2:
-				setTowerChoice(-1);
-				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 1 ? -1 : 1);
 				break;
 			case DIGIT3:
-
-				setTowerChoice(-1);
-				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 2 ? -1 : 2);
 				break;
 			case DIGIT4:
-				setTowerChoice(-1);
-				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 3 ? -1 : 3);
 				break;
 			default:

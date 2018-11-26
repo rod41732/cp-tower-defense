@@ -52,6 +52,9 @@ public class Updater {
 				&& ((Tower)gm.selectedTile).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTile).getUpgradePrice() >= 0);
 		SuperManager.getInstance().getCanSellProp().set(gm.selectedTile != null);
 		SuperManager.getInstance().getnextWaveAvailableProp().set(shouldSpawnNextWave());
+		if (shouldSpawnNextWave() && SuperManager.getInstance().getGameStateProp().get() == 2) {
+			SuperManager.getInstance().getIsGamePausedProp().set(true);
+		}
 		if (gm.selectedTile == null) {
 			Main.getGameScene().getButtonManager().setUpgradeText("Upgrade");			
 		}

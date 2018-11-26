@@ -10,33 +10,60 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class GameScene extends Scene {
 	private GameButton buttonManager;
 	private Timeline gameTick;
-	private Pane root;
+	private StackPane root;
 	
 	public GameScene() {
-		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		root = (Pane) getRoot();
-		Canvas other = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		Canvas tiles = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		Canvas overlay = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		other.setLayoutX(Numbers.LEFT_OFFSET);
-		other.setLayoutY(Numbers.TOP_OFFSET);
-		tiles.setLayoutX(Numbers.LEFT_OFFSET);
-		tiles.setLayoutY(Numbers.TOP_OFFSET);
+		super(new StackPane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+		root = (StackPane) getRoot();
+		root.setLayoutY(16); // HAXX
+		GridPane main = new GridPane();
+		main.setHgap(0);
+		main.setVgap(0);
+//		main
+		HBox topbar = new HBox();
+		StackPane gameArea = new StackPane();
+		VBox menus = new VBox();
+		HBox bottomBar = new HBox();
+		bottomBar.setPrefHeight(64);
+		topbar.setPrefHeight(64);
+		main.add(topbar, 0, 0, 1, 1);
+		main.add(gameArea, 0, 1, 1, 1);
+		main.add(menus, 1, 1, 1, 2);
+		main.add(bottomBar, 0, 2, 1, 1);
+
 		
-		root.getChildren().add(tiles); // TILE
-		root.getChildren().add(other); // Other
+		Canvas other = new Canvas(Numbers.COLUMNS*Numbers.TILE_SIZE, Numbers.ROWS*Numbers.TILE_SIZE);
+		Canvas tiles = new Canvas(Numbers.COLUMNS*Numbers.TILE_SIZE, Numbers.ROWS*Numbers.TILE_SIZE);
+		Canvas overlay = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+		gameArea.getChildren().addAll(tiles, other);
 		root.getChildren().add(overlay);
-		buttonManager = new GameButton(root);
+		
+		TilePane towerChoices = new TilePane();
+		towerChoices.setPrefRows(3);
+		towerChoices.setPrefColumns(3);
+		menus.getChildren().add(towerChoices);
+		
+		buttonManager = new GameButton();
+		buttonManager.addControlButton(bottomBar);
+		buttonManager.addMenuButtons(root);
+		buttonManager.addTowerButtons(towerChoices);
+		buttonManager.addUpgradeButton(menus); // 
+		
+		root.getChildren().add(main);
+		
 		overlay.setMouseTransparent(true);
 		tiles.setMouseTransparent(true);
-		buttonManager.addMenuButtons(root);
-		
 		GameManager.getInstance().setGC(other.getGraphicsContext2D(), tiles.getGraphicsContext2D(), overlay.getGraphicsContext2D());	
 		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
 			boolean pause = nw.booleanValue();

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import constants.Images;
 import constants.Numbers;
+import constants.Other;
 import controller.SuperManager;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import exceptions.PathBlockedException;
+import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -15,26 +17,37 @@ import model.Tile;
 import model.Tower;
 import util.Algorithm2;
 import util.cpp;
-public class TowerMenu {
+public class GameUI {
 	
 	// TODO: use buttons to check click (custom image buttons)
 	private static double LEFT = 1344;
-	private static RichTextBox towerInfoPanel = new RichTextBox(new ArrayList<>(), new ArrayList<>(), LEFT, 320);
-	private static RichTextBox upgradeInfo = new RichTextBox(new ArrayList<>(), new ArrayList<>(), LEFT, 515);
+	private static RichTextBox towerInfoPanel = new RichTextBox(new ArrayList<>(), LEFT, 320);
+	private static RichTextBox upgradeInfo = new RichTextBox(new ArrayList<>(), LEFT, 515);
 	
 	private static cpp.pii lastPos = new cpp.pii(-1, -1);
 	private static cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 	private static boolean isError = false;
-	public static void render(GraphicsContext gc) {
+	public static void render(GraphicsContext otherGC, GraphicsContext overlayGC) {
 		
-		gc.setFill(Color.MAGENTA);
 		Tile t = GameManager.getInstance().getSelectedTile();
 		Tile t2 = GameManager.getInstance().createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
 				
+		
+		
 		if (t != null && t instanceof Tower)
-			renderTowerInfo(gc, t, true);
+			renderTowerInfo(overlayGC, t, true);
 		else if (t2 != null)
-			renderTowerInfo(gc, t2, false);
+			renderTowerInfo(overlayGC, t2, false);
+		
+		overlayGC.setTextBaseline(VPos.BOTTOM);
+		overlayGC.setFont(Other.normalButtonFont);
+		overlayGC.drawImage(Images.attackIcon, 4, 4);
+		overlayGC.fillText("Level 1", 50, 40);
+		overlayGC.drawImage(Images.coinIcon, 224, 4);
+		overlayGC.fillText("$ " + GameManager.getInstance().getMoney(), 260, 40);
+		overlayGC.drawImage(Images.liveIcon, 444, 4);
+		overlayGC.fillText("" + GameManager.getInstance().getLives() , 480, 40);
+		
 		
 		
 		GameManager gm = GameManager.getInstance();
@@ -44,7 +57,7 @@ public class TowerMenu {
 			try {
 				Tower floatingTower = gm.createTower(choice, tilePos.first, tilePos.second);
 				if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
-					floatingTower.render(gc, true);							
+					floatingTower.render(otherGC, true);							
 				}
 				cpp.pii start = gm.getStartTilePos(), end = gm.getEndTilePos();
 				
@@ -62,28 +75,28 @@ public class TowerMenu {
 				}
 				
 				if (path != null) {
-					gc.setFill(new Color(0, 0, 0, 0.4)); // just dim
+					otherGC.setFill(new Color(0, 0, 0, 0.4)); // just dim
 					// need to copy
 					cpp.pii pos = new cpp.pii(start.first, start.second);
 					while (pos != null && !pos.equals(end)) {
-						gc.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
+						otherGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
 								Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 						pos = path[pos.first][pos.second];
 					}
 					if (pos != null) // blocked path
-					gc.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
+					otherGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
 							Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 				}
 				if (isError) {
-					gc.setFill(Color.color(1, 0, 0, 0.7));
-					gc.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
+					otherGC.setFill(Color.color(1, 0, 0, 0.7));
+					otherGC.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
 							Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 				}
 			}
 			catch (PathBlockedException e) {
 				isError = true;
-				gc.setFill(Color.color(1, 0, 0, 0.7));
-				gc.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
+				otherGC.setFill(Color.color(1, 0, 0, 0.7));
+				otherGC.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
 						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 			}
 		}
@@ -93,48 +106,37 @@ public class TowerMenu {
 	
 	public static void renderTowerInfo(GraphicsContext gc, Tile t, boolean showUpgrade) {
 
-		
-		ArrayList<Image> imgs = new ArrayList<>();
-		imgs.add(Images.bombIcon);
-		imgs.add(Images.attackIcon);
-		imgs.add(Images.targetIcon);
-		imgs.add(Images.cooldownIcon);
+
+		gc.drawImage(Images.towerInfoPanel, LEFT, 320);
 		ArrayList<String> texts = new ArrayList<>();
 		Tower tw = (Tower)t;
 		texts.add(""+tw.toString());
 		texts.add(""+tw.getAttack() + " DPS");
 		texts.add(""+tw.getRange() + " Tile");
 		texts.add(""+tw.getAttackCooldown() + " ms");
-		
-		towerInfoPanel.setImages(imgs);
+		texts.add(""+tw.getDescription());
 		towerInfoPanel.setTexts(texts);
-		towerInfoPanel.calculateLayout();
 		
 		towerInfoPanel.render(gc);
 		
- 		imgs.clear();
-		imgs.add(Images.bombIcon);
-		imgs.add(Images.attackIcon);
-		imgs.add(Images.targetIcon);
-		imgs.add(Images.cooldownIcon);
-		texts.clear();
+ 		texts.clear();
 		texts.add(""+tw.toString());
+
+		gc.drawImage(Images.towerInfoPanel, LEFT, 515 );
 		try {
 			if (!showUpgrade) throw new FullyUpgradedException(); // TODO: hacky
 			if (!tw.canUpgrade()) throw new FullyUpgradedException();
 			texts.add(""+tw.getUpgradedAttack() + " DPS");
 			texts.add(""+tw.getUpgradedRange() + " Tile");
-			texts.add(""+tw.getUpgradedAttackCooldown() + " ms");			
-			upgradeInfo.setImages(imgs);
+			texts.add(""+tw.getUpgradedAttackCooldown() + " ms");
+			texts.add(""+tw.getUpgradedDescription() + " ms");	
 			upgradeInfo.setTexts(texts);
-			upgradeInfo.calculateLayout();
 			upgradeInfo.render(gc);
 		}
 		catch (FullyUpgradedException e) {
-			gc.setFill(Color.BLACK);
-			gc.fillRect(LEFT, 515, 200, 200);
+			
 		}
-		
-		
 	}
+	
+	
 }

@@ -12,6 +12,7 @@ public class MonsterSpawner {
 	
 	private static MonsterSpawner instance = new MonsterSpawner();
 	private Timeline stage;
+	private int level = 0;
 	private boolean isReady = true;
 	private GameManager gm;
 
@@ -30,9 +31,9 @@ public class MonsterSpawner {
 		}));
 		stage.setOnFinished(e -> {
 			isReady = true;
-			SuperManager.getInstance().getGameStateProp().set(2);
-			// TODO: Experimental
-			SuperManager.getInstance().getIsGamePausedProp().set(true);
+			if (level == 3) {
+				SuperManager.getInstance().getGameStateProp().set(2);				
+			}
 		});
 		stage.setCycleCount(20);
 	
@@ -59,6 +60,7 @@ public class MonsterSpawner {
 	}
 	public void nextWave() {
 		isReady = false;
+		level += 1; 
 		stage.play();
 	}
 	

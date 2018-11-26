@@ -8,6 +8,7 @@ import javax.management.remote.SubjectDelegationPermission;
 import constants.Images;
 import controller.SuperManager;
 import controller.game.GameManager;
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -23,27 +24,28 @@ public class GameButton {
 	private Button pauseButton; // for pause menu
 	private Button sellButton;
 	private Button upgradeButton;
+	private Button showPathButton;
 	
 	
 	
 	private ArrayList<ToggleButton> toggleButtons = new ArrayList<>();
 	private ToggleGroup toggleGroup;
 	
-	public GameButton(Pane pane) {
+	public GameButton() {
 		Font buttonFont = new Font("KenVector Future Regular", 20);
 		Font buttonFontSmall = new Font("KenVector Future Regular", 12);
-		sellButton = ButtonMaker.make(1400, 780, Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
+		sellButton = ButtonMaker.make(1364, 780, Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
 				buttonFont, "Sell Tower");		
 		sellButton.setOnAction(e -> {
 			GameManager.getInstance().sellTower();
 		});
-		nextButton = ButtonMaker.make(820, 0, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
+		nextButton = ButtonMaker.make(303, 879, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
 				buttonFont, "Next Wave");
 		nextButton.setOnAction(e -> {
 			GameManager.getInstance().requestNextWave();
 		});
 		
-		upgradeButton = ButtonMaker.make(1400, 840, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
+		upgradeButton = ButtonMaker.make(1364, 724, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
 				buttonFont, "Upgrade");
 		upgradeButton.setOnAction(e -> {
 			GameManager.getInstance().upgradeTower();
@@ -65,12 +67,27 @@ public class GameButton {
 		});
 		resumeButton.setVisible(false);
 		
-		pauseButton = ButtonMaker.make(1020, 0, Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
+		pauseButton = ButtonMaker.make(55, 879, Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
 				buttonFont, "Pause");
 		pauseButton.setOnAction(e -> {
 			SuperManager.getInstance().onGamePause();
 		});		
 		
+		showPathButton = ButtonMaker.make(455, 879, Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
+				buttonFont, "Show Path");
+		showPathButton.setOnAction(e -> {
+			BooleanProperty prop = SuperManager.getInstance().getShouldDisplayPathProp(); 
+			prop.set(!prop.get());
+		});		
+		
+		SuperManager.getInstance().getShouldDisplayPathProp().addListener((obs, old, nw) -> {
+			boolean shouldShow = nw.booleanValue();
+			if (shouldShow) {
+				showPathButton.setText("Hide Path");
+			} else  {
+				showPathButton.setText("Show Path");
+			}
+		});
 		
 		
 		toggleGroup = new ToggleGroup();
@@ -81,10 +98,7 @@ public class GameButton {
 			toggleButtons.add(tg);
 		}
 		toggleGroup.getToggles().addAll(toggleButtons);
-		
-		pane.getChildren().addAll(pauseButton, // resumeButton, toMenuButton,
-				nextButton, upgradeButton, sellButton);
-		pane.getChildren().addAll(toggleButtons);
+
 		
 		toggleGroup.selectedToggleProperty().addListener((obs, old, nw) -> {
 			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
@@ -144,7 +158,19 @@ public class GameButton {
 	public void addMenuButtons(Pane pane) {
 		pane.getChildren().addAll(resumeButton, toMenuButton);
 	}
+	
+	public void addTowerButtons(Pane pane) {
+		pane.getChildren().addAll(toggleButtons);
+	}
+	
+	public void addControlButton(Pane pane) {
+		pane.getChildren().addAll(pauseButton, showPathButton, nextButton);
+	}
 	public void setUpgradeText(String text) {
 		upgradeButton.setText(text);
 	}	
+	
+	public void addUpgradeButton(Pane pane) {
+		pane.getChildren().addAll(upgradeButton, sellButton);
+	}
 }

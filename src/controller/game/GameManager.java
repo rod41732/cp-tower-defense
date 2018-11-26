@@ -97,7 +97,6 @@ public class GameManager {
 			for (int i=0; i<Numbers.COLUMNS; i++)
 				for (int j=0; j<Numbers.ROWS; j++) {
 					int t = tiles[j][i];
-					System.out.printf("%d,%d -> %d%d\n", i, j, t%4&2, t%4%2);
 					placedTiles[i][j].push(new Tile(tileMap.get(t/4), i+0.5, j+0.5, ((t%4)&2) > 0, ((t%4)%2) > 0));
 				}
 			path = Algorithm.BFS(endTilePos.first, endTilePos.second,
@@ -175,6 +174,16 @@ public class GameManager {
 		return monsters;
 	}
 	
+	
+	
+	public int getLives() {
+		return lives;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
 	public void handleKeyPress(KeyEvent e) {
 		handler.handleKeyPress(e);
 	}

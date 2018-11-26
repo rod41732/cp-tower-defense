@@ -229,6 +229,13 @@ public abstract class Tower extends Tile {
 	
 	public abstract int getUpgradePrice();
 	
+	public String getDescription() {
+		return "4Tower";
+	}
+	
+	public String getUpgradedDescription() {
+		return "4Town";
+	}
 	
 	public String toString() {
 		return TOWER_NAME + " " + getPosition();

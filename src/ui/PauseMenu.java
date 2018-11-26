@@ -20,7 +20,6 @@ public class PauseMenu {
 		});
 	}
 	public static void render(GraphicsContext gc) {
-		gc.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		if (isShown) {
 			gc.setFill(Color.color(0, 0, 0, 0.4));
 			gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_WIDTH);
