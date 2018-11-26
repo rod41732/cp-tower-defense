@@ -22,7 +22,6 @@ import javafx.util.Duration;
 
 public class GameScene extends Scene {
 	private GameButton buttonManager;
-	private Timeline gameTick;
 	private StackPane root;
 	
 	public GameScene() {
@@ -44,12 +43,15 @@ public class GameScene extends Scene {
 		main.add(menus, 1, 1, 1, 2);
 		main.add(bottomBar, 0, 2, 1, 1);
 
+		Pane overlayPane = new Pane();
 		
 		Canvas other = new Canvas(Numbers.COLUMNS*Numbers.TILE_SIZE, Numbers.ROWS*Numbers.TILE_SIZE);
 		Canvas tiles = new Canvas(Numbers.COLUMNS*Numbers.TILE_SIZE, Numbers.ROWS*Numbers.TILE_SIZE);
+		
 		Canvas overlay = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gameArea.getChildren().addAll(tiles, other);
 		
+		overlayPane.getChildren().add(overlay);
 		TilePane towerChoices = new TilePane();
 		towerChoices.setPrefRows(3);
 		towerChoices.setPrefColumns(3);
@@ -60,25 +62,25 @@ public class GameScene extends Scene {
 		buttonManager.addTowerButtons(towerChoices);
 		GameUI.mountPanel(menus);
 		buttonManager.addUpgradeButton(menus); //
-		buttonManager.addMenuButtons(root);
+		buttonManager.addMenuButtons(overlayPane);
 		GameUI.addinfo(topbar);
 		topbar.setAlignment(Pos.CENTER_LEFT);
 		
 		
 		
 		root.getChildren().add(main);
-		root.getChildren().add(overlay);
+		root.getChildren().add(overlayPane);
 		
-		overlay.setMouseTransparent(true);
-		tiles.setMouseTransparent(true);
+		overlayPane.setMouseTransparent(true);
+		
 		GameManager.getInstance().setGC(other.getGraphicsContext2D(), tiles.getGraphicsContext2D(), overlay.getGraphicsContext2D());	
 		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
 			boolean pause = nw.booleanValue();
 			if (pause) {
-				overlay.setMouseTransparent(false);
+				overlayPane.setMouseTransparent(false);
 			}
 			else {
-				overlay.setMouseTransparent(true);
+				overlayPane.setMouseTransparent(true);
 			}
 			
 		});
