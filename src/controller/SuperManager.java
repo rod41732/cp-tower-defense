@@ -24,7 +24,7 @@ public class SuperManager {
 	private BooleanProperty shouldDisplayPathProp = new SimpleBooleanProperty();
 	
 	public SuperManager() {
-		shouldDisplayPathProp.set(false);
+		shouldDisplayPathProp.set(true);
 		isInGameProp.set(false);
 		isInGameProp.set(true);
 		nextWaveAvailableProp.set(false);

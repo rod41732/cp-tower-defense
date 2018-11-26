@@ -221,6 +221,12 @@ public class GameManager {
 		return endTilePos;
 	}
 
+	public void setSelectedTile(Tile selectedTile) {
+		this.selectedTile = selectedTile;
+	}
+
+	
+
 	
 }
 

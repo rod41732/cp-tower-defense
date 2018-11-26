@@ -103,7 +103,7 @@ public class GameButton {
 		toggleGroup.selectedToggleProperty().addListener((obs, old, nw) -> {
 			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
 			boolean isPlacing = nw != null;
-
+			GameManager.getInstance().setSelectedTile(null);
 			pauseButton.setDisable(paused || isPlacing);
 			nextButton.setDisable(paused || isPlacing);
 			

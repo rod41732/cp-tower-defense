@@ -7,11 +7,13 @@ import constants.Numbers;
 import constants.Other;
 import controller.SuperManager;
 import controller.game.GameManager;
+import controller.game.MonsterSpawner;
 import exceptions.FullyUpgradedException;
 import exceptions.PathBlockedException;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.Tile;
 import model.Tower;
@@ -21,33 +23,44 @@ public class GameUI {
 	
 	// TODO: use buttons to check click (custom image buttons)
 	private static double LEFT = 1344;
-	private static RichTextBox towerInfoPanel = new RichTextBox(new ArrayList<>(), LEFT, 320);
-	private static RichTextBox upgradeInfo = new RichTextBox(new ArrayList<>(), LEFT, 515);
+	private static TowerInfoPanel towerInfoPanel = new TowerInfoPanel();
+	private static TowerInfoPanel upgradeInfoPanel = new TowerInfoPanel();
+	
+	private static IconText levelPanel, moneyPanel, livePanel;
+	
+	
 	
 	private static cpp.pii lastPos = new cpp.pii(-1, -1);
 	private static cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 	private static boolean isError = false;
-	public static void render(GraphicsContext otherGC, GraphicsContext overlayGC) {
+	static {
+		levelPanel = new IconText(Images.attackIcon, "Level 9999", Other.normalButtonFont);
+		moneyPanel = new IconText(Images.coinIcon, "Money " + GameManager.getInstance().getMoney(), Other.normalButtonFont);
+		livePanel = new IconText(Images.liveIcon, "Live " + GameManager.getInstance().getLives(), Other.normalButtonFont);
+	}
+	
+	
+	public static void addinfo(Pane pane) {
+		pane.getChildren().addAll(levelPanel, moneyPanel, livePanel);
+	}
+	
+	public static void mountPanel(Pane pane) {
+		pane.getChildren().addAll(towerInfoPanel, upgradeInfoPanel);
+	}
+	
+	public static void render(GraphicsContext otherGC) {
 		
 		Tile t = GameManager.getInstance().getSelectedTile();
 		Tile t2 = GameManager.getInstance().createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
-				
-		
-		
+			
+//		levelPanel.setText);
+		moneyPanel.setText("Money " + GameManager.getInstance().getMoney());
+		livePanel.setText("Live" + GameManager.getInstance().getLives());
 		if (t != null && t instanceof Tower)
-			renderTowerInfo(overlayGC, t, true);
+			updateTowerInfo(t, true);
 		else if (t2 != null)
-			renderTowerInfo(overlayGC, t2, false);
-		
-		overlayGC.setTextBaseline(VPos.BOTTOM);
-		overlayGC.setFont(Other.normalButtonFont);
-		overlayGC.drawImage(Images.attackIcon, 4, 4);
-		overlayGC.fillText("Level 1", 50, 40);
-		overlayGC.drawImage(Images.coinIcon, 224, 4);
-		overlayGC.fillText("$ " + GameManager.getInstance().getMoney(), 260, 40);
-		overlayGC.drawImage(Images.liveIcon, 444, 4);
-		overlayGC.fillText("" + GameManager.getInstance().getLives() , 480, 40);
-		
+			updateTowerInfo(t2, false);
+
 		
 		
 		GameManager gm = GameManager.getInstance();
@@ -104,37 +117,23 @@ public class GameUI {
 	}
 
 	
-	public static void renderTowerInfo(GraphicsContext gc, Tile t, boolean showUpgrade) {
+	public static void updateTowerInfo(Tile t, boolean showUpgrade) {
 
-
-		gc.drawImage(Images.towerInfoPanel, LEFT, 320);
-		ArrayList<String> texts = new ArrayList<>();
 		Tower tw = (Tower)t;
-		texts.add(""+tw.toString());
-		texts.add(""+tw.getAttack() + " DPS");
-		texts.add(""+tw.getRange() + " Tile");
-		texts.add(""+tw.getAttackCooldown() + " ms");
-		texts.add(""+tw.getDescription());
-		towerInfoPanel.setTexts(texts);
+		towerInfoPanel.setTexts(tw.toString(), tw.getAttack() + "DPS", tw.getAttackCooldown() + " ms",  tw.getRange() + "tiles", tw.getDescription());
 		
-		towerInfoPanel.render(gc);
-		
- 		texts.clear();
-		texts.add(""+tw.toString());
-
-		gc.drawImage(Images.towerInfoPanel, LEFT, 515 );
-		try {
-			if (!showUpgrade) throw new FullyUpgradedException(); // TODO: hacky
-			if (!tw.canUpgrade()) throw new FullyUpgradedException();
-			texts.add(""+tw.getUpgradedAttack() + " DPS");
-			texts.add(""+tw.getUpgradedRange() + " Tile");
-			texts.add(""+tw.getUpgradedAttackCooldown() + " ms");
-			texts.add(""+tw.getUpgradedDescription() + " ms");	
-			upgradeInfo.setTexts(texts);
-			upgradeInfo.render(gc);
+		if (!showUpgrade) {
+			upgradeInfoPanel.setTexts(tw.toString(), "--", "--", "--", "Fully Upgraded");
 		}
-		catch (FullyUpgradedException e) {
-			
+		else {
+			try {
+				if (!tw.canUpgrade()) throw new FullyUpgradedException();
+				upgradeInfoPanel.setTexts(tw.toString(), tw.getUpgradedAttack() + "DPS", tw.getUpgradedAttackCooldown() + " ms"
+						,  tw.getUpgradedRange() + "tiles", tw.getUpgradedDescription());
+			}
+			catch (FullyUpgradedException e) {
+				upgradeInfoPanel.setTexts(tw.toString(), "--", "--", "--", "Fully Upgraded");
+			}			
 		}
 	}
 	

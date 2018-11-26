@@ -19,7 +19,7 @@ import model.Projectile;
 import model.TileStack;
 import model.Tower;
 import ui.PauseMenu;
-import ui.RichTextBox;
+import ui.TowerInfoPanel;
 import ui.SnackBar;
 import ui.GameUI;
 import util.cpp;
@@ -70,7 +70,6 @@ public class Renderer {
 		otherGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		tileGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		overlayGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		overlayGC.drawImage(Images.frame, 0, 0);
 		for (TileStack[] col: gm.placedTiles) 
 			for (TileStack ts: col) {
 				ts.render(otherGC, tileGC);
@@ -108,7 +107,7 @@ public class Renderer {
 		
 
 		otherGC.setFont(Font.font("Consolas", 20));;
-		GameUI.render(otherGC, overlayGC);
+		GameUI.render(otherGC);
 		PauseMenu.render(overlayGC);
 		SnackBar.render(overlayGC);
 	}

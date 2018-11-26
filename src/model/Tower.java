@@ -238,7 +238,7 @@ public abstract class Tower extends Tile {
 	}
 	
 	public String toString() {
-		return TOWER_NAME + " " + getPosition();
+		return TOWER_NAME;
 	}
 	
 	public String description() {

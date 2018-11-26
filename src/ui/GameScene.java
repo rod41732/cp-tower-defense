@@ -8,8 +8,10 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -47,7 +49,6 @@ public class GameScene extends Scene {
 		Canvas tiles = new Canvas(Numbers.COLUMNS*Numbers.TILE_SIZE, Numbers.ROWS*Numbers.TILE_SIZE);
 		Canvas overlay = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gameArea.getChildren().addAll(tiles, other);
-		root.getChildren().add(overlay);
 		
 		TilePane towerChoices = new TilePane();
 		towerChoices.setPrefRows(3);
@@ -56,11 +57,17 @@ public class GameScene extends Scene {
 		
 		buttonManager = new GameButton();
 		buttonManager.addControlButton(bottomBar);
-		buttonManager.addMenuButtons(root);
 		buttonManager.addTowerButtons(towerChoices);
-		buttonManager.addUpgradeButton(menus); // 
+		GameUI.mountPanel(menus);
+		buttonManager.addUpgradeButton(menus); //
+		buttonManager.addMenuButtons(root);
+		GameUI.addinfo(topbar);
+		topbar.setAlignment(Pos.CENTER_LEFT);
+		
+		
 		
 		root.getChildren().add(main);
+		root.getChildren().add(overlay);
 		
 		overlay.setMouseTransparent(true);
 		tiles.setMouseTransparent(true);
