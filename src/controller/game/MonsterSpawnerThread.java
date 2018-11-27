@@ -15,14 +15,13 @@ public class MonsterSpawnerThread extends Thread {
 				while (true) {
 					try {
 						Thread.sleep(16);
-						MonsterSpawningSequence top = jobs.peek();
+						MonsterSpawningSequence top = jobs.poll();
 						if (top == null) continue;
 						System.out.println("[Monster Thread] running job");
 						top.start();
 						currentJob = top;
 						top.join();
 						currentJob = null;
-						jobs.remove(); // only remove jobs when done
 					}
 					catch (InterruptedException e) {
 						System.out.println("monster spawner interrupted");
@@ -45,11 +44,13 @@ public class MonsterSpawnerThread extends Thread {
 	}
 	
 	public static boolean isIdle() {
-		return jobs.isEmpty();
+		return jobs.isEmpty() && currentJob == null;
 	}
-	
-	public static void cancelAll() {
-		currentJob.interrupt();
+		
+	public static void cancelAll() { // cancel all = cancel whole wave
+		if (currentJob != null) {
+			currentJob.interrupt();			
+		}
 		jobs.clear();
 	}
 }

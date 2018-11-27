@@ -58,8 +58,7 @@ public class MonsterSpawner {
 	}
 	
 	public void cancelWave() {
-//		isReady = true;
-//		stage.stop();
+		MonsterSpawnerThread.cancelAll();
 	}
 	
 	public void resumeWave() {
@@ -68,7 +67,7 @@ public class MonsterSpawner {
 	}
 	
 	public void reset() {
-		
+		index = 0;
 	}
 	
 	
