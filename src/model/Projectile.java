@@ -40,9 +40,7 @@ public abstract class Projectile extends Entity implements IExpirable {
 	public void move() {
 		x += vx/60;
 		y += vy/60;
-		// TODO: fix temp code
 		this.rotation = Math.toDegrees(Math.atan2(vy, vx));
-		rotation -= 90;
 		distance += GameUtil.distance(0, 0, vx/60, vy/60);
 	}
 	
