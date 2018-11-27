@@ -62,8 +62,7 @@ public class Algorithm2 {
 		}
 		
 		if (pred[toCol][toRow] == null) {
-			System.out.printf("pred is %s\n", pred[toCol][toRow]);
-			throw new PathBlockedException(); // TODO: Change to my except;
+			throw new PathBlockedException(); 
 		}
 		return pred;
 	}

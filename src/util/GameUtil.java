@@ -30,5 +30,6 @@ public class GameUtil {
 				x*Math.sin(Math.toRadians(degree)) + y*Math.cos(Math.toRadians(degree)));
 		return v;
 	}
+	
 }
 

@@ -72,7 +72,8 @@ public class Updater {
 			Projectile p = gm.projectiles.get(i);
 			p.onTick();
 		}
-		for (Monster m: gm.monsters) {
+		for (int i=gm.monsters.size()-1; i>=0; i--) {
+			Monster m = gm.monsters.get(i);
 			m.onTick();
 			if (m.getPosition().containedBy(gm.endTilePos)) {
 				m.forceKill();

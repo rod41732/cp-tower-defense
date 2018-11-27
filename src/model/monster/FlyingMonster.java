@@ -41,6 +41,6 @@ public class FlyingMonster extends Monster {
 	public String toString() {
 		return super.toString() + "- Flying";
 	}
-	
+		
 	
 }

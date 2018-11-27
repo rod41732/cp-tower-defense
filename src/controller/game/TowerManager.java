@@ -57,7 +57,7 @@ public class TowerManager {
 
 
 	public boolean canUpgrade() {
-		return gm.selectedTile != null && ((Tower)gm.selectedTile).getPrice() <= gm.money;
+		return gm.selectedTile != null && ((Tower)gm.selectedTile).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTile).getUpgradePrice() >= 0;
 	}
 
 	public boolean canSell() {

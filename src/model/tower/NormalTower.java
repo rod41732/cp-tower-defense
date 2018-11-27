@@ -46,8 +46,6 @@ public class NormalTower extends Tower {
 	public void fire() {
 		if (currentTarget == null) return;
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
-//		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
-//				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		rotateTo(currentTarget);
 		if (level < 5) {
 		GameManager.getInstance().addProjectile(new 

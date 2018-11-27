@@ -75,7 +75,11 @@ public class Renderer {
 				ts.render(otherGC, tileGC);
 			}
 		
-		for (Monster m: gm.monsters) m.render(otherGC);
+		for (int i=gm.monsters.size()-1; i>=0; i--) {
+			Monster m = gm.monsters.get(i);
+
+			m.render(otherGC);
+		}
 		for (Projectile p: gm.projectiles) p.render(otherGC);
 		for (Particle p: gm.particles) p.render(otherGC);
 		

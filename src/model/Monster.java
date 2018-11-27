@@ -8,7 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
-public abstract class Monster extends Entity {
+public abstract class Monster extends Entity implements Cloneable{
 	
 	
 	protected double maxHealth;
@@ -153,4 +153,16 @@ public abstract class Monster extends Entity {
 				return true;
 		return false;
 	}
+	
+	
+	public Object clone(){
+		try {
+			return super.clone();			
+		}
+		catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			throw new InternalError();
+		}
+	}
+	
 }

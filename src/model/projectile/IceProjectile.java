@@ -32,7 +32,7 @@ public class IceProjectile extends NormalProjectile {
 			GameManager.getInstance().spawnParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
 				if (ms.distanceTo(impact.first, impact.second) <= splashRadius+ms.getSize()) {
-					ms.addBuff(new MoveSpeedBuff(2000, slowness));
+					ms.addBuff(new MoveSpeedBuff(2000, -slowness));
 				}
 			}
 			forceExpire();

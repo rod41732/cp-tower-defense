@@ -1,19 +1,15 @@
 package controller.game;
 
+import java.util.ArrayList;
+
 import constants.Images;
-import controller.SuperManager;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
+import model.Monster;
 import model.monster.GroundMonster;
 import util.cpp;
 
 public class MonsterSpawner {
 	
 	private static MonsterSpawner instance = new MonsterSpawner();
-	private Timeline stage;
-	private int level = 0;
-	private boolean isReady = true;
 	private GameManager gm;
 
 	
@@ -21,61 +17,32 @@ public class MonsterSpawner {
 		this.gm = gm;
 	}
 	
-	public MonsterSpawner() {
-		
-		stage = new Timeline();
-		stage.getKeyFrames().add(new KeyFrame(Duration.seconds(1./3), e ->  {
-			cpp.pii startTile = gm.startTilePos;
-			gm.updater.spawnMonster(new GroundMonster("Bear", Images.bear, startTile.first+0.5, startTile.second+0.5,
-					0.3, 60, 1.5, 3, 10));
-		}));
-		stage.setOnFinished(e -> {
-			isReady = true;
-			if (level == 3) {
-				SuperManager.getInstance().getGameStateProp().set(2);				
-			}
-		});
-		stage.setCycleCount(20);
+	public MonsterSpawner() {	
+//		pii tile = gm.getStartTilePos();	
+	}
 	
-		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
-			boolean pause = nw.booleanValue();
-			boolean inGame = SuperManager.getInstance().getIsInGameProp().get();
-			if (!pause && inGame) {
-				resumeWave();				
-			}
-			else {
-				pauseWave();
-			}
-		});
-		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
-			boolean inGame = nw.booleanValue();
-			boolean pause = SuperManager.getInstance().getIsGamePausedProp().get();
-			if (!pause && inGame) {
-				resumeWave();				
-			}
-			else {
-				pauseWave();
-			}
-		});
-	}
+	
+	
+	
 	public void nextWave() {
-		isReady = false;
-		level += 1; 
-		stage.play();
-	}
+		cpp.pii tile = gm.getStartTilePos();
+		ArrayList<Monster> mons = new ArrayList<>();
+		mons.add(new GroundMonster("brea", Images.bear, tile.first+0.5, tile.second+0.5, 0.5, 60, 1.5, 1.5, 3));
+		MonsterSpawningSequence seq1 = new MonsterSpawningSequence(200000, 1000, mons, 30);
+		MonsterSpawnerThread.addSequence(seq1);}
 	
 	public void pauseWave() {
-		stage.pause();
+//		stage.pause();
 	}
 	
 	public void cancelWave() {
-		isReady = true;
-		stage.stop();
+//		isReady = true;
+//		stage.stop();
 	}
 	
 	public void resumeWave() {
-		if (!isReady) 
-			stage.play();
+//		if (!isReady) 
+//			stage.play();
 	}
 	
 	public void reset() {
@@ -84,7 +51,7 @@ public class MonsterSpawner {
 	
 	
 	public boolean isReady() {
-		return isReady;
+		return MonsterSpawnerThread.isIdle();
 	}
 	
 	public static MonsterSpawner getInstace() {
@@ -92,3 +59,4 @@ public class MonsterSpawner {
 	}
 	
 }
+
