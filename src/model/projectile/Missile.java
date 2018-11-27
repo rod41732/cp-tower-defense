@@ -24,7 +24,7 @@ public class Missile extends NormalProjectile {
 			cpp.pff impact = m.getPosition();
 			GameManager.getInstance().spawnParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
-				if (distanceTo(impact.first, impact.second) < ms.getSize()+radius) {
+				if (ms.distanceTo(impact.first, impact.second) < ms.getSize()+radius) {
 					ms.takeDamage(damage);
 				}
 			}
