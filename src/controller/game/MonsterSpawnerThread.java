@@ -6,7 +6,7 @@ public class MonsterSpawnerThread extends Thread {
 	
 	private static MonsterSpawnerThread instance = new MonsterSpawnerThread();	
 	private static ConcurrentLinkedQueue<MonsterSpawningSequence> jobs = new ConcurrentLinkedQueue<>();
-	
+	private static MonsterSpawningSequence currentJob;
 	public MonsterSpawnerThread() {
 		super(new Runnable() {
 			
@@ -18,8 +18,10 @@ public class MonsterSpawnerThread extends Thread {
 						MonsterSpawningSequence top = jobs.peek();
 						if (top == null) continue;
 						System.out.println("[Monster Thread] running job");
-						top.run();
+						top.start();
+						currentJob = top;
 						top.join();
+						currentJob = null;
 						jobs.remove(); // only remove jobs when done
 					}
 					catch (InterruptedException e) {
@@ -44,6 +46,11 @@ public class MonsterSpawnerThread extends Thread {
 	
 	public static boolean isIdle() {
 		return jobs.isEmpty();
+	}
+	
+	public static void cancelAll() {
+		currentJob.interrupt();
+		jobs.clear();
 	}
 }
 
