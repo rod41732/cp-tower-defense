@@ -60,14 +60,19 @@ public class Images {
 	public static Image map1Preview = new Image("map/map1.png", 335, 207, false, true);
 	
 	
+	public static Image normalTowerFlash = new Image("particle/flare.png", 28, 16, true, true);
+	
 	
 	public static final Image[] explosion = new Image[16];
 	public static final Image[] flame = new Image[16];
+	public static final Image[] smoke = new Image[9];
 	
 	static {
 		for (int i=0; i<16; i++)
 			explosion[i] = new Image("animation/explosion/"+i+".png", 96, 96, true, true);
 		for (int i=0; i<16; i++)
 			flame[i] = new Image("animation/flame/"+i+".png", 96, 96, true, true);
+		for (int i=0; i<9; i++)
+			smoke[i] = new Image("animation/smoke/"+i+".png", 96, 96, true, true);
 	}
 }

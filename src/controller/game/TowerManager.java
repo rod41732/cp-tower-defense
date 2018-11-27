@@ -1,7 +1,9 @@
 package controller.game;
 
+import constants.Images;
 import constants.Numbers;
 import exceptions.FullyUpgradedException;
+import model.Particle;
 import model.Tile;
 import model.Tower;
 import model.tower.BombTower;
@@ -68,6 +70,7 @@ public class TowerManager {
 				int price = twr.getUpgradePrice();
 				twr.upgrade();		
 				gm.money -= price;
+				gm.spawnParticle(new Particle(Images.smoke, twr.getX(), twr.getY(), 0, 0, 500));
 			}
 			catch (FullyUpgradedException e) {
 				SnackBar.play("Already Fully upgraded");

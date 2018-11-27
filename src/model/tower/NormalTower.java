@@ -5,6 +5,8 @@ import constants.Images;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
+import model.FadingParticle;
+import model.Particle;
 import model.Tower;
 import model.projectile.NormalProjectile;
 import model.projectile.SplittingProjectile;
@@ -50,7 +52,9 @@ public class NormalTower extends Tower {
 		if (level < 5) {
 		GameManager.getInstance().addProjectile(new 
 				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10));
-			
+				Particle p = new FadingParticle(Images.normalTowerFlash, x+v.first*0.6 , y+v.second*0.6, 0, 0, 300);
+				p.rotateTo(currentTarget);
+				GameManager.getInstance().spawnParticle(p);
 		}
 		else {
 			GameManager.getInstance().addProjectile(new 

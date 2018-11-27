@@ -15,12 +15,20 @@ public class Particle extends Entity implements IExpirable {
 	protected int nFrames;
 
 	
-	
 	public Particle(Image[] images, double x, double y, double vx, double vy, double maxAge) {
 		super(images[0], x, y, 0.0);
 		this.frames = images;
 		this.age = 0;
 		this.nFrames = images.length;
+		this.frameCount = 0;
+		this.maxAge = maxAge;
+	}
+	
+	public Particle(Image image, double x, double y, double vx, double vy, double maxAge) {
+		super(image, x, y, 0.0);
+		this.frames = new Image[] {image};
+		this.age = 0;
+		this.nFrames = frames.length;
 		this.frameCount = 0;
 		this.maxAge = maxAge;
 	}
