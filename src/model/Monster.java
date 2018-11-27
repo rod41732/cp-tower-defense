@@ -51,9 +51,9 @@ public abstract class Monster extends Entity {
 		else {
 			super.render(gc);			
 		}
-		gc.setFill(Color.GREEN);
+		gc.setFill(Color.color(0, 1, 0));
 		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*100, 3);
-		gc.setFill(Color.RED);
+		gc.setFill(Color.color(1, 0, 0));
 		gc.fillRect(getRenderX()+health/maxHealth*100, getRenderY()-10, 100-health/maxHealth*100, 3);
 	}
 	
