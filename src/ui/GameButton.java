@@ -152,6 +152,12 @@ public class GameButton {
 			}
 		});
 		
+		SuperManager.getInstance().getGameStateProp().addListener((obs, old, nw) -> {
+			boolean gameOver = nw.intValue() != 0;
+			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
+			resumeButton.setVisible(paused && !gameOver);
+		});
+		
 	
 	}
 	
