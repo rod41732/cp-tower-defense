@@ -64,7 +64,7 @@ public class Handler {
 	
 				// selected => try build
 			if (!gm.selectedTile.isPlaceable()) {
-				throw new Exception("already something on tile");
+				throw new UnplaceableException();
 			}
 			
 			if (t.getPrice() > gm.money) {
