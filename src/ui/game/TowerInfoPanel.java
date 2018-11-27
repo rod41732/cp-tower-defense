@@ -1,4 +1,4 @@
-package ui;
+package ui.game;
 
 import constants.Images;
 import javafx.scene.layout.Background;
@@ -8,6 +8,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import ui.component.IconText;
 
 
 public class TowerInfoPanel extends VBox {

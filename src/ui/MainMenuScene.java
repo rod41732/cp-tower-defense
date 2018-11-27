@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 import main.Main;
+import ui.component.ButtonMaker;
 
 public class MainMenuScene extends Scene {
 	

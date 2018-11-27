@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import main.Main;
+import ui.component.ButtonMaker;
 
 public class MapSelectionMenu extends Pane{
 	

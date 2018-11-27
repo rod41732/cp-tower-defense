@@ -19,9 +19,9 @@ import model.Projectile;
 import model.TileStack;
 import model.Tower;
 import ui.PauseMenu;
-import ui.TowerInfoPanel;
 import ui.SnackBar;
-import ui.GameUI;
+import ui.game.GameUI;
+import ui.game.TowerInfoPanel;
 import util.cpp;
 
 public class Renderer {

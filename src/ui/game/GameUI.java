@@ -1,4 +1,4 @@
-package ui;
+package ui.game;
 
 import java.util.ArrayList;
 
@@ -17,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.Tile;
 import model.Tower;
+import ui.component.IconText;
 import util.Algorithm2;
 import util.cpp;
 public class GameUI {

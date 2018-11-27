@@ -19,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import ui.game.GameUI;
 
 public class GameScene extends Scene {
 	private GameButton buttonManager;
