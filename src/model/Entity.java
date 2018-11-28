@@ -79,6 +79,23 @@ public class Entity {
 	
 	
 	
+	
+	public double getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(double rotation) {
+		this.rotation = rotation;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
 	public double getSize() {
 		return size;
 	}

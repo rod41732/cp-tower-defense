@@ -7,6 +7,7 @@ import buff.MoveSpeedBuff;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import util.GameUtil;
 
 public abstract class Monster extends Entity implements Cloneable{
 	
@@ -66,6 +67,7 @@ public abstract class Monster extends Entity implements Cloneable{
 	}
 	
 	public void move() {
+		setRotation(Math.toDegrees(Math.atan2(vy, vx)));
 		x += vx*Math.max(moveSpeedMultiplier, 0.1)/60;
 		y += vy*Math.max(moveSpeedMultiplier, 0.1)/60;
 	}

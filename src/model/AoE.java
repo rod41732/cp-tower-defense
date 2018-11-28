@@ -18,7 +18,7 @@ public class AoE extends Particle {
 	public void onTick() {
 		super.onTick();
 		for (Monster m: GameManager.getInstance().getMonsters()) {
-			if (this.isCollideWith(m)) {
+			if (this.isCollideWith(m) && m.isAffectedByGround()) {
 				m.takePureDamage(damage/60);
 			}
 		}

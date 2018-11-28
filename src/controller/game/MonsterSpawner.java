@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import constants.Images;
 import model.Monster;
+import model.monster.Boss1;
 import model.monster.FlyingMonster;
 import model.monster.GroundMonster;
 import util.cpp;
@@ -26,7 +27,7 @@ public class MonsterSpawner {
 							),
 					// like above but with differnt set of monster
 					new MonsterSpawningSequence(500000, 100000, i+1, // part 2 of wave
-							new GroundMonster("Fly", Images.moose, 5, 5, 0.2, 30, 5, 0.3, 5),
+							new Boss1(5, 5),
 							new GroundMonster("Fly", Images.moose, 5, 5, 0.2, 30, 5, 0.8, 5)
 							)); // .. there can be more
 			
