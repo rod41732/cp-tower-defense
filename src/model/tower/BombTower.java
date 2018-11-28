@@ -5,6 +5,7 @@ import constants.Images;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
+import model.Monster;
 import model.Tower;
 import model.projectile.Missile;
 import util.GameUtil;
@@ -31,6 +32,9 @@ public class BombTower extends Tower {
 		this.splashRadius = SPLASH_RADIUS_VALUES[0];
 	}
 
+	
+	
+	
 	@Override
 	public void upgrade() throws FullyUpgradedException {
 		if (level == 5) {
@@ -56,6 +60,11 @@ public class BombTower extends Tower {
 		currentCooldown = attackCooldown;
 	}
 	
+	
+	@Override
+	public boolean isInRange(Monster m) {
+		return super.isInRange(m) && m.isAffectedByGround();
+	}
 	
 	@Override
 	public String description() {

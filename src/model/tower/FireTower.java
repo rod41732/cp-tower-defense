@@ -5,6 +5,7 @@ import constants.Images;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
+import model.Monster;
 import model.Tower;
 import model.projectile.FireProjectile;
 import util.GameUtil;
@@ -62,6 +63,11 @@ public class FireTower extends Tower {
 	@Override
 	public int getUpgradePrice() {
 		return PRICE_VALUES[level];
+	}
+	
+	@Override
+	public boolean isInRange(Monster m) {
+		return super.isInRange(m) && m.isAffectedByGround();
 	}
 	
 	public void fire() {
