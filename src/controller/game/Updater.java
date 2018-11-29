@@ -65,12 +65,14 @@ public class Updater {
 			else 
 				Main.getGameScene().getButtonManager().setUpgradeText("$ " + price);
 		}
-		for (Particle p: gm.particles) p.onTick();
+		for (int i=gm.particles.size()-1; i>=0; i--) {
+			gm.particles.get(i).onTick();
+		}
 		for (Tower t: gm.towers) t.onTick();
-		int n = gm.projectiles.size();
-		for (int i=n-1; i>=0; i--) {
-			Projectile p = gm.projectiles.get(i);
-			p.onTick();
+		
+		
+		for (int i=gm.projectiles.size()-1; i>=0; i--) {
+			gm.projectiles.get(i).onTick();
 		}
 		for (int i=gm.monsters.size()-1; i>=0; i--) {
 			Monster m = gm.monsters.get(i);

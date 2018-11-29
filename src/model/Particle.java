@@ -13,11 +13,14 @@ public class Particle extends Entity implements IExpirable {
 	protected double age;
 	protected int frameCount;
 	protected int nFrames;
-
+	
+	protected boolean isExpired;
 	
 	public Particle(Image[] images, double x, double y, double vx, double vy, double maxAge) {
 		super(images[0], x, y, 0.0);
 		this.frames = images;
+		this.vx = vx;
+		this.vy = vy;
 		this.age = 0;
 		this.nFrames = images.length;
 		this.frameCount = 0;
@@ -25,12 +28,7 @@ public class Particle extends Entity implements IExpirable {
 	}
 	
 	public Particle(Image image, double x, double y, double vx, double vy, double maxAge) {
-		super(image, x, y, 0.0);
-		this.frames = new Image[] {image};
-		this.age = 0;
-		this.nFrames = frames.length;
-		this.frameCount = 0;
-		this.maxAge = maxAge;
+		this(new Image[]{image}, x, y, vx, vy, maxAge);
 	}
 	
 	public void onTick() {
@@ -57,7 +55,11 @@ public class Particle extends Entity implements IExpirable {
 	
 	@Override
 	public boolean isExpired() {
-		return age > maxAge;
+		return isExpired || age > maxAge ;
+	}
+	
+	public void forceExpire() {
+		isExpired = true;
 	}
 
 }

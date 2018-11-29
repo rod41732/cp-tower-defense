@@ -25,6 +25,8 @@ public class GameUtil {
 		return new cpp.pff((e2.getX()-e1.getX())/dist, (e2.getY()-e1.getY())/dist);
 	}
 	
+	
+	
 	public static cpp.pff rotateVector(double x, double y, double degree) {
 		cpp.pff v = new cpp.pff(x*Math.cos(Math.toRadians(degree)) - y*Math.sin(Math.toRadians(degree)),
 				x*Math.sin(Math.toRadians(degree)) + y*Math.cos(Math.toRadians(degree)));

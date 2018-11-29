@@ -70,6 +70,8 @@ public class Renderer {
 		otherGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		tileGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		overlayGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+		otherGC.setFill(Color.color(0, 0, 0, 0));
+		otherGC.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		for (TileStack[] col: gm.placedTiles) 
 			for (TileStack ts: col) {
 				ts.render(otherGC, tileGC);

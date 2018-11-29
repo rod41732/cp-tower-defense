@@ -4,10 +4,19 @@ import java.util.ArrayList;
 
 import buff.Buff;
 import buff.MoveSpeedBuff;
+import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import util.GameUtil;
+import util.cpp.pff;
 
 public abstract class Monster extends Entity implements Cloneable{
 	
@@ -20,7 +29,7 @@ public abstract class Monster extends Entity implements Cloneable{
 	protected double vy;
 	protected String name;
 	protected ArrayList<Buff> buffs = new ArrayList<>();
-	protected static Image coldImage = new Image("monster/bear_cold.png", 64, 64, true, true);
+
 	
 	
 	protected double moveSpeedMultiplier;
@@ -47,15 +56,29 @@ public abstract class Monster extends Entity implements Cloneable{
 	
 	public void render(GraphicsContext gc) {
 		if (hasBuff(new MoveSpeedBuff(1,1))) {
-			gc.drawImage(coldImage, getRenderX(), getRenderY());
+			WritableImage cold = new WritableImage((int)image.getWidth(), (int)image.getHeight());
+			PixelReader reader = image.getPixelReader();
+			PixelWriter writer = cold.getPixelWriter();
+			int w = (int)image.getWidth(), h = (int)image.getHeight();
+			for (int i=0; i<w; i++)
+				for (int j=0; j<h; j++) {
+					int argb = reader.getArgb(i, j);
+					argb |= 0xff; 
+					writer.setArgb(i, j, argb);
+				}
+			Image old = this.image;
+			this.image = cold;
+			super.render(gc);
+			this.image = old;
 		}
 		else {
-			super.render(gc);			
+			super.render(gc);					
 		}
+		
 		gc.setFill(Color.color(0, 1, 0));
-		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*100, 3);
+		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
 		gc.setFill(Color.color(1, 0, 0));
-		gc.fillRect(getRenderX()+health/maxHealth*100, getRenderY()-10, 100-health/maxHealth*100, 3);
+		gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 10);
 	}
 	
 	public void onTick() {
@@ -100,6 +123,13 @@ public abstract class Monster extends Entity implements Cloneable{
 		damage -= armor;
 		if (damage <= 0) return false;
 		health -= damage;
+		for (int i=0; i<20; i++) {
+			pff nv =  GameUtil.rotateVector(-vx, -vy, (Math.random()-0.5)*30);
+			double mult = 1.3/GameUtil.distance(vx, vy, 0, 0);
+			nv.first *= mult;
+			nv.second *= mult;
+			GameManager.getInstance().spawnParticle(new Blood(Color.RED, x, y, nv.first, nv.second, 500));
+		}
 		return true;
 	}
 	
