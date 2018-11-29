@@ -34,7 +34,7 @@ public class MapSelectionMenu extends Pane{
 		
 		ToggleGroup toggleGroup = new ToggleGroup();
 		newGameButton.setOnAction(e -> {
-			GameManager.getInstance().reset();
+			SuperManager.getInstance().onReset();
 			GameManager.getInstance().loadMap((int)toggleGroup.getSelectedToggle().getUserData());
 			SuperManager.getInstance().onResumeGame();
 			Main.getMainMenu().hideMapSelect();

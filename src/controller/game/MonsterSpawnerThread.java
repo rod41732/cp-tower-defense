@@ -18,10 +18,15 @@ public class MonsterSpawnerThread extends Thread {
 						MonsterSpawningSequence top = jobs.poll();
 						if (top == null) continue;
 						System.out.println("[Monster Thread] running job");
-						top.start();
-						currentJob = top;
-						top.join();
-						currentJob = null;
+						try {
+							top.run();							
+							currentJob = top;
+							top.join();
+							currentJob = null;
+						}
+						catch (IllegalThreadStateException e) {
+							
+						}
 					}
 					catch (InterruptedException e) {
 						System.out.println("monster spawner interrupted");
@@ -39,6 +44,15 @@ public class MonsterSpawnerThread extends Thread {
 		}
 	}
 	
+	public static void onGamePause() {
+		MonsterSpawningSequence.onGamePause();
+	}
+	
+	public static void onGameResume() {
+		MonsterSpawningSequence.onGameResume();
+	}
+	
+	
 	public static MonsterSpawnerThread getInstance() {
 		return instance;
 	}
@@ -47,10 +61,8 @@ public class MonsterSpawnerThread extends Thread {
 		return jobs.isEmpty() && currentJob == null;
 	}
 		
-	public static void cancelAll() { // cancel all = cancel whole wave
-		if (currentJob != null) {
-			currentJob.interrupt();			
-		}
+	public static void onGameReset() { 
+		MonsterSpawningSequence.onGameReset();
 		jobs.clear();
 	}
 }

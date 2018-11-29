@@ -27,7 +27,7 @@ public class MonsterSpawner {
 							),
 					// like above but with differnt set of monster
 					new MonsterSpawningSequence(500000, 100000, i+1, // part 2 of wave
-							new Boss1(5, 5),
+//							new Boss1(5, 5),
 							new GroundMonster("Fly", Images.moose, 5, 5, 0.2, 30, 5, 0.8, 5)
 							)); // .. there can be more
 			
@@ -59,19 +59,19 @@ public class MonsterSpawner {
 	}
 	
 	public void pauseWave() {
-//		stage.pause();
+		MonsterSpawnerThread.onGamePause();
 	}
 	
 	public void cancelWave() {
-		MonsterSpawnerThread.cancelAll();
+		MonsterSpawnerThread.onGameReset();
 	}
 	
 	public void resumeWave() {
-//		if (!isReady) 
-//			stage.play();
+		MonsterSpawnerThread.onGameResume();
 	}
 	
 	public void reset() {
+		cancelWave();
 		index = 0;
 	}
 	

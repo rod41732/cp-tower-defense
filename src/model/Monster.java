@@ -78,7 +78,7 @@ public abstract class Monster extends Entity implements Cloneable{
 		gc.setFill(Color.color(0, 1, 0));
 		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
 		gc.setFill(Color.color(1, 0, 0));
-		gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 10);
+		gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 20);
 	}
 	
 	public void onTick() {
