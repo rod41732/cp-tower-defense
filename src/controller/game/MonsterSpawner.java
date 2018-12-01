@@ -12,7 +12,6 @@ import util.cpp;
 public class MonsterSpawner {
 	
 	private static MonsterSpawner instance = new MonsterSpawner();
-	private GameManager gm;
 	private static ArrayList<MonsterSpawningStage> stages = new ArrayList<>(); 
 	private int index= 0;
 	static {
@@ -35,10 +34,7 @@ public class MonsterSpawner {
 		}
 	}
 	
-	
-	public void bindTo(GameManager gm) {
-		this.gm = gm;
-	}
+
 	
 	public MonsterSpawner() {	
 //		pii tile = gm.getStartTilePos();	
@@ -67,7 +63,8 @@ public class MonsterSpawner {
 	}
 	
 	public void resumeWave() {
-		MonsterSpawnerThread.onGameResume();	}
+		MonsterSpawnerThread.onGameResume();	
+	}
 	
 	public void reset() {
 		cancelWave();

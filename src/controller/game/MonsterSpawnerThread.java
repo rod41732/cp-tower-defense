@@ -7,12 +7,13 @@ public class MonsterSpawnerThread extends Thread {
 	private static MonsterSpawnerThread instance = new MonsterSpawnerThread();	
 	private static ConcurrentLinkedQueue<MonsterSpawningSequence> jobs = new ConcurrentLinkedQueue<>();
 	private static MonsterSpawningSequence currentJob;
+	private static boolean shouldBreak = false;
 	public MonsterSpawnerThread() {
 		super(new Runnable() {
 			
 			@Override
 			public void run() {
-				while (true) {
+				while (!shouldBreak) {
 					try {
 						Thread.sleep(16);
 						MonsterSpawningSequence top = jobs.poll();
@@ -30,6 +31,7 @@ public class MonsterSpawnerThread extends Thread {
 					}
 					catch (InterruptedException e) {
 						System.out.println("monster spawner interrupted");
+						break;
 					}
 				}
 				
@@ -61,8 +63,16 @@ public class MonsterSpawnerThread extends Thread {
 		return jobs.isEmpty() && currentJob == null;
 	}
 		
+	@Override
+	public void interrupt() {
+		shouldBreak = true;
+		super.interrupt();
+	}
+	
 	public static void onGameReset() { 
-		MonsterSpawningSequence.onGameReset();
+		if (currentJob != null) {
+			currentJob.interrupt();			
+		}
 		jobs.clear();
 	}
 }
