@@ -67,8 +67,7 @@ public class MonsterSpawner {
 	}
 	
 	public void resumeWave() {
-		MonsterSpawnerThread.onGameResume();
-	}
+		MonsterSpawnerThread.onGameResume();	}
 	
 	public void reset() {
 		cancelWave();

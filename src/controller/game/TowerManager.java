@@ -41,11 +41,8 @@ public class TowerManager {
 			if (!t.isSelectable()) return ; // don't remove that dansgame
 			gm.placedTiles[x][y].pop();
 			if (t instanceof Tower) {
-				for (int i=0; i<gm.towers.size(); i++)
-					if (t == gm.towers.get(i)) {
-						gm.towers.remove(i);
-						break;
-					}
+				gm.towers.remove(t);
+				gm.renderables.remove(t);
 			}
 			gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
 		}
@@ -70,7 +67,7 @@ public class TowerManager {
 				int price = twr.getUpgradePrice();
 				twr.upgrade();		
 				gm.money -= price;
-				gm.spawnParticle(new Particle(Images.smoke, twr.getX(), twr.getY(), 0, 0, 500));
+				gm.addParticle(new Particle(Images.smoke, twr.getX(), twr.getY(), 0, 0, 500));
 			}
 			catch (FullyUpgradedException e) {
 				SnackBar.play("Already Fully upgraded");

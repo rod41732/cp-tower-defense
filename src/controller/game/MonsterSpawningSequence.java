@@ -32,7 +32,7 @@ public class MonsterSpawningSequence extends Thread {
 							}
 							if (shouldBreak) break;
 							System.out.println("spawned " + i);
-							GameManager.getInstance().getMonsters().add((Monster) m.clone());
+							GameManager.getInstance().addMonster((Monster) m.clone());
 						}		
 					}
 					catch (InterruptedException e) {
@@ -61,7 +61,7 @@ public class MonsterSpawningSequence extends Thread {
 							}
 							if (shouldBreak) break;
 							System.out.println("spawned " + i);
-							GameManager.getInstance().getMonsters().add((Monster) m.clone());
+							GameManager.getInstance().addMonster((Monster) m.clone());
 						}		
 					}
 					catch (InterruptedException e) {

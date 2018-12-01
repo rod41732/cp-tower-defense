@@ -27,7 +27,7 @@ public class FireProjectile extends NormalProjectile {
 		if (shouldCollide(m)) {
 			cpp.pff impact = m.getPosition();
 			m.takeDamage(damage);
-			GameManager.getInstance().spawnParticle(new AoE(Images.flame, impact.first, impact.second, 0, 0, 1000, 0.5, fireDamage));
+			GameManager.getInstance().addParticle(new AoE(Images.flame, impact.first, impact.second, 0, 0, 1000, 0.5, fireDamage));
 			forceExpire();
 		}
 		return isExpired();

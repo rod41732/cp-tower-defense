@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+import model.Entity;
 import model.Monster;
 import model.Particle;
 import model.Projectile;
@@ -22,6 +23,7 @@ import ui.PauseMenu;
 import ui.SnackBar;
 import ui.game.GameUI;
 import ui.game.TowerInfoPanel;
+import util.GameUtil;
 import util.cpp;
 
 public class Renderer {
@@ -72,17 +74,21 @@ public class Renderer {
 		overlayGC.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		otherGC.setFill(Color.color(0, 0, 0, 0));
 		otherGC.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		for (TileStack[] col: gm.placedTiles) 
-			for (TileStack ts: col) {
-				ts.render(otherGC, tileGC);
-			}
-		
-		for (int i=gm.monsters.size()-1; i>=0; i--) {
-			Monster m = gm.monsters.get(i);
-			m.render(otherGC);
+//		for (TileStack[] col: gm.placedTiles) 
+//			for (TileStack ts: col) {
+//				ts.render(otherGC, tileGC);
+//			}
+//		
+//		for (int i=gm.monsters.size()-1; i>=0; i--) {
+//			Monster m = gm.monsters.get(i);
+//			m.render(otherGC);
+//		}
+//		for (Projectile p: gm.projectiles) p.render(otherGC);
+//		for (Particle p: gm.particles) p.render(otherGC);
+		gm.renderables.sort(new GameUtil.ZIndexComparator());
+		for (Entity ent: gm.renderables) {
+			ent.render(otherGC);
 		}
-		for (Projectile p: gm.projectiles) p.render(otherGC);
-		for (Particle p: gm.particles) p.render(otherGC);
 		
 		if (SuperManager.getInstance().getTowerChoiceProp().get() == -1 ) {
 			if (SuperManager.getInstance().getShouldDisplayPathProp().get()) {

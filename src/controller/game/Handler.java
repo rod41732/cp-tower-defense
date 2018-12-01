@@ -75,6 +75,7 @@ public class Handler {
 			gm.placedTiles[x][y].push(t);
 			Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
 			gm.towers.add(t);
+			gm.renderables.add(t);
 			gm.money -= t.getPrice();
 			gm.selectedTile = t;
 		}

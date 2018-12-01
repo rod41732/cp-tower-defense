@@ -1,5 +1,7 @@
 package util;
 
+import java.util.Comparator;
+
 import model.Entity;
 
 public class GameUtil {
@@ -31,6 +33,15 @@ public class GameUtil {
 		cpp.pff v = new cpp.pff(x*Math.cos(Math.toRadians(degree)) - y*Math.sin(Math.toRadians(degree)),
 				x*Math.sin(Math.toRadians(degree)) + y*Math.cos(Math.toRadians(degree)));
 		return v;
+	}
+	
+	public static class ZIndexComparator implements Comparator<Entity> {
+
+		@Override
+		public int compare(Entity o1, Entity o2) {
+			return Double.compare(((Entity) o1).getzIndex(), ((Entity) o2).getzIndex());
+		}
+		
 	}
 	
 }

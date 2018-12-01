@@ -34,7 +34,7 @@ public class Blood extends Particle {
 			forceExpire();
 			Blood b = new Blood(Color.RED, x, y, 0, 0, 2500, 8);
 			b.isOnGround  = true;
-			GameManager.getInstance().spawnParticle(b);
+			GameManager.getInstance().addParticle(b);
 		}
 	}
 	

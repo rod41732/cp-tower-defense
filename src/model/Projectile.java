@@ -17,7 +17,7 @@ public abstract class Projectile extends Entity implements IExpirable {
 	
 	public Projectile(Image image, double x, double y,
 			double vx, double vy, double maxDistance) {
-		super(image, x, y, 0.3); // default size ?
+		super(image, x, y, 3, 0.3); // default size ?
 		this.vx = vx;
 		this.vy = vy;
 		this.maxDistance = maxDistance;

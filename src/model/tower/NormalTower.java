@@ -52,7 +52,7 @@ public class NormalTower extends Tower {
 				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10));
 				Particle p = new FadingParticle(Images.normalTowerFlash, x+v.first*0.6 , y+v.second*0.6, 0, 0, 300);
 				p.rotateTo(currentTarget);
-				GameManager.getInstance().spawnParticle(p);
+				GameManager.getInstance().addParticle(p);
 		}
 		else {
 			GameManager.getInstance().addProjectile(new 

@@ -42,7 +42,7 @@ public abstract class Monster extends Entity implements Cloneable{
 	
 	public Monster(String name, Image image, double x, double y,
 			double size, double maxHealth, double armor, double moveSpeed, int money) {
-		super(image, x, y, size);
+		super(image, x, y, 2, size);
 		this.maxHealth = this.health = maxHealth;
 		this.armor = armor;
 		this.name = name;
@@ -128,7 +128,7 @@ public abstract class Monster extends Entity implements Cloneable{
 			double mult = 1.3/GameUtil.distance(vx, vy, 0, 0);
 			nv.first *= mult;
 			nv.second *= mult;
-			GameManager.getInstance().spawnParticle(new Blood(Color.RED, x, y, nv.first, nv.second, 500));
+			GameManager.getInstance().addParticle(new Blood(Color.RED, x, y, nv.first, nv.second, 500));
 		}
 		return true;
 	}

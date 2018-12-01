@@ -19,15 +19,17 @@ public class Entity {
 	// position CG 
 	protected double x; 
 	protected double y;
+	protected double zIndex;
 	protected double size;
 	protected double rotation = 0;
 	
-	public Entity(Image image, double x, double y, double size) {
+	public Entity(Image image, double x, double y, double zIndex, double size) {
 		this.image = image;
 		this.w = image.getWidth();
 		this.h = image.getHeight();
 		this.x = x;
 		this.y = y;
+		this.zIndex = zIndex;
 		this.size = size;
 	}	
 
@@ -80,6 +82,14 @@ public class Entity {
 	
 	
 	
+	public double getzIndex() {
+		return zIndex;
+	}
+
+	public void setzIndex(double zIndex) {
+		this.zIndex = zIndex;
+	}
+
 	public double getRotation() {
 		return rotation;
 	}

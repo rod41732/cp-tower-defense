@@ -7,7 +7,7 @@ public class Tile extends Entity{
 	private double speedModifier;
 	private boolean isWalkable, isPlaceable;
 	public Tile(Image image, double x, double y, boolean isWalkable, boolean isPlaceable) {
-		super(image, x, y, 1);
+		super(image, x, y, 1, 1);
 		this.isWalkable = isWalkable;
 		this.isPlaceable = isPlaceable;
 	}
