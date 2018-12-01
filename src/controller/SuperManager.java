@@ -51,11 +51,7 @@ public class SuperManager {
 	public void onLeaveGame() {
 		isGamePausedProp.set(true);
 		isInGameProp.set(false);
-		Thread t = new Thread(() -> {
-			
-			
-		});
-	
+		Main.setScene(Main.getMainMenu());
 	}
 	
 	

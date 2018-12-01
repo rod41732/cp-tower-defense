@@ -47,12 +47,12 @@ public class GameScene extends Scene {
 		Pane overlayPane = new Pane();
 		
 		Canvas other = new Canvas(Numbers.COLUMNS*Numbers.TILE_SIZE, Numbers.ROWS*Numbers.TILE_SIZE);
-		Canvas tiles = new Canvas(Numbers.COLUMNS*Numbers.TILE_SIZE, Numbers.ROWS*Numbers.TILE_SIZE);
 		
 		Canvas overlay = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		gameArea.getChildren().addAll(tiles, other);
+		gameArea.getChildren().addAll(other);
 		
 		overlayPane.getChildren().add(overlay);
+		PauseMenu.setTargetGC(overlay.getGraphicsContext2D());
 		TilePane towerChoices = new TilePane();
 		towerChoices.setPrefRows(3);
 		towerChoices.setPrefColumns(3);
@@ -74,7 +74,7 @@ public class GameScene extends Scene {
 		
 		overlayPane.setMouseTransparent(true);
 		
-		GameManager.getInstance().setGC(other.getGraphicsContext2D(), tiles.getGraphicsContext2D(), overlay.getGraphicsContext2D());	
+		GameManager.getInstance().setGC(other.getGraphicsContext2D());	
 		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
 			boolean pause = nw.booleanValue();
 			if (pause) {

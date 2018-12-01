@@ -87,7 +87,10 @@ public class Updater {
 		// entity interaction
 		for (int i=gm.projectiles.size()-1; i>=0; i--) {
 			Projectile proj = gm.projectiles.get(i);
-			if (proj.isExpired()) gm.projectiles.remove(i);
+			if (proj.isExpired()) {
+				gm.renderables.remove(proj);
+				gm.projectiles.remove(i);
+			}
 			else
 			for (Monster m: gm.monsters) {
 				if (proj.collideWith(m)) {

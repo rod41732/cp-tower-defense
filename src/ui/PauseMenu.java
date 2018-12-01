@@ -13,13 +13,16 @@ public class PauseMenu {
 	private static String[] TEXTS = {"Paused", "Game Over", "You Win"};
 	
 	private static boolean isShown = false;
+	private static GraphicsContext gc;
+	
 	static {
 		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
 			boolean pause = nw.booleanValue();
 			isShown = pause;
 		});
 	}
-	public static void render(GraphicsContext gc) {
+	public static void render() {
+		gc.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_WIDTH);
 		if (isShown) {
 			gc.setFill(Color.color(0, 0, 0, 0.4));
 			gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_WIDTH);
@@ -31,6 +34,10 @@ public class PauseMenu {
 			gc.fillText(TEXTS[SuperManager.getInstance().getGameStateProp().get()], 800, 360);
 			gc.setTextAlign(TextAlignment.LEFT);
 		}
+	}
+	
+	public static void setTargetGC(GraphicsContext gc) {
+		PauseMenu.gc = gc;
 	}
 	
 	public static void handleMouseClick(MouseEvent e) {

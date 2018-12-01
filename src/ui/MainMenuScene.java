@@ -53,10 +53,12 @@ public class MainMenuScene extends Scene {
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
 			boolean inGame = nw.booleanValue();
 			if (!inGame) {
+				System.out.println("enter menu");
 				menuTick.play();
 				fadeIn();
 			}
 			else {
+				System.out.println("exit menu");
 				menuTick.pause();
 				fadeOut();
 			}
