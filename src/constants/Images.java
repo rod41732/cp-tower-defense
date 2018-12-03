@@ -18,6 +18,8 @@ public class Images {
 	
 	
 	public static Image normalTower = new Image("tower/tower1.png", 64, 64, true, true);
+	public static Image groundAttackTower = new Image("tower/tower2.png", 64, 64, true, true);
+	public static Image AirAttackTower = new Image("tower/tower3.png", 64, 64, true, true);
 	public static Image bombTower = new Image("tower/missile1.png", 64, 64, true, true);
 	public static Image fireTower = new Image("tower/flame.png", 64, 64, true, true);
 	public static Image iceTower = new Image("tower/ice.png", 64, 64, true, true);

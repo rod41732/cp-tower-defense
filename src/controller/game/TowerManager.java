@@ -6,8 +6,10 @@ import exceptions.FullyUpgradedException;
 import model.Particle;
 import model.Tile;
 import model.Tower;
+import model.tower.AirAttackTower;
 import model.tower.BombTower;
 import model.tower.FireTower;
+import model.tower.GroundAttackTower;
 import model.tower.IceTower;
 import model.tower.NormalTower;
 import ui.SnackBar;
@@ -85,6 +87,10 @@ public class TowerManager {
 			t = new FireTower(x+0.5, y+0.5); break;
 		case 3:
 			t = new IceTower(x+0.5, y+0.5); break;
+		case 4: 
+			t = new GroundAttackTower(x+0.5, y+0.5); break;
+		case 5:
+			t = new AirAttackTower(x+0.5, y+0.5); break;	
 		}
 		return t;
 	}

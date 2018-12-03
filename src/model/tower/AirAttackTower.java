@@ -6,6 +6,7 @@ import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.FadingParticle;
+import model.Monster;
 import model.Particle;
 import model.Tower;
 import model.projectile.NormalProjectile;
@@ -13,16 +14,16 @@ import model.projectile.SplittingProjectile;
 import util.GameUtil;
 import util.cpp;
 
-public class NormalTower extends Tower {
+public class AirAttackTower extends Tower {
 
 	// TODO : more fields
-	private static final double[] ATTACK_VALUES = {7, 12, 15, 20, 15};
-	private static final double[] COOLDOWN_VALUES = {700, 650, 650, 650, 650};
-	private static final double[] RANGE_VALUES = {2.5, 2.5, 3, 3, 4};
-	private static final int[] PRICE_VALUES = {7, 10, 15, 15, 30};
-	private static final Image DEFAULT_IMAGE = Images.normalTower;
+	private static final double[] ATTACK_VALUES = {15, 25, 35, 55, 75};
+	private static final double[] COOLDOWN_VALUES = {700, 700, 700, 700, 700};
+	private static final double[] RANGE_VALUES = {1.5, 1.75, 2, 2.25, 2.25};
+	private static final int[] PRICE_VALUES = {20, 20, 30, 30, 30};
+	private static final Image DEFAULT_IMAGE = Images.AirAttackTower;
 		
-	public NormalTower(double cellX, double cellY) {
+	public AirAttackTower(double cellX, double cellY) {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
 		this.price = PRICE_VALUES[0];
 	}
@@ -42,6 +43,11 @@ public class NormalTower extends Tower {
 		}
 	}
 	
+	
+	@Override
+	public boolean isInRange(Monster m) {
+		return super.isInRange(m) && m.isAffectedByAir();
+	}
 	
 	public void fire() {
 		if (currentTarget == null) return;

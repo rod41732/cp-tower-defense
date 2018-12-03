@@ -131,6 +131,12 @@ public class Handler {
 			case DIGIT4:
 				prop.set(prop.get() == 3 ? -1 : 3);
 				break;
+			case DIGIT5:
+				prop.set(prop.get() == 4 ? -1 : 4);
+				break;
+			case DIGIT6:
+				prop.set(prop.get() == 5 ? -1 : 5);
+				break;
 			default:
 				break;
 			}

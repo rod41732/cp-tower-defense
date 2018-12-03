@@ -22,6 +22,11 @@ public class FireProjectile extends NormalProjectile {
 		this.damage = damage;
 		this.fireDamage = fireDamage;
 	}
+	
+	@Override
+	public boolean shouldCollide(Monster m) {
+		return super.shouldCollide(m) && m.isAffectedByGround();
+	}
 
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {

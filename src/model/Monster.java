@@ -1,6 +1,9 @@
 package model;
 
+import java.awt.Font;
 import java.util.ArrayList;
+
+import com.sun.javafx.font.FontFactory;
 
 import buff.Buff;
 import buff.MoveSpeedBuff;
@@ -74,7 +77,6 @@ public abstract class Monster extends Entity implements Cloneable{
 		else {
 			super.render(gc);					
 		}
-		
 		gc.setFill(Color.color(0, 1, 0));
 		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
 		gc.setFill(Color.color(1, 0, 0));
