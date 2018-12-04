@@ -39,7 +39,12 @@ public class GameUtil {
 
 		@Override
 		public int compare(Entity o1, Entity o2) {
-			return Double.compare(((Entity) o1).getzIndex(), ((Entity) o2).getzIndex());
+			try {
+				return Double.compare(((Entity) o1).getzIndex(), ((Entity) o2).getzIndex());				
+			}
+			catch (NullPointerException e) { // most likely happen when concurrent modification
+				return -1;
+			}
 		}
 		
 	}
