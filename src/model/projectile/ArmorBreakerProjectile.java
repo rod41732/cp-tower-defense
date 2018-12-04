@@ -26,7 +26,12 @@ public class ArmorBreakerProjectile extends NormalProjectile {
 
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
-			m.addBuff(new DamageTakenDebuff(duration, -multiplier));
+			cpp.pff impact = m.getPosition();
+			for (Monster ms: GameManager.getInstance().getMonsters()) {				
+				if (ms.distanceTo(impact.first, impact.second) <= 0.5+ms.getSize()) {
+					ms.addBuff(new DamageTakenDebuff(duration, multiplier));
+				}
+			}
 			forceExpire();
 		}
 		return isExpired();

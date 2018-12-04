@@ -24,7 +24,6 @@ public class ArmorBreakerTower extends Tower {
 	private static final Image DEFAULT_IMAGE = Images.iceTower;
 	
 	private double slowness;
-	private double splashRadius;
 		
 	public ArmorBreakerTower(double cellX, double cellY) {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
