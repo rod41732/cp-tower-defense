@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import model.Monster;
 import model.Projectile;
 
-public class GroundProjectile extends Projectile {
+public class GroundProjectile extends NormalProjectile{
 	
 	
 	protected double damage;
@@ -13,8 +13,7 @@ public class GroundProjectile extends Projectile {
 	
 	public GroundProjectile(Image image, double x, double y,
 			double vx, double vy, double maxRange, double damage) {
-		super(image, x, y, vx, vy, maxRange); // default size ?
-		this.damage = damage;
+		super(image, x, y, vx, vy, maxRange, damage); // default size ?
 	}
 	
 	@Override
