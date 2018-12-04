@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 import main.Main;
+import ui.component.ButtonMaker;
 
 public class MainMenuScene extends Scene {
 	
@@ -52,10 +53,12 @@ public class MainMenuScene extends Scene {
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
 			boolean inGame = nw.booleanValue();
 			if (!inGame) {
+				System.out.println("enter menu");
 				menuTick.play();
 				fadeIn();
 			}
 			else {
+				System.out.println("exit menu");
 				menuTick.pause();
 				fadeOut();
 			}
@@ -77,7 +80,7 @@ public class MainMenuScene extends Scene {
 		showMapMenu = new Timeline(new KeyFrame(Duration.seconds(0.3), 
 				new KeyValue(mapMenu.layoutYProperty(), 0)));		
 		hideMapMenu = new Timeline(new KeyFrame(Duration.seconds(0.3), 
-				new KeyValue(mapMenu.layoutYProperty(), 900)));
+				new KeyValue(mapMenu.layoutYProperty(), Numbers.WIN_HEIGHT)));
 				
 		root.getChildren().addAll(menus, newGame, mapMenu);	
 	}

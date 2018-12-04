@@ -1,11 +1,15 @@
 package controller.game;
 
+import constants.Images;
 import constants.Numbers;
 import exceptions.FullyUpgradedException;
+import model.Particle;
 import model.Tile;
 import model.Tower;
+import model.tower.AirAttackTower;
 import model.tower.BombTower;
 import model.tower.FireTower;
+import model.tower.GroundAttackTower;
 import model.tower.IceTower;
 import model.tower.NormalTower;
 import ui.SnackBar;
@@ -39,11 +43,8 @@ public class TowerManager {
 			if (!t.isSelectable()) return ; // don't remove that dansgame
 			gm.placedTiles[x][y].pop();
 			if (t instanceof Tower) {
-				for (int i=0; i<gm.towers.size(); i++)
-					if (t == gm.towers.get(i)) {
-						gm.towers.remove(i);
-						break;
-					}
+				gm.towers.remove(t);
+				gm.renderables.remove(t);
 			}
 			gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
 		}
@@ -55,7 +56,7 @@ public class TowerManager {
 
 
 	public boolean canUpgrade() {
-		return gm.selectedTile != null && ((Tower)gm.selectedTile).getPrice() <= gm.money;
+		return gm.selectedTile != null && ((Tower)gm.selectedTile).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTile).getUpgradePrice() >= 0;
 	}
 
 	public boolean canSell() {
@@ -68,6 +69,7 @@ public class TowerManager {
 				int price = twr.getUpgradePrice();
 				twr.upgrade();		
 				gm.money -= price;
+				gm.addParticle(new Particle(Images.smoke, twr.getX(), twr.getY(), 0, 0, 500));
 			}
 			catch (FullyUpgradedException e) {
 				SnackBar.play("Already Fully upgraded");
@@ -85,6 +87,10 @@ public class TowerManager {
 			t = new FireTower(x+0.5, y+0.5); break;
 		case 3:
 			t = new IceTower(x+0.5, y+0.5); break;
+		case 4: 
+			t = new GroundAttackTower(x+0.5, y+0.5); break;
+		case 5:
+			t = new AirAttackTower(x+0.5, y+0.5); break;	
 		}
 		return t;
 	}

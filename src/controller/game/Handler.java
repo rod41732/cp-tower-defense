@@ -18,9 +18,9 @@ public class Handler {
 	public Handler(GameManager gm) {
 		this.gm = gm;
 	}
-	public void updateMousePos(GameManager gm, double x, double y) {
-		x -= Numbers.LEFT_OFFSET;
-		y -= Numbers.TOP_OFFSET;
+	public void updateMousePos(MouseEvent e) {
+		double x = e.getX();
+		double y = e.getY();
 		gm.mousePos.first = x/Numbers.TILE_SIZE;
 		gm.mousePos.second = y/Numbers.TILE_SIZE;
 		// don't want to create new object
@@ -30,19 +30,19 @@ public class Handler {
 	public boolean shouldHandle(MouseEvent e) {
 		double x = e.getX();
 		double y = e.getY();
-		return 0 <= x && x <= Numbers.LEFT_OFFSET+Numbers.COLUMNS*Numbers.TILE_SIZE &&
-				0 <= y && y <= Numbers.TOP_OFFSET+Numbers.ROWS*Numbers.TILE_SIZE ;
+		return 0 <= x && x <= Numbers.COLUMNS*Numbers.TILE_SIZE &&
+				0 <= y && y <= Numbers.ROWS*Numbers.TILE_SIZE ;
 	}
 	public void handleClick(MouseEvent e) {
 		if (e.isConsumed()) return;
 		if (!shouldHandle(e)) return ;
-		double x = e.getX()-Numbers.LEFT_OFFSET;
-		double y = e.getY()-Numbers.TOP_OFFSET;
+		double x = e.getX();
+		double y = e.getY();
 		if (e.getButton() == MouseButton.PRIMARY) {
 			handleTileClick((int)x/Numbers.TILE_SIZE, (int)y/Numbers.TILE_SIZE);			
 		}
 		else if (e.getButton() == MouseButton.SECONDARY) {
-			gm.updater.spawnMonster(x/Numbers.TILE_SIZE, y/Numbers.TILE_SIZE);
+			SuperManager.getInstance().getTowerChoiceProp().set(-1);
 		}
 		else {
 			gm.sellTower();
@@ -64,7 +64,7 @@ public class Handler {
 	
 				// selected => try build
 			if (!gm.selectedTile.isPlaceable()) {
-				throw new Exception("already something on tile");
+				throw new UnplaceableException();
 			}
 			
 			if (t.getPrice() > gm.money) {
@@ -75,6 +75,7 @@ public class Handler {
 			gm.placedTiles[x][y].push(t);
 			Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
 			gm.towers.add(t);
+			gm.renderables.add(t);
 			gm.money -= t.getPrice();
 			gm.selectedTile = t;
 		}
@@ -104,7 +105,7 @@ public class Handler {
 	public void handleKeyPress(KeyEvent e) {
 		if (!SuperManager.getInstance().getIsGamePausedProp().get()) {
 			e.consume();
-			IntegerProperty prop;
+			IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
 			switch (e.getCode()) {
 			case G:
 				GameManager.getInstance().requestNextWave();			
@@ -119,25 +120,22 @@ public class Handler {
 				GameManager.getInstance().addMoney(1000); 
 				break;
 			case DIGIT1:
-				setTowerChoice(-1);
-				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 0 ? -1 : 0);
 				break;
 			case DIGIT2:
-				setTowerChoice(-1);
-				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 1 ? -1 : 1);
 				break;
 			case DIGIT3:
-
-				setTowerChoice(-1);
-				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 2 ? -1 : 2);
 				break;
 			case DIGIT4:
-				setTowerChoice(-1);
-				prop = SuperManager.getInstance().getTowerChoiceProp();
 				prop.set(prop.get() == 3 ? -1 : 3);
+				break;
+			case DIGIT5:
+				prop.set(prop.get() == 4 ? -1 : 4);
+				break;
+			case DIGIT6:
+				prop.set(prop.get() == 5 ? -1 : 5);
 				break;
 			default:
 				break;

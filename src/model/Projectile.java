@@ -17,7 +17,7 @@ public abstract class Projectile extends Entity implements IExpirable {
 	
 	public Projectile(Image image, double x, double y,
 			double vx, double vy, double maxDistance) {
-		super(image, x, y, 0.3); // default size ?
+		super(image, x, y, 3, 0.3); // default size ?
 		this.vx = vx;
 		this.vy = vy;
 		this.maxDistance = maxDistance;
@@ -40,9 +40,7 @@ public abstract class Projectile extends Entity implements IExpirable {
 	public void move() {
 		x += vx/60;
 		y += vy/60;
-		// TODO: fix temp code
 		this.rotation = Math.toDegrees(Math.atan2(vy, vx));
-		rotation -= 90;
 		distance += GameUtil.distance(0, 0, vx/60, vy/60);
 	}
 	

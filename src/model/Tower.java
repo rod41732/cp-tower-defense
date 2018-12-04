@@ -32,6 +32,7 @@ public abstract class Tower extends Tile {
 	public Tower(Image img, double cellX, double cellY,
 			double attack, double attackCooldown, double range) {
 		super(img, cellX, cellY, false, false);
+		this.rotation = 90;
 		this.attack = attack;
 		this.attackCooldown = attackCooldown;
 		this.range = range;
@@ -113,14 +114,6 @@ public abstract class Tower extends Tile {
 	
 	public void preUpdate() {
 	}
-	
-	// TODO: change this and change texture
-	@Override
-	public void rotateTo(Entity e) {
-		super.rotateTo(e);
-		rotation += 90; // fix bad alignment in pic
-	}
-	
 	
 	private void updateBuff() {
 		attackSpeedMultiplier = 1;
@@ -229,9 +222,16 @@ public abstract class Tower extends Tile {
 	
 	public abstract int getUpgradePrice();
 	
+	public String getDescription() {
+		return "4Tower";
+	}
+	
+	public String getUpgradedDescription() {
+		return "4Town";
+	}
 	
 	public String toString() {
-		return TOWER_NAME + " " + getPosition();
+		return TOWER_NAME;
 	}
 	
 	public String description() {

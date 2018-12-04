@@ -8,12 +8,14 @@ import javax.management.remote.SubjectDelegationPermission;
 import constants.Images;
 import controller.SuperManager;
 import controller.game.GameManager;
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import model.Tower;
+import ui.component.ButtonMaker;
 
 public class GameButton {
 	
@@ -23,27 +25,28 @@ public class GameButton {
 	private Button pauseButton; // for pause menu
 	private Button sellButton;
 	private Button upgradeButton;
+	private Button showPathButton;
 	
 	
 	
 	private ArrayList<ToggleButton> toggleButtons = new ArrayList<>();
 	private ToggleGroup toggleGroup;
 	
-	public GameButton(Pane pane) {
+	public GameButton() {
 		Font buttonFont = new Font("KenVector Future Regular", 20);
 		Font buttonFontSmall = new Font("KenVector Future Regular", 12);
-		sellButton = ButtonMaker.make(1400, 780, Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
+		sellButton = ButtonMaker.make(1364, 780, Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
 				buttonFont, "Sell Tower");		
 		sellButton.setOnAction(e -> {
 			GameManager.getInstance().sellTower();
 		});
-		nextButton = ButtonMaker.make(820, 0, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
+		nextButton = ButtonMaker.make(303, 879, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
 				buttonFont, "Next Wave");
 		nextButton.setOnAction(e -> {
 			GameManager.getInstance().requestNextWave();
 		});
 		
-		upgradeButton = ButtonMaker.make(1400, 840, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
+		upgradeButton = ButtonMaker.make(1364, 724, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
 				buttonFont, "Upgrade");
 		upgradeButton.setOnAction(e -> {
 			GameManager.getInstance().upgradeTower();
@@ -65,31 +68,43 @@ public class GameButton {
 		});
 		resumeButton.setVisible(false);
 		
-		pauseButton = ButtonMaker.make(1020, 0, Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
+		pauseButton = ButtonMaker.make(55, 879, Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
 				buttonFont, "Pause");
 		pauseButton.setOnAction(e -> {
 			SuperManager.getInstance().onGamePause();
 		});		
 		
+		showPathButton = ButtonMaker.make(455, 879, Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
+				buttonFont, "Show Path");
+		showPathButton.setOnAction(e -> {
+			BooleanProperty prop = SuperManager.getInstance().getShouldDisplayPathProp(); 
+			prop.set(!prop.get());
+		});		
+		
+		SuperManager.getInstance().getShouldDisplayPathProp().addListener((obs, old, nw) -> {
+			boolean shouldShow = nw.booleanValue();
+			if (shouldShow) {
+				showPathButton.setText("Hide Path");
+			} else  {
+				showPathButton.setText("Show Path");
+			}
+		});
 		
 		
 		toggleGroup = new ToggleGroup();
-		for (int i=0; i<4; i++) {
+		for (int i=0; i<6; i++) {
 			Tower twr = GameManager.getInstance().createTower(i, 0, 0);
 			ToggleButton tg = ButtonMaker.makeTowerButton(1344+(i%3)*85, (i/3)*128,
 					Images.towerButton, Images.towerButtonPressed, twr, buttonFontSmall, i);
 			toggleButtons.add(tg);
 		}
 		toggleGroup.getToggles().addAll(toggleButtons);
-		
-		pane.getChildren().addAll(pauseButton, // resumeButton, toMenuButton,
-				nextButton, upgradeButton, sellButton);
-		pane.getChildren().addAll(toggleButtons);
+
 		
 		toggleGroup.selectedToggleProperty().addListener((obs, old, nw) -> {
 			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
 			boolean isPlacing = nw != null;
-
+			GameManager.getInstance().setSelectedTile(null);
 			pauseButton.setDisable(paused || isPlacing);
 			nextButton.setDisable(paused || isPlacing);
 			
@@ -138,13 +153,31 @@ public class GameButton {
 			}
 		});
 		
+		SuperManager.getInstance().getGameStateProp().addListener((obs, old, nw) -> {
+			boolean gameOver = nw.intValue() != 0;
+			boolean paused = SuperManager.getInstance().getIsGamePausedProp().get();
+			resumeButton.setVisible(paused && !gameOver);
+		});
+		
 	
 	}
 	
 	public void addMenuButtons(Pane pane) {
 		pane.getChildren().addAll(resumeButton, toMenuButton);
 	}
+	
+	public void addTowerButtons(Pane pane) {
+		pane.getChildren().addAll(toggleButtons);
+	}
+	
+	public void addControlButton(Pane pane) {
+		pane.getChildren().addAll(pauseButton, showPathButton, nextButton);
+	}
 	public void setUpgradeText(String text) {
 		upgradeButton.setText(text);
 	}	
+	
+	public void addUpgradeButton(Pane pane) {
+		pane.getChildren().addAll(upgradeButton, sellButton);
+	}
 }

@@ -4,6 +4,7 @@ import model.Entity;
 import model.IExpirable;
 
 public abstract class Buff implements IExpirable {
+
 	protected double duration;
 	protected double age = 0;
 	protected String name, description;

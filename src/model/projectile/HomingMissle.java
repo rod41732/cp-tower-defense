@@ -33,7 +33,7 @@ public class HomingMissle extends NormalProjectile {
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m) || distanceTo(target) < 0.2) { // collide with dead monster
 			cpp.pff impact = getPosition();
-			GameManager.getInstance().spawnParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
+			GameManager.getInstance().addParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
 				if (Double.compare(ms.distanceTo(impact.first, impact.second), 3) < 0) {
 					ms.takeDamage(damage);	

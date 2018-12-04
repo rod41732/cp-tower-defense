@@ -4,6 +4,7 @@ package controller.game;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 import constants.Maps;
 import constants.Numbers;
 import controller.SuperManager;
@@ -11,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import model.Entity;
 import model.Map;
 import model.Monster;
 import model.Particle;
@@ -18,10 +20,8 @@ import model.Projectile;
 import model.Tile;
 import model.TileStack;
 import model.Tower;
-import model.monster.GroundMonster;
 import util.Algorithm;
 import util.cpp;
-import util.cpp.pii;
 
 public class GameManager {
 	
@@ -33,6 +33,7 @@ public class GameManager {
 	ArrayList<Tile> tiles = new ArrayList<>();
 	ArrayList<Projectile> projectiles = new ArrayList<>(); 
 	ArrayList<Particle> particles = new ArrayList<>();
+	ArrayList<Entity> renderables = new ArrayList<>();
 	TileStack[][] placedTiles = new TileStack[Numbers.COLUMNS][Numbers.ROWS];
 	cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 	
@@ -55,12 +56,11 @@ public class GameManager {
 		updater = new Updater(this);
 		towerManager = new TowerManager(this);
 		handler = new Handler(this);
-		MonsterSpawner.getInstace().bindTo(this);
 		reset();
 	}
 	
-	public void setGC(GraphicsContext otherGC, GraphicsContext tileGC, GraphicsContext overlayGC) {
-		this.renderer.setGC(otherGC, tileGC, overlayGC);
+	public void setGC(GraphicsContext gc) {
+		this.renderer.setGC(gc);
 	}
 	
 	public void reset() { // reset all
@@ -96,9 +96,11 @@ public class GameManager {
 			endTilePos = m.getEnd();
 			for (int i=0; i<Numbers.COLUMNS; i++)
 				for (int j=0; j<Numbers.ROWS; j++) {
-					int t = tiles[j][i];
-					System.out.printf("%d,%d -> %d%d\n", i, j, t%4&2, t%4%2);
-					placedTiles[i][j].push(new Tile(tileMap.get(t/4), i+0.5, j+0.5, ((t%4)&2) > 0, ((t%4)%2) > 0));
+					int t = tiles[j][i];{
+						Tile tmp = new Tile(tileMap.get(t/4), i+0.5, j+0.5, ((t%4)&2) > 0, ((t%4)%2) > 0);
+						placedTiles[i][j].push(tmp);
+						renderables.add(tmp);
+					}
 				}
 			path = Algorithm.BFS(endTilePos.first, endTilePos.second,
 					startTilePos.first, startTilePos.second);
@@ -114,9 +116,15 @@ public class GameManager {
 	public Tower createTower(int towerChoice, int x, int y) {
 		return towerManager.createTower(towerChoice, x, y);
 	}
+	
+	
 
-	public void updateMousePos(GameManager gm, double x, double y) {
-		handler.updateMousePos(gm, x, y);
+	public cpp.pff getMousePos() {
+		return mousePos;
+	}
+
+	public void updateMousePos(MouseEvent e) {
+		handler.updateMousePos(e);
 	}
 
 	public void update() {
@@ -143,8 +151,8 @@ public class GameManager {
 		handler.handleTileClick(x, y);
 	}
 
-	public void spawnParticle(Particle p) {
-		updater.spawnParticle(p);
+	public void addParticle(Particle p) {
+		updater.addParticle(p);
 	}
 
 	public void addProjectile(Projectile p) {
@@ -175,6 +183,16 @@ public class GameManager {
 		return monsters;
 	}
 	
+	
+	
+	public int getLives() {
+		return lives;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
 	public void handleKeyPress(KeyEvent e) {
 		handler.handleKeyPress(e);
 	}
@@ -183,12 +201,9 @@ public class GameManager {
 		return SuperManager.getInstance().getTowerChoiceProp().get();
 	}
 	
-	public void render() {
-		renderer.render();
-	}
 	
-	public void spawnMonster(Monster m) {
-		updater.spawnMonster(m);
+	public void addMonster(Monster m) {
+		updater.addMonster(m);
 	}
 	
 	// getters 
@@ -211,6 +226,12 @@ public class GameManager {
 	public cpp.pii getEndTilePos() {
 		return endTilePos;
 	}
+
+	public void setSelectedTile(Tile selectedTile) {
+		this.selectedTile = selectedTile;
+	}
+
+	
 
 	
 }

@@ -52,6 +52,9 @@ public class Updater {
 				&& ((Tower)gm.selectedTile).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTile).getUpgradePrice() >= 0);
 		SuperManager.getInstance().getCanSellProp().set(gm.selectedTile != null);
 		SuperManager.getInstance().getnextWaveAvailableProp().set(shouldSpawnNextWave());
+		if (shouldSpawnNextWave() && SuperManager.getInstance().getGameStateProp().get() == 2) {
+			SuperManager.getInstance().getIsGamePausedProp().set(true);
+		}
 		if (gm.selectedTile == null) {
 			Main.getGameScene().getButtonManager().setUpgradeText("Upgrade");			
 		}
@@ -62,14 +65,17 @@ public class Updater {
 			else 
 				Main.getGameScene().getButtonManager().setUpgradeText("$ " + price);
 		}
-		for (Particle p: gm.particles) p.onTick();
-		for (Tower t: gm.towers) t.onTick();
-		int n = gm.projectiles.size();
-		for (int i=n-1; i>=0; i--) {
-			Projectile p = gm.projectiles.get(i);
-			p.onTick();
+		for (int i=gm.particles.size()-1; i>=0; i--) {
+			gm.particles.get(i).onTick();
 		}
-		for (Monster m: gm.monsters) {
+		for (Tower t: gm.towers) t.onTick();
+		
+		
+		for (int i=gm.projectiles.size()-1; i>=0; i--) {
+			gm.projectiles.get(i).onTick();
+		}
+		for (int i=gm.monsters.size()-1; i>=0; i--) {
+			Monster m = gm.monsters.get(i);
 			m.onTick();
 			if (m.getPosition().containedBy(gm.endTilePos)) {
 				m.forceKill();
@@ -80,27 +86,35 @@ public class Updater {
 		
 		// entity interaction
 		for (int i=gm.projectiles.size()-1; i>=0; i--) {
-			Projectile p = gm.projectiles.get(i);
-			if (p.isExpired()) gm.projectiles.remove(i);
+			Projectile proj = gm.projectiles.get(i);
+			if (proj.isExpired()) {
+				gm.renderables.remove(proj);
+				gm.projectiles.remove(i);
+			}
 			else
 			for (Monster m: gm.monsters) {
-				if (p.collideWith(m)) {
-					gm.projectiles.remove(i);
+				if (proj.collideWith(m)) {
+					gm.projectiles.remove(proj);
+					gm.renderables.remove(proj);
 					break;
 				}
 			}
 		}
 		// cleanUp
 		for (int i=gm.monsters.size()-1; i>=0; i--) {
-			if (gm.monsters.get(i).isDead()) {
-				gm.money += gm.monsters.get(i).getMoney();
-				gm.monsters.get(i).onDeath();
-				gm.monsters.remove(i);			
+			Monster mon = gm.monsters.get(i); 
+			if (mon.isDead()) {
+				gm.money += mon.getMoney();
+				mon.onDeath();
+				gm.monsters.remove(mon);
+				gm.renderables.remove(mon);
 			}
 		}
 		for (int i=gm.particles.size()-1; i>=0; i--) {
-			if (gm.particles.get(i).isExpired()) {
-				gm.particles.remove(i);
+			Particle part = gm.particles.get(i);
+			if (part.isExpired()) {
+				gm.particles.remove(part);
+				gm.renderables.remove(part);
 			}
 		}
 		
@@ -124,20 +138,24 @@ public class Updater {
 			SnackBar.play("Please wait until end of the wave");
 		}
 	}
-	public void spawnParticle(Particle p) {
-		gm.particles.add(p);
+	
+	public void addParticle(Particle part) {
+		gm.particles.add(part);
+		gm.renderables.add(part);
 	}
 	public void spawnMonster(double x, double y) {
-		gm.monsters.add(new SplittingMonster("Eleplant", Images.elephant, x, y, 0.4, 60, 0, 1.5, 10));
+		addMonster(new SplittingMonster("Eleplant", Images.elephant, x, y, 0.4, 60, 0, 1.5, 10));
 	}
-	public void spawnMonster(Monster m) {
-		gm.monsters.add(m);
+	public void addMonster(Monster mon) {
+		gm.monsters.add(mon);
+		gm.renderables.add(mon);
 	}
 	
 	public boolean shouldSpawnNextWave() {
 		return MonsterSpawner.getInstace().isReady() && gm.monsters.size() == 0;
 	}
-	public void addProjectile(Projectile p) {
-		gm.projectiles.add(p);
+	public void addProjectile(Projectile proj) {
+		gm.projectiles.add(proj);
+		gm.renderables.add(proj);
 	}
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import controller.game.GameManager;
 import controller.game.MonsterSpawner;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -21,10 +22,11 @@ public class SuperManager {
 	private BooleanProperty canSellProp = new SimpleBooleanProperty();
 	private IntegerProperty towerChoiceProp = new SimpleIntegerProperty();
 	private IntegerProperty gameStateProp = new SimpleIntegerProperty();
+	private BooleanProperty shouldDisplayPathProp = new SimpleBooleanProperty();
 	
 	public SuperManager() {
+		shouldDisplayPathProp.set(true);
 		isInGameProp.set(false);
-		isInGameProp.set(true);
 		nextWaveAvailableProp.set(false);
 		canUpgradeProp.set(false);
 		canSellProp.set(false);
@@ -36,26 +38,26 @@ public class SuperManager {
 	public void onGamePause() {
 		isGamePausedProp.set(true);
 		isInGameProp.set(true);
+		MonsterSpawner.getInstace().pauseWave();
 	}
 	
 	public void onResumeGame() {
+		Main.setScene(Main.getGameScene()); // when join game
 		isGamePausedProp.set(false);
 		isInGameProp.set(true);
-		Main.setScene(Main.getGameScene());
+		MonsterSpawner.getInstace().resumeWave();
 	}
 	
 	public void onLeaveGame() {
 		isGamePausedProp.set(true);
 		isInGameProp.set(false);
-		new Timeline(new KeyFrame(Duration.seconds(0.3), e -> {
-			Main.setScene(Main.getMainMenu());			
-		})).play();
+		Main.setScene(Main.getMainMenu());
 	}
 	
 	
 	public void onReset() {
-		MonsterSpawner.getInstace().cancelWave();
 		MonsterSpawner.getInstace().reset();
+		GameManager.getInstance().reset();
 		isGamePausedProp.set(true);
 		isInGameProp.set(false);
 	}
@@ -91,6 +93,11 @@ public class SuperManager {
 
 	public IntegerProperty getGameStateProp() {
 		return gameStateProp;
+	}
+
+
+	public BooleanProperty getShouldDisplayPathProp() {
+		return shouldDisplayPathProp;
 	}
 	
 	

@@ -14,7 +14,12 @@ public class Images {
 	public static Image bear = new Image("monster/bear.png", 64, 64, true, true);
 	public static Image elephant = new Image("monster/elephant.png", 64, 64, true, true);
 	public static Image moose = new Image("monster/moose.png", 64, 64, true, true);
+	public static Image tank = new Image("monster/tank.png", 96, 96, true, true);
+	
+	
 	public static Image normalTower = new Image("tower/tower1.png", 64, 64, true, true);
+	public static Image groundAttackTower = new Image("tower/tower2.png", 64, 64, true, true);
+	public static Image AirAttackTower = new Image("tower/tower3.png", 64, 64, true, true);
 	public static Image bombTower = new Image("tower/missile1.png", 64, 64, true, true);
 	public static Image fireTower = new Image("tower/flame.png", 64, 64, true, true);
 	public static Image iceTower = new Image("tower/ice.png", 64, 64, true, true);
@@ -50,21 +55,32 @@ public class Images {
 	public static Image buttonPausePressed = new Image("ui/button/button_pause_pressed.png", 190, 45, true, true);
 	
 	public static Image pauseMenuPanel = new Image("ui/pause_menu_panel.png", 300, 300, true, true);
-	public static Image towerButton = new Image("ui/tower_button.png", 85, 128, false, true);
-	public static Image towerButtonPressed = new Image("ui/tower_button_pressed.png", 85, 128, false, true);
+	public static Image towerButton = new Image("ui/tower_button.png", 80, 128, false, true);
+	public static Image towerButtonPressed = new Image("ui/tower_button_pressed.png", 80, 128, false, true);
+	public static Image towerInfoPanel = new Image("ui/tower_info_panel.png", 256, 192, true, true);
+	public static Image towerInfoPanelLocked = new Image("ui/tower_info_panel_locked.png", 256, 192, true, true);
+	public static Image frame = new Image("ui/frame.png", 1600, 964, false, true);
 	
 	public static Image map0Preview = new Image("map/map0.png", 335, 207, false, true);
 	public static Image map1Preview = new Image("map/map1.png", 335, 207, false, true);
 	
 	
+	public static Image normalTowerFlash = new Image("particle/flare.png", 28, 16, true, true);
+	
 	
 	public static final Image[] explosion = new Image[16];
 	public static final Image[] flame = new Image[16];
+	public static final Image[] smoke = new Image[9];
+	public static final Image[] aura = new Image[16];
 	
 	static {
 		for (int i=0; i<16; i++)
 			explosion[i] = new Image("animation/explosion/"+i+".png", 96, 96, true, true);
 		for (int i=0; i<16; i++)
 			flame[i] = new Image("animation/flame/"+i+".png", 96, 96, true, true);
+		for (int i=0; i<9; i++)
+			smoke[i] = new Image("animation/smoke/"+i+".png", 96, 96, true, true);
+		for (int i=0; i<16; i++)
+			aura[i] = new Image("animation/aura/"+i+".png", 128, 128, true, true);
 	}
 }

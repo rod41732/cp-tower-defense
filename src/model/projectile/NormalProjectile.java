@@ -17,6 +17,7 @@ public class NormalProjectile extends Projectile {
 		this.damage = damage;
 	}
 	
+	
 
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {

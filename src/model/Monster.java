@@ -1,14 +1,27 @@
 package model;
 
+import java.awt.Font;
 import java.util.ArrayList;
+
+import com.sun.javafx.font.FontFactory;
 
 import buff.Buff;
 import buff.MoveSpeedBuff;
+import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import util.GameUtil;
+import util.cpp.pff;
 
-public abstract class Monster extends Entity {
+public abstract class Monster extends Entity implements Cloneable{
 	
 	
 	protected double maxHealth;
@@ -19,7 +32,7 @@ public abstract class Monster extends Entity {
 	protected double vy;
 	protected String name;
 	protected ArrayList<Buff> buffs = new ArrayList<>();
-	protected static Image coldImage = new Image("monster/bear_cold.png", 64, 64, true, true);
+
 	
 	
 	protected double moveSpeedMultiplier;
@@ -32,7 +45,7 @@ public abstract class Monster extends Entity {
 	
 	public Monster(String name, Image image, double x, double y,
 			double size, double maxHealth, double armor, double moveSpeed, int money) {
-		super(image, x, y, size);
+		super(image, x, y, 2, size);
 		this.maxHealth = this.health = maxHealth;
 		this.armor = armor;
 		this.name = name;
@@ -46,15 +59,28 @@ public abstract class Monster extends Entity {
 	
 	public void render(GraphicsContext gc) {
 		if (hasBuff(new MoveSpeedBuff(1,1))) {
-			gc.drawImage(coldImage, getRenderX(), getRenderY());
+			WritableImage cold = new WritableImage((int)image.getWidth(), (int)image.getHeight());
+			PixelReader reader = image.getPixelReader();
+			PixelWriter writer = cold.getPixelWriter();
+			int w = (int)image.getWidth(), h = (int)image.getHeight();
+			for (int i=0; i<w; i++)
+				for (int j=0; j<h; j++) {
+					int argb = reader.getArgb(i, j);
+					argb |= 0xff; 
+					writer.setArgb(i, j, argb);
+				}
+			Image old = this.image;
+			this.image = cold;
+			super.render(gc);
+			this.image = old;
 		}
 		else {
-			super.render(gc);			
+			super.render(gc);					
 		}
-		gc.setFill(Color.GREEN);
-		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*100, 3);
-		gc.setFill(Color.RED);
-		gc.fillRect(getRenderX()+health/maxHealth*100, getRenderY()-10, 100-health/maxHealth*100, 3);
+		gc.setFill(Color.color(0, 1, 0));
+		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
+		gc.setFill(Color.color(1, 0, 0));
+		gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 20);
 	}
 	
 	public void onTick() {
@@ -66,6 +92,7 @@ public abstract class Monster extends Entity {
 	}
 	
 	public void move() {
+		setRotation(Math.toDegrees(Math.atan2(vy, vx)));
 		x += vx*Math.max(moveSpeedMultiplier, 0.1)/60;
 		y += vy*Math.max(moveSpeedMultiplier, 0.1)/60;
 	}
@@ -98,6 +125,13 @@ public abstract class Monster extends Entity {
 		damage -= armor;
 		if (damage <= 0) return false;
 		health -= damage;
+		for (int i=0; i<20; i++) {
+			pff nv =  GameUtil.rotateVector(-vx, -vy, (Math.random()-0.5)*30);
+			double mult = 1.3/GameUtil.distance(vx, vy, 0, 0);
+			nv.first *= mult;
+			nv.second *= mult;
+			GameManager.getInstance().addParticle(new Blood(Color.RED, x, y, nv.first, nv.second, 500));
+		}
 		return true;
 	}
 	
@@ -153,4 +187,16 @@ public abstract class Monster extends Entity {
 				return true;
 		return false;
 	}
+	
+	
+	public Object clone(){
+		try {
+			return super.clone();			
+		}
+		catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			throw new InternalError();
+		}
+	}
+	
 }

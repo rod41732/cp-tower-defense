@@ -2,6 +2,8 @@ package main;
 //package main;
 
 import constants.Numbers;
+import controller.game.GameManager;
+import controller.game.MonsterSpawnerThread;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -31,6 +33,13 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	@Override
+	public void stop() throws Exception {
+		MonsterSpawnerThread.getInstance().onGameReset();
+		MonsterSpawnerThread.getInstance().interrupt();
+		super.stop();
 	}
 	
 	public static void setScene(Scene scene) {

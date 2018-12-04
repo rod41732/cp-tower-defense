@@ -22,12 +22,17 @@ public class FireProjectile extends NormalProjectile {
 		this.damage = damage;
 		this.fireDamage = fireDamage;
 	}
+	
+	@Override
+	public boolean shouldCollide(Monster m) {
+		return super.shouldCollide(m) && m.isAffectedByGround();
+	}
 
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
 			cpp.pff impact = m.getPosition();
 			m.takeDamage(damage);
-			GameManager.getInstance().spawnParticle(new AoE(Images.flame, impact.first, impact.second, 0, 0, 1000, 0.5, fireDamage));
+			GameManager.getInstance().addParticle(new AoE(Images.flame, impact.first, impact.second, 0, 0, 1000, 0.5, fireDamage));
 			forceExpire();
 		}
 		return isExpired();

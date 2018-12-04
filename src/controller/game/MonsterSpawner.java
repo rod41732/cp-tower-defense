@@ -1,88 +1,79 @@
 package controller.game;
 
+import java.util.ArrayList;
+
 import constants.Images;
-import controller.SuperManager;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
+import model.Monster;
+import model.monster.Boss1;
+import model.monster.FlyingMonster;
 import model.monster.GroundMonster;
 import util.cpp;
 
 public class MonsterSpawner {
 	
 	private static MonsterSpawner instance = new MonsterSpawner();
-	private Timeline stage;
-	private boolean isReady = true;
-	private GameManager gm;
+	private static ArrayList<MonsterSpawningStage> stages = new ArrayList<>(); 
+	private int index= 0;
+	static {
+		for (int i=0; i<20; i++) {
+			MonsterSpawningStage stage = new MonsterSpawningStage(500000, // delay between each "part" of wave
+					// spawns two monster, with 100ms nanosec delay, i+1 times, with 500ms nanosec delay
+					// so it will e like this xxx--yyy--------xxx--yyy---------xxx--yyy------ and so on
+					// useful when spawning mixed multiple monsters 
+					new MonsterSpawningSequence(500000, 100000, i+1, 
+							new FlyingMonster("XXX", Images.bear, 5, 5, 0.2, 30, 5, 0.3, 5), 
+							new FlyingMonster("YYY", Images.bear, 5, 5, 0.2, 30, 5, 0.8, 5)
+							),
+					// like above but with differnt set of monster
+					new MonsterSpawningSequence(500000, 100000, i+1, // part 2 of wave
+//							new Boss1(5, 5),
+							new GroundMonster("Fly", Images.moose, 5, 5, 0.2, 30, 5, 0.8, 5)
+							)); // .. there can be more
+			
+			stages.add(stage);
+		}
+	}
+	
 
 	
-	public void bindTo(GameManager gm) {
-		this.gm = gm;
+	public MonsterSpawner() {	
+//		pii tile = gm.getStartTilePos();	
 	}
 	
-	public MonsterSpawner() {
-		
-		stage = new Timeline();
-		stage.getKeyFrames().add(new KeyFrame(Duration.seconds(1./3), e ->  {
-			cpp.pii startTile = gm.startTilePos;
-			gm.updater.spawnMonster(new GroundMonster("Bear", Images.bear, startTile.first+0.5, startTile.second+0.5,
-					0.3, 60, 1.5, 3, 10));
-		}));
-		stage.setOnFinished(e -> {
-			isReady = true;
-			SuperManager.getInstance().getGameStateProp().set(2);
-			// TODO: Experimental
-			SuperManager.getInstance().getIsGamePausedProp().set(true);
-		});
-		stage.setCycleCount(20);
 	
-		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
-			boolean pause = nw.booleanValue();
-			boolean inGame = SuperManager.getInstance().getIsInGameProp().get();
-			if (!pause && inGame) {
-				resumeWave();				
-			}
-			else {
-				pauseWave();
-			}
-		});
-		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
-			boolean inGame = nw.booleanValue();
-			boolean pause = SuperManager.getInstance().getIsGamePausedProp().get();
-			if (!pause && inGame) {
-				resumeWave();				
-			}
-			else {
-				pauseWave();
-			}
-		});
-	}
+	
+	
+	
 	public void nextWave() {
-		isReady = false;
-		stage.play();
+		if (!isReady()) {
+			System.out.println("not ready yet");
+			return;
+		}
+		System.out.println("stage" + index);
+		stages.get(index).play();
+		index++;
 	}
 	
 	public void pauseWave() {
-		stage.pause();
+		MonsterSpawnerThread.onGamePause();
 	}
 	
 	public void cancelWave() {
-		isReady = true;
-		stage.stop();
+		MonsterSpawnerThread.onGameReset();
 	}
 	
 	public void resumeWave() {
-		if (!isReady) 
-			stage.play();
+		MonsterSpawnerThread.onGameResume();	
 	}
 	
 	public void reset() {
-		
+		cancelWave();
+		index = 0;
 	}
 	
 	
 	public boolean isReady() {
-		return isReady;
+		return MonsterSpawnerThread.isIdle();
 	}
 	
 	public static MonsterSpawner getInstace() {
@@ -90,3 +81,4 @@ public class MonsterSpawner {
 	}
 	
 }
+

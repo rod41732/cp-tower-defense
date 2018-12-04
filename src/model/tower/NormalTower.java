@@ -5,6 +5,8 @@ import constants.Images;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
+import model.FadingParticle;
+import model.Particle;
 import model.Tower;
 import model.projectile.NormalProjectile;
 import model.projectile.SplittingProjectile;
@@ -44,13 +46,13 @@ public class NormalTower extends Tower {
 	public void fire() {
 		if (currentTarget == null) return;
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
-//		System.out.printf("I'm at %s,%s targeting %s,%s UV = %s\n",
-//				getX(), getY(), currentTarget.getX(), currentTarget.getY(), v);
 		rotateTo(currentTarget);
 		if (level < 5) {
 		GameManager.getInstance().addProjectile(new 
-				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10));
-			
+				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, attack));
+				Particle p = new FadingParticle(Images.normalTowerFlash, x+v.first*0.6 , y+v.second*0.6, 0, 0, 300);
+				p.rotateTo(currentTarget);
+				GameManager.getInstance().addParticle(p);
 		}
 		else {
 			GameManager.getInstance().addProjectile(new 
