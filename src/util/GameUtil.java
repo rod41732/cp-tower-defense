@@ -44,5 +44,14 @@ public class GameUtil {
 		
 	}
 	
+	public static int directionIndex(cpp.pii p1, cpp.pii p2) {
+		if (p1 == null || p2 == null) return -1;
+		if (p1.first > p2.first) return 0;
+		if (p1.first < p2.first) return 2;
+		if (p1.second < p2.second) return 1;
+		if (p1.second > p2.second) return 3;
+		return -1;
+	}
+	
 }
 

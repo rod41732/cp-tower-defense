@@ -91,7 +91,6 @@ public class GameUI {
 						isError = true;
 					}
 				}
-				
 				if (path != null) {
 					PathRenderer.render(path, gm.getStartTilePos(), gm.getEndTilePos(), gc);
 				}
