@@ -1,6 +1,8 @@
 package ui.game;
 
 
+import java.util.ArrayList;
+
 import constants.Numbers;
 import controller.SuperManager;
 import controller.game.GameManager;
@@ -63,8 +65,9 @@ public class Renderer {
 		gc.setFill(Color.color(0, 0, 0, 0));
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		
-		for (Entity ent: SharedObject.getInstance().getRenderables()) {
-			ent.render(gc);
+		ArrayList<Entity> arr = SharedObject.getInstance().getRenderables(); 
+		for (int i=arr.size()-1; i>=0; i--) {
+			arr.get(i).render(gc);
 		}
 		gc.setFont(Font.font("Consolas", 20));;
 		GameUI.getInstance().render(gc);
