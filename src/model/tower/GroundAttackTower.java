@@ -91,7 +91,7 @@ public class GroundAttackTower extends Tower {
 	}
 
 	public String toString() {
-		return "Normal Tower";
+		return "G Tower";
 	}
 
 }

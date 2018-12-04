@@ -58,5 +58,11 @@ public class GameUtil {
 		return -1;
 	}
 	
+	
+	public static double transparencyCycle(int tick, int cycleTick) {
+		double trans = (tick%cycleTick)*2.0/cycleTick;
+		return trans > 1 ? 2 - trans : trans;
+	}
+	
 }
 

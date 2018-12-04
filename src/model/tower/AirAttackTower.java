@@ -92,7 +92,7 @@ public class AirAttackTower extends Tower {
 	}
 
 	public String toString() {
-		return "Normal Tower";
+		return "Air Tower";
 	}
 
 }

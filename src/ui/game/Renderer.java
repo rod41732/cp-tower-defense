@@ -23,6 +23,7 @@ public class Renderer {
 	private GameManager gm;
 	private GraphicsContext gc;
 	private Timeline renderLoop;
+	private int renderTick = 0;
 	
 	public Renderer() {
 		System.out.println("[debug] initialized main renderer");
@@ -59,6 +60,7 @@ public class Renderer {
 
 	
 	public void render() {
+		renderTick++;
 		gc.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gc.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
@@ -66,7 +68,7 @@ public class Renderer {
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		
 		ArrayList<Entity> arr = SharedObject.getInstance().getRenderables(); 
-		for (int i=arr.size()-1; i>=0; i--) {
+		for (int i=0; i<arr.size(); i++) {
 			arr.get(i).render(gc);
 		}
 		gc.setFont(Font.font("Consolas", 20));;
@@ -79,5 +81,9 @@ public class Renderer {
 		return instance;
 	}
 	
+	
+	public int getRenderTick() {
+		return renderTick;
+	}
 	
 }

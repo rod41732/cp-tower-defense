@@ -8,6 +8,7 @@ import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import exceptions.PathBlockedException;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.Tile;
@@ -23,7 +24,6 @@ public class GameUI {
 	private TowerInfoPanel towerInfoPanel = new TowerInfoPanel();
 	private TowerInfoPanel upgradeInfoPanel = new TowerInfoPanel();
 	private IconText levelPanel, moneyPanel, livePanel, debug;
-	
 	
 	
 	private cpp.pii lastPos = new cpp.pii(-1, -1);
@@ -46,7 +46,6 @@ public class GameUI {
 	}
 	
 	public void render(GraphicsContext gc) {
-
 		GameManager gm = GameManager.getInstance();
 		Tile t = gm.getSelectedTile();
 		Tile t2 = gm.createTower(gm.getTowerChoice(), 999, 999);
@@ -66,7 +65,7 @@ public class GameUI {
 	
 		cpp.pii tilePos = gm.getSelectedPosition();
 		int choice = SuperManager.getInstance().getTowerChoiceProp().get();
-		if (choice != -1) {	
+		if (choice != -1) {	// placing tower
 			try {
 				Tower floatingTower = gm.createTower(choice, tilePos.first, tilePos.second);
 				if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
@@ -101,10 +100,13 @@ public class GameUI {
 				gc.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
 						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 			}
+			drawGrid(gc);
 		}
 		else if (SuperManager.getInstance().getShouldDisplayPathProp().get()){
 			PathRenderer.render(gm.getPath(), gm.getStartTilePos(), gm.getEndTilePos(), gc);
 		}
+		if (GameManager.getInstance().getSelectedTile() != null)
+			drawGrid(gc);
 
 	}
 
@@ -131,6 +133,32 @@ public class GameUI {
 				upgradeInfoPanel.setTexts(tw.toString(), "--", "--", "--", "Fully Upgraded");
 			}			
 		}
+	}
+	
+	public void drawGrid(GraphicsContext gc) {
+		gc.save();
+		gc.setStroke(Color.color(1, 1, 1, 0.3));
+		gc.setLineWidth(2);
+		gc.setGlobalBlendMode(BlendMode.DIFFERENCE);
+		double w = Numbers.COLUMNS*Numbers.TILE_SIZE,
+				h = Numbers.ROWS*Numbers.TILE_SIZE;
+		int tz = Numbers.TILE_SIZE;
+		for (int i=1; i<Numbers.ROWS; i++) {
+			gc.beginPath();
+			gc.moveTo(0, i*tz);
+			gc.lineTo(w, i*tz);
+			gc.closePath();
+			gc.stroke();
+		}
+		for (int i=1; i<Numbers.COLUMNS; i++) {
+			gc.beginPath();
+			gc.moveTo(i*tz, 0);
+			gc.lineTo(i*tz, h);
+			gc.closePath();
+			gc.stroke();
+		}
+		
+		gc.restore();
 	}
 
 
