@@ -5,6 +5,7 @@ import constants.Numbers;
 import constants.Other;
 import controller.SuperManager;
 import controller.game.GameManager;
+import controller.game.MonsterSpawner;
 import exceptions.FullyUpgradedException;
 import exceptions.PathBlockedException;
 import javafx.scene.canvas.GraphicsContext;
@@ -52,6 +53,7 @@ public class GameUI {
 			
 		
 		debug.setText(gm.getMousePos().toString());
+		levelPanel.setText("Level " + MonsterSpawner.getInstace().getLevel());
 		moneyPanel.setText("Money " + gm.getMoney());
 		livePanel.setText("Live" + gm.getLives());
 		if (t != null && t instanceof Tower)

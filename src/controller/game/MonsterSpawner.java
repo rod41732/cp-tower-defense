@@ -21,13 +21,13 @@ public class MonsterSpawner {
 					// so it will e like this xxx--yyy--------xxx--yyy---------xxx--yyy------ and so on
 					// useful when spawning mixed multiple monsters 
 					new MonsterSpawningSequence(500000, 100000, i+10, 
-							new FlyingMonster("XXX", Images.bear, 5, 5, 0.2, 30, 5, 0.3, 5), 
-							new FlyingMonster("YYY", Images.bear, 5, 5, 0.2, 30, 5, 0.8, 5)
+							new FlyingMonster("XXX", Images.bear, 5, 5, 0.2, 30, 3, 0.3, 5), 
+							new FlyingMonster("YYY", Images.bear, 5, 5, 0.2, 30, 3, 0.8, 5)
 							),
 					// like above but with differnt set of monster
 					new MonsterSpawningSequence(500000, 100000, i+10, // part 2 of wave
 //							new Boss1(5, 5),
-							new GroundMonster("Fly", Images.moose, 5, 5, 0.2, 30, 5, 0.8, 5)
+							new GroundMonster("Fly", Images.moose, 5, 5, 0.2, 30, 3, 0.8, 5)
 							)); // .. there can be more
 			
 			stages.add(stage);
@@ -69,6 +69,11 @@ public class MonsterSpawner {
 	public void reset() {
 		cancelWave();
 		index = 0;
+	}
+	
+	
+	public int getLevel() {
+		return index;
 	}
 	
 	
