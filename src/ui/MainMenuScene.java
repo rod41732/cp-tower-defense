@@ -70,9 +70,7 @@ public class MainMenuScene extends Scene {
 			showMapSelect();
 		});
 		resume.setOnAction(e -> {
-			SuperManager.getInstance().getIsInGameProp().set(true);			
-			Main.setScene(Main.getGameScene());
-			menuTick.pause();
+			SuperManager.getInstance().onResumeGame();
 		});
 		menus.getChildren().addAll(title, resume);
 		mapMenu = new MapSelectionMenu();
