@@ -25,7 +25,7 @@ public abstract class Monster extends Entity implements Cloneable{
 	protected double vy;
 	protected String name;
 	protected ArrayList<Buff> buffs = new ArrayList<>();
-
+	protected WritableImage coldImage;
 	
 	
 	protected double moveSpeedMultiplier;
@@ -44,6 +44,16 @@ public abstract class Monster extends Entity implements Cloneable{
 		this.name = name;
 		this.moveSpeed = moveSpeed;
 		this.money = money;
+		coldImage = new WritableImage((int)image.getWidth(), (int)image.getHeight());
+		PixelReader reader = image.getPixelReader();
+		PixelWriter writer = coldImage.getPixelWriter();
+		int w = (int)image.getWidth(), h = (int)image.getHeight();
+		for (int i=0; i<w; i++)
+			for (int j=0; j<h; j++) {
+				int argb = reader.getArgb(i, j);
+				argb |= 0xff; 
+				writer.setArgb(i, j, argb);
+			}
 	}
 	
 	public abstract boolean isAffectedBy(Tile t);
@@ -52,18 +62,8 @@ public abstract class Monster extends Entity implements Cloneable{
 	
 	public void render(GraphicsContext gc) {
 		if (hasBuff(new MoveSpeedBuff(1,1))) {
-			WritableImage cold = new WritableImage((int)image.getWidth(), (int)image.getHeight());
-			PixelReader reader = image.getPixelReader();
-			PixelWriter writer = cold.getPixelWriter();
-			int w = (int)image.getWidth(), h = (int)image.getHeight();
-			for (int i=0; i<w; i++)
-				for (int j=0; j<h; j++) {
-					int argb = reader.getArgb(i, j);
-					argb |= 0xff; 
-					writer.setArgb(i, j, argb);
-				}
 			Image old = this.image;
-			this.image = cold;
+			this.image = coldImage;
 			super.render(gc);
 			this.image = old;
 		}
@@ -182,9 +182,11 @@ public abstract class Monster extends Entity implements Cloneable{
 	}
 	
 	
-	public Object clone(){
+	public Monster clone(){
 		try {
-			return super.clone();			
+			Monster cloned = (Monster)super.clone();
+			cloned.buffs = new ArrayList<>();
+			return cloned;
 		}
 		catch (CloneNotSupportedException e) {
 			e.printStackTrace();
