@@ -2,14 +2,12 @@ package controller;
 
 import controller.game.GameManager;
 import controller.game.MonsterSpawner;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.util.Duration;
 import main.Main;
+import sharedobject.SharedObject;
 
 public class SuperManager {
 	
@@ -58,6 +56,7 @@ public class SuperManager {
 	public void onReset() {
 		MonsterSpawner.getInstace().reset();
 		GameManager.getInstance().reset();
+		SharedObject.getInstance().clear();
 		isGamePausedProp.set(true);
 		isInGameProp.set(false);
 	}

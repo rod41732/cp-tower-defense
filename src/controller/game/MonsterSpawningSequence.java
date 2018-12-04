@@ -10,41 +10,12 @@ import model.Monster;
 
 public class MonsterSpawningSequence extends Thread {
 	private static boolean isPaused;
-	
-	public MonsterSpawningSequence(int delay, int delay2, int repeat, ArrayList<Monster> monstersList) {
-		super(new Runnable() {
-			@Override
-			public void run() {
-				for (int i=0; i<repeat; i++) {
-					try {
-						while (isPaused) {
-							Thread.sleep(16);
-						}
-						Thread.sleep(delay/1000, delay%1000000);
-						for (Monster m: monstersList) {
-							Thread.sleep(delay2/1000, delay2%1000000);
-							while (isPaused) {
-								Thread.sleep(16); // pause when game paused;
-							}
-							System.out.println("spawned " + i);
-							GameManager.getInstance().addMonster((Monster) m.clone());
-						}		
-					}
-					catch (InterruptedException e) {
-						System.out.println("[W] A monster spawning sequence has been interrupted");
-						break;
-					}
-	
-				}
-			}
-		});
-	}
-
+	private static boolean shouldStop;
 	public MonsterSpawningSequence(int delay, int delay2, int repeat, Monster ...monstersList) {
 		super(new Runnable() {
 			@Override
 			public void run() {
-				for (int i=0; i<repeat; i++) {
+				for (int i=0; i<repeat && !shouldStop; i++) {
 					try {
 						Thread.sleep(delay/1000, delay%1000000);
 						for (Monster m: monstersList) {
@@ -52,9 +23,9 @@ public class MonsterSpawningSequence extends Thread {
 							while (isPaused) {
 								Thread.sleep(16); // pause when game paused;
 							}
-							System.out.println("spawned " + i);
+							if (shouldStop) break;
 							GameManager.getInstance().addMonster((Monster) m.clone());
-						}		
+						}	
 					}
 					catch (InterruptedException e) {
 						System.out.println("[W] A monster spawning sequence has been interrupted");
@@ -62,8 +33,15 @@ public class MonsterSpawningSequence extends Thread {
 					}
 	
 				}
+				shouldStop = false;
 			}
 		});	
+	}
+	
+	@Override
+	public void interrupt() {
+		shouldStop = true;
+		super.interrupt();
 	}
 	
 	public static void onGamePause() {
@@ -75,6 +53,6 @@ public class MonsterSpawningSequence extends Thread {
 	
 	
 	public MonsterSpawningSequence(int delay) { // empty spawner for delay
-		this(delay, 1000, 1, new ArrayList<>()); 
+		this(delay, 1000, 1); 
 	}
 }

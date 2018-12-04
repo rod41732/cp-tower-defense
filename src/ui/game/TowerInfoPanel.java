@@ -12,8 +12,6 @@ import ui.component.IconText;
 
 
 public class TowerInfoPanel extends VBox {
-	private static final double PADDING = 8.0;
-	private static final double SPACING = 10.0;
 	private static final Font titleFont = Font.font("KenVector Future Regular", 20);
 	private static final Font textFont = Font.font("KenVector Future Regular", 14);
 	

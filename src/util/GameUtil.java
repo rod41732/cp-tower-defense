@@ -39,9 +39,29 @@ public class GameUtil {
 
 		@Override
 		public int compare(Entity o1, Entity o2) {
-			return Double.compare(((Entity) o1).getzIndex(), ((Entity) o2).getzIndex());
+			try {
+				return Double.compare(((Entity) o1).getzIndex(), ((Entity) o2).getzIndex());				
+			}
+			catch (NullPointerException e) { // most likely happen when concurrent modification
+				return -1;
+			}
 		}
 		
+	}
+	
+	public static int directionIndex(cpp.pii p1, cpp.pii p2) {
+		if (p1 == null || p2 == null) return -1;
+		if (p1.first > p2.first) return 0;
+		if (p1.first < p2.first) return 2;
+		if (p1.second < p2.second) return 1;
+		if (p1.second > p2.second) return 3;
+		return -1;
+	}
+	
+	
+	public static double transparencyCycle(int tick, int cycleTick) {
+		double trans = (tick%cycleTick)*2.0/cycleTick;
+		return trans > 1 ? 2 - trans : trans;
 	}
 	
 }

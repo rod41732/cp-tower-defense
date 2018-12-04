@@ -2,7 +2,6 @@ package model.monster;
 
 import constants.Images;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import model.Particle;
 
 public class Boss1 extends GroundMonster {

@@ -10,6 +10,8 @@ import exceptions.FullyUpgradedException;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import ui.game.Renderer;
+import util.GameUtil;
 
 public abstract class Tower extends Tile {
 
@@ -43,38 +45,28 @@ public abstract class Tower extends Tile {
 	@Override
 	public void render(GraphicsContext gc) {
 		super.render(gc);
-		if ((GameManager.getInstance().getSelectedTile() != null && distanceTo(GameManager.getInstance().getSelectedTile()) < 0.1)) {
-			double tz = Numbers.TILE_SIZE;
-			double t = 0.5;
-//			double t = GameManager.getInstance().getRenderTickCount()%120;
-			double multiplier = t/60.;
-			if (multiplier > 1) multiplier = 2-multiplier;
-			multiplier = 0.3+0.7*multiplier;
-			gc.setLineWidth(3);
-			gc.setStroke(new Color(1, 0, 1, 0.8));
-			gc.strokeOval(x*tz-range*tz, y*tz-range*tz, 2*range*tz, 2*range*tz);			
-			gc.setFill(new Color(1, 0, 1, 0.4*multiplier));
-			gc.fillOval(x*tz-range*tz, y*tz-range*tz, 2*range*tz, 2*range*tz);
+		if (this == GameManager.getInstance().getSelectedTile()) {
+			renderRadius(gc);
 		}	
 	}
 
 	public void render(GraphicsContext gc, boolean showRadius) {
 		super.render(gc);
 		if (showRadius) {
-			double tz = Numbers.TILE_SIZE;
-			double t= 0.5;
-//			double t = GameManager.getInstance().getRenderTickCount()%120;
-			double multiplier = t/60.;
-			if (multiplier > 1) multiplier = 2-multiplier;
-			multiplier = 0.3+0.7*multiplier;
-			gc.setLineWidth(3);
-			gc.setStroke(new Color(1, 0, 1, 0.8));
-			gc.strokeOval(x*tz-range*tz, y*tz-range*tz, 2*range*tz, 2*range*tz);			
-			gc.setFill(new Color(1, 0, 1, 0.4*multiplier));
-			gc.fillOval(x*tz-range*tz, y*tz-range*tz, 2*range*tz, 2*range*tz);
+			renderRadius(gc);
 		}	
 	}
 	
+	
+	public void renderRadius(GraphicsContext gc) {
+		int tz = Numbers.TILE_SIZE;
+		double multiplier = 0.3+0.4*GameUtil.transparencyCycle(Renderer.getInstance().getRenderTick(), 60);
+		gc.setLineWidth(3);
+		gc.setStroke(new Color(1, 0, 1, 0.8));
+		gc.strokeOval(x*tz-range*tz, y*tz-range*tz, 2*range*tz, 2*range*tz);			
+		gc.setFill(new Color(1, 0, 1, 0.3*multiplier));
+		gc.fillOval(x*tz-range*tz, y*tz-range*tz, 2*range*tz, 2*range*tz);
+	}
 	
 	
 	public void upgrade() throws FullyUpgradedException {

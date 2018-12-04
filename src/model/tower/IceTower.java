@@ -60,7 +60,7 @@ public class IceTower extends Tower {
 		
 		rotateTo(currentTarget);
 		GameManager.getInstance().addProjectile(new 
-				IceProjectile(x, y, v.first*15, v.second*15, range, attack, slowness, splashRadius));
+				IceProjectile(x, y, v.first*15, v.second*15, range, attack, slowness, splashRadius, SLOW_DURATION));
 		
 		currentCooldown = attackCooldown;
 	}

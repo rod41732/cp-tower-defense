@@ -1,23 +1,18 @@
 package model;
 
-import java.awt.Font;
 import java.util.ArrayList;
 
-import com.sun.javafx.font.FontFactory;
-
 import buff.Buff;
+import buff.DamageTakenDebuff;
 import buff.MoveSpeedBuff;
 import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import model.particle.Blood;
 import util.GameUtil;
 import util.cpp.pff;
 
@@ -32,7 +27,7 @@ public abstract class Monster extends Entity implements Cloneable{
 	protected double vy;
 	protected String name;
 	protected ArrayList<Buff> buffs = new ArrayList<>();
-
+	protected WritableImage coldImage;
 	
 	
 	protected double moveSpeedMultiplier;
@@ -51,6 +46,16 @@ public abstract class Monster extends Entity implements Cloneable{
 		this.name = name;
 		this.moveSpeed = moveSpeed;
 		this.money = money;
+		coldImage = new WritableImage((int)image.getWidth(), (int)image.getHeight());
+		PixelReader reader = image.getPixelReader();
+		PixelWriter writer = coldImage.getPixelWriter();
+		int w = (int)image.getWidth(), h = (int)image.getHeight();
+		for (int i=0; i<w; i++)
+			for (int j=0; j<h; j++) {
+				int argb = reader.getArgb(i, j);
+				argb |= 0xff; 
+				writer.setArgb(i, j, argb);
+			}
 	}
 	
 	public abstract boolean isAffectedBy(Tile t);
@@ -59,28 +64,26 @@ public abstract class Monster extends Entity implements Cloneable{
 	
 	public void render(GraphicsContext gc) {
 		if (hasBuff(new MoveSpeedBuff(1,1))) {
-			WritableImage cold = new WritableImage((int)image.getWidth(), (int)image.getHeight());
-			PixelReader reader = image.getPixelReader();
-			PixelWriter writer = cold.getPixelWriter();
-			int w = (int)image.getWidth(), h = (int)image.getHeight();
-			for (int i=0; i<w; i++)
-				for (int j=0; j<h; j++) {
-					int argb = reader.getArgb(i, j);
-					argb |= 0xff; 
-					writer.setArgb(i, j, argb);
-				}
 			Image old = this.image;
-			this.image = cold;
+			this.image = coldImage;
 			super.render(gc);
 			this.image = old;
 		}
 		else {
 			super.render(gc);					
 		}
-		gc.setFill(Color.color(0, 1, 0));
-		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
-		gc.setFill(Color.color(1, 0, 0));
-		gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 20);
+		if (!this.hasBuff(new DamageTakenDebuff(1, 1))) {
+			gc.setFill(Color.color(0, 1, 0));
+			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
+			gc.setFill(Color.color(1, 0, 0));
+			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 20);			
+		}
+		else {
+			gc.setFill(Color.color(1, 1, 0));
+			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
+			gc.setFill(Color.color(0, 0, 1));
+			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 20);
+		}
 	}
 	
 	public void onTick() {
@@ -189,9 +192,11 @@ public abstract class Monster extends Entity implements Cloneable{
 	}
 	
 	
-	public Object clone(){
+	public Monster clone(){
 		try {
-			return super.clone();			
+			Monster cloned = (Monster)super.clone();
+			cloned.buffs = new ArrayList<>();
+			return cloned;
 		}
 		catch (CloneNotSupportedException e) {
 			e.printStackTrace();

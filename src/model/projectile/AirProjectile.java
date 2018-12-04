@@ -1,9 +1,6 @@
 package model.projectile;
 
-import controller.game.GameManager;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import model.Blood;
 import model.Monster;
 import model.Projectile;
 

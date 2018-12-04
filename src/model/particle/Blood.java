@@ -1,11 +1,12 @@
-package model;
+package model.particle;
 
 import constants.Images;
 import constants.Numbers;
 import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
+import model.Particle;
 
 public class Blood extends Particle {
 
@@ -15,6 +16,7 @@ public class Blood extends Particle {
 	
 	public Blood(Color color, double x, double y, double vx, double vy, double maxAge, double radius) {
 		super(Images.attackIcon, x, y, vx, vy, maxAge);
+		this.color = color;
 		this.radius = radius;
 		this.isOnGround = false;
 	}
@@ -40,9 +42,10 @@ public class Blood extends Particle {
 	
 	@Override
 	public void render(GraphicsContext gc) {
+//		gc.setGlobalAlpha(1);
 		gc.save();
 		gc.setFill(color);
-		gc.fillRect(x*Numbers.TILE_SIZE, y*Numbers.TILE_SIZE, 2, 2);
+		gc.fillRect(x*Numbers.TILE_SIZE, y*Numbers.TILE_SIZE, radius, radius);
 		gc.restore();
 	}
 }

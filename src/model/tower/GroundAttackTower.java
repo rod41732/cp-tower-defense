@@ -57,7 +57,7 @@ public class GroundAttackTower extends Tower {
 		}
 		else {
 			GameManager.getInstance().addProjectile(new 
-					SplittingProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, 10, 
+					SplittingProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, attack, 
 							Math.min(distanceTo(currentTarget)*0.6, distanceTo(currentTarget)-currentTarget.getSize()-size)));			
 		}
 		
@@ -91,7 +91,7 @@ public class GroundAttackTower extends Tower {
 	}
 
 	public String toString() {
-		return "Normal Tower";
+		return "G Tower";
 	}
 
 }

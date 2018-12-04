@@ -23,11 +23,9 @@ import ui.component.ButtonMaker;
 
 public class MapSelectionMenu extends Pane{
 	
-	private int choice;
 	
 	public MapSelectionMenu() {
 		super();
-		choice = -1;
 		Canvas canvas = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Button backButton = ButtonMaker.make(0, 0, Images.buttonUpgrade, Images.buttonUpgradePressed, Other.normalButtonFont, "Back");
 		Button newGameButton = ButtonMaker.make(1300, 740, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "New Game");
@@ -50,8 +48,7 @@ public class MapSelectionMenu extends Pane{
 		gc.setFill(Color.color(1, 0, 1, 0.8));
 		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		getChildren().addAll(canvas, backButton, newGameButton);
-//		RadioButton rdio = new RadioButton();
-		for (int i=0; i<Maps.numOfAvaiableMaps(); i++) { // add button after 
+		for (int i=0; i<Maps.numOfAvaiableMaps(); i++) {
 			RadioButton btn = ButtonMaker.makeMapSelectButton(250+(i%3)*450, 150+(i/3)*307,
 					Maps.getMap(i).getPreviewImage(), Maps.getMap(i).getPreviewImage(), i);
 			toggleGroup.getToggles().add(btn);
