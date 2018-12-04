@@ -11,11 +11,13 @@ import util.cpp;
 
 public class PathRenderer {
 	
+	private static final Bloom bloom = new Bloom(0.1);
+	
 	public static void render(cpp.pii[][] path, cpp.pii start, cpp.pii end, GraphicsContext gc) {
 		cpp.pii prev = null, next = null; // the function does handle null correctly
 		cpp.pii pos = new cpp.pii(start.first, start.second);
 		gc.save();
-		gc.setEffect(new Bloom(0.1));
+		gc.setEffect(bloom);
 		gc.setGlobalAlpha(0.5+0.3*GameUtil.transparencyCycle(Renderer.getInstance().getRenderTick(), 120));
 		while (pos != null && !pos.equals(end)) {
 			next = path[pos.first][pos.second];
