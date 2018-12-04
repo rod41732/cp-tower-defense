@@ -90,7 +90,7 @@ public class GameButton {
 		
 		
 		toggleGroup = new ToggleGroup();
-		for (int i=0; i<6; i++) {
+		for (int i=0; i<7; i++) { // loop through num of variant
 			Tower twr = GameManager.getInstance().createTower(i, 0, 0);
 			ToggleButton tg = ButtonMaker.makeTowerButton(1344+(i%3)*85, (i/3)*128,
 					Images.towerButton, Images.towerButtonPressed, twr, buttonFontSmall, i);

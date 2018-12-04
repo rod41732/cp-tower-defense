@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import buff.Buff;
+import buff.DamageTakenDebuff;
 import buff.MoveSpeedBuff;
 import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,6 +12,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import model.particle.Blood;
 import util.GameUtil;
 import util.cpp.pff;
 
@@ -70,10 +72,18 @@ public abstract class Monster extends Entity implements Cloneable{
 		else {
 			super.render(gc);					
 		}
-		gc.setFill(Color.color(0, 1, 0));
-		gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
-		gc.setFill(Color.color(1, 0, 0));
-		gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 20);
+		if (!this.hasBuff(new DamageTakenDebuff(1, 1))) {
+			gc.setFill(Color.color(0, 1, 0));
+			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
+			gc.setFill(Color.color(1, 0, 0));
+			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 20);			
+		}
+		else {
+			gc.setFill(Color.color(1, 1, 0));
+			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
+			gc.setFill(Color.color(0, 0, 1));
+			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 20);
+		}
 	}
 	
 	public void onTick() {

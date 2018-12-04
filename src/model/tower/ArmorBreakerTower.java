@@ -8,29 +8,28 @@ import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.Monster;
 import model.Tower;
+import model.projectile.ArmorBreakerProjectile;
 import model.projectile.IceProjectile;
 import util.GameUtil;
 import util.cpp;
 
-public class IceTower extends Tower {
+public class ArmorBreakerTower extends Tower {
 
 	private static final double[] ATTACK_VALUES = {5, 5, 5, 5, 5};
 	private static final double[] COOLDOWN_VALUES = {700, 700, 600, 600, 500};
 	private static final double[] RANGE_VALUES = {2.5, 2.5, 2.5, 3, 3};
-	private static final double[] SPLASH_RADIUS_VALUES = {0.2, 0.3, 0.3, 0.4, 0.6};
-	private static final double[] SLOWNESS_VALUES = {0.3, 0.35, 0.4, 0.45, 0.5};
+	private static final double[] DAMAGE_MULTIPLIER_VALUES = {0.3, 0.35, 0.4, 0.45, 0.5};
 	private static final int[] PRICE_VALUES = {25, 25, 30, 50, 60};
-	private static final int SLOW_DURATION = 1000;
+	private static final int DEBUFF_DURATION = 1250;
 	private static final Image DEFAULT_IMAGE = Images.iceTower;
 	
 	private double slowness;
 	private double splashRadius;
 		
-	public IceTower(double cellX, double cellY) {
+	public ArmorBreakerTower(double cellX, double cellY) {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
 		this.price = PRICE_VALUES[0];
-		this.slowness = SLOWNESS_VALUES[0];
-		this.splashRadius = SPLASH_RADIUS_VALUES[0];
+		this.slowness = DAMAGE_MULTIPLIER_VALUES[0];
 	}
 	
 	@Override
@@ -49,8 +48,7 @@ public class IceTower extends Tower {
 			this.attackCooldown = COOLDOWN_VALUES[level-1];
 			this.range = RANGE_VALUES[level-1];
 			this.price += PRICE_VALUES[level-1];
-			this.splashRadius = SPLASH_RADIUS_VALUES[level-1];
-			this.slowness = SLOWNESS_VALUES[level-1];
+			this.slowness = DAMAGE_MULTIPLIER_VALUES[level-1];
 		}
 	}
 	public void fire() {
@@ -60,7 +58,7 @@ public class IceTower extends Tower {
 		
 		rotateTo(currentTarget);
 		GameManager.getInstance().addProjectile(new 
-				IceProjectile(x, y, v.first*15, v.second*15, range, attack, slowness, splashRadius, SLOW_DURATION));
+				ArmorBreakerProjectile(x, y, v.first*15, v.second*15, range, attack, slowness, DEBUFF_DURATION));
 		
 		currentCooldown = attackCooldown;
 	}
@@ -86,6 +84,6 @@ public class IceTower extends Tower {
 	}
 	
 	public String toString() {
-		return "Ice Tower";
+		return "Armor Breaker Tower";
 	}
 }

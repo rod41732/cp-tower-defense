@@ -105,9 +105,6 @@ public class GameUI {
 		else if (SuperManager.getInstance().getShouldDisplayPathProp().get()){
 			PathRenderer.render(gm.getPath(), gm.getStartTilePos(), gm.getEndTilePos(), gc);
 		}
-		if (GameManager.getInstance().getSelectedTile() != null)
-			drawGrid(gc);
-
 	}
 
 	

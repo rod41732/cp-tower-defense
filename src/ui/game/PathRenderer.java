@@ -5,7 +5,7 @@ import constants.Numbers;
 import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Bloom;
-import model.Blood;
+import model.particle.Blood;
 import util.GameUtil;
 import util.cpp;
 
