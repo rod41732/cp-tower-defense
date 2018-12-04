@@ -3,8 +3,6 @@ package ui;
 
 import java.util.ArrayList;
 
-import javax.management.remote.SubjectDelegationPermission;
-
 import constants.Images;
 import controller.SuperManager;
 import controller.game.GameManager;

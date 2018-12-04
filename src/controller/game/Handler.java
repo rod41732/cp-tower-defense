@@ -2,17 +2,10 @@ package controller.game;
 
 import constants.Numbers;
 import controller.SuperManager;
-import exceptions.NotEnoughMoneyException;
-import exceptions.PathBlockedException;
-import exceptions.UnplaceableException;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import model.Tower;
-import sharedobject.SharedObject;
-import ui.SnackBar;
-import util.Algorithm;
 
 public class Handler {
 	private GameManager gm;

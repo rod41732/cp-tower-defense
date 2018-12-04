@@ -2,7 +2,6 @@ package main;
 //package main;
 
 import constants.Numbers;
-import controller.game.GameManager;
 import controller.game.MonsterSpawnerThread;
 import javafx.application.Application;
 import javafx.scene.Scene;

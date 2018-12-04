@@ -4,7 +4,6 @@ import constants.Images;
 import constants.Numbers;
 import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class Blood extends Particle {
@@ -42,7 +41,7 @@ public class Blood extends Particle {
 	public void render(GraphicsContext gc) {
 		gc.save();
 		gc.setFill(color);
-		gc.fillRect(x*Numbers.TILE_SIZE, y*Numbers.TILE_SIZE, 2, 2);
+		gc.fillRect(x*Numbers.TILE_SIZE, y*Numbers.TILE_SIZE, radius, radius);
 		gc.restore();
 	}
 }

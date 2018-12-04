@@ -1,7 +1,5 @@
 package model.projectile;
 
-import java.util.function.Consumer;
-
 import constants.Images;
 import controller.game.GameManager;
 import javafx.scene.image.Image;

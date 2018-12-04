@@ -11,11 +11,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 import model.Entity;
-import model.Tower;
 import sharedobject.SharedObject;
 import ui.PauseMenu;
 import ui.SnackBar;
-import util.cpp;
 
 public class Renderer {
 	private static Renderer instance = new Renderer();

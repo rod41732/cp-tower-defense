@@ -3,11 +3,8 @@ package controller.game;
 import java.util.ArrayList;
 
 import constants.Images;
-import model.Monster;
-import model.monster.Boss1;
 import model.monster.FlyingMonster;
 import model.monster.GroundMonster;
-import util.cpp;
 
 public class MonsterSpawner {
 	

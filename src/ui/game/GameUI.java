@@ -1,18 +1,13 @@
 package ui.game;
 
-import java.util.ArrayList;
-
 import constants.Images;
 import constants.Numbers;
 import constants.Other;
 import controller.SuperManager;
 import controller.game.GameManager;
-import controller.game.MonsterSpawner;
 import exceptions.FullyUpgradedException;
 import exceptions.PathBlockedException;
-import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.Tile;
@@ -23,8 +18,8 @@ import util.cpp;
 public class GameUI {
 	
 	private static GameUI instance = new GameUI();
-	// TODO: use buttons to check click (custom image buttons)
-	private static double LEFT = 1344;
+	
+	
 	private TowerInfoPanel towerInfoPanel = new TowerInfoPanel();
 	private TowerInfoPanel upgradeInfoPanel = new TowerInfoPanel();
 	private IconText levelPanel, moneyPanel, livePanel, debug;
@@ -52,14 +47,14 @@ public class GameUI {
 	
 	public void render(GraphicsContext gc) {
 
-		
-		Tile t = GameManager.getInstance().getSelectedTile();
-		Tile t2 = GameManager.getInstance().createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
+		GameManager gm = GameManager.getInstance();
+		Tile t = gm.getSelectedTile();
+		Tile t2 = gm.createTower(gm.getTowerChoice(), 999, 999);
 			
 		
-		debug.setText(GameManager.getInstance().getMousePos().toString());
-		moneyPanel.setText("Money " + GameManager.getInstance().getMoney());
-		livePanel.setText("Live" + GameManager.getInstance().getLives());
+		debug.setText(gm.getMousePos().toString());
+		moneyPanel.setText("Money " + gm.getMoney());
+		livePanel.setText("Live" + gm.getLives());
 		if (t != null && t instanceof Tower)
 			updateTowerInfo(t, true);
 		else if (t2 != null)
@@ -68,7 +63,7 @@ public class GameUI {
 			updateTowerInfo(null, false);
 		
 		
-		GameManager gm = GameManager.getInstance();
+	
 		cpp.pii tilePos = gm.getSelectedPosition();
 		int choice = SuperManager.getInstance().getTowerChoiceProp().get();
 		if (choice != -1) {	
@@ -107,6 +102,9 @@ public class GameUI {
 						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 			}
 		}
+		else if (SuperManager.getInstance().getShouldDisplayPathProp().get()){
+			PathRenderer.render(gm.getPath(), gm.getStartTilePos(), gm.getEndTilePos(), gc);
+		}
 
 	}
 
@@ -139,8 +137,5 @@ public class GameUI {
 	public static GameUI getInstance() {
 		return instance;
 	}
-	
-	
-	
 	
 }

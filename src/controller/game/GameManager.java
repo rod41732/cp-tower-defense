@@ -4,15 +4,12 @@ package controller.game;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 import constants.Maps;
 import constants.Numbers;
 import controller.SuperManager;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import model.Entity;
 import model.Map;
 import model.Monster;
 import model.Particle;
@@ -21,7 +18,6 @@ import model.Tile;
 import model.TileStack;
 import model.Tower;
 import sharedobject.SharedObject;
-import ui.game.Renderer;
 import util.Algorithm;
 import util.cpp;
 

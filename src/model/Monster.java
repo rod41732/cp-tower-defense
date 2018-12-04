@@ -1,18 +1,11 @@
 package model;
 
-import java.awt.Font;
 import java.util.ArrayList;
-
-import com.sun.javafx.font.FontFactory;
 
 import buff.Buff;
 import buff.MoveSpeedBuff;
 import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;

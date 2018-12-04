@@ -4,7 +4,6 @@ import buff.MoveSpeedBuff;
 import constants.Images;
 import controller.game.GameManager;
 import model.Monster;
-import model.Particle;
 import util.cpp;
 
 public class IceProjectile extends NormalProjectile {
