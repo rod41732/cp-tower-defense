@@ -22,19 +22,19 @@ import util.Algorithm2;
 import util.cpp;
 public class GameUI {
 	
+	private static GameUI instance = new GameUI();
 	// TODO: use buttons to check click (custom image buttons)
 	private static double LEFT = 1344;
-	private static TowerInfoPanel towerInfoPanel = new TowerInfoPanel();
-	private static TowerInfoPanel upgradeInfoPanel = new TowerInfoPanel();
-	
-	private static IconText levelPanel, moneyPanel, livePanel, debug;
-	
+	private TowerInfoPanel towerInfoPanel = new TowerInfoPanel();
+	private TowerInfoPanel upgradeInfoPanel = new TowerInfoPanel();
+	private IconText levelPanel, moneyPanel, livePanel, debug;
 	
 	
-	private static cpp.pii lastPos = new cpp.pii(-1, -1);
-	private static cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
-	private static boolean isError = false;
-	static {
+	
+	private cpp.pii lastPos = new cpp.pii(-1, -1);
+	private cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
+	private boolean isError = false;
+	public GameUI() {
 		levelPanel = new IconText(Images.attackIcon, "Level 9999", Other.normalButtonFont);
 		moneyPanel = new IconText(Images.coinIcon, "Money " + GameManager.getInstance().getMoney(), Other.normalButtonFont);
 		livePanel = new IconText(Images.liveIcon, "Live " + GameManager.getInstance().getLives(), Other.normalButtonFont);
@@ -42,15 +42,16 @@ public class GameUI {
 	}
 	
 	
-	public static void addinfo(Pane pane) {
+	public void addinfo(Pane pane) {
 		pane.getChildren().addAll(levelPanel, moneyPanel, livePanel, debug);
 	}
 	
-	public static void mountPanel(Pane pane) {
+	public void mountPanel(Pane pane) {
 		pane.getChildren().addAll(towerInfoPanel, upgradeInfoPanel);
 	}
 	
-	public static void render(GraphicsContext otherGC) {
+	public void render(GraphicsContext gc) {
+
 		
 		Tile t = GameManager.getInstance().getSelectedTile();
 		Tile t2 = GameManager.getInstance().createTower(GameManager.getInstance().getTowerChoice(), 999, 999);
@@ -63,7 +64,8 @@ public class GameUI {
 			updateTowerInfo(t, true);
 		else if (t2 != null)
 			updateTowerInfo(t2, false);
-
+		else 
+			updateTowerInfo(null, false);
 		
 		
 		GameManager gm = GameManager.getInstance();
@@ -73,7 +75,7 @@ public class GameUI {
 			try {
 				Tower floatingTower = gm.createTower(choice, tilePos.first, tilePos.second);
 				if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
-					floatingTower.render(otherGC, true);							
+					floatingTower.render(gc, true);							
 				}
 				cpp.pii start = gm.getStartTilePos(), end = gm.getEndTilePos();
 				
@@ -91,28 +93,18 @@ public class GameUI {
 				}
 				
 				if (path != null) {
-					otherGC.setFill(new Color(0, 0, 0, 0.4)); // just dim
-					// need to copy
-					cpp.pii pos = new cpp.pii(start.first, start.second);
-					while (pos != null && !pos.equals(end)) {
-						otherGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
-								Numbers.TILE_SIZE, Numbers.TILE_SIZE);
-						pos = path[pos.first][pos.second];
-					}
-					if (pos != null) // blocked path
-					otherGC.fillRect(pos.first*Numbers.TILE_SIZE, pos.second*Numbers.TILE_SIZE,
-							Numbers.TILE_SIZE, Numbers.TILE_SIZE);
+					PathRenderer.render(path, gm.getStartTilePos(), gm.getEndTilePos(), gc);
 				}
 				if (isError) {
-					otherGC.setFill(Color.color(1, 0, 0, 0.7));
-					otherGC.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
+					gc.setFill(Color.color(1, 0, 0, 0.7));
+					gc.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
 							Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 				}
 			}
 			catch (PathBlockedException e) {
 				isError = true;
-				otherGC.setFill(Color.color(1, 0, 0, 0.7));
-				otherGC.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
+				gc.setFill(Color.color(1, 0, 0, 0.7));
+				gc.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
 						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 			}
 		}
@@ -120,13 +112,17 @@ public class GameUI {
 	}
 
 	
-	public static void updateTowerInfo(Tile t, boolean showUpgrade) {
+	public void updateTowerInfo(Tile t, boolean showUpgrade) {
 
 		Tower tw = (Tower)t;
-		towerInfoPanel.setTexts(tw.toString(), tw.getAttack() + "DPS", tw.getAttackCooldown() + " ms",  tw.getRange() + "tiles", tw.getDescription());
-		
+		if (tw == null) {
+			towerInfoPanel.setTexts("--", "--", "--", "--", "--");
+			upgradeInfoPanel.setTexts("--", "--", "--", "--", "--");
+			return;
+		}
+		towerInfoPanel.setTexts(tw.toString(), tw.getAttack() + "DPS", tw.getAttackCooldown() + " ms",  tw.getRange() + "tiles", tw.getDescription());			
 		if (!showUpgrade) {
-			upgradeInfoPanel.setTexts(tw.toString(), "--", "--", "--", "Fully Upgraded");
+			upgradeInfoPanel.setTexts(tw.toString(), "--", "--", "--", "--");
 		}
 		else {
 			try {
@@ -139,6 +135,13 @@ public class GameUI {
 			}			
 		}
 	}
+
+
+	public static GameUI getInstance() {
+		return instance;
+	}
+	
+	
 	
 	
 }

@@ -11,6 +11,7 @@ import model.Particle;
 import model.Projectile;
 import model.Tower;
 import model.monster.SplittingMonster;
+import sharedobject.SharedObject;
 import ui.SnackBar;
 import util.Algorithm;
 
@@ -88,17 +89,15 @@ public class Updater {
 		for (int i=gm.projectiles.size()-1; i>=0; i--) {
 			Projectile proj = gm.projectiles.get(i);
 			if (proj.isExpired()) {
-				gm.renderables.remove(proj);
-				gm.projectiles.remove(i);
+				gm.removeProjectile(proj);
+				continue;
 			}
-			else
 			for (Monster m: gm.monsters) {
 				if (proj.collideWith(m)) {
-					gm.projectiles.remove(proj);
-					gm.renderables.remove(proj);
+					gm.removeProjectile(proj);
 					break;
 				}
-			}
+			}				
 		}
 		// cleanUp
 		for (int i=gm.monsters.size()-1; i>=0; i--) {
@@ -106,15 +105,13 @@ public class Updater {
 			if (mon.isDead()) {
 				gm.money += mon.getMoney();
 				mon.onDeath();
-				gm.monsters.remove(mon);
-				gm.renderables.remove(mon);
+				gm.removeMonster(mon);
 			}
 		}
 		for (int i=gm.particles.size()-1; i>=0; i--) {
 			Particle part = gm.particles.get(i);
 			if (part.isExpired()) {
-				gm.particles.remove(part);
-				gm.renderables.remove(part);
+				gm.removeParticle(part);
 			}
 		}
 		
@@ -139,23 +136,11 @@ public class Updater {
 		}
 	}
 	
-	public void addParticle(Particle part) {
-		gm.particles.add(part);
-		gm.renderables.add(part);
-	}
-	public void spawnMonster(double x, double y) {
-		addMonster(new SplittingMonster("Eleplant", Images.elephant, x, y, 0.4, 60, 0, 1.5, 10));
-	}
-	public void addMonster(Monster mon) {
-		gm.monsters.add(mon);
-		gm.renderables.add(mon);
-	}
 	
 	public boolean shouldSpawnNextWave() {
 		return MonsterSpawner.getInstace().isReady() && gm.monsters.size() == 0;
 	}
-	public void addProjectile(Projectile proj) {
-		gm.projectiles.add(proj);
-		gm.renderables.add(proj);
-	}
+
+	
+	
 }

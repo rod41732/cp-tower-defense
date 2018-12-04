@@ -3,6 +3,9 @@ package controller.game;
 import constants.Images;
 import constants.Numbers;
 import exceptions.FullyUpgradedException;
+import exceptions.NotEnoughMoneyException;
+import exceptions.PathBlockedException;
+import exceptions.UnplaceableException;
 import model.Particle;
 import model.Tile;
 import model.Tower;
@@ -12,13 +15,14 @@ import model.tower.FireTower;
 import model.tower.GroundAttackTower;
 import model.tower.IceTower;
 import model.tower.NormalTower;
+import sharedobject.SharedObject;
 import ui.SnackBar;
 import util.Algorithm;
 import util.cpp.pii;
 
 public class TowerManager {
 
-	
+	private static TowerManager instance;
 	private GameManager gm;
 	
 	public TowerManager(GameManager game) {
@@ -39,12 +43,12 @@ public class TowerManager {
 
 	public void removeTower(int x, int y) {
 		try {
-			Tile t = gm.placedTiles[x][y].top();
+			Tile t = gm.getPlacedTiles()[x][y].top();
 			if (!t.isSelectable()) return ; // don't remove that dansgame
-			gm.placedTiles[x][y].pop();
+			gm.getPlacedTiles()[x][y].pop();
 			if (t instanceof Tower) {
 				gm.towers.remove(t);
-				gm.renderables.remove(t);
+				SharedObject.getInstance().removeRenderables(t);
 			}
 			gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
 		}
@@ -94,17 +98,59 @@ public class TowerManager {
 		}
 		return t;
 	}
+	
+	public void placeAt(int x, int y) {
+		Tower t = createTower(gm.getTowerChoice(), x, y);
+		try {			
+			if (!gm.getPlacedTiles()[x][y].isPlaceable()) {
+				throw new UnplaceableException();
+			}
+			
+			if (t.getPrice() > gm.money) {
+				throw new NotEnoughMoneyException();
+			}				
+			
+			gm.getPlacedTiles()[x][y].push(t);
+			Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
+			gm.towers.add(t);
+			SharedObject.getInstance().addRenderables(t);
+			gm.money -= t.getPrice();
+			gm.selectedTile = t;
+		}
+		catch (PathBlockedException e) {
+			gm.selectedTile = null;
+			gm.getPlacedTiles()[x][y].pop();
+			SnackBar.play("path blocked");
+		}
+		catch (NotEnoughMoneyException e) {
+			SnackBar.play("not enough money");
+		}
+		catch (UnplaceableException e) {
+			SnackBar.play("can't place there");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
+			}
+			catch(PathBlockedException e) {
+			}
+		}
+		gm.setSelectedTile(null);
+	}
 
 	public boolean boundCheck(int x, int y) {
 		return 0 <= x && x < Numbers.COLUMNS && 0 <= y && y < Numbers.ROWS;
 	}
 
 	public boolean isPlaceable(int x, int y) {
-		return  boundCheck(x, y) && gm.placedTiles[x][y].isPlaceable();
+		return  boundCheck(x, y) && gm.getPlacedTiles()[x][y].isPlaceable();
 	}
 
 	public boolean isWalkable(int x, int y) {
-		return boundCheck(x, y) && gm.placedTiles[x][y].isWalkable();
+		return boundCheck(x, y) && gm.getPlacedTiles()[x][y].isWalkable();
 	}
 
 }

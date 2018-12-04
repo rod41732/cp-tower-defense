@@ -20,6 +20,8 @@ import model.Projectile;
 import model.Tile;
 import model.TileStack;
 import model.Tower;
+import sharedobject.SharedObject;
+import ui.game.Renderer;
 import util.Algorithm;
 import util.cpp;
 
@@ -33,12 +35,11 @@ public class GameManager {
 	ArrayList<Tile> tiles = new ArrayList<>();
 	ArrayList<Projectile> projectiles = new ArrayList<>(); 
 	ArrayList<Particle> particles = new ArrayList<>();
-	ArrayList<Entity> renderables = new ArrayList<>();
-	TileStack[][] placedTiles = new TileStack[Numbers.COLUMNS][Numbers.ROWS];
+	private TileStack[][] placedTiles = new TileStack[Numbers.COLUMNS][Numbers.ROWS];
 	cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 	
 	cpp.pff mousePos = new cpp.pff(0, 0);
-	cpp.pii tilePos = new cpp.pii(0, 0);
+	private cpp.pii tilePos = new cpp.pii(0, 0);
 	int money;
 	Tile selectedTile;
 	cpp.pii startTilePos;
@@ -46,21 +47,15 @@ public class GameManager {
 	int lives;
 
 	private boolean isInitialized;
-	Renderer renderer;
 	Updater updater;
 	TowerManager towerManager;
 	Handler handler;
 	
 	public GameManager() {
-		renderer = new Renderer(this);
 		updater = new Updater(this);
 		towerManager = new TowerManager(this);
 		handler = new Handler(this);
 		reset();
-	}
-	
-	public void setGC(GraphicsContext gc) {
-		this.renderer.setGC(gc);
 	}
 	
 	public void reset() { // reset all
@@ -73,7 +68,7 @@ public class GameManager {
 		selectedTile = null;
 		for (int i=0;i < Numbers.COLUMNS; i++)
 			for (int j=0; j<Numbers.ROWS; j++)
-				placedTiles[i][j] = new TileStack();
+				getPlacedTiles()[i][j] = new TileStack();
 		MonsterSpawner.getInstace().cancelWave();
 		money = 0;
 		handler.setTowerChoice(-1);
@@ -98,8 +93,8 @@ public class GameManager {
 				for (int j=0; j<Numbers.ROWS; j++) {
 					int t = tiles[j][i];{
 						Tile tmp = new Tile(tileMap.get(t/4), i+0.5, j+0.5, ((t%4)&2) > 0, ((t%4)%2) > 0);
-						placedTiles[i][j].push(tmp);
-						renderables.add(tmp);
+						getPlacedTiles()[i][j].push(tmp);
+						SharedObject.getInstance().addRenderables(tmp);
 					}
 				}
 			path = Algorithm.BFS(endTilePos.first, endTilePos.second,
@@ -151,14 +146,6 @@ public class GameManager {
 		handler.handleTileClick(x, y);
 	}
 
-	public void addParticle(Particle p) {
-		updater.addParticle(p);
-	}
-
-	public void addProjectile(Projectile p) {
-		updater.addProjectile(p);
-	}
-
 	public boolean isPlaceable(int x, int y) {
 		return towerManager.isPlaceable(x, y);
 	}
@@ -201,14 +188,9 @@ public class GameManager {
 		return SuperManager.getInstance().getTowerChoiceProp().get();
 	}
 	
-	
-	public void addMonster(Monster m) {
-		updater.addMonster(m);
-	}
-	
 	// getters 
 	public cpp.pii getSelectedPosition() {
-		return tilePos;
+		return getTilePos();
 	}
 
 	public Tile getSelectedTile() {
@@ -232,6 +214,55 @@ public class GameManager {
 	}
 
 	
+	public boolean boundCheck(int x, int y) {
+		return towerManager.boundCheck(x, y);
+	}
+
+	public cpp.pii getTilePos() {
+		return tilePos;
+	}
+
+	public void setTilePos(cpp.pii tilePos) {
+		this.tilePos = tilePos;
+	}
+
+	public TileStack[][] getPlacedTiles() {
+		return placedTiles;
+	}
+
+	public void setPlacedTiles(TileStack[][] placedTiles) {
+		this.placedTiles = placedTiles;
+	}
+	
+	public void addMonster(Monster mon) {
+		monsters.add(mon);
+		SharedObject.getInstance().addRenderables(mon);
+	}
+	
+	public void addProjectile(Projectile proj) {
+		projectiles.add(proj);
+		SharedObject.getInstance().addRenderables(proj);
+	}
+	
+	public void addParticle(Particle part) {
+		particles.add(part);
+		SharedObject.getInstance().addRenderables(part);
+	}
+	
+	public void removeMonster(Monster mon) {
+		monsters.remove(mon);
+		SharedObject.getInstance().removeRenderables(mon);
+	}
+	
+	public void removeProjectile(Projectile proj) {
+		projectiles.remove(proj);
+		SharedObject.getInstance().removeRenderables(proj);
+	}
+	
+	public void removeParticle(Particle part) {
+		particles.remove(part);
+		SharedObject.getInstance().removeRenderables(part);
+	}
 
 	
 }

@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import model.Tower;
+import sharedobject.SharedObject;
 import ui.SnackBar;
 import util.Algorithm;
 
@@ -24,8 +25,8 @@ public class Handler {
 		gm.mousePos.first = x/Numbers.TILE_SIZE;
 		gm.mousePos.second = y/Numbers.TILE_SIZE;
 		// don't want to create new object
-		gm.tilePos.first = (int)gm.mousePos.first;
-		gm.tilePos.second = (int)gm.mousePos.second;
+		gm.getTilePos().first = (int)gm.mousePos.first;
+		gm.getTilePos().second = (int)gm.mousePos.second;
 	}
 	public boolean shouldHandle(MouseEvent e) {
 		double x = e.getX();
@@ -51,56 +52,12 @@ public class Handler {
 	}
 	
 	public void handleTileClick(int x, int y) {
-		
-		try {
-			Tower t = gm.createTower(gm.getTowerChoice(), x, y);
-			gm.handler.setTowerChoice(-1);
-			gm.selectedTile = gm.placedTiles[x][y].top();
-			// no tower => muse select
-			if (t == null) {
-				gm.selectedTile = gm.placedTiles[x][y].select();
-				return;
-			}
-	
-				// selected => try build
-			if (!gm.selectedTile.isPlaceable()) {
-				throw new UnplaceableException();
-			}
-			
-			if (t.getPrice() > gm.money) {
-				throw new NotEnoughMoneyException();
-			}				
-			
-		
-			gm.placedTiles[x][y].push(t);
-			Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
-			gm.towers.add(t);
-			gm.renderables.add(t);
-			gm.money -= t.getPrice();
-			gm.selectedTile = t;
+		if (gm.getTowerChoice() == -1) {
+			gm.selectedTile = gm.getPlacedTiles()[x][y].select();
 		}
-		catch (PathBlockedException e) {
-			gm.selectedTile = null;
-			gm.placedTiles[x][y].pop();
-			SnackBar.play("path blocked");
+		else {
+			gm.towerManager.placeAt(x, y);	
 		}
-		catch (NotEnoughMoneyException e) {
-			SnackBar.play("not enough money");
-		}
-		catch (UnplaceableException e) {
-			SnackBar.play("can't place there");
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
-			}
-			catch(PathBlockedException e) {
-			}
-		}
-		return ;
 	}
 	public void handleKeyPress(KeyEvent e) {
 		if (!SuperManager.getInstance().getIsGamePausedProp().get()) {

@@ -20,6 +20,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import ui.game.GameUI;
+import ui.game.Renderer;
 
 public class GameScene extends Scene {
 	private GameButton buttonManager;
@@ -61,20 +62,20 @@ public class GameScene extends Scene {
 		buttonManager = new GameButton();
 		buttonManager.addControlButton(bottomBar);
 		buttonManager.addTowerButtons(towerChoices);
-		GameUI.mountPanel(menus);
+		GameUI.getInstance().mountPanel(menus);
 		buttonManager.addUpgradeButton(menus); //
 		buttonManager.addMenuButtons(overlayPane);
-		GameUI.addinfo(topbar);
+		GameUI.getInstance().addinfo(topbar);
 		topbar.setAlignment(Pos.CENTER_LEFT);
 		
 		
-		
+		Renderer.getInstance().setGC(other.getGraphicsContext2D());
 		root.getChildren().add(main);
 		root.getChildren().add(overlayPane);
 		
 		overlayPane.setMouseTransparent(true);
 		
-		GameManager.getInstance().setGC(other.getGraphicsContext2D());	
+		
 		SuperManager.getInstance().getIsGamePausedProp().addListener((obs, old, nw) -> {
 			boolean pause = nw.booleanValue();
 			if (pause) {
@@ -109,6 +110,12 @@ public class GameScene extends Scene {
 		setOnKeyPressed(e -> {
 			GameManager.getInstance().handleKeyPress(e);
 		});
+		
+		
+		
+		
+		
+		
 	}
 
 	public GameButton getButtonManager() {
@@ -129,5 +136,7 @@ public class GameScene extends Scene {
 					new KeyValue(root.scaleXProperty(),  1.2, Interpolator.EASE_BOTH),
 					new KeyValue(root.scaleYProperty(), 1.2, Interpolator.EASE_BOTH))).play();
 	}
+	
+
 
 }
