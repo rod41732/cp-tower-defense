@@ -20,6 +20,7 @@ public class MonsterSpawningStage {
 		this.delay = delay;
 		for (MonsterSpawningSequence mseq: seqs) {
 			this.seqs.add(mseq);
+			this.seqs.add(new MonsterSpawningSequence(delay));
 		}
 	}
 	
