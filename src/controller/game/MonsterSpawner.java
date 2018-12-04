@@ -3,8 +3,11 @@ package controller.game;
 import java.util.ArrayList;
 
 import constants.Images;
+import model.Monster;
+import model.monster.Boss1;
 import model.monster.FlyingMonster;
 import model.monster.GroundMonster;
+import util.cpp;
 
 public class MonsterSpawner {
 	
@@ -17,12 +20,12 @@ public class MonsterSpawner {
 					// spawns two monster, with 100ms nanosec delay, i+1 times, with 500ms nanosec delay
 					// so it will e like this xxx--yyy--------xxx--yyy---------xxx--yyy------ and so on
 					// useful when spawning mixed multiple monsters 
-					new MonsterSpawningSequence(500000, 100000, i+1, 
+					new MonsterSpawningSequence(500000, 100000, i+10, 
 							new FlyingMonster("XXX", Images.bear, 5, 5, 0.2, 30, 5, 0.3, 5), 
 							new FlyingMonster("YYY", Images.bear, 5, 5, 0.2, 30, 5, 0.8, 5)
 							),
 					// like above but with differnt set of monster
-					new MonsterSpawningSequence(500000, 100000, i+1, // part 2 of wave
+					new MonsterSpawningSequence(500000, 100000, i+10, // part 2 of wave
 //							new Boss1(5, 5),
 							new GroundMonster("Fly", Images.moose, 5, 5, 0.2, 30, 5, 0.8, 5)
 							)); // .. there can be more

@@ -2,6 +2,10 @@ package controller.game;
 
 import java.util.ArrayList;
 
+import controller.SuperManager;
+import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import model.Monster;
 
 public class MonsterSpawningSequence extends Thread {
@@ -48,18 +52,27 @@ public class MonsterSpawningSequence extends Thread {
 							while (isPaused) {
 								Thread.sleep(16); // pause when game paused;
 							}
-							System.out.println("spawned " + i);
+							if (Thread.currentThread().isInterrupted()) return;
+							System.out.println("spawned2 " + i);
 							GameManager.getInstance().addMonster((Monster) m.clone());
-						}		
+						}	
 					}
 					catch (InterruptedException e) {
 						System.out.println("[W] A monster spawning sequence has been interrupted");
-						break;
+						return;
 					}
 	
 				}
 			}
 		});	
+	}
+	
+	@Override
+	public void interrupt() {
+		System.out.println("interrupted");
+		Thread.currentThread().interrupt();
+		System.out.println("is interrupted ? " + currentThread().isInterrupted());
+		super.interrupt();
 	}
 	
 	public static void onGamePause() {

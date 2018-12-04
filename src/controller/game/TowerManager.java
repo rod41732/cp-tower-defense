@@ -2,6 +2,7 @@ package controller.game;
 
 import constants.Images;
 import constants.Numbers;
+import controller.SuperManager;
 import exceptions.FullyUpgradedException;
 import exceptions.NotEnoughMoneyException;
 import exceptions.PathBlockedException;
@@ -139,6 +140,7 @@ public class TowerManager {
 			}
 		}
 		gm.setSelectedTile(null);
+		SuperManager.getInstance().getTowerChoiceProp().set(-1);
 	}
 
 	public boolean boundCheck(int x, int y) {

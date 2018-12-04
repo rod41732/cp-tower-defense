@@ -65,7 +65,6 @@ public class GameManager {
 		for (int i=0;i < Numbers.COLUMNS; i++)
 			for (int j=0; j<Numbers.ROWS; j++)
 				getPlacedTiles()[i][j] = new TileStack();
-		MonsterSpawner.getInstace().cancelWave();
 		money = 0;
 		handler.setTowerChoice(-1);
 	}
