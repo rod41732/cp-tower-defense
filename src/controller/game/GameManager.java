@@ -230,6 +230,8 @@ public class GameManager {
 	}
 	
 	public void addMonster(Monster mon) {
+		mon.setX(startTilePos.first);
+		mon.setY(startTilePos.second);
 		monsters.add(mon);
 		SharedObject.getInstance().addRenderables(mon);
 	}

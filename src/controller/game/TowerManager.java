@@ -43,17 +43,12 @@ public class TowerManager {
 	}
 
 	public void removeTower(int x, int y) {
-		try {
-			Tower t = (Tower)gm.getPlacedTiles()[x][y].top();
-			gm.getPlacedTiles()[x][y].pop();
-			gm.towers.remove(t);
-			SharedObject.getInstance().removeRenderables(t);
-			gm.updatePath();
-		}
-		catch (Exception e) {
-			System.err.println("can't remove tower, this shouldn't happen");
-				e.printStackTrace();
-		}
+		Tower t = (Tower)gm.getPlacedTiles()[x][y].top();
+		gm.getPlacedTiles()[x][y].pop();
+		gm.towers.remove(t);
+		SharedObject.getInstance().removeRenderables(t);
+		gm.updatePath();
+	
 	}
 
 

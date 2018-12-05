@@ -45,10 +45,7 @@ public class Handler {
 	
 	public void handleTileClick(int x, int y) {
 		if (gm.getTowerChoice() == -1) {
-			Tile t = gm.getPlacedTiles()[x][y].select();
-			if (t == null || !(t instanceof Tower)) 
-				gm.setSelectedTile(null);
-			gm.setSelectedTile((Tower) t);
+			gm.setSelectedTile((Tower) gm.getPlacedTiles()[x][y].select());
 		}
 		else {
 			gm.towerManager.placeAt(x, y);	

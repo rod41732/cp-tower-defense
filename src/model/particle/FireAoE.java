@@ -1,15 +1,17 @@
-package model;
+package model.particle;
 
 import controller.game.GameManager;
 import javafx.scene.image.Image;
+import model.Monster;
+import model.Particle;
 
-public class AoE extends Particle {
+public class FireAoE extends Particle {
 
 	
 	// TODO: finish more AoE
 	protected double damage;
 	
-	public AoE(Image[] images, double x, double y, double vx, double vy, double maxAge, double radius, double damage) {
+	public FireAoE(Image[] images, double x, double y, double vx, double vy, double maxAge, double radius, double damage) {
 		super(images, x, y, vx, vy, maxAge);
 		this.size = radius; // size of hitbox = radius
 		this.damage = damage;
