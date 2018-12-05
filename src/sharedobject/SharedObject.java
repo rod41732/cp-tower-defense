@@ -26,7 +26,6 @@ public class SharedObject {
 		for (Entity e: entities) {
 			this.renderables.remove(e);
 		}
-		this.renderables.sort(this.comp);
 	}
 	
 	public ArrayList<Entity> getRenderables(){
