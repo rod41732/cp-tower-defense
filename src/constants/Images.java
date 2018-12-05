@@ -15,7 +15,22 @@ public class Images {
 	public static Image elephant = new Image("monster/elephant.png", 64, 64, true, true);
 	public static Image moose = new Image("monster/moose.png", 64, 64, true, true);
 	public static Image tank = new Image("monster/tank.png", 96, 96, true, true);
-	
+	public static Image normalSoldier = new Image("monster/soldier_normal.png", 128, 128, true, true);
+	public static Image fastSoldier =  new Image("monster/soldier_fast.png", 128, 128, true, true);
+	public static Image armoredSoldier =  new Image("monster/soldier_armored.png", 128, 128, true, true);
+	public static Image heavySoldier = new Image("monster/soldier_heavy.png", 128, 128, true, true);
+	public static Image normalPlane = new Image("monster/plane_normal.png", 128, 128, true, true);
+	public static Image fastPlane =  new Image("monster/plane_fast.png", 128, 128, true, true);
+	public static Image armoredPlane =  new Image("monster/plane_armored.png", 128, 128, true, true);
+	public static Image heavyPlane = new Image("monster/plane_heavy.png", 128, 128, true, true);
+	public static Image normalTank = new Image("monster/tank_normal.png", 128, 128, true, true);
+	public static Image fastTank =  new Image("monster/tank_fast.png", 128, 128, true, true);
+	public static Image armoredTank =  new Image("monster/tank_armored.png", 128, 128, true, true);
+	public static Image heavyTank = new Image("monster/tank_heavy.png", 128, 128, true, true);
+	public static Image normalCar = new Image("monster/car_normal.png", 128, 128, true, true);
+	public static Image fastCar =  new Image("monster/car_fast.png", 128, 128, true, true);
+	public static Image armoredCar =  new Image("monster/car_armored.png", 128, 128, true, true);
+	public static Image heavyCar = new Image("monster/car_heavy.png", 128, 128, true, true);
 	
 	public static Image normalTower = new Image("tower/tower1.png", 64, 64, true, true);
 	public static Image groundAttackTower = new Image("tower/tower2.png", 64, 64, true, true);
@@ -66,6 +81,9 @@ public class Images {
 	
 	
 	public static Image normalTowerFlash = new Image("particle/flare.png", 28, 16, true, true);
+	
+	
+	
 	
 	
 	public static final Image[] explosion = new Image[16];
