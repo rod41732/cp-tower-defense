@@ -9,6 +9,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.GridPane;
@@ -46,10 +47,12 @@ public class GameScene extends Scene {
 
 		Pane overlayPane = new Pane();
 		
-		Canvas other = new Canvas(Numbers.COLUMNS*Numbers.TILE_SIZE, Numbers.ROWS*Numbers.TILE_SIZE);
+		Canvas mainCanvas = new Canvas(Numbers.COLUMNS*Numbers.TILE_SIZE, Numbers.ROWS*Numbers.TILE_SIZE);
 		
 		Canvas overlay = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		gameArea.getChildren().addAll(other);
+		gameArea.getChildren().addAll(mainCanvas);
+	
+
 		
 		overlayPane.getChildren().add(overlay);
 		PauseMenu.setTargetGC(overlay.getGraphicsContext2D());
@@ -68,7 +71,7 @@ public class GameScene extends Scene {
 		topbar.setAlignment(Pos.CENTER_LEFT);
 		
 		
-		Renderer.getInstance().setGC(other.getGraphicsContext2D());
+		Renderer.getInstance().setGC(mainCanvas.getGraphicsContext2D());
 		root.getChildren().add(main);
 		root.getChildren().add(overlayPane);
 		
@@ -86,11 +89,11 @@ public class GameScene extends Scene {
 			
 		});
 		
-		other.setOnMouseMoved(e -> {
+		mainCanvas.setOnMouseMoved(e -> {
 			GameManager.getInstance().updateMousePos(e);
 		});
 		
-		other.setOnMouseClicked(e -> {
+		mainCanvas.setOnMouseClicked(e -> {
 			PauseMenu.handleMouseClick(e);
 			GameManager.getInstance().handleClick(e);								
 		});

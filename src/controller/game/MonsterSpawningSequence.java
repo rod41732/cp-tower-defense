@@ -26,7 +26,7 @@ public class MonsterSpawningSequence extends Thread {
 							}
 							if (shouldStop) break;
 							try {
-								GameManager.getInstance().addMonster((Monster) m.clone());								
+								GameManager.getInstance().addMonsterDefault((Monster) m.clone());								
 							}
 							catch (ConcurrentModificationException e) {
 								// prevent thread stopping

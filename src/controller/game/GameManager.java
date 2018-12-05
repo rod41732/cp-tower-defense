@@ -229,12 +229,19 @@ public class GameManager {
 		this.placedTiles = placedTiles;
 	}
 	
-	public void addMonster(Monster mon) {
+	public void addMonsterDefault(Monster mon) {
 		mon.setX(startTilePos.first);
 		mon.setY(startTilePos.second);
 		monsters.add(mon);
 		SharedObject.getInstance().addRenderables(mon);
 	}
+	
+	public void addMonster(Monster mon) {
+		monsters.add(mon);
+		SharedObject.getInstance().addRenderables(mon);
+	}
+	
+
 	
 	public void addProjectile(Projectile proj) {
 		projectiles.add(proj);
