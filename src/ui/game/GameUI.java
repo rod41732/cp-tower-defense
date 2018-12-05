@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import model.Tile;
 import model.Tower;
 import ui.component.IconText;
-import util.Algorithm2;
+import util.BFSAlgo;
 import util.cpp;
 public class GameUI {
 	
@@ -30,6 +30,7 @@ public class GameUI {
 	private cpp.pii lastPos = new cpp.pii(-1, -1);
 	private cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 	private boolean isError = false;
+	private BFSAlgo bfs = new BFSAlgo();
 	public GameUI() {
 		levelPanel = new IconText(Images.attackIcon, "Level 9999", Other.normalButtonFont);
 		moneyPanel = new IconText(Images.coinIcon, "Money " + GameManager.getInstance().getMoney(), Other.normalButtonFont);
@@ -56,7 +57,7 @@ public class GameUI {
 		levelPanel.setText("Level " + MonsterSpawner.getInstace().getLevel());
 		moneyPanel.setText("Money " + gm.getMoney());
 		livePanel.setText("Live" + gm.getLives());
-		if (t != null && t instanceof Tower)
+		if (t != null)
 			updateTowerInfo(t, true);
 		else if (t2 != null)
 			updateTowerInfo(t2, false);
@@ -79,11 +80,11 @@ public class GameUI {
 					lastPos.first = tilePos.first;
 					lastPos.second = tilePos.second;
 					if (gm.isPlaceable(tilePos.first, tilePos.second)) {
-						path = Algorithm2.BFS(end.first, end.second, start.first, start.second, tilePos);
+						path = bfs.BFS(end.first, end.second, start.first, start.second, tilePos);
 						isError = false;
 					}
 					else {
-						path = Algorithm2.BFS(end.first, end.second, start.first, start.second, new cpp.pii(-1, -1));	
+						path = gm.getPath(); // no need to calculate
 						isError = true;
 					}
 				}

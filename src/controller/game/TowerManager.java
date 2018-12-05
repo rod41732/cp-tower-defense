@@ -19,40 +19,36 @@ import model.tower.IceTower;
 import model.tower.NormalTower;
 import sharedobject.SharedObject;
 import ui.SnackBar;
-import util.Algorithm;
+import util.BFSAlgo;
+import util.cpp;
 import util.cpp.pii;
 
 public class TowerManager {
 
 	private static TowerManager instance;
 	private GameManager gm;
-	
+	private BFSAlgo bfs = new BFSAlgo();
 	public TowerManager(GameManager game) {
 		this.gm = game;
 	}
 
 	public void sellTower() {
-		if (gm.selectedTile == null) return;
-		// TODO : spaghetti
-		if (!(gm.selectedTile instanceof Tower)) return ;
-		Tower t = (Tower)gm.selectedTile;
+		if (gm.selectedTower == null) return;
+		Tower t = gm.selectedTower;
 		gm.money += t.getPrice()/2;
 		pii pos = t.getPosition().toI();
 		removeTower(pos.first, pos.second);
-		gm.selectedTile = null;
+		gm.selectedTower = null;
 		gm.handler.setTowerChoice(-1);
 	}
 
 	public void removeTower(int x, int y) {
 		try {
-			Tile t = gm.getPlacedTiles()[x][y].top();
-			if (!t.isSelectable()) return ; // don't remove that dansgame
+			Tower t = (Tower)gm.getPlacedTiles()[x][y].top();
 			gm.getPlacedTiles()[x][y].pop();
-			if (t instanceof Tower) {
-				gm.towers.remove(t);
-				SharedObject.getInstance().removeRenderables(t);
-			}
-			gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
+			gm.towers.remove(t);
+			SharedObject.getInstance().removeRenderables(t);
+			gm.updatePath();
 		}
 		catch (Exception e) {
 			System.err.println("can't remove tower, this shouldn't happen");
@@ -62,16 +58,16 @@ public class TowerManager {
 
 
 	public boolean canUpgrade() {
-		return gm.selectedTile != null && ((Tower)gm.selectedTile).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTile).getUpgradePrice() >= 0;
+		return gm.selectedTower != null && ((Tower)gm.selectedTower).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTower).getUpgradePrice() >= 0;
 	}
 
 	public boolean canSell() {
-		return gm.selectedTile != null;
+		return gm.selectedTower != null;
 	}
 	void upgradeTower() {
-		if (gm.selectedTile != null && gm.towerManager.canUpgrade()) {
+		if (gm.selectedTower != null && gm.towerManager.canUpgrade()) {
 			try {
-				Tower twr = (Tower)gm.selectedTile;
+				Tower twr = (Tower)gm.selectedTower;
 				int price = twr.getUpgradePrice();
 				twr.upgrade();		
 				gm.money -= price;
@@ -106,24 +102,19 @@ public class TowerManager {
 	public void placeAt(int x, int y) {
 		Tower t = createTower(gm.getTowerChoice(), x, y);
 		try {			
-			if (!gm.getPlacedTiles()[x][y].isPlaceable()) {
-				throw new UnplaceableException();
-			}
-			
 			if (t.getPrice() > gm.money) {
 				throw new NotEnoughMoneyException();
 			}				
 			
+			bfs.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second, new cpp.pii(x, y));
 			gm.getPlacedTiles()[x][y].push(t);
-			Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
 			gm.towers.add(t);
 			SharedObject.getInstance().addRenderables(t);
 			gm.money -= t.getPrice();
-			gm.selectedTile = t;
+			gm.selectedTower = t;
 		}
 		catch (PathBlockedException e) {
-			gm.selectedTile = null;
-			gm.getPlacedTiles()[x][y].pop();
+			gm.selectedTower = null;
 			SnackBar.play("path blocked");
 		}
 		catch (NotEnoughMoneyException e) {
@@ -136,11 +127,7 @@ public class TowerManager {
 			e.printStackTrace();
 		}
 		finally {
-			try {
-				gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);
-			}
-			catch(PathBlockedException e) {
-			}
+			gm.updatePath();
 		}
 		gm.setSelectedTile(null);
 		SuperManager.getInstance().getTowerChoiceProp().set(-1);

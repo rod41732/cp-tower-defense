@@ -2,7 +2,7 @@ package model;
 
 import java.util.Vector;
 
-import javafx.scene.canvas.GraphicsContext;
+import exceptions.UnplaceableException;
 
 public class TileStack {
 
@@ -17,21 +17,17 @@ public class TileStack {
 		layers.add(baseTile);
 	}
 
-	public void render(GraphicsContext otherGC, GraphicsContext tileGC) { 
-		for (Tile t: layers) {
-			if (t instanceof Tower) t.render(otherGC);
-			else t.render(tileGC);
-		}
-	}
-	
-	// return top selectable tile
+
 	public Tile select() {
 		Tile top = layers.lastElement();
 		return top.isSelectable() ? top : null;
 	}
 	
-	public void push(Tile t) {
-		layers.addElement(t);
+	public void push(Tile t) throws UnplaceableException {
+		if (!this.isPlaceable()) {
+			throw new UnplaceableException();
+		}
+		layers.addElement(t);			
 	}
 	
 	public void pop() {

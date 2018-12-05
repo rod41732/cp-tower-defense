@@ -10,7 +10,7 @@ import model.Particle;
 import model.Projectile;
 import model.Tower;
 import ui.SnackBar;
-import util.Algorithm;
+import util.BFSAlgo;
 
 public class Updater {
 	private GameManager gm;
@@ -43,21 +43,18 @@ public class Updater {
 		});
 	}
 	public void update() {
-		if (!(gm.selectedTile instanceof Tower)) {
-			gm.selectedTile = null;
-		}
-		SuperManager.getInstance().getCanUpgradeProp().set(gm.selectedTile != null 
-				&& ((Tower)gm.selectedTile).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTile).getUpgradePrice() >= 0);
-		SuperManager.getInstance().getCanSellProp().set(gm.selectedTile != null);
+		SuperManager.getInstance().getCanUpgradeProp().set(gm.selectedTower != null 
+				&& ((Tower)gm.selectedTower).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTower).getUpgradePrice() >= 0);
+		SuperManager.getInstance().getCanSellProp().set(gm.selectedTower != null);
 		SuperManager.getInstance().getnextWaveAvailableProp().set(shouldSpawnNextWave());
 		if (shouldSpawnNextWave() && SuperManager.getInstance().getGameStateProp().get() == 2) {
 			SuperManager.getInstance().getIsGamePausedProp().set(true);
 		}
-		if (gm.selectedTile == null) {
+		if (gm.selectedTower == null) {
 			Main.getGameScene().getButtonManager().setUpgradeText("Upgrade");			
 		}
 		else {
-			int price = ((Tower)gm.selectedTile).getUpgradePrice();
+			int price = ((Tower)gm.selectedTower).getUpgradePrice();
 			if (price <= 0) 
 				Main.getGameScene().getButtonManager().setUpgradeText("Fully Upgraded");
 			else 
@@ -120,7 +117,7 @@ public class Updater {
 	
 	public void requestNextWave() {
 		try {
-			gm.path = Algorithm.BFS(gm.endTilePos.first, gm.endTilePos.second, gm.startTilePos.first, gm.startTilePos.second);			
+			gm.updatePath();			
 		}
 		catch (Exception e) {
 			e.printStackTrace();

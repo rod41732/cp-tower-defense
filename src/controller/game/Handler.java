@@ -6,6 +6,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import model.Tile;
+import model.Tower;
 
 public class Handler {
 	private GameManager gm;
@@ -38,15 +40,15 @@ public class Handler {
 		else if (e.getButton() == MouseButton.SECONDARY) {
 			SuperManager.getInstance().getTowerChoiceProp().set(-1);
 		}
-		else {
-			gm.sellTower();
-		}
 		return ;
 	}
 	
 	public void handleTileClick(int x, int y) {
 		if (gm.getTowerChoice() == -1) {
-			gm.selectedTile = gm.getPlacedTiles()[x][y].select();
+			Tile t = gm.getPlacedTiles()[x][y].select();
+			if (t == null || !(t instanceof Tower)) 
+				gm.setSelectedTile(null);
+			gm.setSelectedTile((Tower) t);
 		}
 		else {
 			gm.towerManager.placeAt(x, y);	
@@ -58,16 +60,16 @@ public class Handler {
 			IntegerProperty prop = SuperManager.getInstance().getTowerChoiceProp();
 			switch (e.getCode()) {
 			case G:
-				GameManager.getInstance().requestNextWave();			
+				gm.requestNextWave();			
 				break;
 			case S:
-				GameManager.getInstance().sellTower();
+				gm.sellTower();
 				break;
 			case D:
-				GameManager.getInstance().upgradeTower();
+				gm.upgradeTower();
 				break;
 			case Z: 
-				GameManager.getInstance().addMoney(1000); 
+				gm.addMoney(1000); 
 				break;
 			case DIGIT1:
 				prop.set(prop.get() == 0 ? -1 : 0);
@@ -86,6 +88,9 @@ public class Handler {
 				break;
 			case DIGIT6:
 				prop.set(prop.get() == 5 ? -1 : 5);
+				break;
+			case DIGIT7:
+				prop.set(prop.get() == 6 ? -1 : 6);
 				break;
 			default:
 				break;

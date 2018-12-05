@@ -7,6 +7,8 @@ import java.util.HashMap;
 import constants.Maps;
 import constants.Numbers;
 import controller.SuperManager;
+import exceptions.PathBlockedException;
+import exceptions.UnplaceableException;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -18,7 +20,7 @@ import model.Tile;
 import model.TileStack;
 import model.Tower;
 import sharedobject.SharedObject;
-import util.Algorithm;
+import util.BFSAlgo;
 import util.cpp;
 
 public class GameManager {
@@ -28,29 +30,33 @@ public class GameManager {
 	// Shared in game
 	ArrayList<Tower> towers = new ArrayList<>();
 	ArrayList<Monster> monsters = new ArrayList<>();
-	ArrayList<Tile> tiles = new ArrayList<>();
 	ArrayList<Projectile> projectiles = new ArrayList<>(); 
 	ArrayList<Particle> particles = new ArrayList<>();
-	private TileStack[][] placedTiles = new TileStack[Numbers.COLUMNS][Numbers.ROWS];
+	TileStack[][] placedTiles = new TileStack[Numbers.COLUMNS][Numbers.ROWS];
 	cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 	
 	cpp.pff mousePos = new cpp.pff(0, 0);
-	private cpp.pii tilePos = new cpp.pii(0, 0);
+	cpp.pii tilePos = new cpp.pii(0, 0);
 	int money;
-	Tile selectedTile;
+	Tower selectedTower;
 	cpp.pii startTilePos;
 	cpp.pii endTilePos;
 	int lives;
 
-	private boolean isInitialized;
+	boolean isInitialized;
 	Updater updater;
 	TowerManager towerManager;
 	Handler handler;
+	private BFSAlgo bfs = new BFSAlgo();
 	
 	public GameManager() {
 		updater = new Updater(this);
 		towerManager = new TowerManager(this);
 		handler = new Handler(this);
+		for (int i=0; i<Numbers.COLUMNS; i++)
+			for (int j=0; j<Numbers.ROWS; j++) {
+				placedTiles[i][j] = new TileStack();
+			}
 		reset();
 	}
 	
@@ -58,14 +64,13 @@ public class GameManager {
 		isInitialized = false;
 		towers.clear();
 		monsters.clear();
-		tiles.clear();
 		projectiles.clear();
 		particles.clear();
-		selectedTile = null;
-		for (int i=0;i < Numbers.COLUMNS; i++)
-			for (int j=0; j<Numbers.ROWS; j++)
-				getPlacedTiles()[i][j] = new TileStack();
+		selectedTower = null;
 		money = 0;
+		for (TileStack[] col: placedTiles)
+			for (TileStack ts: col)
+				ts.clear();
 		handler.setTowerChoice(-1);
 	}
 	
@@ -79,27 +84,24 @@ public class GameManager {
 		Map m = Maps.getMap(mapId);
 		HashMap<Integer, Image> tileMap = m.getTileMap();
 		int[][] tiles = m.getTiles();
-		try {
-			isInitialized = true;
-			lives = 200;
-			startTilePos = m.getStart();
-			endTilePos = m.getEnd();
-			for (int i=0; i<Numbers.COLUMNS; i++)
-				for (int j=0; j<Numbers.ROWS; j++) {
-					int t = tiles[j][i];{
-						Tile tmp = new Tile(tileMap.get(t/4), i+0.5, j+0.5, ((t%4)&2) > 0, ((t%4)%2) > 0);
-						getPlacedTiles()[i][j].push(tmp);
-						SharedObject.getInstance().addRenderables(tmp);
-					}
+		isInitialized = true;
+		lives = 200;
+		startTilePos = m.getStart();
+		endTilePos = m.getEnd();
+		for (int i=0; i<Numbers.COLUMNS; i++)
+			for (int j=0; j<Numbers.ROWS; j++) {
+				int t = tiles[j][i];
+				Tile tmp = new Tile(tileMap.get(t/4), i+0.5, j+0.5, ((t%4)&2) > 0, ((t%4)%2) > 0);
+				try {
+					placedTiles[i][j].push(tmp);
+				} catch (UnplaceableException e) {
+					System.out.println("can't initialize tile, map might be invalid");
 				}
-			path = Algorithm.BFS(endTilePos.first, endTilePos.second,
-					startTilePos.first, startTilePos.second);
-			money = 100;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("can't initialize. this shouldn't happen");
-		}
+				SharedObject.getInstance().addRenderables(tmp);
+			}
+		
+		money = 100;
+		updatePath();
 	}
 	
 	// --------------------------------------- Delegate stuffs 
@@ -117,9 +119,7 @@ public class GameManager {
 		handler.updateMousePos(e);
 	}
 
-	public void update() {
-		updater.update();
-	}
+
 
 	public void requestNextWave() {
 		updater.requestNextWave();
@@ -189,7 +189,7 @@ public class GameManager {
 	}
 
 	public Tile getSelectedTile() {
-		return selectedTile;
+		return selectedTower;
 	}
 
 	public void addMoney(int i) {
@@ -204,8 +204,8 @@ public class GameManager {
 		return endTilePos;
 	}
 
-	public void setSelectedTile(Tile selectedTile) {
-		this.selectedTile = selectedTile;
+	public void setSelectedTile(Tower selectedTile) {
+		this.selectedTower = selectedTile;
 	}
 
 	
@@ -259,6 +259,13 @@ public class GameManager {
 		SharedObject.getInstance().removeRenderables(part);
 	}
 
+	public void updatePath() {
+		try {
+			path = bfs.BFS(endTilePos.first, endTilePos.second,
+					startTilePos.first, startTilePos.second);
+		} catch (PathBlockedException e) {
+		}
+	}
 	
 }
 

@@ -8,13 +8,13 @@ import constants.Other;
 import controller.game.GameManager;
 import exceptions.PathBlockedException;
 
-public class Algorithm2 {
+public class BFSAlgo {
 	
 	private static int TABLE_R = Numbers.ROWS, TABLE_C = Numbers.COLUMNS;
-	private static int[][] dist = new int[TABLE_C][TABLE_R]; 
-	private static cpp.pii[][] pred = new cpp.pii[TABLE_C][TABLE_R];
-	private static Queue<cpp.xyt> q = new LinkedList<cpp.xyt>();
-	public static void initialize() {
+	private int[][] dist = new int[TABLE_C][TABLE_R]; 
+	private cpp.pii[][] pred = new cpp.pii[TABLE_C][TABLE_R];
+	private Queue<cpp.xyt> q = new LinkedList<cpp.xyt>();
+	public void initialize() {
 		for (int i=0; i<TABLE_C; i++) {
 			for (int j=0; j<TABLE_R; j++)  {
 				dist[i][j] = 10000;				
@@ -24,8 +24,52 @@ public class Algorithm2 {
 		q.clear();
 	}
 	
+	public BFSAlgo() {
+		initialize();
+	}
 	
-	public static cpp.pii[][] BFS(int fromCol, int fromRow, int toCol, int toRow, cpp.pii block) throws PathBlockedException {
+	public cpp.pii[][] BFS(int fromCol, int fromRow, int toCol, int toRow) throws PathBlockedException {
+		// TODO: fix bfs null pointer on init
+		initialize();
+		GameManager gm = GameManager.getInstance();
+		if (gm == null) return pred;
+		if (gm.isWalkable(fromCol, fromRow)) {
+			q.add(new cpp.xyt(fromCol, fromRow, 0));
+			dist[fromCol][fromRow] = 0;		
+			pred[fromCol][fromRow] = new cpp.pii(fromCol, fromRow);	
+		}
+		
+		while (!q.isEmpty()) {
+			cpp.xyt top = q.remove();
+			int x = top.x, y = top.y, t = top.t;
+			for (int[] rc: Other.dir) {
+				int nx = x+rc[0], ny = y+rc[1], nt = t+1;
+				if (nx < 0 || nx >= TABLE_C || ny < 0 || ny >= TABLE_R) { 
+					continue;
+				} else if (nt >= dist[nx][ny] || !gm.isWalkable(nx, ny)) { // in bound but not shorted/						
+					if (nt <= dist[nx][ny]  && !gm.isWalkable(nx, ny) && nx != toCol && ny != toRow) { // shortest path but on blocked tile 
+						// set pred to available (current) tile to fix stuck
+						dist[nx][ny] = nt;
+						pred[nx][ny] = new cpp.pii(x, y);						
+					}
+					continue;
+				}
+				else {
+					dist[nx][ny] = nt;
+					pred[nx][ny] = new cpp.pii(x, y);
+					q.add(new cpp.xyt(nx, ny, nt));					
+				}
+				
+			}
+		}
+		
+		if (pred[toCol][toRow] == null) {
+			throw new PathBlockedException();
+		}
+		return pred;
+	}
+	
+	public cpp.pii[][] BFS(int fromCol, int fromRow, int toCol, int toRow, cpp.pii block) throws PathBlockedException {
 		initialize();
 		GameManager gm = GameManager.getInstance();
 		if (gm == null) return pred;
