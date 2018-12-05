@@ -62,7 +62,7 @@ public class FireTower extends Tower {
 	
 	@Override
 	public int getUpgradePrice() {
-		return PRICE_VALUES[level];
+		return level == 5 ? -1 :PRICE_VALUES[level];
 	}
 	
 	@Override
