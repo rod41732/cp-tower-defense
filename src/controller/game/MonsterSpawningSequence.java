@@ -1,6 +1,7 @@
 package controller.game;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import controller.SuperManager;
 import javafx.animation.Timeline;
@@ -24,7 +25,12 @@ public class MonsterSpawningSequence extends Thread {
 								Thread.sleep(16); // pause when game paused;
 							}
 							if (shouldStop) break;
-							GameManager.getInstance().addMonster((Monster) m.clone());
+							try {
+								GameManager.getInstance().addMonster((Monster) m.clone());								
+							}
+							catch (ConcurrentModificationException e) {
+								// prevent thread stopping
+							}
 						}	
 					}
 					catch (InterruptedException e) {
