@@ -17,7 +17,7 @@ public class MonsterSpawningStage {
 	}
 	
 	public void play() {
-		for (int i=seqs.size()-1; i>=0; i--) {
+		for (int i=0; i<seqs.size(); i++) {
 			MonsterSpawnerThread.addSequence(seqs.get(i));
 		}
 	}
