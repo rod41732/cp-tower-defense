@@ -19,13 +19,9 @@ public class FireProjectile extends NormalProjectile {
 		this.radius = radius;
 		this.damage = damage;
 		this.fireDamage = fireDamage;
+		this.targetFlag = 1;
 	}
 	
-	@Override
-	public boolean shouldCollide(Monster m) {
-		return super.shouldCollide(m) && m.isAffectedByGround();
-	}
-
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
 			cpp.pff impact = m.getPosition();

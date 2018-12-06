@@ -5,10 +5,11 @@ import model.Monster;
 
 public class DamageTakenDebuff  extends Buff {
 
+	public static final int ID = 1;
 	private double mutliplier;
 	
 	public DamageTakenDebuff(double duration, double multiplier) {
-		super("Cursed ", "Damage taken is amplified", duration);
+		super(ID, duration);
 		this.mutliplier = multiplier;
 	}
 	

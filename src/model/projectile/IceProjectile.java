@@ -1,9 +1,7 @@
 package model.projectile;
 
-import buff.DamageTakenDebuff;
-import buff.MoveSpeedBuff;
+import buff.SlowDebuff;
 import constants.Images;
-import constants.Other;
 import controller.game.GameManager;
 import model.Monster;
 import util.cpp;
@@ -20,10 +18,11 @@ public class IceProjectile extends NormalProjectile {
 		this.slowness = slowness;
 		this.splashRadius = splashRadius;
 		this.duration = duration;
+		this.targetFlag = 3;
 	}
 	@Override
 	public boolean shouldCollide(Monster m) {
-		return !m.hasBuff(Other.moveSpeedBuffInstance) && super.shouldCollide(m);
+		return !m.hasBuff(SlowDebuff.ID) && super.shouldCollide(m);
 	}
 
 	public boolean collideWith(Monster m) {
@@ -31,7 +30,7 @@ public class IceProjectile extends NormalProjectile {
 			cpp.pff impact = m.getPosition();
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
 				if (ms.distanceTo(impact.first, impact.second) <= splashRadius+ms.getSize()) {
-					ms.addBuff(new MoveSpeedBuff(duration, -slowness));
+					ms.addBuff(new SlowDebuff(duration, slowness));
 				}
 			}
 			forceExpire();

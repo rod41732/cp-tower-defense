@@ -12,6 +12,7 @@ public class FlyingMonster extends Monster {
 	public FlyingMonster(String name, Image image, double x, double y,
 			double size, double health, double armor, double moveSpeed, int money) {
 		super(name, image, x, y, size, health, armor, moveSpeed, money);
+		this.targetFlag = 2;
 	}
 
 	@Override
@@ -21,22 +22,7 @@ public class FlyingMonster extends Monster {
 		vx = v_hat.first * moveSpeed;
 		vy = v_hat.second * moveSpeed;
 	}
-	
-	@Override
-	public boolean isAffectedByGround() {
-		return false;
-	}
-	
-	@Override
-	public boolean isAffectedByAir() {
-		return true;
-	}
-	
-	@Override
-	public boolean isAffectedBy(Tile t) {
-		return t.affectsAir();
-	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString() + "- Flying";

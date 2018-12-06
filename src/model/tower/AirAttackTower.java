@@ -26,6 +26,7 @@ public class AirAttackTower extends Tower {
 	public AirAttackTower(double cellX, double cellY) {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
 		this.price = PRICE_VALUES[0];
+		this.targetFlag = 2;
 	}
 	
 	
@@ -43,11 +44,6 @@ public class AirAttackTower extends Tower {
 		}
 	}
 	
-	
-	@Override
-	public boolean isInRange(Monster m) {
-		return super.isInRange(m) && m.isAffectedByAir();
-	}
 	
 	public void fire() {
 		if (currentTarget == null) return;

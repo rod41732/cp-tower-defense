@@ -20,7 +20,7 @@ public class FireAoE extends Particle {
 	public void onTick() {
 		super.onTick();
 		for (Monster m: GameManager.getInstance().getMonsters()) {
-			if (this.isCollideWith(m) && m.isAffectedByGround()) {
+			if (this.isCollideWith(m)) {
 				m.takePureDamage(damage/60);
 			}
 		}

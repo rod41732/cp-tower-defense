@@ -15,13 +15,9 @@ public class AirProjectile extends Projectile {
 			double vx, double vy, double maxRange, double damage) {
 		super(image, x, y, vx, vy, maxRange); // default size ?
 		this.damage = damage;
+		this.targetFlag = 2;
 	}
-	
-	@Override
-	public boolean shouldCollide(Monster m) {
-		return super.shouldCollide(m) && m.isAffectedByAir();
-	}
-	
+		
 
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {

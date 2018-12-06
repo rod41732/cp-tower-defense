@@ -13,6 +13,7 @@ public class PiercingProjectile extends NormalProjectile {
 			double vx, double vy, double maxRange, double damagePerTick) {
 		super(image, x, y, vx, vy, maxRange, damagePerTick); // default size ?
 		this.damage = damagePerTick;
+		this.targetFlag = 3;
 	}
 	
 	@Override

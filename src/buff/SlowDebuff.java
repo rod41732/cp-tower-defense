@@ -3,13 +3,12 @@ package buff;
 import model.Entity;
 import model.Monster;
 
-public class MoveSpeedBuff  extends Buff {
+public class SlowDebuff  extends Buff {
 
-	
-	public static final int ID = 2;
+	public static final int ID = 3;
 	
 	private double mutliplier;
-	public MoveSpeedBuff(double duration, double multiplier) {
+	public SlowDebuff(double duration, double multiplier) {
 		super(ID, duration);
 		this.mutliplier = multiplier;
 		this.age = 0;
@@ -18,7 +17,7 @@ public class MoveSpeedBuff  extends Buff {
 	@Override
 	public void applyTo(Entity e) {
 		if (e instanceof Monster) {
-			((Monster) e).addMoveSpeedMultiplier(mutliplier);
+			((Monster) e).addMoveSpeedMultiplier(-mutliplier);
 		}
 	}
 }

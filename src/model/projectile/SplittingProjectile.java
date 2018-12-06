@@ -17,6 +17,7 @@ public class SplittingProjectile extends NormalProjectile {
 		super(image, x, y, vx, vy, maxRange, damage); // default size ?
 		this.splitDistance = splitDistance;
 		this.damage = damage;
+		this.targetFlag = 3;
 	}
 
 	@Override

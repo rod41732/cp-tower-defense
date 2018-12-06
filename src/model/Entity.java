@@ -40,6 +40,7 @@ public class Entity {
 	public double distanceTo(Entity e) {
 		return GameUtil.distance(x, y, e.x, e.y);
 	}
+	
 	public double distanceTo(double rx, double ry) {
 		return GameUtil.distance(x, y, rx, ry);
 	}

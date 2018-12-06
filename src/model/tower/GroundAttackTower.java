@@ -26,6 +26,7 @@ public class GroundAttackTower extends Tower {
 	public GroundAttackTower(double cellX, double cellY) {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
 		this.price = PRICE_VALUES[0];
+		this.targetFlag = 1;
 	}
 	
 	
@@ -64,11 +65,6 @@ public class GroundAttackTower extends Tower {
 		currentCooldown = attackCooldown;
 	}
 	
-
-	@Override
-	public boolean isInRange(Monster m) {
-		return super.isInRange(m) && m.isAffectedByGround();
-	}
 
 	@Override
 	public int getUpgradePrice() {

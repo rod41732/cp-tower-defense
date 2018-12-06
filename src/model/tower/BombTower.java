@@ -60,12 +60,6 @@ public class BombTower extends Tower {
 		currentCooldown = attackCooldown;
 	}
 	
-	
-	@Override
-	public boolean isInRange(Monster m) {
-		return super.isInRange(m) && m.isAffectedByGround();
-	}
-	
 	@Override
 	public String description() {
 		return super.description() + String.format("Explosion radius: %.2f\n", splashRadius);

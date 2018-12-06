@@ -29,6 +29,7 @@ public class FireTower extends Tower {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
 		this.fireDamage = ATTACK_VALUES[0];
 		this.price = PRICE_VALUES[0];
+		this.targetFlag = 1;
 	}
 	
 	@Override
@@ -65,10 +66,6 @@ public class FireTower extends Tower {
 		return level == 5 ? -1 :PRICE_VALUES[level];
 	}
 	
-	@Override
-	public boolean isInRange(Monster m) {
-		return super.isInRange(m) && m.isAffectedByGround();
-	}
 	
 	public void fire() {
 		if (currentTarget == null) return;

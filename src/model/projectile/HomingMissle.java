@@ -19,6 +19,7 @@ public class HomingMissle extends NormalProjectile {
 		this.radius = radius;
 		this.damage = damage;
 		this.target = target;
+		this.targetFlag = 1;
 	}
 
 	@Override 
@@ -27,7 +28,6 @@ public class HomingMissle extends NormalProjectile {
 		cpp.pff newV = GameUtil.rotateVector(vx, vy, angle-rotation-90);
 		vx = newV.first;
 		vy = newV.second;
-		rotation = angle-90;
 	}
 
 	public boolean collideWith(Monster m) {
@@ -35,9 +35,9 @@ public class HomingMissle extends NormalProjectile {
 			cpp.pff impact = getPosition();
 			GameManager.getInstance().addParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
-				if (Double.compare(ms.distanceTo(impact.first, impact.second), 3) < 0) {
+				if (ms.distanceTo(impact.first, impact.second) < radius+ms.getSize()) {
 					ms.takeDamage(damage);	
-					}
+				}
 			}
 			forceExpire();
 		}
