@@ -15,6 +15,7 @@ public class NormalProjectile extends Projectile {
 			double vx, double vy, double maxRange, double damage) {
 		super(image, x, y, vx, vy, maxRange); // default size ?
 		this.damage = damage;
+		this.targetFlag = 3;
 	}
 	
 	

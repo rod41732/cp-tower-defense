@@ -24,6 +24,7 @@ public abstract class Tower extends Tile {
 	protected int price;
 	protected double range; 
 	protected int level;
+	protected int targetFlag;
 	
 	protected double currentCooldown; 
 	protected double attackSpeedMultiplier;
@@ -39,9 +40,9 @@ public abstract class Tower extends Tile {
 		this.attackCooldown = attackCooldown;
 		this.range = range;
 		this.level = 1;
+		this.targetFlag = 3;
 	}
 	
-	// TODO: some how get tower animate again ?
 	@Override
 	public void render(GraphicsContext gc) {
 		super.render(gc);
@@ -75,7 +76,6 @@ public abstract class Tower extends Tile {
 		range += 0.5;
 	}	
 	
-	// important metadat 
 	@Override 
 	public boolean isPlaceable() {
 		return false;
@@ -128,11 +128,10 @@ public abstract class Tower extends Tile {
 	}
 	
 	public boolean isInRange(Monster m) {
-		return Double.compare(distanceTo(m), range) < 0;
+		return distanceTo(m) < range && (m.getTargetFlag() & this.targetFlag) != 0 ;
 	}
 	
 	public void tryTarget(Monster m) {
-		// onGround/ Air is checked on override function of each tower
 		if ((currentTarget == null || Double.compare(distanceTo(m), minDist) < 0) && isInRange(m)){
 			if (m.isDead()) return ;
 			currentTarget = m;

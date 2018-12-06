@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import buff.Buff;
 import buff.DamageTakenDebuff;
 import buff.MoveSpeedBuff;
+import buff.SlowDebuff;
 import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -28,7 +29,7 @@ public abstract class Monster extends Entity implements Cloneable{
 	protected String name;
 	protected ArrayList<Buff> buffs = new ArrayList<>();
 	protected WritableImage coldImage;
-	
+	protected int targetFlag;
 	
 	protected double moveSpeedMultiplier;
 	protected double damageTakenMultiplier;
@@ -46,6 +47,7 @@ public abstract class Monster extends Entity implements Cloneable{
 		this.name = name;
 		this.moveSpeed = moveSpeed;
 		this.money = money;
+		this.targetFlag = 3;
 		coldImage = new WritableImage((int)image.getWidth(), (int)image.getHeight());
 		PixelReader reader = image.getPixelReader();
 		PixelWriter writer = coldImage.getPixelWriter();
@@ -58,12 +60,9 @@ public abstract class Monster extends Entity implements Cloneable{
 			}
 	}
 	
-	public abstract boolean isAffectedBy(Tile t);
-	public abstract boolean isAffectedByGround();
-	public abstract boolean isAffectedByAir();
 	
 	public void render(GraphicsContext gc) {
-		if (hasBuff(new MoveSpeedBuff(1,1))) {
+		if (hasBuff(SlowDebuff.ID)) { //
 			Image old = this.image;
 			this.image = coldImage;
 			super.render(gc);
@@ -72,7 +71,7 @@ public abstract class Monster extends Entity implements Cloneable{
 		else {
 			super.render(gc);					
 		}
-		if (!this.hasBuff(new DamageTakenDebuff(1, 1))) {
+		if (!this.hasBuff(DamageTakenDebuff.ID)) {
 			gc.setFill(Color.color(0, 1, 0));
 			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
 			gc.setFill(Color.color(1, 0, 0));
@@ -184,14 +183,20 @@ public abstract class Monster extends Entity implements Cloneable{
 		buffs.add(b);
 	}
 	
-	public boolean hasBuff(Buff buffInstance) {
+	public boolean hasBuff(int id) {
 		for (Buff b: buffs)
-			if (b.getClass() == buffInstance.getClass()) 
+			if (b.getId() == id) 
 				return true;
 		return false;
 	}
 	
 	
+	
+	public int getTargetFlag() {
+		return targetFlag;
+	}
+
+
 	public Monster clone(){
 		try {
 			Monster cloned = (Monster)super.clone();

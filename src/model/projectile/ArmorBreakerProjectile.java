@@ -1,9 +1,7 @@
 package model.projectile;
 
 import buff.DamageTakenDebuff;
-import buff.MoveSpeedBuff;
 import constants.Images;
-import constants.Other;
 import controller.game.GameManager;
 import model.Monster;
 import util.cpp;
@@ -18,10 +16,12 @@ public class ArmorBreakerProjectile extends NormalProjectile {
 		super(Images.iceBullet ,x, y, vx, vy, maxRange, damage); // default size ?
 		this.multiplier = multiplier;
 		this.duration = duration;
+		this.targetFlag = 3;
 	}
+	
 	@Override
 	public boolean shouldCollide(Monster m) {
-		return !m.hasBuff(Other.damageTakenDebuffInsance) && super.shouldCollide(m);
+		return !m.hasBuff(DamageTakenDebuff.ID) && super.shouldCollide(m);
 	}
 
 	public boolean collideWith(Monster m) {

@@ -25,6 +25,7 @@ public class NormalTower extends Tower {
 	public NormalTower(double cellX, double cellY) {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
 		this.price = PRICE_VALUES[0];
+		this.targetFlag = 3;
 	}
 	
 	
@@ -62,8 +63,6 @@ public class NormalTower extends Tower {
 		
 		currentCooldown = attackCooldown;
 	}
-	
-
 
 	@Override
 	public int getUpgradePrice() {

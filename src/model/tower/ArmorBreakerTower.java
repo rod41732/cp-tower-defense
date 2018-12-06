@@ -1,6 +1,7 @@
 package model.tower;
 
 
+import buff.DamageTakenDebuff;
 import buff.MoveSpeedBuff;
 import constants.Images;
 import controller.game.GameManager;
@@ -29,11 +30,12 @@ public class ArmorBreakerTower extends Tower {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
 		this.price = PRICE_VALUES[0];
 		this.slowness = DAMAGE_MULTIPLIER_VALUES[0];
+		this.targetFlag = 3;
 	}
 	
 	@Override
 	public void tryTarget(Monster m) {
-		if (m.hasBuff(new MoveSpeedBuff(1, 1))) return ;
+		if (m.hasBuff(DamageTakenDebuff.ID)) return ;
 		super.tryTarget(m);
 	}
 	

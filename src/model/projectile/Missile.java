@@ -16,13 +16,7 @@ public class Missile extends NormalProjectile {
 		super(image, x, y, vx, vy, maxRange, damage); // default size ?
 		this.radius = radius;
 		this.damage = damage;
-	}
-
-	
-	@Override
-	public boolean shouldCollide(Monster m) {
-		// TODO Auto-generated method stub
-		return super.shouldCollide(m) && m.isAffectedByGround();
+		this.targetFlag = 1;
 	}
 
 	public boolean collideWith(Monster m) {
@@ -32,7 +26,7 @@ public class Missile extends NormalProjectile {
 			p.setzIndex(3);
 			GameManager.getInstance().addParticle(p);
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
-				if (ms.distanceTo(impact.first, impact.second) < ms.getSize()+radius && ms.isAffectedByGround()) {
+				if (ms.distanceTo(impact.first, impact.second) < ms.getSize()+radius && (ms.getTargetFlag() & targetFlag) != 0) {
 					ms.takeDamage(damage);
 				}
 			}
