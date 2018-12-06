@@ -20,13 +20,17 @@ public abstract class Tower extends Tile {
 	private static String TOWER_NAME = "Default tower";
 	
 	protected double attackCooldown = 1000;
-	protected double attack;
+	protected double baseAttack;
+	protected double baseRange;
 	protected int price;
-	protected double range; 
 	protected int level;
 	
+	protected double attack;
+	protected double range; 
 	protected double currentCooldown; 
 	protected double attackSpeedMultiplier;
+	protected double rangeMultiplier;
+	protected double attackMultiplier;
 	protected Monster currentTarget;
 	protected ArrayList<Buff> buffs = new ArrayList<>();
 	protected double minDist;
@@ -35,9 +39,9 @@ public abstract class Tower extends Tile {
 			double attack, double attackCooldown, double range) {
 		super(img, cellX, cellY, false, false);
 		this.rotation = 90;
-		this.attack = attack;
+		this.baseAttack = attack; 
 		this.attackCooldown = attackCooldown;
-		this.range = range;
+		this.baseRange = this.range = range;  // set like this to show range on constructed  
 		this.level = 1;
 	}
 	
@@ -109,9 +113,13 @@ public abstract class Tower extends Tile {
 	
 	private void updateBuff() {
 		attackSpeedMultiplier = 1;
+		attackMultiplier = 1;
+		rangeMultiplier = 1;
 		for (Buff b: buffs) {
 			b.applyTo(this);
 		}
+		this.attack = baseAttack*attackMultiplier;
+		this.range = baseRange*rangeMultiplier;
 	}
 	
 	private void updateCooldown() {
@@ -175,11 +183,11 @@ public abstract class Tower extends Tile {
 	}
 
 	public double getAttack() {
-		return attack;
+		return baseAttack;
 	}
 
 	public double getRange() {
-		return range;
+		return baseRange;
 	}
 	
 	public boolean canUpgrade() {
@@ -200,17 +208,18 @@ public abstract class Tower extends Tile {
 		this.price = price;
 	}
 
-	public double getAttackSpeedMultiplier() {
-		return attackSpeedMultiplier;
-	}
-
-	public void setAttackSpeedMultiplier(double attackSpeedMultiplier) {
-		this.attackSpeedMultiplier = attackSpeedMultiplier;
-	}
-
+	
 	public void addAttackSpeedMultiplier(double attackSpeedMultiplier) {
 		this.attackSpeedMultiplier += attackSpeedMultiplier;
 	}
+	public void addRangeMultiplier(double rangeMultiplier) {
+		this.rangeMultiplier += rangeMultiplier;
+	}
+	public void addAttackMultiplier(double attackMultiplier) {
+		this.attackMultiplier += attackMultiplier;
+	}
+
+	
 	
 	public abstract int getUpgradePrice();
 	

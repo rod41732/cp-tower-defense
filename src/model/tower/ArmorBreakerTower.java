@@ -43,9 +43,9 @@ public class ArmorBreakerTower extends Tower {
 		}
 		else {
 			level += 1;
-			this.attack = ATTACK_VALUES[level-1];
+			this.baseAttack = ATTACK_VALUES[level-1];
 			this.attackCooldown = COOLDOWN_VALUES[level-1];
-			this.range = RANGE_VALUES[level-1];
+			this.baseRange = RANGE_VALUES[level-1];
 			this.price += PRICE_VALUES[level-1];
 			this.slowness = DAMAGE_MULTIPLIER_VALUES[level-1];
 		}

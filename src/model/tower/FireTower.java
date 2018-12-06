@@ -38,9 +38,9 @@ public class FireTower extends Tower {
 		}
 		else {
 			level += 1;
-			this.attack = ATTACK_VALUES[level-1];
+			this.baseAttack = ATTACK_VALUES[level-1];
 			this.attackCooldown = COOLDOWN_VALUES[level-1];
-			this.range = RANGE_VALUES[level-1];
+			this.baseRange = RANGE_VALUES[level-1];
 			this.price += PRICE_VALUES[level-1];
 		}
 	}

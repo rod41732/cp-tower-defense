@@ -13,6 +13,8 @@ import model.Tower;
 import model.tower.AirAttackTower;
 import model.tower.ArmorBreakerTower;
 import model.tower.BombTower;
+import model.tower.BuffTower;
+import model.tower.MissileTower;
 import model.tower.FireTower;
 import model.tower.GroundAttackTower;
 import model.tower.IceTower;
@@ -77,7 +79,7 @@ public class TowerManager {
 		Tower t = null;
 		switch (towerChoice) {
 		case 0:				
-			t = new BombTower(x+0.5, y+0.5); break;
+			t = new MissileTower(x+0.5, y+0.5); break;
 		case 1:
 			t = new NormalTower(x+0.5, y+0.5); break;
 		case 2:
@@ -90,6 +92,10 @@ public class TowerManager {
 			t = new AirAttackTower(x+0.5, y+0.5); break;	
 		case 6:
 			t = new ArmorBreakerTower(x+0.5, y+0.5); break;
+		case 7:
+			t = new BombTower(x+0.5,y+0.5); break;
+		case 8:
+			t= new BuffTower(x+0.5, y+0.5); break;
 		}
 		return t;
 	}

@@ -11,7 +11,7 @@ import model.projectile.Missile;
 import util.GameUtil;
 import util.cpp;
 
-public class BombTower extends Tower {
+public class MissileTower extends Tower {
 	
 	public static String TOWER_NAME = "Bomb Tower";
 
@@ -25,7 +25,7 @@ public class BombTower extends Tower {
 	private double splashRadius;
 	
 	
-	public BombTower(double cellX, double cellY) {
+	public MissileTower(double cellX, double cellY) {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
 		this.price = PRICE_VALUES[0];
 		this.level = 1;
@@ -42,9 +42,9 @@ public class BombTower extends Tower {
 		}
 		else {
 			level += 1;
-			this.attack = ATTACK_VALUES[level-1];
+			this.baseAttack = ATTACK_VALUES[level-1];
 			this.attackCooldown = COOLDOWN_VALUES[level-1];
-			this.range = RANGE_VALUES[level-1];
+			this.baseRange = RANGE_VALUES[level-1];
 			this.price += PRICE_VALUES[level-1];
 			this.splashRadius = SPLASH_RADIUS_VALUES[level-1];
 		}
