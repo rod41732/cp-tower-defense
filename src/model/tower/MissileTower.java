@@ -6,7 +6,6 @@ import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.Monster;
-import model.Particle;
 import model.Tower;
 import model.projectile.Missile;
 import util.GameUtil;
@@ -19,6 +18,7 @@ public class BombTower extends Tower {
 	private static final double[] ATTACK_VALUES = {15, 20, 25, 35, 50};
 	private static final double[] COOLDOWN_VALUES = {1250, 1250, 1200, 1200, 1150};
 	private static final double[] RANGE_VALUES = {3.5, 4, 4, 4.5, 4.5};
+	private static final double[] SPLASH_RADIUS_VALUES = {0.4, 0.45, 0.5, 0.55, 0.6};
 	private static final Image DEFAULT_IMAGE = Images.bombTower;
 	private static final int[] PRICE_VALUES = {25, 25, 30, 50, 60};
 	
@@ -29,6 +29,7 @@ public class BombTower extends Tower {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
 		this.price = PRICE_VALUES[0];
 		this.level = 1;
+		this.splashRadius = SPLASH_RADIUS_VALUES[0];
 	}
 
 	
@@ -41,22 +42,21 @@ public class BombTower extends Tower {
 		}
 		else {
 			level += 1;
-			this.baseAttack = ATTACK_VALUES[level-1];
+			this.attack = ATTACK_VALUES[level-1];
 			this.attackCooldown = COOLDOWN_VALUES[level-1];
-			this.baseRange = RANGE_VALUES[level-1];
+			this.range = RANGE_VALUES[level-1];
 			this.price += PRICE_VALUES[level-1];
+			this.splashRadius = SPLASH_RADIUS_VALUES[level-1];
 		}
 	}
 	
 	public void fire() {
 		if (currentTarget == null) return;
-		cpp.pff impact = this.getPosition();
-		for (Monster ms: GameManager.getInstance().getMonsters()) {
-			if (ms.distanceTo(impact.first, impact.second) < ms.getSize()+range && ms.isAffectedByGround()) {
-				ms.takeDamage(attack);
-			}
-		}
-		GameManager.getInstance().addParticle(new Particle(Images.boom, x, y, 0, 0, 1200));
+		cpp.pff v = GameUtil.unitVector(this, currentTarget);
+		rotateTo(currentTarget);
+		GameManager.getInstance().addProjectile(new 
+				Missile(Images.bomb, x, y, v.first*9, v.second*9, range, attack, splashRadius));
+		
 		currentCooldown = attackCooldown;
 	}
 	

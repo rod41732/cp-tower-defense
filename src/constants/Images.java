@@ -90,6 +90,7 @@ public class Images {
 	public static final Image[] flame = new Image[16];
 	public static final Image[] smoke = new Image[9];
 	public static final Image[] aura = new Image[16];
+	public static final Image[] boom = new Image[16];
 	public static final Image[][] arrows = new Image[4][4];
 	
 	static {
@@ -101,6 +102,9 @@ public class Images {
 			smoke[i] = new Image("animation/smoke/"+i+".png", 96, 96, true, true);
 		for (int i=0; i<16; i++)
 			aura[i] = new Image("animation/aura/"+i+".png", 128, 128, true, true);
+		for (int i=0; i<16; i++)
+			boom[i] = new Image("animation/boom/"+i+".png", 256, 256, true, true);
+		
 		for (int i=0; i<4; i++) {
 			for (int j=0; j<4; j++)
 				if (i != j) {
