@@ -8,7 +8,7 @@ public class DamageBuff  extends Buff {
 	private double mutliplier;
 	
 	public DamageBuff(double duration, double multiplier) {
-		super("Cursed ", "Damage taken is amplified", duration);
+		super(21, duration);
 		this.mutliplier = multiplier;
 	}
 	

@@ -29,6 +29,7 @@ public class BombTower extends Tower {
 		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
 		this.price = PRICE_VALUES[0];
 		this.level = 1;
+		this.targetFlag = 1;
 	}
 
 	
@@ -52,7 +53,7 @@ public class BombTower extends Tower {
 		if (currentTarget == null) return;
 		cpp.pff impact = this.getPosition();
 		for (Monster ms: GameManager.getInstance().getMonsters()) {
-			if (ms.distanceTo(impact.first, impact.second) < ms.getSize()+range && ms.isAffectedByGround()) {
+			if (isInRange(ms)) {
 				ms.takeDamage(attack);
 			}
 		}

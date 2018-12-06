@@ -8,7 +8,7 @@ public class RangeBuff  extends Buff {
 	private double mutliplier;
 	
 	public RangeBuff(double duration, double multiplier) {
-		super("Cursed ", "Damage taken is amplified", duration);
+		super(22, duration);
 		this.mutliplier = multiplier;
 	}
 	

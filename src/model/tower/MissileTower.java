@@ -30,6 +30,7 @@ public class MissileTower extends Tower {
 		this.price = PRICE_VALUES[0];
 		this.level = 1;
 		this.splashRadius = SPLASH_RADIUS_VALUES[0];
+		this.targetFlag = 1;
 	}
 
 	
@@ -60,11 +61,7 @@ public class MissileTower extends Tower {
 		currentCooldown = attackCooldown;
 	}
 	
-	
-	@Override
-	public boolean isInRange(Monster m) {
-		return super.isInRange(m) && m.isAffectedByGround();
-	}
+
 	
 	@Override
 	public String description() {

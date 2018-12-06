@@ -58,13 +58,6 @@ public class BuffTower extends Tower {
 		currentCooldown = attackCooldown;
 	}
 	
-	
-	@Override
-	public boolean isInRange(Monster m) {
-		return super.isInRange(m) && m.isAffectedByGround();
-	}
-	
-	
 	@Override
 	public int getUpgradePrice() {
 		return level == 5 ? -1 : PRICE_VALUES[level];
