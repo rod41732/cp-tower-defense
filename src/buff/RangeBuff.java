@@ -5,10 +5,11 @@ import model.Tower;
 
 public class RangeBuff  extends Buff {
 
+	public static final int ID = 22;
 	private double mutliplier;
 	
 	public RangeBuff(double duration, double multiplier) {
-		super(22, duration);
+		super(ID, duration);
 		this.mutliplier = multiplier;
 	}
 	

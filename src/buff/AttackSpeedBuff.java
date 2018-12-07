@@ -4,11 +4,11 @@ import model.Entity;
 import model.Tower;
 
 public class AttackSpeedBuff  extends Buff {
-
+	public static final int ID = 20;
 	private double mutliplier;
 	
 	public AttackSpeedBuff(double duration, double multiplier) {
-		super(20, duration);
+		super(ID, duration);
 		this.mutliplier = multiplier;
 	}
 	

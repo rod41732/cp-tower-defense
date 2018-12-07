@@ -5,10 +5,11 @@ import model.Tower;
 
 public class DamageBuff  extends Buff {
 
+	public static final int ID = 21;
 	private double mutliplier;
 	
 	public DamageBuff(double duration, double multiplier) {
-		super(21, duration);
+		super(ID, duration);
 		this.mutliplier = multiplier;
 	}
 	

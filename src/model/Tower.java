@@ -3,7 +3,11 @@ package model;
 
 import java.util.ArrayList;
 
+import buff.AttackSpeedBuff;
 import buff.Buff;
+import buff.DamageBuff;
+import buff.RangeBuff;
+import constants.Images;
 import constants.Numbers;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
@@ -13,7 +17,7 @@ import javafx.scene.paint.Color;
 import ui.game.Renderer;
 import util.GameUtil;
 
-public abstract class Tower extends Tile {
+public abstract class Tower extends Tile implements IBuffable {
 
 	// TODO : more fields
 	
@@ -50,6 +54,7 @@ public abstract class Tower extends Tile {
 	@Override
 	public void render(GraphicsContext gc) {
 		super.render(gc);
+		renderBuff(gc);
 		if (this == GameManager.getInstance().getSelectedTile()) {
 			renderRadius(gc);
 		}	
@@ -57,12 +62,21 @@ public abstract class Tower extends Tile {
 
 	public void render(GraphicsContext gc, boolean showRadius) {
 		super.render(gc);
-		if (showRadius) {
+		renderBuff(gc);
+		if (showRadius){
 			renderRadius(gc);
 		}	
 	}
 	
 	
+	public void renderBuff(GraphicsContext gc) {
+		if (hasBuff(RangeBuff.ID))
+			gc.drawImage(Images.targetIcon, getRenderX(), getRenderY(), 16, 16);
+		if (hasBuff(AttackSpeedBuff.ID))
+			gc.drawImage(Images.cooldownIcon, getRenderX()+w-16, getRenderY(), 16, 16);
+		if (hasBuff(DamageBuff.ID))
+			gc.drawImage(Images.attackIcon, getRenderX(), getRenderY()+h-16, 16, 16);
+	}
 	public void renderRadius(GraphicsContext gc) {
 		int tz = Numbers.TILE_SIZE;
 		double multiplier = 0.3+0.4*GameUtil.transparencyCycle(Renderer.getInstance().getRenderTick(), 60);
@@ -111,7 +125,7 @@ public abstract class Tower extends Tile {
 	public void preUpdate() {
 	}
 	
-	private void updateBuff() {
+	public void updateBuff() {
 		attackSpeedMultiplier = 1;
 		attackMultiplier = 1;
 		rangeMultiplier = 1;
@@ -175,7 +189,12 @@ public abstract class Tower extends Tile {
 		buffs.add(b);
 	}
 	
-	
+	public boolean hasBuff(int id) {
+		for (Buff b: buffs)
+			if (b.getId() == id) 
+				return true;
+		return false;
+	}
 	
 	public double getAttackCooldown() {
 		return attackCooldown;
@@ -217,8 +236,6 @@ public abstract class Tower extends Tile {
 	public void addAttackMultiplier(double attackMultiplier) {
 		this.attackMultiplier += attackMultiplier;
 	}
-
-	
 	
 	public abstract int getUpgradePrice();
 	

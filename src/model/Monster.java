@@ -17,7 +17,7 @@ import model.particle.Blood;
 import util.GameUtil;
 import util.cpp.pff;
 
-public abstract class Monster extends Entity implements Cloneable{
+public abstract class Monster extends Entity implements IBuffable, Cloneable {
 	
 	
 	protected double maxHealth;
@@ -109,7 +109,7 @@ public abstract class Monster extends Entity implements Cloneable{
 	
 	protected abstract void updateVelocity();
 	
-	protected void updateBuff() {
+	public void updateBuff() {
 		moveSpeedMultiplier = 1;
 		damageTakenMultiplier = 1;
 		for (int i=buffs.size()-1; i>=0; i--) {
