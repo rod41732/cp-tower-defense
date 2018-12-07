@@ -2,7 +2,11 @@ package model.monster;
 
 import controller.game.GameManager;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import model.particle.Blood;
 import model.particle.Explosion;
+import util.GameUtil;
+import util.cpp.pff;
 
 public abstract class Car extends SplittingMonster {
 
@@ -24,6 +28,18 @@ public abstract class Car extends SplittingMonster {
 	public void move() {
 		// TODO add tire track
 		super.move();
+	}
+	
+	@Override
+	public boolean takeDamage(double damage) {
+		for (int i=0; i<20; i++) {
+			pff nv =  GameUtil.rotateVector(-vx, -vy, (Math.random()-0.5)*30);
+			double mult = 1.3/GameUtil.distance(vx, vy, 0, 0);
+			nv.first *= mult;
+			nv.second *= mult;
+			GameManager.getInstance().addParticle(new Blood(Color.BLACK, x, y, nv.first, nv.second, 500));
+		}
+		return super.takeDamage(damage);
 	}
 	
 }
