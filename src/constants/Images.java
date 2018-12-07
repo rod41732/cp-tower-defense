@@ -153,29 +153,29 @@ public class Images {
 		moose = new Image("monster/moose.png", 64, 64, true, true);
 		tank = new Image("monster/tank.png", 96, 96, true, true);
 		
-		normalSoldier = new Image("monster/soldier_normal.png", 128, 128, true, true);
-		fastSoldier =  new Image("monster/soldier_fast.png", 128, 128, true, true);
-		armoredSoldier =  new Image("monster/soldier_armored.png", 128, 128, true, true);
-		heavySoldier = new Image("monster/soldier_heavy.png", 128, 128, true, true);
+		normalSoldier = new Image("monster/soldier_normal.png", 48, 48, true, true);
+		fastSoldier =  new Image("monster/soldier_fast.png", 48, 48, true, true);
+		armoredSoldier =  new Image("monster/soldier_armored.png", 48, 48, true, true);
+		heavySoldier = new Image("monster/soldier_heavy.png", 48, 48, true, true);
 		
 		
 		
-		normalPlane = new Image("monster/plane_normal.png", 128, 128, true, true);
-		fastPlane =  new Image("monster/plane_fast.png", 128, 128, true, true);
-		armoredPlane =  new Image("monster/plane_armored.png", 128, 128, true, true);
-		heavyPlane = new Image("monster/plane_heavy.png", 128, 128, true, true);
+		normalPlane = new Image("monster/plane_normal.png", 64, 64, true, true);
+		fastPlane =  new Image("monster/plane_fast.png", 64, 64, true, true);
+		armoredPlane =  new Image("monster/plane_armored.png", 64, 64, true, true);
+		heavyPlane = new Image("monster/plane_heavy.png", 64, 64, true, true);
 		
 		getProgress().set(0.2);
 		
-		normalTank = new Image("monster/tank_normal.png", 128, 128, true, true);
-		fastTank =  new Image("monster/tank_fast.png", 128, 128, true, true);
-		armoredTank =  new Image("monster/tank_armored.png", 128, 128, true, true);
-		heavyTank = new Image("monster/tank_heavy.png", 128, 128, true, true);
+		normalTank = new Image("monster/tank_normal.png", 64, 64, true, true);
+		fastTank =  new Image("monster/tank_fast.png", 64, 64, true, true);
+		armoredTank =  new Image("monster/tank_armored.png", 64, 64, true, true);
+		heavyTank = new Image("monster/tank_heavy.png", 64, 64, true, true);
 		
-		normalCar = new Image("monster/car_normal.png", 128, 128, true, true);
-		fastCar =  new Image("monster/car_fast.png", 128, 128, true, true);
-		armoredCar =  new Image("monster/car_armored.png", 128, 128, true, true);
-		heavyCar = new Image("monster/car_heavy.png", 128, 128, true, true);
+		normalCar = new Image("monster/car_normal.png", 80, 80, true, true);
+		fastCar =  new Image("monster/car_fast.png", 80, 80, true, true);
+		armoredCar =  new Image("monster/car_armored.png", 80, 80, true, true);
+		heavyCar = new Image("monster/car_heavy.png", 80, 80, true, true);
 		
 		
 		getProgress().set(0.3);
