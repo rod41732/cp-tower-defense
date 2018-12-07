@@ -48,18 +48,20 @@ public class Main extends Application {
 	
 	public void loadAll() {
 		try {
-			Thread.sleep(200);
+			Thread.sleep(300);
+			Images.loadResource();
+			Maps.loadMap();
+			mainMenu = new MainMenuScene();
+			gameScene = new GameScene();
+			Thread.sleep(300);
+			Platform.runLater(() -> {
+				stage.setScene(mainMenu);
+			});
+			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Images.loadResource();
-		Maps.loadMap();
-		mainMenu = new MainMenuScene();
-		gameScene = new GameScene();
-		Platform.runLater(() -> {
-			stage.setScene(mainMenu);
-		});
 	}
 	
 	public static void setScene(Scene scene) {

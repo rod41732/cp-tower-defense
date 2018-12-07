@@ -146,6 +146,12 @@ public class Images {
 		}
 		
 		getProgress().set(0.1);
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		bear = new Image("monster/bear.png", 64, 64, true, true);
 		elephant = new Image("monster/elephant.png", 64, 64, true, true);
@@ -165,6 +171,7 @@ public class Images {
 		heavyPlane = new Image("monster/plane_heavy.png", 128, 128, true, true);
 		
 		getProgress().set(0.2);
+		
 		normalTank = new Image("monster/tank_normal.png", 128, 128, true, true);
 		fastTank =  new Image("monster/tank_fast.png", 128, 128, true, true);
 		armoredTank =  new Image("monster/tank_armored.png", 128, 128, true, true);
