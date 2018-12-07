@@ -10,7 +10,7 @@ import util.cpp;
 public class Maps {
 	private static ArrayList<Map> maps = new ArrayList<>();
 	
-	static {
+	public static void loadMap() {
 		int[][] m1 ={
 				{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 				{0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 0},

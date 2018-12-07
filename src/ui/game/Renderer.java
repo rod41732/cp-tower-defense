@@ -62,10 +62,6 @@ public class Renderer {
 	public void render() {
 		renderTick++;
 		gc.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		gc.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		gc.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		gc.setFill(Color.color(0, 0, 0, 0));
-		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		
 		ArrayList<Entity> arr = SharedObject.getInstance().getRenderables(); 
 		for (int i=0; i<arr.size(); i++) {
