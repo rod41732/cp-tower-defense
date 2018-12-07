@@ -5,6 +5,8 @@ import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
 import model.Particle;
+import model.particle.Crater;
+import model.particle.Explosion;
 import util.cpp;
 
 public class Missile extends NormalProjectile {
@@ -22,9 +24,11 @@ public class Missile extends NormalProjectile {
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
 			cpp.pff impact = m.getPosition();
-			Particle p = new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000);
+			Particle p = new Explosion(impact.first, impact.second, 0, 0),
+					p2 = new Crater(impact.first, impact.second, 5000);
 			p.setzIndex(3);
 			GameManager.getInstance().addParticle(p);
+			GameManager.getInstance().addParticle(p2);
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
 				if (ms.distanceTo(impact.first, impact.second) < ms.getSize()+radius && (ms.getTargetFlag() & targetFlag) != 0) {
 					ms.takeDamage(damage);

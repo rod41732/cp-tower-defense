@@ -7,6 +7,7 @@ import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.Monster;
 import model.Tower;
+import model.projectile.HomingMissle;
 import model.projectile.Missile;
 import util.GameUtil;
 import util.cpp;
@@ -55,9 +56,14 @@ public class MissileTower extends Tower {
 		if (currentTarget == null) return;
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);
-		GameManager.getInstance().addProjectile(new 
-				Missile(Images.bomb, x, y, v.first*9, v.second*9, range, attack, splashRadius));
-		
+		if (level == 5) {
+			GameManager.getInstance().addProjectile(new 
+					HomingMissle(Images.bomb, x, y, v.first*9, v.second*9, range, attack, splashRadius, currentTarget));
+		}
+		else {			
+			GameManager.getInstance().addProjectile(new 
+					Missile(Images.bomb, x, y, v.first*9, v.second*9, range, attack, splashRadius));
+		}
 		currentCooldown = attackCooldown;
 	}
 	

@@ -87,7 +87,8 @@ public class Images {
 
 
 	public static Image normalTowerFlash;
-
+	public static Image crater;
+	
 	public static final Image[] explosion = new Image[16];
 	public static final Image[] flame = new Image[16];
 	public static final Image[] smoke = new Image[9];
@@ -146,12 +147,6 @@ public class Images {
 		}
 		
 		getProgress().set(0.1);
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		bear = new Image("monster/bear.png", 64, 64, true, true);
 		elephant = new Image("monster/elephant.png", 64, 64, true, true);
@@ -236,6 +231,7 @@ public class Images {
 	
 		
 		normalTowerFlash = new Image("particle/flare.png", 32, 32, true, true);
+		crater = new Image("particle/crater.png", 64, 64, true, true);
 		map0Preview = new Image("map/map0.png", 335, 207, false, true);
 		map1Preview = new Image("map/map1.png", 335, 207, false, true);
 

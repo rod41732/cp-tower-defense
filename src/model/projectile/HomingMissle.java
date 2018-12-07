@@ -5,6 +5,8 @@ import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
 import model.Particle;
+import model.particle.Crater;
+import model.particle.Explosion;
 import util.GameUtil;
 import util.cpp;
 
@@ -25,7 +27,7 @@ public class HomingMissle extends NormalProjectile {
 	@Override 
 	public void preUpdate() {
 		double angle = angleTo(target);
-		cpp.pff newV = GameUtil.rotateVector(vx, vy, angle-rotation-90);
+		cpp.pff newV = GameUtil.rotateVector(vx, vy, angle-rotation);
 		vx = newV.first;
 		vy = newV.second;
 	}
@@ -33,7 +35,8 @@ public class HomingMissle extends NormalProjectile {
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m) || distanceTo(target) < 0.2) { // collide with dead monster
 			cpp.pff impact = getPosition();
-			GameManager.getInstance().addParticle(new Particle(Images.explosion, impact.first, impact.second, 0, 0, 1000));
+			GameManager.getInstance().addParticle(new Explosion(impact.first, impact.second, 0, 0));
+			GameManager.getInstance().addParticle(new Crater(impact.first, impact.second, 3000));
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
 				if (ms.distanceTo(impact.first, impact.second) < radius+ms.getSize()) {
 					ms.takeDamage(damage);	
