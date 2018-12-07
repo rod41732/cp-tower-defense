@@ -34,7 +34,7 @@ public class Blood extends Particle {
 		super.onTick();
 		if (age > 0.9*maxAge && !isOnGround) {
 			forceExpire();
-			Blood b = new Blood(Color.RED, x, y, 0, 0, 2500, 8);
+			Blood b = new Blood(color, x, y, 0, 0, 2500, 8);
 			b.isOnGround  = true;
 			GameManager.getInstance().addParticle(b);
 		}
