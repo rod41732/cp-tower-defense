@@ -5,25 +5,22 @@ import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class SoldierBoss1 extends GroundMonster {
+public class SoldierBoss1 extends Soldier {
 
 	private static final Image DEFAULT_IMAGE = Images.heavySoldier;
 	private static final double DEFAULT_HEALTH = 50;
 	private static final double DEFAULT_ARMOR = 4;
 	private static final double DEFAULT_MS  = 0.6;
 	private static final int DEFAULT_MONEY = 5;
-	private static final double DEFAULT_SIZE = 0.2;
-	private double level = 0;
-	
 	
 	public SoldierBoss1(double x, double y, double health, double armor,
 			double moveSpeed, int money) {
-		super("Heavy Soldier", DEFAULT_IMAGE, x, y, DEFAULT_SIZE, health, armor, moveSpeed, money);
+		super(DEFAULT_IMAGE, x, y, health, armor, moveSpeed, money);
+		level = health/DEFAULT_HEALTH-1;
 	}
 	
 	public SoldierBoss1(double x, double y, double modifier) {
-		super("Heavy Soldier", DEFAULT_IMAGE, x, y, DEFAULT_SIZE,
-				DEFAULT_HEALTH*(1+modifier), DEFAULT_ARMOR*(1+modifier*0.2), 
+		this(x, y, DEFAULT_HEALTH*(1+modifier), DEFAULT_ARMOR*(1+modifier*0.2), 
 				DEFAULT_MS*(1+modifier*0.05), (int)(DEFAULT_MONEY*(1+modifier*0.2)));	
 		this.level = modifier;
 	}
