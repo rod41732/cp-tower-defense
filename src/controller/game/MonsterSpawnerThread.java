@@ -64,7 +64,7 @@ public class MonsterSpawnerThread extends Thread {
 		super.interrupt();
 	}
 	
-	public static void onGameReset() { 
+	public void onGameReset() { 
 		if (currentJob != null) {
 			currentJob.interrupt();			
 		}
