@@ -40,13 +40,16 @@ public abstract class Tower extends Tile implements IBuffable {
 	
 	public Tower(String typeName, Image img, double cellX, double cellY) {
 		super(img, cellX, cellY, false, false);
+		this.typeName = typeName;
 		this.rotation = 90; // so it looks better
 		this.level = 1;
-		this.baseAttack = ((Double[])TowerStats.getData(typeName, "Attack", 1))[0];
-		this.baseRange = (double)TowerStats.getData(typeName, "Range", 1);
-		this.attackCooldown = (double)TowerStats.getData(typeName, "Cooldown", 1);
+		this.baseAttack = (Double)TowerStats.getData(typeName, "Attack", 1);
+		this.baseRange = (Double)TowerStats.getData(typeName, "Range", 1);
+		this.attackCooldown = (Double)TowerStats.getData(typeName, "Cooldown", 1);
 		this.price = (int)TowerStats.getData(typeName, "Price", 1);
 		this.targetFlag = (int) TowerStats.getData(typeName, "TargetFlag", 1);
+		System.out.printf("construct %s -> T = %s\n", typeName, targetFlag);
+		this.range = this.baseRange;
 	}
 	
 	@Override
@@ -94,7 +97,7 @@ public abstract class Tower extends Tile implements IBuffable {
 		level += 1;
 		this.baseAttack = (double)TowerStats.getData(typeName, "Attack", level);
 		this.baseRange = (double)TowerStats.getData(typeName, "Range", level);
-		this.baseAttack = (double)TowerStats.getData(typeName, "Cooldown", level);
+		this.attackCooldown = (double)TowerStats.getData(typeName, "Cooldown", level);
 		this.price += (int)TowerStats.getData(typeName, "Price", level);
 		return true;
 	}	
@@ -216,7 +219,7 @@ public abstract class Tower extends Tile implements IBuffable {
 	}
 	
 	public String getDescription() {
-		return (String) TowerStats.getData(typeName, "Description", level-1);
+		return (String) TowerStats.getData(typeName, "Description", level);
 	}
 	
 	public double getUpgradedAttackCooldown() {
@@ -258,6 +261,5 @@ public abstract class Tower extends Tile implements IBuffable {
 	public void addAttackMultiplier(double attackMultiplier) {
 		this.attackMultiplier += attackMultiplier;
 	}
-	
 
 }

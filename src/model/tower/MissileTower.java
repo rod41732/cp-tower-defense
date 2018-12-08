@@ -20,7 +20,7 @@ public class MissileTower extends Tower {
 	
 	public MissileTower(double cellX, double cellY) {
 		super("Missile", DEFAULT_IMAGE, cellX, cellY);
-		this.splashRadius = (double) TowerStats.getData(typeName, "SplashRadius", level-1);
+		this.splashRadius = (double) TowerStats.getData(typeName, "SplashRadius", level);
 	}
 
 	
@@ -29,7 +29,7 @@ public class MissileTower extends Tower {
 	@Override
 	public boolean upgrade() throws FullyUpgradedException {
 		if (super.upgrade()) {
-			this.splashRadius = (double) TowerStats.getData(typeName, "SplashRadius", level-1);
+			this.splashRadius = (double) TowerStats.getData(typeName, "SplashRadius", level);
 		}
 		return true;
 	}
