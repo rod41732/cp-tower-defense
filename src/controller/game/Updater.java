@@ -10,7 +10,6 @@ import model.Particle;
 import model.Projectile;
 import model.Tower;
 import ui.SnackBar;
-import util.BFSAlgo;
 
 public class Updater {
 	private GameManager gm;
@@ -44,13 +43,13 @@ public class Updater {
 	}
 	public void update() {
 		SuperManager.getInstance().getCanUpgradeProp().set(gm.selectedTower != null 
-				&& ((Tower)gm.selectedTower).getUpgradePrice() <= gm.money && ((Tower)gm.selectedTower).getUpgradePrice() >= 0);
+				&& gm.selectedTower.canUpgrade());
 		SuperManager.getInstance().getCanSellProp().set(gm.selectedTower != null);
 		SuperManager.getInstance().getnextWaveAvailableProp().set(shouldSpawnNextWave());
 		if (shouldSpawnNextWave() && SuperManager.getInstance().getGameStateProp().get() == 2) {
 			SuperManager.getInstance().getIsGamePausedProp().set(true);
 		}
-		if (gm.selectedTower == null) {
+		if (gm.selectedTower == null || !gm.selectedTower.canUpgrade()) {
 			Main.getGameScene().getButtonManager().setUpgradeText("Upgrade");			
 		}
 		else {

@@ -3,12 +3,8 @@ package model.monster;
 import constants.Images;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import model.Particle;
-import model.particle.Blood;
 import model.particle.Explosion;
-import util.GameUtil;
-import util.cpp.pff;
 
 public abstract class Car extends SplittingMonster {
 

@@ -3,10 +3,8 @@ package model.tower;
 
 import constants.Images;
 import controller.game.GameManager;
-import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.FadingParticle;
-import model.Monster;
 import model.Particle;
 import model.Tower;
 import model.projectile.NormalProjectile;

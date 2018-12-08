@@ -1,12 +1,7 @@
 package controller.game;
 
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-import controller.SuperManager;
-import javafx.animation.Timeline;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import model.Monster;
 
 public class MonsterSpawningSequence extends Thread {

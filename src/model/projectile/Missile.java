@@ -1,6 +1,5 @@
 package model.projectile;
 
-import constants.Images;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;

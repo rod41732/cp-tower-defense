@@ -3,7 +3,6 @@ package main;
 
 import constants.Images;
 import constants.Maps;
-import constants.Numbers;
 import constants.TowerStats;
 import controller.game.MonsterSpawnerThread;
 import javafx.application.Application;

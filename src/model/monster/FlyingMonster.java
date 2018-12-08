@@ -3,7 +3,6 @@ package model.monster;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
-import model.Tile;
 import util.GameUtil;
 import util.cpp;
 

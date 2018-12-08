@@ -2,7 +2,6 @@ package model.projectile;
 
 import buff.SlowDebuff;
 import constants.Images;
-import javafx.scene.image.Image;
 import model.Monster;
 
 public class IceCloud extends PiercingProjectile {

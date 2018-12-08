@@ -6,10 +6,6 @@ import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
 import model.FadingParticle;
 import model.Particle;
 import model.particle.Explosion;
@@ -56,7 +52,6 @@ public abstract class Plane extends FlyingMonster {
 		cpp.pff center = new cpp.pff((x0+(x+w/Numbers.TILE_SIZE/2-x0)*scale)*Numbers.TILE_SIZE, (y0+(y+h/Numbers.TILE_SIZE/2-y0)*scale)*Numbers.TILE_SIZE);
 		cpp.pff now = new cpp.pff(0, 0);
 
-		System.out.println(rotation);
 		now.first = (x0+(x-x0)*scale)*Numbers.TILE_SIZE;
 		now.second = (y0+(y-y0)*scale)*Numbers.TILE_SIZE;
 		now = GameUtil.rotatePoint(center, now, rotation);

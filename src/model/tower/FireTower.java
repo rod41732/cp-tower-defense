@@ -13,7 +13,6 @@ import util.cpp;
 
 public class FireTower extends Tower {
 
-	private static final int FIRE_DURATION = 1000;
 	private static final Image DEFAULT_IMAGE = Images.fireTower;
 	
 	

@@ -20,7 +20,6 @@ public class LoadingScene extends Scene {
 	Timeline tl;
 	
 	public LoadingScene() {
-//		Queue<Integer> q = new LinkedQue`
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		Pane root = (Pane)getRoot();
 		Canvas bg = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
@@ -31,7 +30,6 @@ public class LoadingScene extends Scene {
 		tl = new Timeline(new KeyFrame(Duration.seconds(1./60), e-> {
 			double prog = Images.getProgress().get();
 			curProg = (prog*1+curProg*10)/11.;
-//			curProg = prog;
 			for (int i=1; i<=5; i++) {
 				gc.save();
 				gc.setGlobalAlpha((curProg > i/5. || i == 1) ? (1): (curProg > i/5.-0.2 ? ((curProg-i/5.+0.2)*5): (0))  );
@@ -40,7 +38,7 @@ public class LoadingScene extends Scene {
 			}
 			gc.save();
 			gc.setGlobalAlpha(0.8);
-			gc.drawImage(Images.vignette, 560*curProg, 336*curProg, 1600-2*560*curProg, 960-2*336*curProg, 0, 0, 1600, 960);
+			gc.drawImage(Images.vignette, 700*curProg, 394*curProg, Numbers.WIN_WIDTH-2*700*curProg, Numbers.WIN_HEIGHT-2*394*curProg, 0, 0, 1600, 960);
 
 			if (curProg < 0.95) { // stop when "full"
 				gc.setGlobalAlpha(1);
@@ -60,4 +58,5 @@ public class LoadingScene extends Scene {
 		tl.play();
 		root.getChildren().addAll(bg);
 	}
+	
 }

@@ -2,8 +2,6 @@ package constants;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
 public class Images {
@@ -107,34 +105,7 @@ public class Images {
 
 	public static final Image[] loading = new Image[5];
 	public static final Image vignette;
-//	public static void loadMainMenuResource() {
-//		buttonSell = new Image("ui/button/button_sell.png", 190, 49, true, true);
-//		buttonSellDisabled = new Image("ui/button/button_sell_disabled.png", 190, 45, true, true);
-//		buttonSellHover = new Image("ui/button/button_sell_hover.png", 190, 45, true, true);
-//		buttonSellPressed = new Image("ui/button/button_sell_pressed.png", 190, 45, true, true);
-//		
-//		buttonPause = new Image("ui/button/button_pause.png", 190, 49, true, true);
-//		buttonPauseDisabled = new Image("ui/button/button_pause_disabled.png", 190, 49, true, true);
-//		buttonPauseHover = new Image("ui/button/button_pause_hover.png", 190, 49, true, true);
-//		buttonPausePressed = new Image("ui/button/button_pause_pressed.png", 190, 45, true, true);
-//		
-//		buttonUpgrade = new Image("ui/button/button_upgrade.png", 190, 49, true, true);
-//		buttonUpgradeDisabled = new Image("ui/button/button_upgrade_disabled.png", 190, 49, true, true);
-//		buttonUpgradeHover = new Image("ui/button/button_upgrade_hover.png", 190, 49, true, true);
-//		buttonUpgradePressed = new Image("ui/button/button_upgrade_pressed.png", 190, 45, true, true);
-//	
-//		
-//		mainMenuBg = new Image("mainmenu/background.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, true, true);
-//		frame = new Image("mainmenu/frame.jpg", 600, 478, true, true);
-//		pane = new Image("mainmenu/pane.jpg", 500, 200, true, true);
-//		
-//		map0Preview = new Image("map/map0.png", 335, 207, false, true);
-//		map1Preview = new Image("map/map1.png", 335, 207, false, true);
-//
-//		
-//		System.out.println("loaded main res");
-//	}
-	
+
 	static {
 		for (int i=1; i<=5; i++) {
 			loading[i-1] = new Image("ui/loading/" + i + ".png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, false, true);

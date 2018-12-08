@@ -13,7 +13,7 @@ import ui.component.IconText;
 
 public class TowerInfoPanel extends VBox {
 	private static final Font titleFont = Font.font("KenVector Future Regular", 20);
-	private static final Font textFont = Font.font("KenVector Future Regular", 14);
+	private static final Font textFont = Font.font("KenVector Future Regular", 11);
 	
 	
 	

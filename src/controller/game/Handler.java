@@ -6,7 +6,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import model.Tile;
 import model.Tower;
 
 public class Handler {

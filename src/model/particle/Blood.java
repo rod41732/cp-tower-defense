@@ -4,7 +4,6 @@ import constants.Images;
 import constants.Numbers;
 import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 import model.Particle;
 

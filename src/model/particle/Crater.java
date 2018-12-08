@@ -1,7 +1,5 @@
 package model.particle;
 
-import javax.swing.text.html.parser.Entity;
-
 import constants.Images;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;

@@ -8,16 +8,15 @@ import exceptions.NotEnoughMoneyException;
 import exceptions.PathBlockedException;
 import exceptions.UnplaceableException;
 import model.Particle;
-import model.Tile;
 import model.Tower;
 import model.tower.AirAttackTower;
 import model.tower.ArmorBreakerTower;
 import model.tower.BombTower;
 import model.tower.BuffTower;
-import model.tower.MissileTower;
 import model.tower.FireTower;
 import model.tower.GroundAttackTower;
 import model.tower.IceTower;
+import model.tower.MissileTower;
 import model.tower.NormalTower;
 import sharedobject.SharedObject;
 import ui.SnackBar;
@@ -27,7 +26,6 @@ import util.cpp.pii;
 
 public class TowerManager {
 
-	private static TowerManager instance;
 	private GameManager gm;
 	private BFSAlgo bfs = new BFSAlgo();
 	public TowerManager(GameManager game) {

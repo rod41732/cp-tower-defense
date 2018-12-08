@@ -223,23 +223,23 @@ public abstract class Tower extends Tile implements IBuffable {
 	}
 	
 	public double getUpgradedAttackCooldown() {
-		return (double) TowerStats.getData(typeName, "Cooldown", level);
+		return (double) TowerStats.getData(typeName, "Cooldown", level+1);
 	}
 
 	public double getUpgradedAttack() {
-		return (double) TowerStats.getData(typeName, "Attack", level);
+		return (double) TowerStats.getData(typeName, "Attack", level+1);
 	}
 
 	public double getUpgradedRange() {
-		return (double) TowerStats.getData(typeName, "Range", level);
+		return (double) TowerStats.getData(typeName, "Range", level+1);
 	}
 	
 	public int getUpgradePrice() {
-		return (int) TowerStats.getData(typeName, "Price", level) + this.price;
+		return (int) TowerStats.getData(typeName, "Price", level+1);
 	}
 	
 	public String getUpgradedDescription() {
-		return (String) TowerStats.getData(typeName, "Description", level);
+		return (String) TowerStats.getData(typeName, "Description", level+1);
 	}
 	
 	public boolean canUpgrade() {

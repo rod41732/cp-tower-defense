@@ -113,9 +113,9 @@ public class TowerStats {
 		
 		cur = new HashMap<>();
 		data.put("Default", cur);
-		cur.put("Attack", new Object [] {15d, 25d, 35d, 55d, 75d});
+		cur.put("Attack", new Object [] {7d, 12d, 20d, 35d, 15d});
 		cur.put("Cooldown", new Object [] {700d, 700d, 700d, 700d, 700d});
-		cur.put("Range", new Object [] {1.5d, 1.75d, 2d, 2.25d, 2.25d});
+		cur.put("Range", new Object [] {4d, 4.5d, 5d, 5d, 5.5d});
 		cur.put("Price", new Object [] {20, 20, 30, 30, 30});
 		cur.put("Description", new Object [] {"Damage", "More Damage", 
 				"More Damage", "More Damage", "Less damage but 3 split shot"});	
@@ -129,7 +129,6 @@ public class TowerStats {
 			throw new IllegalArgumentException("Invalid Tower type: " + tower);
 		if (data.get(tower).get(field) == null) 
 			throw new IllegalArgumentException("Invalid Data field: " + field);
-		System.out.printf("map -> [%s][%s][%d] is %s\n", tower, field, level, data.get(tower).get(field)[level-1]);
 		return data.get(tower).get(field)[level-1];
 	}
 }

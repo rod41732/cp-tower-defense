@@ -114,8 +114,9 @@ public class Entity {
 	public Image getImage() {
 		return image;
 	}
-	
+
+	@Override
 	public String toString() {
-		return String.format("Entity at (%.2f, %.2f)", x, y);
+		return String.format("%s [ x=%.2f, y=%.2f w=%.0f h=%.0f]", getClass().getSimpleName(), x, y, w, h);
 	}
 }

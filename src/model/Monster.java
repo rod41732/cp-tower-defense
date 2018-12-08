@@ -4,18 +4,13 @@ import java.util.ArrayList;
 
 import buff.Buff;
 import buff.DamageTakenDebuff;
-import buff.MoveSpeedBuff;
 import buff.SlowDebuff;
-import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import model.particle.Blood;
-import util.GameUtil;
-import util.cpp.pff;
 
 public abstract class Monster extends Entity implements IBuffable, Cloneable {
 	

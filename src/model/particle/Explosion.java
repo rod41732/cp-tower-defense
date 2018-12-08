@@ -1,8 +1,6 @@
 package model.particle;
 
 import constants.Images;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Bloom;
 import javafx.scene.image.Image;
 import model.Particle;
 
