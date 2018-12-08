@@ -4,6 +4,7 @@ package main;
 import constants.Images;
 import constants.Maps;
 import constants.Numbers;
+import constants.TowerStats;
 import controller.game.MonsterSpawnerThread;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -50,6 +51,7 @@ public class Main extends Application {
 		try {
 			Images.loadResource();
 			Maps.loadMap();
+			TowerStats.loadTower();
 			mainMenu = new MainMenuScene();
 			gameScene = new GameScene();
 			Thread.sleep(300);

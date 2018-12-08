@@ -16,35 +16,12 @@ import util.cpp;
 
 public class GroundAttackTower extends Tower {
 
-	// TODO : more fields
-	private static final double[] ATTACK_VALUES = {15, 25, 35, 55, 75};
-	private static final double[] COOLDOWN_VALUES = {700, 700, 700, 700, 700};
-	private static final double[] RANGE_VALUES = {1.5, 1.75, 2, 2.25, 2.25};
-	private static final int[] PRICE_VALUES = {20, 20, 30, 30, 30};
 	private static final Image DEFAULT_IMAGE = Images.groundAttackTower;
 		
 	public GroundAttackTower(double cellX, double cellY) {
-		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
-		this.price = PRICE_VALUES[0];
-		this.targetFlag = 1;
+		super("Ground" , DEFAULT_IMAGE, cellX, cellY);
 	}
-	
-	
-	@Override
-	public void upgrade() throws FullyUpgradedException {
-		if (level == 5) {
-			throw new FullyUpgradedException();
-		}
-		else {
-			level += 1;
-			this.baseAttack = ATTACK_VALUES[level-1];
-			this.attackCooldown = COOLDOWN_VALUES[level-1];
-			this.baseRange = RANGE_VALUES[level-1];
-			this.price += PRICE_VALUES[level-1];
-		}
-	}
-	
-	
+		
 	public void fire() {
 		if (currentTarget == null) return;
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
@@ -64,31 +41,5 @@ public class GroundAttackTower extends Tower {
 		
 		currentCooldown = attackCooldown;
 	}
-	
-
-	@Override
-	public int getUpgradePrice() {
-		return level == 5 ? -1 : PRICE_VALUES[level];
-	}
-	
-	@Override
-	public double getUpgradedAttackCooldown() {
-		return COOLDOWN_VALUES[level];
-	}
-
-	@Override
-	public double getUpgradedAttack() {
-		return ATTACK_VALUES[level];
-	}
-
-	@Override
-	public double getUpgradedRange() {
-		return RANGE_VALUES[level];
-	}
-
-	public String toString() {
-		return "G Tower";
-	}
-
 }
 

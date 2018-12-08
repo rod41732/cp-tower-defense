@@ -9,6 +9,7 @@ import buff.DamageBuff;
 import buff.RangeBuff;
 import constants.Images;
 import constants.Numbers;
+import constants.TowerStats;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,16 +20,13 @@ import util.GameUtil;
 
 public abstract class Tower extends Tile implements IBuffable {
 
-	// TODO : more fields
-	
-	private static String TOWER_NAME = "Default tower";
-	
 	protected double attackCooldown = 1000;
 	protected double baseAttack;
 	protected double baseRange;
 	protected int price;
 	protected int level;
 	protected int targetFlag;
+	protected String typeName;
 	
 	protected double attack;
 	protected double range; 
@@ -40,15 +38,18 @@ public abstract class Tower extends Tile implements IBuffable {
 	protected ArrayList<Buff> buffs = new ArrayList<>();
 	protected double minDist;
 	
-	public Tower(Image img, double cellX, double cellY,
-			double attack, double attackCooldown, double range) {
+	public Tower(String typeName, Image img, double cellX, double cellY) {
 		super(img, cellX, cellY, false, false);
-		this.rotation = 90;
-		this.baseAttack = attack; 
-		this.attackCooldown = attackCooldown;
-		this.baseRange = this.range = range;  // set like this to show range on constructed  
+		this.typeName = typeName;
+		this.rotation = 90; // so it looks better
 		this.level = 1;
-		this.targetFlag = 3;
+		this.baseAttack = (Double)TowerStats.getData(typeName, "Attack", 1);
+		this.baseRange = (Double)TowerStats.getData(typeName, "Range", 1);
+		this.attackCooldown = (Double)TowerStats.getData(typeName, "Cooldown", 1);
+		this.price = (int)TowerStats.getData(typeName, "Price", 1);
+		this.targetFlag = (int) TowerStats.getData(typeName, "TargetFlag", 1);
+		System.out.printf("construct %s -> T = %s\n", typeName, targetFlag);
+		this.range = this.baseRange;
 	}
 	
 	@Override
@@ -89,10 +90,16 @@ public abstract class Tower extends Tile implements IBuffable {
 	}
 	
 	
-	public void upgrade() throws FullyUpgradedException {
-		if (level == 5) throw new FullyUpgradedException();
+	public boolean upgrade() throws FullyUpgradedException {
+		if (level == 5) {
+			throw new FullyUpgradedException();
+		}
 		level += 1;
-		range += 0.5;
+		this.baseAttack = (double)TowerStats.getData(typeName, "Attack", level);
+		this.baseRange = (double)TowerStats.getData(typeName, "Range", level);
+		this.attackCooldown = (double)TowerStats.getData(typeName, "Cooldown", level);
+		this.price += (int)TowerStats.getData(typeName, "Price", level);
+		return true;
 	}	
 	
 	@Override 
@@ -162,14 +169,12 @@ public abstract class Tower extends Tile implements IBuffable {
 		}
 	}
 	
-	
-	// by the way, some tower doesn't need target to fire (spammer)
 	public void fire() {
 		if (currentTarget == null) {
 			return;
 		}
 		rotateTo(currentTarget);
-		currentCooldown = attackCooldown; // some tower like gatling  cannon might not update like this
+		currentCooldown = attackCooldown;
 	}
 	
 	public void clearTarget() {
@@ -209,19 +214,38 @@ public abstract class Tower extends Tile implements IBuffable {
 		return baseRange;
 	}
 	
+	public int getPrice() {
+		return this.price;
+	}
+	
+	public String getDescription() {
+		return (String) TowerStats.getData(typeName, "Description", level);
+	}
+	
+	public double getUpgradedAttackCooldown() {
+		return (double) TowerStats.getData(typeName, "Cooldown", level);
+	}
+
+	public double getUpgradedAttack() {
+		return (double) TowerStats.getData(typeName, "Attack", level);
+	}
+
+	public double getUpgradedRange() {
+		return (double) TowerStats.getData(typeName, "Range", level);
+	}
+	
+	public int getUpgradePrice() {
+		return (int) TowerStats.getData(typeName, "Price", level) + this.price;
+	}
+	
+	public String getUpgradedDescription() {
+		return (String) TowerStats.getData(typeName, "Description", level);
+	}
+	
 	public boolean canUpgrade() {
 		return level < 5;
 	}
 	
-	public abstract double getUpgradedAttackCooldown();
-
-	public abstract double  getUpgradedAttack();
-
-	public abstract double getUpgradedRange();
-
-	public int getPrice() {
-		return this.price;
-	}
 
 	public void setPrice(int price) {
 		this.price = price;
@@ -237,24 +261,5 @@ public abstract class Tower extends Tile implements IBuffable {
 	public void addAttackMultiplier(double attackMultiplier) {
 		this.attackMultiplier += attackMultiplier;
 	}
-	
-	public abstract int getUpgradePrice();
-	
-	public String getDescription() {
-		return "4Tower";
-	}
-	
-	public String getUpgradedDescription() {
-		return "4Town";
-	}
-	
-	public String toString() {
-		return TOWER_NAME;
-	}
-	
-	public String description() {
-		return String.format("Attack = %.2f\nRange = %.2f tile\nCooldown = %.2f ms\n",
-				attack, range, attackCooldown);
-	}
-	
+
 }

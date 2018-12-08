@@ -1,5 +1,7 @@
 package ui.game;
 
+import java.util.HashMap;
+
 import constants.Images;
 import constants.Numbers;
 import constants.Other;
@@ -14,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.Tile;
 import model.Tower;
+import model.tower.FireTower;
 import ui.component.IconText;
 import util.BFSAlgo;
 import util.cpp;
@@ -31,6 +34,10 @@ public class GameUI {
 	private cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 	private boolean isError = false;
 	private BFSAlgo bfs = new BFSAlgo();
+	
+	
+	private HashMap<Class, HashMap<String, Object>> datas = new HashMap<>();
+	
 	public GameUI() {
 		levelPanel = new IconText(Images.attackIcon, "Level 9999", Other.normalButtonFont);
 		moneyPanel = new IconText(Images.coinIcon, "Money " + GameManager.getInstance().getMoney(), Other.normalButtonFont);

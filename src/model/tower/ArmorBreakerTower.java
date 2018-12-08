@@ -4,6 +4,7 @@ package model.tower;
 import buff.DamageTakenDebuff;
 import buff.MoveSpeedBuff;
 import constants.Images;
+import constants.TowerStats;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
@@ -16,21 +17,14 @@ import util.cpp;
 
 public class ArmorBreakerTower extends Tower {
 
-	private static final double[] ATTACK_VALUES = {5, 5, 5, 5, 5};
-	private static final double[] COOLDOWN_VALUES = {700, 700, 600, 600, 500};
-	private static final double[] RANGE_VALUES = {2.5, 2.5, 2.5, 3, 3};
-	private static final double[] DAMAGE_MULTIPLIER_VALUES = {0.3, 0.35, 0.4, 0.45, 0.5};
-	private static final int[] PRICE_VALUES = {25, 25, 30, 50, 60};
 	private static final int DEBUFF_DURATION = 1250;
 	private static final Image DEFAULT_IMAGE = Images.iceTower;
 	
-	private double slowness;
+	private double amplification;
 		
 	public ArmorBreakerTower(double cellX, double cellY) {
-		super(DEFAULT_IMAGE, cellX, cellY, ATTACK_VALUES[0], COOLDOWN_VALUES[0], RANGE_VALUES[0]);
-		this.price = PRICE_VALUES[0];
-		this.slowness = DAMAGE_MULTIPLIER_VALUES[0];
-		this.targetFlag = 3;
+		super("ArmorBreaker", DEFAULT_IMAGE, cellX, cellY);
+		this.amplification = (double) TowerStats.getData(typeName, "DamageMultiplier", 1);
 	}
 	
 	@Override
@@ -39,18 +33,11 @@ public class ArmorBreakerTower extends Tower {
 		super.tryTarget(m);
 	}
 	
-	public void upgrade() throws FullyUpgradedException {
-		if (level == 5) {
-			throw new FullyUpgradedException();
+	public boolean upgrade() throws FullyUpgradedException {
+		if (super.upgrade()) {
+			this.amplification = (double) TowerStats.getData(typeName, "DamageMultiplier", 1);
 		}
-		else {
-			level += 1;
-			this.baseAttack = ATTACK_VALUES[level-1];
-			this.attackCooldown = COOLDOWN_VALUES[level-1];
-			this.baseRange = RANGE_VALUES[level-1];
-			this.price += PRICE_VALUES[level-1];
-			this.slowness = DAMAGE_MULTIPLIER_VALUES[level-1];
-		}
+		return true;
 	}
 	public void fire() {
 		if (currentTarget == null) return;
@@ -59,32 +46,8 @@ public class ArmorBreakerTower extends Tower {
 		
 		rotateTo(currentTarget);
 		GameManager.getInstance().addProjectile(new 
-				ArmorBreakerProjectile(x, y, v.first*15, v.second*15, range, attack, slowness, DEBUFF_DURATION));
+				ArmorBreakerProjectile(x, y, v.first*15, v.second*15, range, attack, amplification, DEBUFF_DURATION));
 		
 		currentCooldown = attackCooldown;
-	}
-	
-	@Override
-	public int getUpgradePrice() {
-		return level == 5 ? -1 : PRICE_VALUES[level];
-	}
-	
-	@Override
-	public double getUpgradedAttackCooldown() {
-		return COOLDOWN_VALUES[level];
-	}
-
-	@Override
-	public double getUpgradedAttack() {
-		return ATTACK_VALUES[level];
-	}
-
-	@Override
-	public double getUpgradedRange() {
-		return RANGE_VALUES[level];
-	}
-	
-	public String toString() {
-		return "Armor Breaker Tower";
 	}
 }
