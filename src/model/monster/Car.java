@@ -1,8 +1,10 @@
 package model.monster;
 
+import constants.Images;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import model.Particle;
 import model.particle.Blood;
 import model.particle.Explosion;
 import util.GameUtil;
@@ -32,14 +34,10 @@ public abstract class Car extends SplittingMonster {
 	
 	@Override
 	public boolean takeDamage(double damage) {
-		for (int i=0; i<20; i++) {
-			pff nv =  GameUtil.rotateVector(-vx, -vy, (Math.random()-0.5)*30);
-			double mult = GameUtil.distance(vx, vy, 0, 0)/20;
-			nv.first *= mult;
-			nv.second *= mult;
-		
-			GameManager.getInstance().addParticle(new Blood(Color.BLACK, x, y, nv.first, nv.second, 500));
-		}
+		Particle part = new Particle(Images.spark, x+(Math.random()-0.5)*0.2, y+(Math.random()-0.5)*0.2, vx, vy, 500);
+		part.setzIndex(5);
+		GameManager.getInstance().addParticle(part);
+	
 		return super.takeDamage(damage);
 	}
 	
