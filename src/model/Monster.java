@@ -33,7 +33,8 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 	
 	protected double moveSpeedMultiplier;
 	protected double damageTakenMultiplier;
-	
+//	
+//	private double rotation;
 	
 	
 	protected int money;
@@ -94,9 +95,18 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 	}
 	
 	public void move() {
-		setRotation(Math.toDegrees(Math.atan2(vy, vx)));
-		x += vx*Math.max(moveSpeedMultiplier, 0.1)/60;
-		y += vy*Math.max(moveSpeedMultiplier, 0.1)/60;
+		double targetAngle = Math.toDegrees(Math.atan2(vy, vx));
+		double diff = targetAngle-rotation;
+		double mult2 = 1;
+		if (diff >= 5 || diff <= -5) {
+			rotation += 5*Math.signum(diff);
+			mult2 = 0.3;
+		}
+		else {
+			rotation = targetAngle;
+		}
+		x += mult2*vx*Math.max(moveSpeedMultiplier, 0.1)/60;
+		y += mult2*vy*Math.max(moveSpeedMultiplier, 0.1)/60;			
 	}
 	
 	protected void preUpdate() {

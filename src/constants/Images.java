@@ -252,6 +252,7 @@ public class Images {
 		
 		getProgress().set(0.6);
 		
+		
 		for (int i=0; i<16; i++)
 			flame[i] = new Image("animation/flame/"+i+".png", 96, 96, true, true);
 		getProgress().set(0.7);

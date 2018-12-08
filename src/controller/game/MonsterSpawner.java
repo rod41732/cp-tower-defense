@@ -30,25 +30,25 @@ public class MonsterSpawner {
 					// spawns two monster, with 100ms nanosec delay, i+1 times, with 500ms nanosec delay
 					// so it will e like this xxx--yyy--------xxx--yyy---------xxx--yyy------ and so on
 					// useful when spawning mixed multiple monsters 
-//					new MonsterSpawningSequence(500000, 100000, i, 
-//							new NormalCar(0, 0, 0), 
-//							new HeavyCar(0, 0, 3),
-//							new FastCar(0, 0, 0),
-//							new ArmoredCar(0, 0, 0)
-//							),
-					// like above but with differnt set of monster
-//					new MonsterSpawningSequence(500000, 100000, i, // part 2 of wave
-//							new NormalTank(0, 0, 0), 
-//							new HeavyTank(0, 0, 3),
-//							new FastTank(0, 0, 0),
-//							new ArmoredTank(0, 0, 0)
-//							),
-//					new MonsterSpawningSequence(500000, 0, i, 
-//							new NormalSoldier(0, 0, 0), 
-//							new HeavySoldier(0, 0, 3),
-//							new FastSoldier(0, 0, 0),
-//							new ArmoredSoldier(0, 0, 0)
-//							),
+					new MonsterSpawningSequence(500000, 100000, i, 
+							new NormalCar(0, 0, 0), 
+							new HeavyCar(0, 0, 3),
+							new FastCar(0, 0, 0),
+							new ArmoredCar(0, 0, 0)
+							),
+//					 like above but with differnt set of monster
+					new MonsterSpawningSequence(500000, 100000, i, // part 2 of wave
+							new NormalTank(0, 0, 0), 
+							new HeavyTank(0, 0, 3),
+							new FastTank(0, 0, 0),
+							new ArmoredTank(0, 0, 0)
+							),
+					new MonsterSpawningSequence(500000, 0, i, 
+							new NormalSoldier(0, 0, 0), 
+							new HeavySoldier(0, 0, 3),
+							new FastSoldier(0, 0, 0),
+							new ArmoredSoldier(0, 0, 0)
+							),
 					new MonsterSpawningSequence(500000, 0, i, 
 							new NormalPlane(0, 0, 0), 
 							new HeavyPlane(0, 0, 3),
