@@ -92,6 +92,8 @@ public class Images {
 	public static Image crater;
 	public static Image tankTrack;
 	public static Image planeShadow;
+
+	public static Image towerFocus;
 	
 	public static final Image[] explosion = new Image[16];
 	public static final Image[] flame = new Image[16];
@@ -204,6 +206,7 @@ public class Images {
 		coinIcon = new Image("icon/coin.png", 32, 32, true, true);
 		infoIcon = new Image("icon/info.png", 32, 32, true, true);
 		
+		
 		getProgress().set(0.5);
 		
 		buttonSell = new Image("ui/button/button_sell.png", 190, 49, true, true);
@@ -232,6 +235,8 @@ public class Images {
 		towerInfoPanelLocked = new Image("ui/tower_info_panel_locked.png", 256, 192, true, true);
 		
 	
+		towerFocus = new Image("ui/tower_focus.png", 64, 64, true, true);
+		
 		
 		normalTowerFlash = new Image("particle/flare.png", 32, 32, true, true);
 		crater = new Image("particle/crater.png", 64, 64, true, true);

@@ -56,7 +56,7 @@ public abstract class Tower extends Tile implements IBuffable {
 		super.render(gc);
 		renderBuff(gc);
 		if (this == GameManager.getInstance().getSelectedTile()) {
-			renderRadius(gc);
+			renderExtraElements(gc);
 		}	
 	}
 
@@ -64,7 +64,7 @@ public abstract class Tower extends Tile implements IBuffable {
 		super.render(gc);
 		renderBuff(gc);
 		if (showRadius){
-			renderRadius(gc);
+			renderExtraElements(gc);
 		}	
 	}
 	
@@ -77,9 +77,10 @@ public abstract class Tower extends Tile implements IBuffable {
 		if (hasBuff(DamageBuff.ID))
 			gc.drawImage(Images.attackIcon, getRenderX(), getRenderY()+h-16, 16, 16);
 	}
-	public void renderRadius(GraphicsContext gc) {
+	public void renderExtraElements(GraphicsContext gc) {
 		int tz = Numbers.TILE_SIZE;
 		double multiplier = 0.3+0.4*GameUtil.transparencyCycle(Renderer.getInstance().getRenderTick(), 60);
+		gc.drawImage(Images.towerFocus, getRenderX(), getRenderY());
 		gc.setLineWidth(3);
 		gc.setStroke(new Color(1, 0, 1, 0.8));
 		gc.strokeOval(x*tz-range*tz, y*tz-range*tz, 2*range*tz, 2*range*tz);			
