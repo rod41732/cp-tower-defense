@@ -34,7 +34,7 @@ public class LoadingScene extends Scene {
 //			curProg = prog;
 			for (int i=1; i<=5; i++) {
 				gc.save();
-				gc.setGlobalAlpha(curProg > i/5. ? (1): (curProg > i/5.-0.2 ? ((curProg-i/5.+0.2)*5): (0))  );
+				gc.setGlobalAlpha((curProg > i/5. || i == 1) ? (1): (curProg > i/5.-0.2 ? ((curProg-i/5.+0.2)*5): (0))  );
 				gc.drawImage(Images.loading[i-1], 0, 0);
 				gc.restore();
 			}

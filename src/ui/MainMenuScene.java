@@ -1,6 +1,7 @@
 package ui;
 
 
+
 import constants.Images;
 import constants.Numbers;
 import constants.Other;
@@ -10,12 +11,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
-import main.Main;
 import ui.component.ButtonMaker;
 
 public class MainMenuScene extends Scene {
@@ -34,6 +37,8 @@ public class MainMenuScene extends Scene {
 		// make some butons
 		Pane menus = new Pane();
 		Label title = new Label("CP Tower Defense");
+		Canvas menuBackground = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+		GraphicsContext gc = menuBackground.getGraphicsContext2D();
 		title.setFont(Font.font("Consolas", 72));
 		title.setLayoutX(700);
 		title.setLayoutY(300);
@@ -42,8 +47,15 @@ public class MainMenuScene extends Scene {
 		menuTick = new Timeline(new KeyFrame(Duration.seconds(0.5), 
 				new KeyValue(title.scaleXProperty(), 1.5),
 				new KeyValue(title.scaleYProperty(), 1.5)));
+		
+		gc.setFill(Color.BLACK);
+		gc.setGlobalAlpha(0.8);
 		menuTick.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5),e->{
 			resume.setDisable(!GameManager.getInstance().isInitialized() || SuperManager.getInstance().getGameStateProp().get() != 0);
+			gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+			for (int i=0; i<5; i++) {
+				gc.drawImage(Images.loading[i], 0, 0);
+			}
 		}));
 		menuTick.setAutoReverse(true); 
 		menuTick.setCycleCount(Timeline.INDEFINITE);
@@ -80,7 +92,7 @@ public class MainMenuScene extends Scene {
 		hideMapMenu = new Timeline(new KeyFrame(Duration.seconds(0.3), 
 				new KeyValue(mapMenu.layoutYProperty(), Numbers.WIN_HEIGHT)));
 				
-		root.getChildren().addAll(menus, newGame, mapMenu);	
+		root.getChildren().addAll(menuBackground, menus, newGame, mapMenu);	
 	}
 	
 	public void showMapSelect() {

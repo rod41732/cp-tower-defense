@@ -23,16 +23,16 @@ public class Main extends Application {
 	private static LoadingScene loadingScene;
 	@Override
 	public void start(Stage primaryStage) {		
-		loadingScene = new LoadingScene();
-		
-		new Thread(() ->  {
-			loadAll();
-		}).start();;	
-		
 		stage = primaryStage;
+		loadingScene = new LoadingScene();
 		stage.setScene(loadingScene);
 		stage.setResizable(false);
 		stage.show();
+		
+		new Thread(() ->  {
+			loadAll();
+		}).start();
+		
 	}
 
 	public static void main(String[] args) {
