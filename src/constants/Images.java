@@ -2,6 +2,8 @@ package constants;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
 public class Images {
@@ -88,12 +90,17 @@ public class Images {
 
 	public static Image normalTowerFlash;
 	public static Image crater;
+	public static Image tankTrack;
+	public static Image planeShadow;
 	
 	public static final Image[] explosion = new Image[16];
 	public static final Image[] flame = new Image[16];
 	public static final Image[] smoke = new Image[9];
 	public static final Image[] aura = new Image[16];
 	public static final Image[] boom = new Image[16];
+	public static final Image[] spark = new Image[8];
+	
+	
 	public static final Image[][] arrows = new Image[4][4];
 
 	public static final Image[] loading = new Image[5];
@@ -141,10 +148,6 @@ public class Images {
 		tileUnplaceable = new Image("tile/tileUnplaceable.png", 64, 64, true, true);
 		tileUnwalkable = new Image("tile/tileUnwalkable.png", 64, 64, true, true);
 		tileBoth = new Image("tile/tileBoth.png", 64, 64, true, true);
-		System.out.println("tileBoth" + tileBoth);
-		if (tileBoth == null) {
-			System.out.println("warning!!");
-		}
 		
 		getProgress().set(0.1);
 		
@@ -232,6 +235,8 @@ public class Images {
 		
 		normalTowerFlash = new Image("particle/flare.png", 32, 32, true, true);
 		crater = new Image("particle/crater.png", 64, 64, true, true);
+		tankTrack = new Image("particle/tankTrack.png", 7, 40, true, true);
+		planeShadow = new Image("particle/plane_shadow.png", 64, 64, true, true);
 		map0Preview = new Image("map/map0.png", 335, 207, false, true);
 		map1Preview = new Image("map/map1.png", 335, 207, false, true);
 
@@ -255,6 +260,9 @@ public class Images {
 		
 		for (int i=0; i<16; i++)
 			boom[i] = new Image("animation/boom/"+i+".png", 256, 256, true, true);
+		
+		for (int i=0; i<8; i++)
+				spark[i] = new Image("animation/hitspark/"+i+".png", 32, 32, true, true);
 		getProgress().set(0.9);
 		for (int i=0; i<4; i++) {
 			for (int j=0; j<4; j++)

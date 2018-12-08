@@ -35,6 +35,11 @@ public class GameUtil {
 		return v;
 	}
 	
+	public static cpp.pff rotatePoint(cpp.pff center, cpp.pff point, double degree){
+		cpp.pff v = rotateVector(point.first-center.first, point.second-center.second, degree);
+		return new cpp.pff(v.first+center.first, v.second+center.second);
+	}
+	
 	public static class ZIndexComparator implements Comparator<Entity> {
 
 		@Override
