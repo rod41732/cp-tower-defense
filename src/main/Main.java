@@ -48,7 +48,6 @@ public class Main extends Application {
 	
 	public void loadAll() {
 		try {
-			Thread.sleep(300);
 			Images.loadResource();
 			Maps.loadMap();
 			mainMenu = new MainMenuScene();
