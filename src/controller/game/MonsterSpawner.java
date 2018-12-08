@@ -79,6 +79,9 @@ public class MonsterSpawner {
 		System.out.println("stage" + index);
 		stages.get(index).play();
 		index++;
+		if (index >= stages.size()) {
+			SuperManager.getInstance().getGameStateProp().set(2);
+		}
 	}
 	
 	public void pauseWave() {

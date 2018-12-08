@@ -43,22 +43,25 @@ public class Updater {
 	}
 	public void update() {
 		SuperManager.getInstance().getCanUpgradeProp().set(gm.selectedTower != null 
-				&& gm.selectedTower.canUpgrade());
+				&& gm.selectedTower.canUpgrade() && gm.selectedTower.getUpgradePrice() <= gm.money);
 		SuperManager.getInstance().getCanSellProp().set(gm.selectedTower != null);
 		SuperManager.getInstance().getnextWaveAvailableProp().set(shouldSpawnNextWave());
 		if (shouldSpawnNextWave() && SuperManager.getInstance().getGameStateProp().get() == 2) {
 			SuperManager.getInstance().getIsGamePausedProp().set(true);
 		}
-		if (gm.selectedTower == null || !gm.selectedTower.canUpgrade()) {
+		if (gm.selectedTower == null) {
 			Main.getGameScene().getButtonManager().setUpgradeText("Upgrade");			
 		}
 		else {
-			int price = ((Tower)gm.selectedTower).getUpgradePrice();
-			if (price <= 0) 
+			if (!gm.selectedTower.canUpgrade()) 
 				Main.getGameScene().getButtonManager().setUpgradeText("Fully Upgraded");
 			else 
-				Main.getGameScene().getButtonManager().setUpgradeText("$ " + price);
+				Main.getGameScene().getButtonManager().setUpgradeText("$ " + gm.selectedTower.getUpgradePrice());
 		}
+		
+		
+		
+		
 		for (int i=gm.particles.size()-1; i>=0; i--) {
 			gm.particles.get(i).onTick();
 		}

@@ -48,7 +48,6 @@ public abstract class Tower extends Tile implements IBuffable {
 		this.attackCooldown = (Double)TowerStats.getData(typeName, "Cooldown", 1);
 		this.price = (int)TowerStats.getData(typeName, "Price", 1);
 		this.targetFlag = (int) TowerStats.getData(typeName, "TargetFlag", 1);
-		System.out.printf("construct %s -> T = %s\n", typeName, targetFlag);
 		this.range = this.baseRange;
 	}
 	

@@ -32,7 +32,7 @@ public class SuperManager {
 		towerChoiceProp.set(-1);
 	}
 	
-	
+	// Renderer and Updater auto updates on State change so no need to pause them
 	public void onGamePause() {
 		isGamePausedProp.set(true);
 		isInGameProp.set(true);
@@ -40,7 +40,7 @@ public class SuperManager {
 	}
 	
 	public void onResumeGame() {
-		Main.setScene(Main.getGameScene()); // when join game
+		Main.setScene(Main.getGameScene());
 		isGamePausedProp.set(false);
 		isInGameProp.set(true);
 		MonsterSpawner.getInstace().resumeWave();

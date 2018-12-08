@@ -88,6 +88,12 @@ public class Handler {
 			case DIGIT7:
 				prop.set(prop.get() == 6 ? -1 : 6);
 				break;
+			case DIGIT8:
+				prop.set(prop.get() == 7 ? -1 : 7);
+				break;
+			case DIGIT9:
+				prop.set(prop.get() == 8 ? -1 : 8);
+				break;
 			default:
 				break;
 			}

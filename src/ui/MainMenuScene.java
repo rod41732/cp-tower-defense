@@ -26,7 +26,6 @@ public class MainMenuScene extends Scene {
 	private Timeline menuTick;
 	private Pane root;
 	private MapSelectionMenu mapMenu;
-	private boolean isMapMenuShown = false;
 	
 	private Timeline showMapMenu, hideMapMenu;
 	
@@ -98,13 +97,11 @@ public class MainMenuScene extends Scene {
 	public void showMapSelect() {
 		menuTick.pause();
 		showMapMenu.play();
-		isMapMenuShown = true;
 	}
 	
 	public void hideMapSelect() {
 		menuTick.play();
 		hideMapMenu.play();
-		isMapMenuShown = false;
 	}
 	
 	public void tickle() {
