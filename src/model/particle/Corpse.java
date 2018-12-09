@@ -6,7 +6,7 @@ import model.FadingParticle;
 public class Corpse extends FadingParticle {
 
 	public Corpse(Image image, double x, double y, double vx, double vy) {
-		super(image, x, y, vx, vy, 5000);
+		super(image, x, y, vx, vy, 5000.0);
 	}
 
 	@Override
