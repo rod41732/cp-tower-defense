@@ -39,7 +39,7 @@ public abstract class Tower extends Tile implements IBuffable {
 	protected double minDist;
 	
 	public Tower(String typeName, Image img, double cellX, double cellY) {
-		super(img, cellX, cellY, false, false);
+		super(Images.towerImages.get(typeName)[0], cellX, cellY, false, false);
 		this.typeName = typeName;
 		this.rotation = 90; // so it looks better
 		this.level = 1;
@@ -53,6 +53,7 @@ public abstract class Tower extends Tile implements IBuffable {
 	
 	@Override
 	public void render(GraphicsContext gc) {
+		gc.drawImage(Images.towerBase, getRenderX(), getRenderY());
 		super.render(gc);
 		renderBuff(gc);
 		if (this == GameManager.getInstance().getSelectedTile()) {
@@ -94,6 +95,7 @@ public abstract class Tower extends Tile implements IBuffable {
 			throw new FullyUpgradedException();
 		}
 		level += 1;
+		this.image = Images.towerImages.get(typeName)[level-1];
 		this.baseAttack = (double)TowerStats.getData(typeName, "Attack", level);
 		this.baseRange = (double)TowerStats.getData(typeName, "Range", level);
 		this.attackCooldown = (double)TowerStats.getData(typeName, "Cooldown", level);

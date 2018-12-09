@@ -20,13 +20,7 @@ public abstract class Soldier extends GroundMonster {
 	@Override
 	public void onDeath() {
 		super.onDeath();
-		for (int i=0; i<20; i++) {
-			pff nv =  GameUtil.rotateVector(-vx, -vy, (Math.random()-0.5)*30);
-			double mult = GameUtil.distance(vx, vy, 0, 0)/20;
-			nv.first *= mult;
-			nv.second *= mult;
-			GameManager.getInstance().addParticle(new Blood(Color.RED, x, y, nv.first, nv.second, 500));
-		}
+		GameManager.getInstance().addParticle(new Blood(x, y, 0, 0, 800));
 	}
 	public double getLevel() {
 		return level;

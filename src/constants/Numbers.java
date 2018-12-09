@@ -7,7 +7,5 @@ public class Numbers {
 	public static final int TILE_SIZE = 64;
 	public static final int COLUMNS = 21;
 	public static final int ROWS = 13;
-	public static final double TOP_OFFSET = 64;
-	public static final double LEFT_OFFSET = 0;
 	
 }

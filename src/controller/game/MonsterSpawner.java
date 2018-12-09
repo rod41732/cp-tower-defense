@@ -2,6 +2,7 @@ package controller.game;
 
 import java.util.ArrayList;
 
+import controller.SuperManager;
 import model.monster.ArmoredCar;
 import model.monster.ArmoredPlane;
 import model.monster.ArmoredSoldier;

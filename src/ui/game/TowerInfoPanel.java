@@ -1,6 +1,7 @@
 package ui.game;
 
 import constants.Images;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -22,8 +23,9 @@ public class TowerInfoPanel extends VBox {
 	
 	public TowerInfoPanel(String towerName, String attack, String cooldown, String range, String desc) {
 		super(8);
+		setPadding(new Insets(16, 0, 0, 32));
 		titleText = new Label(towerName);
-		titleText.setMaxWidth(256);
+		titleText.setPrefWidth(256);
 		titleText.setFont(titleFont);
 		attackInfo = new IconText(Images.attackIcon, attack, textFont);
 		cooldownInfo = new IconText(Images.cooldownIcon, cooldown, textFont);

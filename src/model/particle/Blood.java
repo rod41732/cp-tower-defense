@@ -9,42 +9,9 @@ import model.Particle;
 
 public class Blood extends Particle {
 
-	private Color color;
-	private double radius;
-	private boolean isOnGround; // no more spawning
-	
-	public Blood(Color color, double x, double y, double vx, double vy, double maxAge, double radius) {
-		super(Images.attackIcon, x, y, vx, vy, maxAge);
-		this.color = color;
-		this.radius = radius;
-		this.isOnGround = false;
-	}
-	public Blood(Color color, double x, double y, double vx, double vy, double maxAge) {
-		this(color, x, y, vx, vy, maxAge, 2);
+
+	public Blood(double x, double y, double vx, double vy, double maxAge) {
+		super(Images.blood, x, y, vx, vy, maxAge);
 	}
 
-	
-	@Override
-	public void onTick() {
-		if (!isOnGround) {
-			vy += 0.03;
-			vx *= 0.97;			
-		}
-		super.onTick();
-		if (age > 0.9*maxAge && !isOnGround) {
-			forceExpire();
-			Blood b = new Blood(color, x, y, 0, 0, 2500, 8);
-			b.isOnGround  = true;
-			GameManager.getInstance().addParticle(b);
-		}
-	}
-	
-	@Override
-	public void render(GraphicsContext gc) {
-//		gc.setGlobalAlpha(1);
-		gc.save();
-		gc.setFill(color);
-		gc.fillRect(x*Numbers.TILE_SIZE, y*Numbers.TILE_SIZE, radius, radius);
-		gc.restore();
-	}
 }

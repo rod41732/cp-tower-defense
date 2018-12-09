@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 public class Particle extends Entity implements IExpirable {
 
-	private static final int TICKS_PER_FRAME = 4;
+	private static final int TICKS_PER_FRAME = 3;
 	
 	protected double maxAge;
 	protected double vx, vy;
@@ -43,7 +43,7 @@ public class Particle extends Entity implements IExpirable {
 		frameCount += 1;
 	}
 	
-	private void updateFrame() {
+	protected void updateFrame() {
 		this.image = frames[(frameCount/TICKS_PER_FRAME)%nFrames];
 	}
 	

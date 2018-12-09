@@ -1,5 +1,8 @@
 package constants;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
@@ -41,6 +44,10 @@ public class Images {
 	public static Image bombTower;
 	public static Image fireTower;
 	public static Image iceTower;
+
+	public static HashMap<String, Image[]> towerImages;
+	
+	
 	public static Image normalBullet;
 	public static Image piercingBullet;
 	public static Image bomb;
@@ -92,6 +99,8 @@ public class Images {
 	public static Image planeShadow;
 
 	public static Image towerFocus;
+
+	public static Image towerBase;
 	
 	public static final Image[] explosion = new Image[16];
 	public static final Image[] flame = new Image[16];
@@ -99,6 +108,7 @@ public class Images {
 	public static final Image[] aura = new Image[16];
 	public static final Image[] boom = new Image[16];
 	public static final Image[] spark = new Image[8];
+	public static final Image[] blood = new Image[13];
 	
 	
 	public static final Image[][] arrows = new Image[4][4];
@@ -162,6 +172,21 @@ public class Images {
 		fireTower = new Image("tower/flame.png", 64, 64, true, true);
 		iceTower = new Image("tower/ice.png", 64, 64, true, true);
 		
+		String[] towerTypes = {"Air", "ArmorBreaker", "Buff",
+				"Bomb", "Fire", "Ground", "Ice", "Missile", "Default"};
+		towerImages = new HashMap<>();
+		for (String typ: towerTypes) {
+			Image[] imgs = new Image[5];
+			for (int i=1; i<=5; i++) { // name start at 1
+				imgs[i-1] = new Image(String.format("tower/%s/%d.png", typ.toLowerCase(), i), 64, 64, true, true);
+			}
+			towerImages.put(typ, imgs);
+		}
+		
+		
+		towerBase = new Image("tower/base.png", 64, 64, true, true);
+		
+		
 		getProgress().set(0.4);
 		normalBullet = new Image("projectile/normalBullet.png", 30, 30, true, true);
 		piercingBullet = new Image("projectile/piercingBullet.png", 48, 48, true, true);
@@ -207,7 +232,7 @@ public class Images {
 		
 	
 		towerFocus = new Image("ui/tower_focus.png", 64, 64, true, true);
-		
+
 		
 		normalTowerFlash = new Image("particle/flare.png", 32, 32, true, true);
 		crater = new Image("particle/crater.png", 64, 64, true, true);
@@ -216,6 +241,8 @@ public class Images {
 		map0Preview = new Image("map/map0.png", 335, 207, false, true);
 		map1Preview = new Image("map/map1.png", 335, 207, false, true);
 
+		
+		
 		
 		for (int i=0; i<16; i++)
 			explosion[i] = new Image("animation/explosion/"+i+".png", 96, 96, true, true);
@@ -238,6 +265,9 @@ public class Images {
 		for (int i=0; i<16; i++)
 			boom[i] = new Image("animation/boom/"+i+".png", 256, 256, true, true);
 		
+		for (int i=0; i<13; i++)
+			blood[i] = new Image("animation/blood/"+i+".png", 64, 64, true, true);
+		
 		for (int i=0; i<8; i++)
 				spark[i] = new Image("animation/hitspark/"+i+".png", 32, 32, true, true);
 		getProgress().set(0.9);
@@ -247,6 +277,8 @@ public class Images {
 					arrows[i][j] = new Image(String.format("ui/arrow/%d%d.png", i, j), 64, 64, true, true);
 				}
 		}
+		
+		
 		
 		getProgress().set(1.0);
 
