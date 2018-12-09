@@ -25,8 +25,13 @@ public class Entity {
 	
 	public Entity(Image image, double x, double y, double zIndex, double size) {
 		this.image = image;
-		this.w = image.getWidth();
-		this.h = image.getHeight();
+		try {
+			this.w = image.getWidth();
+			this.h = image.getHeight();			
+		}
+		catch (NullPointerException e) {
+			this.w = this.h = 0;
+		}
 		this.x = x;
 		this.y = y;
 		this.zIndex = zIndex;
