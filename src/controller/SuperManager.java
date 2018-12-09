@@ -21,9 +21,10 @@ public class SuperManager {
 	private IntegerProperty towerChoiceProp = new SimpleIntegerProperty();
 	private IntegerProperty gameStateProp = new SimpleIntegerProperty();
 	private BooleanProperty shouldDisplayPathProp = new SimpleBooleanProperty();
-	
+	private BooleanProperty shouldDisplayPath = new SimpleBooleanProperty();
 	public SuperManager() {
 		shouldDisplayPathProp.set(true);
+		shouldDisplayPath.set(true);
 		isInGameProp.set(false);
 		nextWaveAvailableProp.set(false);
 		canUpgradeProp.set(false);

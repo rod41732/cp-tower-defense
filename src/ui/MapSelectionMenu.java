@@ -27,9 +27,12 @@ public class MapSelectionMenu extends Pane{
 	public MapSelectionMenu() {
 		super();
 		Canvas canvas = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		Button backButton = ButtonMaker.make(0, 0, Images.buttonUpgrade, Images.buttonUpgradePressed, Other.normalButtonFont, "Back");
-		Button newGameButton = ButtonMaker.make(1300, 740, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "New Game");
-		
+		Button backButton = ButtonMaker.make(Images.buttonUpgrade, Images.buttonUpgradePressed, Other.normalButtonFont, "Back");
+		Button newGameButton = ButtonMaker.make(Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "New Game");
+		backButton.setLayoutX(50);
+		backButton.setLayoutY(50);
+		newGameButton.setLayoutX(1360);
+		newGameButton.setLayoutY(750);
 		ToggleGroup toggleGroup = new ToggleGroup();
 		newGameButton.setOnAction(e -> {
 			SuperManager.getInstance().onReset();

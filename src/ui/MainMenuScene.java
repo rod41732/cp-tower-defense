@@ -10,6 +10,8 @@ import controller.game.GameManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -32,6 +34,13 @@ public class MainMenuScene extends Scene {
 	public MainMenuScene() {
 		super(new Pane(), Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		root = (Pane) getRoot();
+		// make some butons
+		VBox menus = new VBox();
+		menus.setMinWidth(Numbers.WIN_WIDTH);
+		menus.setMinHeight(Numbers.WIN_HEIGHT);
+		menus.setAlignment(Pos.CENTER);
+		menus.setPadding(new Insets(5));
+		menus.setSpacing(20);
 		
 		// make some butons
 		Pane menus = new Pane();
@@ -42,6 +51,7 @@ public class MainMenuScene extends Scene {
 		title.setLayoutX(700);
 		title.setLayoutY(300);
 		Button resume = ButtonMaker.make(700, 350, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Resume");
+		Button resume = ButtonMaker.make(Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Resume");
 //		root.setStyle("-fx-background: red");
 		menuTick = new Timeline(new KeyFrame(Duration.seconds(0.5), 
 				new KeyValue(title.scaleXProperty(), 1.5),
@@ -50,6 +60,9 @@ public class MainMenuScene extends Scene {
 		gc.setFill(Color.BLACK);
 		gc.setGlobalAlpha(0.8);
 		menuTick.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5),e->{
+		resume.setAlignment(Pos.CENTER);
+		
+		menuTick = new Timeline(new KeyFrame(Duration.seconds(0.5),e->{
 			resume.setDisable(!GameManager.getInstance().isInitialized() || SuperManager.getInstance().getGameStateProp().get() != 0);
 			gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 			for (int i=0; i<5; i++) {
@@ -75,7 +88,7 @@ public class MainMenuScene extends Scene {
 			}
 		});
 		
-		Button newGame = ButtonMaker.make(700, 290, Images.buttonPause, Images.buttonPausePressed,
+		Button newGame = ButtonMaker.make(Images.buttonPause, Images.buttonPausePressed,
 				Other.normalButtonFont, "new game ...");
 		newGame.setOnAction(e -> {
 			showMapSelect();
@@ -83,7 +96,7 @@ public class MainMenuScene extends Scene {
 		resume.setOnAction(e -> {
 			SuperManager.getInstance().onResumeGame();
 		});
-		menus.getChildren().addAll(title, resume);
+		menus.getChildren().addAll(resume,newGame);
 		mapMenu = new MapSelectionMenu();
 		mapMenu.setLayoutY(Numbers.WIN_HEIGHT);
 		showMapMenu = new Timeline(new KeyFrame(Duration.seconds(0.3), 

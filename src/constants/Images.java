@@ -23,8 +23,6 @@ public class Images {
 	public static Image tank;
 	public static Image normalSoldier;
 	public static Image fastSoldier ;
-	public static Image armoredSoldier ;
-	public static Image heavySoldier;
 	public static Image normalPlane;
 	public static Image fastPlane ;
 	public static Image armoredPlane ;
@@ -46,6 +44,8 @@ public class Images {
 	public static Image iceTower;
 
 	public static HashMap<String, Image[]> towerImages;
+	public static Image heavySoldier;
+	public static Image armoredSoldier ;
 	
 	
 	public static Image normalBullet;
@@ -97,10 +97,10 @@ public class Images {
 	public static Image crater;
 	public static Image tankTrack;
 	public static Image planeShadow;
-
 	public static Image towerFocus;
 
 	public static Image towerBase;
+
 	
 	public static final Image[] explosion = new Image[16];
 	public static final Image[] flame = new Image[16];

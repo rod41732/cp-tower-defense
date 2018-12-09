@@ -8,6 +8,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -33,16 +34,24 @@ public class GameScene extends Scene {
 		main.setHgap(0);
 		main.setVgap(0);
 //		main
+		
 		HBox topbar = new HBox();
-		StackPane gameArea = new StackPane();
-		VBox menus = new VBox();
-		HBox bottomBar = new HBox();
-		bottomBar.setPrefHeight(64);
 		topbar.setPrefHeight(64);
-		main.add(topbar, 0, 0, 1, 1);
+		StackPane gameArea = new StackPane();
+		
+		VBox menus = new VBox();
+		menus.setAlignment(Pos.CENTER);
+		
+		HBox bottomBar = new HBox();
+		bottomBar.setAlignment(Pos.CENTER);
+		bottomBar.setPrefHeight(64);
+		bottomBar.setSpacing(20);
+	
+		
+		main.add(topbar, 0, 0, 2, 1);
 		main.add(gameArea, 0, 1, 1, 1);
-		main.add(menus, 1, 1, 1, 2);
-		main.add(bottomBar, 0, 2, 1, 1);
+		main.add(menus, 1, 1, 1, 1);
+		main.add(bottomBar, 0, 2, 2, 1);
 
 		Pane overlayPane = new Pane();
 		
@@ -51,8 +60,6 @@ public class GameScene extends Scene {
 		Canvas overlay = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		gameArea.getChildren().addAll(mainCanvas);
 	
-
-		
 		overlayPane.getChildren().add(overlay);
 		PauseMenu.setTargetGC(overlay.getGraphicsContext2D());
 		TilePane towerChoices = new TilePane();
@@ -67,9 +74,7 @@ public class GameScene extends Scene {
 		buttonManager.addUpgradeButton(menus); //
 		buttonManager.addMenuButtons(overlayPane);
 		GameUI.getInstance().addinfo(topbar);
-		topbar.setAlignment(Pos.CENTER_LEFT);
-		
-		
+		topbar.setAlignment(Pos.CENTER);
 		Renderer.getInstance().setGC(mainCanvas.getGraphicsContext2D());
 		root.getChildren().add(main);
 		root.getChildren().add(overlayPane);
@@ -111,11 +116,6 @@ public class GameScene extends Scene {
 		setOnKeyPressed(e -> {
 			GameManager.getInstance().handleKeyPress(e);
 		});
-		
-		
-		
-		
-		
 		
 	}
 

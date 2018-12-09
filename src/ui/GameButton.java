@@ -7,10 +7,13 @@ import constants.Images;
 import controller.SuperManager;
 import controller.game.GameManager;
 import javafx.beans.property.BooleanProperty;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import model.Tower;
 import ui.component.ButtonMaker;
@@ -33,51 +36,57 @@ public class GameButton {
 	public GameButton() {
 		Font buttonFont = new Font("KenVector Future Regular", 20);
 		Font buttonFontSmall = new Font("KenVector Future Regular", 12);
-		sellButton = ButtonMaker.make(1364, 780, Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
+		//sell and Upgrade menu
+		sellButton = ButtonMaker.make(Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
 				buttonFont, "Sell Tower");		
 		sellButton.setOnAction(e -> {
 			GameManager.getInstance().sellTower();
 		});
-		nextButton = ButtonMaker.make(303, 879, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
-				buttonFont, "Next Wave");
-		nextButton.setOnAction(e -> {
-			GameManager.getInstance().requestNextWave();
-		});
-		
-		upgradeButton = ButtonMaker.make(1364, 724, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
+		upgradeButton = ButtonMaker.make(Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
 				buttonFont, "Upgrade");
 		upgradeButton.setOnAction(e -> {
 			GameManager.getInstance().upgradeTower();
-		});		
+		});
 		
-		toMenuButton = ButtonMaker.make(700, 480, Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
+		//Pause menu
+		toMenuButton = ButtonMaker.make(Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
 				buttonFont, "Main menu");
 		toMenuButton.setVisible(false);
 		toMenuButton.setOnAction(e -> {
 			SuperManager.getInstance().onLeaveGame();
 		});
 		toMenuButton.setVisible(false);
-		
-		resumeButton = ButtonMaker.make(700, 400, Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
+		toMenuButton.setLayoutX(700);
+		toMenuButton.setLayoutY(400);
+		resumeButton = ButtonMaker.make(Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
 				buttonFont, "Resume");
 		resumeButton.setVisible(false);
 		resumeButton.setOnAction(e -> {
 			SuperManager.getInstance().onResumeGame();
 		});
+		resumeButton.setLayoutX(700);
+		resumeButton.setLayoutY(480);
 		resumeButton.setVisible(false);
 		
-		pauseButton = ButtonMaker.make(55, 879, Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
+		//Bottom bar
+		pauseButton = ButtonMaker.make(Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
 				buttonFont, "Pause");
 		pauseButton.setOnAction(e -> {
 			SuperManager.getInstance().onGamePause();
 		});		
 		
-		showPathButton = ButtonMaker.make(455, 879, Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
+		showPathButton = ButtonMaker.make(Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
 				buttonFont, "Show Path");
 		showPathButton.setOnAction(e -> {
 			BooleanProperty prop = SuperManager.getInstance().getShouldDisplayPathProp(); 
 			prop.set(!prop.get());
 		});		
+		nextButton = ButtonMaker.make(Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
+				buttonFont, "Next Wave");
+		nextButton.setOnAction(e -> {
+			GameManager.getInstance().requestNextWave();
+		});
+		
 		
 		SuperManager.getInstance().getShouldDisplayPathProp().addListener((obs, old, nw) -> {
 			boolean shouldShow = nw.booleanValue();
@@ -106,10 +115,9 @@ public class GameButton {
 			pauseButton.setDisable(paused || isPlacing);
 			nextButton.setDisable(paused || isPlacing);
 			
-
 			SuperManager.getInstance().getTowerChoiceProp().set(isPlacing ? (int)nw.getUserData() : -1);				
-					 
 		});
+		
 		SuperManager.getInstance().getTowerChoiceProp().addListener((obs, old, nw) -> {
 			int val = nw.intValue();
 			if (val >= 0) {
@@ -176,6 +184,10 @@ public class GameButton {
 	}	
 	
 	public void addUpgradeButton(Pane pane) {
-		pane.getChildren().addAll(upgradeButton, sellButton);
+		VBox upGradePane = new VBox();
+		upGradePane.setAlignment(Pos.CENTER);
+		upGradePane.setSpacing(10);
+		upGradePane.getChildren().addAll(upgradeButton, sellButton);
+		pane.getChildren().add(upGradePane);
 	}
 }

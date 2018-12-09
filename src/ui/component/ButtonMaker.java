@@ -21,10 +21,8 @@ import model.Tower;
 public class ButtonMaker {
 
 	
-	public static Button make(double x, double y, Image imgNormal, Image imgPressed, Image imgHover, Image imgDisable, Font font, String text) {
+	public static Button make(Image imgNormal, Image imgPressed, Image imgHover, Image imgDisable, Font font, String text) {
 		Button btn = new Button(text);
-		btn.setLayoutX(x);
-		btn.setLayoutY(y);
 		BackgroundImage bn = new BackgroundImage(imgNormal, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		Background bgNormal = new Background(bn);
@@ -37,9 +35,6 @@ public class ButtonMaker {
 		BackgroundImage bp = new BackgroundImage(imgPressed, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		Background bgPressed = new Background(bp);
-		
-		
-		
 		
 		
 		btn.setFont(font);
@@ -75,23 +70,20 @@ public class ButtonMaker {
 	}
 	
 	
-	public static Button make(double x, double y, Image imgNormal, Image imgPressed, Font font, String text) {
+	public static Button make(Image imgNormal, Image imgPressed, Font font, String text) {
 		Button btn = new Button(text);
-		btn.setLayoutX(x);
-		btn.setLayoutY(y);
 		BackgroundImage bn = new BackgroundImage(imgNormal, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		Background bgNormal = new Background(bn);
 		BackgroundImage bp = new BackgroundImage(imgPressed, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 		Background bgPressed = new Background(bp);
-		
 		btn.setFont(font);
 		btn.setBackground(bgNormal);
 		btn.setPrefWidth(imgNormal.getWidth());
 		btn.setPrefHeight(imgNormal.getHeight());
 		btn.setPadding(Insets.EMPTY);
-		
+		btn.setAlignment(Pos.CENTER);
 		btn.setOnMousePressed(e -> {
 			btn.setBackground(bgPressed);
 			btn.setPrefWidth(imgPressed.getWidth());
