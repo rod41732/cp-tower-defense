@@ -108,7 +108,7 @@ public class TowerStats {
 		cur.put("Price", new Object [] {25, 25, 30, 50, 60});
 		cur.put("Description", new Object [] {"AoE Damage", "More Damage", 
 				"More Damage", "More Damage", "More damage + range"});
-		cur.put("TargetFlag", new Object []{1});
+		cur.put("TargetFlag", new Object []{3});
 		
 		
 		cur = new HashMap<>();

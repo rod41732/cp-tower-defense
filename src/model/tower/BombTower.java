@@ -2,6 +2,7 @@ package model.tower;
 
 
 import constants.Images;
+import constants.Sounds;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
@@ -22,12 +23,13 @@ public class BombTower extends Tower {
 	
 	public void fire() {
 		if (currentTarget == null) return;
+		Sounds.bigExplosion.play();
 		for (Monster ms: GameManager.getInstance().getMonsters()) {
 			if (isInRange(ms)) {
 				ms.takeDamage(attack);
 			}
 		}
-		GameManager.getInstance().addParticle(new Particle(Images.boom, x, y, 0, 0, 1200));
+		GameManager.getInstance().addParticle(new Particle(Images.boom, x, y, 0, 0, 1200.0));
 		currentCooldown = attackCooldown;
 	}
 	

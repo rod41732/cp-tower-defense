@@ -1,6 +1,7 @@
 package model.monster;
 
 import constants.Images;
+import constants.Sounds;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.particle.Explosion;
@@ -17,6 +18,7 @@ public abstract class Tank extends GroundMonster {
 	
 	@Override
 	public void onDeath() {
+		Sounds.tankExplosion.play();
 		GameManager.getInstance().addParticle(new Explosion(Images.deathExplosion, x, y, 0, 0)); // common death anim for cars		
 		super.onDeath();
 	}

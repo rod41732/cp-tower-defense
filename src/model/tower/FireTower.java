@@ -2,6 +2,7 @@ package model.tower;
 
 
 import constants.Images;
+import constants.Sounds;
 import constants.TowerStats;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
@@ -34,6 +35,7 @@ public class FireTower extends Tower {
 	
 	public void fire() {
 		if (currentTarget == null) return;
+		Sounds.fire.play();
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);
 		GameManager.getInstance().addProjectile(new 

@@ -3,6 +3,7 @@ package model.tower;
 
 import buff.SlowDebuff;
 import constants.Images;
+import constants.Sounds;
 import constants.TowerStats;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
@@ -29,9 +30,9 @@ public class IceTower extends Tower {
 	}
 	
 	@Override
-	public void tryTarget(Monster m) {
-		if (m.hasBuff(SlowDebuff.ID)) return ;
-		super.tryTarget(m);
+	public boolean tryTarget(Monster m) {
+		if (m.hasBuff(SlowDebuff.ID)) return false;
+		return super.tryTarget(m);
 	}
 	
 	@Override
@@ -44,6 +45,7 @@ public class IceTower extends Tower {
 	}
 	public void fire() {
 		if (currentTarget == null) return;
+		Sounds.genericShoot.play();
 		
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);

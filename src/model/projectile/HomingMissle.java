@@ -1,6 +1,7 @@
 package model.projectile;
 
 import constants.Images;
+import constants.Sounds;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
@@ -20,7 +21,7 @@ public class HomingMissle extends NormalProjectile {
 		this.radius = radius;
 		this.damage = damage;
 		this.target = target;
-		this.targetFlag = 1;
+		this.targetFlag = 3;
 	}
 
 	@Override 
@@ -32,7 +33,8 @@ public class HomingMissle extends NormalProjectile {
 	}
 
 	public boolean collideWith(Monster m) {
-		if (shouldCollide(m) || distanceTo(target) < 0.2) { // collide with dead monster
+		if ((shouldCollide(m)) || (target.isDead() && distanceTo(target) < 0.2)) { // collide with dead monster
+			Sounds.hitExplosion.play();
 			cpp.pff impact = m.getPosition();
 			GameManager.getInstance().addParticle(new Explosion(Images.explosion, impact.first, impact.second, 0, 0));
 			GameManager.getInstance().addParticle(new Crater(impact.first, impact.second, 3000));

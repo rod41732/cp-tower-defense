@@ -3,6 +3,7 @@ package model.tower;
 
 import buff.DamageTakenDebuff;
 import constants.Images;
+import constants.Sounds;
 import constants.TowerStats;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
@@ -26,9 +27,9 @@ public class ArmorBreakerTower extends Tower {
 	}
 	
 	@Override
-	public void tryTarget(Monster m) {
-		if (m.hasBuff(DamageTakenDebuff.ID)) return ;
-		super.tryTarget(m);
+	public boolean tryTarget(Monster m) {
+		if (m.hasBuff(DamageTakenDebuff.ID)) return false;
+		return super.tryTarget(m);
 	}
 	
 	public boolean upgrade() throws FullyUpgradedException {
@@ -39,6 +40,7 @@ public class ArmorBreakerTower extends Tower {
 	}
 	public void fire() {
 		if (currentTarget == null) return;
+		Sounds.genericShoot.play();
 		
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		

@@ -2,6 +2,7 @@ package model.monster;
 
 import constants.Images;
 import constants.Numbers;
+import constants.Sounds;
 import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.PerspectiveTransform;
@@ -25,6 +26,7 @@ public abstract class Plane extends FlyingMonster {
 	
 	@Override
 	public void onDeath() {
+		Sounds.planeExplosion.play();
 		GameManager.getInstance().addParticle(new Explosion(Images.deathExplosion, x, y, 0, 0));
 	}	
 	

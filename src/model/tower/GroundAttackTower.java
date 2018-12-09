@@ -2,6 +2,7 @@ package model.tower;
 
 
 import constants.Images;
+import constants.Sounds;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.FadingParticle;
@@ -23,6 +24,7 @@ public class GroundAttackTower extends Tower {
 		
 	public void fire() {
 		if (currentTarget == null) return;
+		Sounds.gunLoud.play();
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);
 		if (level < 5) {

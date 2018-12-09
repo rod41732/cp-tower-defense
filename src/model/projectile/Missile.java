@@ -1,8 +1,8 @@
 package model.projectile;
 
 import constants.Images;
+import constants.Sounds;
 import controller.game.GameManager;
-import javafx.scene.image.Image;
 import model.Monster;
 import model.Particle;
 import model.particle.Crater;
@@ -18,14 +18,15 @@ public class Missile extends NormalProjectile {
 		super(Images.missileBullet, x, y, vx, vy, maxRange, damage); // default size ?
 		this.radius = radius;
 		this.damage = damage;
-		this.targetFlag = 1;
+		this.targetFlag = 3;
 	}
-
+	
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
+			Sounds.hitExplosion.play();
 			cpp.pff impact = m.getPosition();
 			Particle p = new Explosion(Images.explosion, impact.first, impact.second, 0, 0),
-					p2 = new Crater(impact.first, impact.second, 5000);
+					p2 = new Crater(impact.first, impact.second, 5000.);
 			p.setzIndex(3);
 			GameManager.getInstance().addParticle(p);
 			GameManager.getInstance().addParticle(p2);

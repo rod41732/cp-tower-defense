@@ -18,12 +18,14 @@ public class TowerInfoPanel extends VBox {
 	
 	
 	
-	private Label titleText, descText;
+	private Label superTitle, titleText, descText;
 	private IconText attackInfo, cooldownInfo, rangeInfo;
 	
-	public TowerInfoPanel(String towerName, String attack, String cooldown, String range, String desc) {
+	public TowerInfoPanel(String superTitleText, String towerName, String attack, String cooldown, String range, String desc) {
 		super(8);
 		setPadding(new Insets(16, 0, 0, 32));
+		superTitle = new Label(superTitleText);
+		superTitle.setFont(textFont);
 		titleText = new Label(towerName);
 		titleText.setPrefWidth(256);
 		titleText.setFont(titleFont);
@@ -34,11 +36,11 @@ public class TowerInfoPanel extends VBox {
 		descText.setMaxWidth(256);
 		descText.setFont(textFont);
 		setBackground(new Background(new BackgroundImage(Images.towerInfoPanel, null, null, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-		getChildren().addAll(titleText, attackInfo, cooldownInfo, rangeInfo, descText);
+		getChildren().addAll(superTitle, titleText, attackInfo, cooldownInfo, rangeInfo, descText);
 	}
 	
-	public TowerInfoPanel() {
-		this("", "", "", "", "");
+	public TowerInfoPanel(String title) {
+		this(title,"", "", "", "", "");
 	}
 	
 	public void setTexts(String towerName, String attack, String cooldown, String range, String desc) {
@@ -48,4 +50,5 @@ public class TowerInfoPanel extends VBox {
 		rangeInfo.setText(range);
 		descText.setText(desc);
 	}
+	
 }

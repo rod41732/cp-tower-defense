@@ -2,6 +2,7 @@ package model.tower;
 
 
 import constants.Images;
+import constants.Sounds;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.FadingParticle;
@@ -22,6 +23,7 @@ public class NormalTower extends Tower {
 	
 	public void fire() {
 		if (currentTarget == null) return;
+		Sounds.gunQuiet.play();
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);
 		if (level < 5) {
