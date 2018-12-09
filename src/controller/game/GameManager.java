@@ -25,7 +25,7 @@ import util.cpp;
 
 public class GameManager {
 	
-	private static GameManager instance = new GameManager();
+	private static final GameManager instance = new GameManager();
 	
 	// Shared in game
 	ArrayList<Tower> towers = new ArrayList<>();
@@ -42,12 +42,13 @@ public class GameManager {
 	cpp.pii startTilePos;
 	cpp.pii endTilePos;
 	int lives;
-
+	
 	boolean isInitialized;
 	Updater updater;
 	TowerManager towerManager;
 	Handler handler;
 	private BFSAlgo bfs = new BFSAlgo();
+	private Image bgImage;
 	
 	public GameManager() {
 		updater = new Updater(this);
@@ -85,6 +86,7 @@ public class GameManager {
 		HashMap<Integer, Image> tileMap = m.getTileMap();
 		int[][] tiles = m.getTiles();
 		isInitialized = true;
+		bgImage = m.getBgImage();
 		lives = 200;
 		startTilePos = m.getStart();
 		endTilePos = m.getEnd();
@@ -97,7 +99,7 @@ public class GameManager {
 				} catch (UnplaceableException e) {
 					System.out.println("can't initialize tile, map might be invalid");
 				}
-				SharedObject.getInstance().addRenderables(tmp);
+//				SharedObject.getInstance().addRenderables(tmp);
 			}
 		
 		money = 100;
@@ -230,8 +232,8 @@ public class GameManager {
 	}
 	
 	public void addMonsterDefault(Monster mon) {
-		mon.setX(startTilePos.first);
-		mon.setY(startTilePos.second);
+		mon.setX(startTilePos.first+0.5);
+		mon.setY(startTilePos.second+0.5);
 		monsters.add(mon);
 		SharedObject.getInstance().addRenderables(mon);
 	}
@@ -274,6 +276,10 @@ public class GameManager {
 					startTilePos.first, startTilePos.second);
 		} catch (PathBlockedException e) {
 		}
+	}
+	
+	public Image getBgImage() {
+		return bgImage;
 	}
 	
 }

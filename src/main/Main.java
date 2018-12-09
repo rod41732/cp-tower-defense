@@ -24,6 +24,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {		
 		stage = primaryStage;
+		stage.setTitle("Higon TD");
 		loadingScene = new LoadingScene();
 		stage.setScene(loadingScene);
 		stage.setResizable(false);

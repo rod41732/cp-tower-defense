@@ -61,7 +61,7 @@ public class Renderer {
 	public void render() {
 		renderTick++;
 		gc.clearRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
-		
+		gc.drawImage(GameManager.getInstance().getBgImage(), 0, 0);
 		ArrayList<Entity> arr = SharedObject.getInstance().getRenderables(); 
 		for (int i=0; i<arr.size(); i++) {
 			arr.get(i).render(gc);

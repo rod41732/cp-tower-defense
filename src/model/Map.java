@@ -11,15 +11,16 @@ public class Map {
 	private int[][] tiles;
 	private HashMap<Integer, Image> tileMap;
 	private cpp.pii start, end;
-	private Image previewImage;
+	private Image previewImage, bgImage;
 	
 	
-	public Map(int[][] tiles, HashMap<Integer, Image> tileMap, pii start, pii end, Image previewImage) {
+	public Map(int[][] tiles, HashMap<Integer, Image> tileMap, pii start, pii end, Image previewImage, Image bgImage) {
 		this.tiles = tiles;
 		this.tileMap = tileMap;
 		this.start = start;
 		this.end = end;
 		this.previewImage = previewImage;
+		this.bgImage = bgImage;
 	}
 
 	public int[][] getTiles() {
@@ -40,6 +41,10 @@ public class Map {
 	
 	public Image getPreviewImage() {
 		return previewImage;
+	}
+	
+	public Image getBgImage() {
+		return bgImage;
 	}
 	
 	

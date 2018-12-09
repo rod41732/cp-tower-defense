@@ -99,6 +99,8 @@ public class Images {
 
 	public static Image map0Preview;
 	public static Image map1Preview;
+	public static Image map0;
+	public static Image map1;
 	
 	public static Image mainMenuBg;
 	public static Image frame;
@@ -250,8 +252,12 @@ public class Images {
 		crater = new Image("particle/crater.png", 64, 64, true, true);
 		tankTrack = new Image("particle/tankTrack.png", 7, 40, true, true);
 		planeShadow = new Image("particle/plane_shadow.png", 64, 64, true, true);
-		map0Preview = new Image("map/map0.png", 335, 207, false, true);
-		map1Preview = new Image("map/map1.png", 335, 207, false, true);
+		
+		double mapW = Numbers.COLUMNS*Numbers.TILE_SIZE, mapH = Numbers.ROWS*Numbers.TILE_SIZE;
+		map0Preview = new Image("map/map0.png", mapW/5, mapH/5, false, true);
+		map1Preview = new Image("map/map1.png", mapW/5, mapH/5, false, true);
+		map0 = new Image("map/map0.png", mapW, mapH, false, true);
+		map1 = new Image("map/map1.png", mapW, mapH, false, true);
 
 		
 		
