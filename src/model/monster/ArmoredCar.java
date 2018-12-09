@@ -16,7 +16,7 @@ public class ArmoredCar extends Car {
 
 	public ArmoredCar(double x, double y, double health, double armor, double moveSpeed,
 			int money) {
-		super(DEFAULT_IMAGE , x, y, health, armor, moveSpeed, money);
+		super(DEFAULT_IMAGE , x, y, health, armor, moveSpeed, money, FastSoldier.class);
 		level = health/DEFAULT_HEALTH-1;
 	}
 	
@@ -26,12 +26,4 @@ public class ArmoredCar extends Car {
 		level = modifier;
 	}
 	
-	@Override
-	public void onDeath() {
-		super.onDeath();
-		pff pos = getPosition();
-		for (int i=0; i<5; i++)
-			GameManager.getInstance().addMonster(new ArmoredSoldier(
-					pos.first+(Math.random()-0.5)*0.2, pos.second+(Math.random()-0.5)*0.2, level));
-	}
 }

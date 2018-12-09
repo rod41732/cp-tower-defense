@@ -1,9 +1,7 @@
 package model.monster;
 
 import constants.Images;
-import controller.game.GameManager;
 import javafx.scene.image.Image;
-import util.cpp.pff;
 
 public class NormalCar extends Car {
 
@@ -16,7 +14,7 @@ public class NormalCar extends Car {
 	
 	public NormalCar(double x, double y, double health, double armor, double moveSpeed,
 			int money) {
-		super(DEFAULT_IMAGE, x, y, health, armor, moveSpeed, money);
+		super(DEFAULT_IMAGE, x, y, health, armor, moveSpeed, money, NormalSoldier.class);
 		level = health/DEFAULT_HEALTH-1;
 	}
 	
@@ -25,16 +23,6 @@ public class NormalCar extends Car {
 				DEFAULT_MS*(1+modifier*0.05), (int)(DEFAULT_MONEY*(1+modifier*0.2)));
 		level = modifier;
 	}
-	
-	@Override
-	public void onDeath() {
-		super.onDeath(); 
-		pff pos = getPosition();
-		for (int i=0; i<5; i++)
-			GameManager.getInstance().addMonster(new NormalSoldier(
-					pos.first+(Math.random()-0.5)*0.2, pos.second+(Math.random()-0.5)*0.2, level));
-	}
-	
-	
+
 
 }
