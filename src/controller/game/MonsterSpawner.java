@@ -3,22 +3,22 @@ package controller.game;
 import java.util.ArrayList;
 
 import controller.SuperManager;
-import model.monster.ArmoredCar;
-import model.monster.ArmoredPlane;
-import model.monster.ArmoredSoldier;
-import model.monster.ArmoredTank;
-import model.monster.FastCar;
-import model.monster.FastPlane;
-import model.monster.FastSoldier;
-import model.monster.FastTank;
-import model.monster.HeavyCar;
-import model.monster.HeavyPlane;
-import model.monster.HeavySoldier;
-import model.monster.HeavyTank;
-import model.monster.NormalCar;
-import model.monster.NormalPlane;
-import model.monster.NormalSoldier;
-import model.monster.NormalTank;
+import model.monster.CarArmored;
+import model.monster.PlaneArmored;
+import model.monster.SoldierArmored;
+import model.monster.TankArmored;
+import model.monster.CarFast;
+import model.monster.PlaneFast;
+import model.monster.SoldierFast;
+import model.monster.TankFast;
+import model.monster.CarHeavy;
+import model.monster.PlaneHeavy;
+import model.monster.SoldierHeavy;
+import model.monster.TankHeavy;
+import model.monster.CarNormal;
+import model.monster.PlaneNormal;
+import model.monster.SoldierNormal;
+import model.monster.TankNormal;
 
 public class MonsterSpawner {
 	
@@ -32,29 +32,29 @@ public class MonsterSpawner {
 					// so it will e like this xxx--yyy--------xxx--yyy---------xxx--yyy------ and so on
 					// useful when spawning mixed multiple monsters 
 					new MonsterSpawningSequence(500000, 100000, i, 
-							new NormalCar(0, 0, 0), 
-							new HeavyCar(0, 0, 3),
-							new FastCar(0, 0, 0),
-							new ArmoredCar(0, 0, 0)
+							new CarNormal(0, 0, 0), 
+							new CarHeavy(0, 0, 3),
+							new CarFast(0, 0, 0),
+							new CarArmored(0, 0, 0)
 							),
 //					 like above but with differnt set of monster
 					new MonsterSpawningSequence(500000, 100000, i, // part 2 of wave
-							new NormalTank(0, 0, 0), 
-							new HeavyTank(0, 0, 3),
-							new FastTank(0, 0, 0),
-							new ArmoredTank(0, 0, 0)
+							new TankNormal(0, 0, 0), 
+							new TankHeavy(0, 0, 3),
+							new TankFast(0, 0, 0),
+							new TankArmored(0, 0, 0)
 							),
 					new MonsterSpawningSequence(500000, 0, i, 
-							new NormalSoldier(0, 0, 0), 
-							new HeavySoldier(0, 0, 3),
-							new FastSoldier(0, 0, 0),
-							new ArmoredSoldier(0, 0, 0)
+							new SoldierNormal(0, 0, 0), 
+							new SoldierHeavy(0, 0, 3),
+							new SoldierFast(0, 0, 0),
+							new SoldierArmored(0, 0, 0)
 							),
 					new MonsterSpawningSequence(500000, 0, i, 
-							new NormalPlane(0, 0, 0), 
-							new HeavyPlane(0, 0, 3),
-							new FastPlane(0, 0, 0),
-							new ArmoredPlane(0, 0, 0)
+							new PlaneNormal(0, 0, 0), 
+							new PlaneHeavy(0, 0, 3),
+							new PlaneFast(0, 0, 0),
+							new PlaneArmored(0, 0, 0)
 							)
 					); // .. there can be more
 			

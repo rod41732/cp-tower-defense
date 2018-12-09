@@ -34,7 +34,7 @@ public class SoldierBoss1 extends Soldier {
 	@Override
 	protected void preUpdate() {
 		if (Math.random()*60<0.8) {
-			GameManager.getInstance().addMonster(new HeavySoldier(x, y, level));
+			GameManager.getInstance().addMonster(new SoldierHeavy(x, y, level));
 		}
 	}
 	

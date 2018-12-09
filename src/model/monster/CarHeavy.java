@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import model.Monster;
 import util.cpp.pff;
 
-public class HeavyCar extends Car {
+public class CarHeavy extends Car {
 
 	private static final Image DEFAULT_IMAGE = Images.armoredCar;
 	private static final double DEFAULT_HEALTH = 500;
@@ -18,13 +18,13 @@ public class HeavyCar extends Car {
 	
 	
 	
-	public HeavyCar(double x, double y, double health, double armor, double moveSpeed,
+	public CarHeavy(double x, double y, double health, double armor, double moveSpeed,
 			int money) {
-		super(DEFAULT_IMAGE , x, y, health, armor, moveSpeed, money, HeavySoldier.class);
+		super(DEFAULT_IMAGE , x, y, health, armor, moveSpeed, money, SoldierHeavy.class);
 		level = health/DEFAULT_HEALTH-1;
 	}
 	
-	public HeavyCar(double x, double y, double modifier) {
+	public CarHeavy(double x, double y, double modifier) {
 		this(x, y, DEFAULT_HEALTH*(1+modifier), DEFAULT_ARMOR*(1+modifier*0.2),
 				DEFAULT_MS*(1+modifier*0.05), (int)(DEFAULT_MONEY*(1+modifier*0.2)));
 		level = modifier;
@@ -35,7 +35,7 @@ public class HeavyCar extends Car {
 		super.onDeath();
 		pff pos = getPosition();
 		for (int i=0; i<5; i++)
-			GameManager.getInstance().addMonster(new HeavySoldier(
+			GameManager.getInstance().addMonster(new SoldierHeavy(
 					pos.first+(Math.random()-0.5)*0.2, pos.second+(Math.random()-0.5)*0.2, level));
 	}
 	
