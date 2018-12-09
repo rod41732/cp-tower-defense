@@ -8,37 +8,39 @@ import javafx.scene.image.Image;
 import model.FadingParticle;
 import model.Particle;
 import model.Tower;
-import model.projectile.GroundProjectile;
+import model.projectile.AirProjectile;
 import model.projectile.NormalProjectile;
+import model.projectile.SplittingAirProjectile;
 import model.projectile.SplittingProjectile;
 import util.GameUtil;
 import util.cpp;
 
-public class GroundAttackTower extends Tower {
-
-	public GroundAttackTower(double cellX, double cellY) {
-		super("Ground", cellX, cellY);
-	}
+public class SkyTower extends Tower {
 		
+	public SkyTower(double cellX, double cellY) {
+		super("Air", cellX, cellY);
+	}
+	
+	
 	public void fire() {
 		if (currentTarget == null) return;
-		Sounds.gunLoud.play();
+		Sounds.missileLaunch.play();
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
 		rotateTo(currentTarget);
+		Particle p = new FadingParticle(Images.normalTowerFlash, x+v.first*0.6 , y+v.second*0.6, 0, 0, 300);
+		GameManager.getInstance().addParticle(p);
 		if (level < 5) {
 		GameManager.getInstance().addProjectile(new 
-				GroundProjectile(x, y, v.first*15, v.second*15, range, attack));
-				Particle p = new FadingParticle(Images.normalTowerFlash, x+v.first*0.6 , y+v.second*0.6, 0, 0, 300);
+				AirProjectile(x, y, v.first*15, v.second*15, range, attack));
 				p.rotateTo(currentTarget);
-				GameManager.getInstance().addParticle(p);
 		}
 		else {
 			GameManager.getInstance().addProjectile(new 
-					SplittingProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, attack, 
+					SplittingAirProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, attack, 
 							Math.min(distanceTo(currentTarget)*0.6, distanceTo(currentTarget)-currentTarget.getSize()-size)));			
-		}
-		
+		}		
 		currentCooldown = attackCooldown;
 	}
+
 }
 

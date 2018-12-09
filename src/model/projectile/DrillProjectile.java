@@ -6,12 +6,12 @@ import controller.game.GameManager;
 import model.Monster;
 import util.cpp;
 
-public class ArmorBreakerProjectile extends NormalProjectile {
+public class DrillProjectile extends NormalProjectile {
 	
 	private double multiplier;;
 	private double duration;
 		
-	public ArmorBreakerProjectile(double x, double y,
+	public DrillProjectile(double x, double y,
 			double vx, double vy, double maxRange, double damage, double multiplier, double duration) {
 		super(Images.armorBreakerBullet ,x, y, vx, vy, maxRange, damage); // default size ?
 		this.multiplier = multiplier;

@@ -10,17 +10,17 @@ import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.Monster;
 import model.Tower;
-import model.projectile.ArmorBreakerProjectile;
+import model.projectile.DrillProjectile;
 import util.GameUtil;
 import util.cpp;
 
-public class ArmorBreakerTower extends Tower {
+public class DrillTower extends Tower {
 
 	private static final int DEBUFF_DURATION = 1250;
 	
 	private double amplification;
 		
-	public ArmorBreakerTower(double cellX, double cellY) {
+	public DrillTower(double cellX, double cellY) {
 		super("ArmorBreaker", cellX, cellY);
 		this.amplification = (double) TowerStats.getData(typeName, "DamageMultiplier", 1);
 	}
@@ -45,7 +45,7 @@ public class ArmorBreakerTower extends Tower {
 		
 		rotateTo(currentTarget);
 		GameManager.getInstance().addProjectile(new 
-				ArmorBreakerProjectile(x, y, v.first*15, v.second*15, range, attack, amplification, DEBUFF_DURATION));
+				DrillProjectile(x, y, v.first*15, v.second*15, range, attack, amplification, DEBUFF_DURATION));
 		
 		currentCooldown = attackCooldown;
 	}

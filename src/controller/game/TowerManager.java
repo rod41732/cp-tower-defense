@@ -9,12 +9,12 @@ import exceptions.PathBlockedException;
 import exceptions.UnplaceableException;
 import model.Particle;
 import model.Tower;
-import model.tower.AirAttackTower;
-import model.tower.ArmorBreakerTower;
+import model.tower.SkyTower;
+import model.tower.DrillTower;
 import model.tower.BombTower;
 import model.tower.BuffTower;
 import model.tower.FireTower;
-import model.tower.GroundAttackTower;
+import model.tower.GroundTower;
 import model.tower.IceTower;
 import model.tower.MissileTower;
 import model.tower.NormalTower;
@@ -84,11 +84,11 @@ public class TowerManager {
 		case 3:
 			t = new IceTower(x+0.5, y+0.5); break;
 		case 4: 
-			t = new GroundAttackTower(x+0.5, y+0.5); break;
+			t = new GroundTower(x+0.5, y+0.5); break;
 		case 5:
-			t = new AirAttackTower(x+0.5, y+0.5); break;	
+			t = new SkyTower(x+0.5, y+0.5); break;	
 		case 6:
-			t = new ArmorBreakerTower(x+0.5, y+0.5); break;
+			t = new DrillTower(x+0.5, y+0.5); break;
 		case 7:
 			t = new BombTower(x+0.5,y+0.5); break;
 		case 8:
