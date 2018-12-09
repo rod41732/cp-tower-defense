@@ -18,7 +18,10 @@ public abstract class Car extends SplittingMonster {
 	
 	@Override
 	public void onDeath() {
-		GameManager.getInstance().addParticle(new Explosion(x, y, 0, 0)); // common death anim for cars
+		GameManager.getInstance().addParticle(new Explosion(Images.deathExplosion, x, y, 0, 0)); // common death anim for cars
+		Particle part = new Particle(Images.normalCarDead, x, y, 0, 0, 2000);
+		part.setRotation(rotation);
+		GameManager.getInstance().addParticle(part);
 	}
 	
 	@Override

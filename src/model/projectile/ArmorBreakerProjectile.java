@@ -13,7 +13,7 @@ public class ArmorBreakerProjectile extends NormalProjectile {
 		
 	public ArmorBreakerProjectile(double x, double y,
 			double vx, double vy, double maxRange, double damage, double multiplier, double duration) {
-		super(Images.iceBullet ,x, y, vx, vy, maxRange, damage); // default size ?
+		super(Images.armorBreakerBullet ,x, y, vx, vy, maxRange, damage); // default size ?
 		this.multiplier = multiplier;
 		this.duration = duration;
 		this.targetFlag = 3;

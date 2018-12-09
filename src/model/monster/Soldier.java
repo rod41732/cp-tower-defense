@@ -20,7 +20,7 @@ public abstract class Soldier extends GroundMonster {
 	@Override
 	public void onDeath() {
 		super.onDeath();
-		GameManager.getInstance().addParticle(new Blood(x, y, 0, 0, 800));
+		GameManager.getInstance().addParticle(new Blood(x, y, 0, 0));
 	}
 	public double getLevel() {
 		return level;

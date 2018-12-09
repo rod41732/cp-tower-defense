@@ -17,25 +17,32 @@ public class Images {
 	public static Image tileUnwalkable;
 	public static Image tileBoth;
 
-	public static Image bear;
-	public static Image elephant;
-	public static Image moose;
-	public static Image tank;
 	public static Image normalSoldier;
-	public static Image fastSoldier ;
+	public static Image fastSoldier;
 	public static Image normalPlane;
-	public static Image fastPlane ;
-	public static Image armoredPlane ;
+	public static Image fastPlane;
+	public static Image armoredPlane;
 	public static Image heavyPlane;
 	public static Image normalTank;
-	public static Image fastTank ;
-	public static Image armoredTank ;
+	public static Image fastTank;
+	public static Image armoredTank;
 	public static Image heavyTank;
 	public static Image normalCar;
-	public static Image fastCar ;
-	public static Image armoredCar ;
+	public static Image fastCar;
+	public static Image armoredCar;
 	public static Image heavyCar;
 
+	public static Image normalCarDead;
+	public static Image normalPlaneDead;
+	public static Image heavyPlaneDead;
+	public static Image normalTankDead;
+	public static Image fastTankDead;
+	public static Image armoredTankDead;
+	public static Image heavyTankDead;
+
+	
+	
+	
 	public static Image normalTower;
 	public static Image groundAttackTower;
 	public static Image AirAttackTower;
@@ -50,10 +57,15 @@ public class Images {
 	
 	public static Image normalBullet;
 	public static Image piercingBullet;
-	public static Image bomb;
+	public static Image missileBullet;
 	public static Image fireBullet;
 	public static Image iceBullet;
+	public static Image airBullet;
+	public static Image groundBullet;
+	public static Image armorBreakerBullet;
 
+	
+	
 	public static Image attackIcon;
 	public static Image bombIcon;
 	public static Image cooldownIcon;
@@ -103,12 +115,13 @@ public class Images {
 
 	
 	public static final Image[] explosion = new Image[16];
+	public static final Image[] deathExplosion = new Image[16];
 	public static final Image[] flame = new Image[16];
 	public static final Image[] smoke = new Image[9];
 	public static final Image[] aura = new Image[16];
 	public static final Image[] boom = new Image[16];
 	public static final Image[] spark = new Image[8];
-	public static final Image[] blood = new Image[13];
+	public static final Image[] blood = new Image[12];
 	
 	
 	public static final Image[][] arrows = new Image[4][4];
@@ -158,15 +171,15 @@ public class Images {
 		armoredCar =  new Image("monster/car_armored.png", 80, 80, true, true);
 		heavyCar = new Image("monster/car_heavy.png", 80, 80, true, true);
 		
+		normalCarDead = new Image("monster/dead/car.png", 80, 80, true, true);
+		normalPlaneDead = new Image("monster/dead/plane.png", 80, 80, true, true);
+		heavyPlaneDead = new Image("monster/dead/plane_heavy.png", 80, 80, true, true);
+		normalTankDead = new Image("monster/dead/tank.png", 64, 64, true, true);
+		fastTankDead = new Image("monster/dead/tank_fast.png", 64, 64, true, true);
+		armoredTankDead = new Image("monster/dead/tank_armored.png", 64, 64, true, true);
+		heavyTankDead = new Image("monster/dead/tank_heavy.png", 64, 64, true, true);
 		
-		getProgress().set(0.3);
-		normalTower = new Image("tower/tower1.png", 64, 64, true, true);
-		groundAttackTower = new Image("tower/tower2.png", 64, 64, true, true);
-		AirAttackTower = new Image("tower/tower3.png", 64, 64, true, true);
-		bombTower = new Image("tower/missile1.png", 64, 64, true, true);
-		fireTower = new Image("tower/flame.png", 64, 64, true, true);
-		iceTower = new Image("tower/ice.png", 64, 64, true, true);
-		
+		getProgress().set(0.3);	
 		String[] towerTypes = {"Air", "ArmorBreaker", "Buff",
 				"Bomb", "Fire", "Ground", "Ice", "Missile", "Default"};
 		towerImages = new HashMap<>();
@@ -185,9 +198,13 @@ public class Images {
 		getProgress().set(0.4);
 		normalBullet = new Image("projectile/normalBullet.png", 30, 30, true, true);
 		piercingBullet = new Image("projectile/piercingBullet.png", 48, 48, true, true);
-		bomb = new Image("projectile/missileBullet.png", 30, 30, true, true);
+		missileBullet = new Image("projectile/missileBullet.png", 30, 30, true, true);
 		fireBullet = new Image("projectile/fireBullet.png", 30, 30, true, true);
 		iceBullet = new Image("projectile/iceBullet.png", 30, 30, true, true);
+		airBullet = new Image("projectile/airBullet.png", 30, 30, true, true);
+		groundBullet = new Image("projectile/groundBullet.png", 30, 30, true, true);
+		armorBreakerBullet = new Image("projectile/armorBreakerBullet.png", 30, 30, true, true);
+		
 		attackIcon = new Image("icon/attack.png", 32, 32, true, true);
 		bombIcon = new Image("icon/bomb.png", 32, 32, true, true);
 		cooldownIcon = new Image("icon/cooldown.png", 32, 32, true, true);
@@ -241,6 +258,8 @@ public class Images {
 		
 		for (int i=0; i<16; i++)
 			explosion[i] = new Image("animation/explosion/"+i+".png", 96, 96, true, true);
+		for (int i=0; i<16; i++)
+			deathExplosion[i] = new Image("animation/death_explosion/"+i+".png", 128, 128, true, true);
 
 		
 		getProgress().set(0.6);
@@ -260,7 +279,7 @@ public class Images {
 		for (int i=0; i<16; i++)
 			boom[i] = new Image("animation/boom/"+i+".png", 256, 256, true, true);
 		
-		for (int i=0; i<13; i++)
+		for (int i=0; i<12; i++)
 			blood[i] = new Image("animation/blood/"+i+".png", 64, 64, true, true);
 		
 		for (int i=0; i<8; i++)

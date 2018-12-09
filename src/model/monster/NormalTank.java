@@ -1,7 +1,9 @@
 package model.monster;
 
 import constants.Images;
+import controller.game.GameManager;
 import javafx.scene.image.Image;
+import model.Particle;
 
 public class NormalTank extends Tank {
 
@@ -23,5 +25,12 @@ public class NormalTank extends Tank {
 		level = modifier;
 	}
 	
+	@Override
+	public void onDeath() {
+		super.onDeath();
+		Particle part = new Particle(Images.normalTankDead, x, y, 0, 0, 2000);
+		part.setRotation(rotation);
+		GameManager.getInstance().addParticle(part);
+	}
 
 }

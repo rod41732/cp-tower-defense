@@ -15,7 +15,7 @@ public class TowerStats {
 		data.put("Air", cur);
 		cur.put("Attack", new Object [] {15d, 25d, 35d, 55d, 75d});
 		cur.put("Cooldown", new Object [] {700d, 700d, 700d, 700d, 700d});
-		cur.put("Range", new Object [] {1.5d, 1.75d, 2d, 2.25d, 2.25d});
+		cur.put("Range", new Object [] {3.5d, 3.75d, 4d, 4.25d, 4.25d});
 		cur.put("Price", new Object [] {20, 20, 30, 30, 30});
 		cur.put("Description", new Object [] {"Damage", "More Damage", 
 				"More Damage", "More Damage", "More damage & 3 split shot"});

@@ -1,7 +1,10 @@
 package model.monster;
 
 import constants.Images;
+import controller.game.GameManager;
 import javafx.scene.image.Image;
+import model.Particle;
+import model.particle.Explosion;
 
 public class FastTank extends Tank {
 
@@ -21,8 +24,15 @@ public class FastTank extends Tank {
 	public FastTank(double x, double y, double modifier) {
 		this(x, y, DEFAULT_HEALTH*(1+modifier), DEFAULT_ARMOR+(0.5+modifier), 
 				DEFAULT_MS*(1+modifier*0.05), (int)(DEFAULT_MONEY*(1+modifier*0.2)));
-		level = modifier;
-		
+		level = modifier;	
+	}
+	
+	@Override
+	public void onDeath() {
+		super.onDeath();
+		Particle part = new Particle(Images.fastTankDead, x, y, 0, 0, 2000);
+		part.setRotation(rotation);
+		GameManager.getInstance().addParticle(part);
 	}
 	
 

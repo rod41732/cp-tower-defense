@@ -1,5 +1,6 @@
 package model.projectile;
 
+import constants.Images;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
@@ -12,9 +13,9 @@ public class Missile extends NormalProjectile {
 	
 	protected double radius;
 	
-	public Missile(Image image, double x, double y,
+	public Missile(double x, double y,
 			double vx, double vy, double maxRange, double damage, double radius) {
-		super(image, x, y, vx, vy, maxRange, damage); // default size ?
+		super(Images.missileBullet, x, y, vx, vy, maxRange, damage); // default size ?
 		this.radius = radius;
 		this.damage = damage;
 		this.targetFlag = 1;
@@ -23,7 +24,7 @@ public class Missile extends NormalProjectile {
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {
 			cpp.pff impact = m.getPosition();
-			Particle p = new Explosion(impact.first, impact.second, 0, 0),
+			Particle p = new Explosion(Images.explosion, impact.first, impact.second, 0, 0),
 					p2 = new Crater(impact.first, impact.second, 5000);
 			p.setzIndex(3);
 			GameManager.getInstance().addParticle(p);

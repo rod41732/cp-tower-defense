@@ -6,7 +6,7 @@ import model.Monster;
 import util.GameUtil;
 import util.cpp;
 
-public class GroundMonster extends Monster {
+public abstract class GroundMonster extends Monster {
 
 	public GroundMonster(String name, Image image, double x, double y,
 			double size, double health, double armor, double moveSpeed, int money) {

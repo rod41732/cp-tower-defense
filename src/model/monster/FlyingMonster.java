@@ -6,7 +6,7 @@ import model.Monster;
 import util.GameUtil;
 import util.cpp;
 
-public class FlyingMonster extends Monster {
+public abstract class FlyingMonster extends Monster {
 	
 	public FlyingMonster(String name, Image image, double x, double y,
 			double size, double health, double armor, double moveSpeed, int money) {

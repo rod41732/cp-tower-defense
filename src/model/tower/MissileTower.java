@@ -40,11 +40,11 @@ public class MissileTower extends Tower {
 		rotateTo(currentTarget);
 		if (level == 5) {
 			GameManager.getInstance().addProjectile(new 
-					HomingMissle(Images.bomb, x, y, v.first*9, v.second*9, range, attack, splashRadius, currentTarget));
+					HomingMissle(x, y, v.first*9, v.second*9, range, attack, splashRadius, currentTarget));
 		}
 		else {			
 			GameManager.getInstance().addProjectile(new 
-					Missile(Images.bomb, x, y, v.first*9, v.second*9, range, attack, splashRadius));
+					Missile(x, y, v.first*9, v.second*9, range, attack, splashRadius));
 		}
 		currentCooldown = attackCooldown;
 	}
