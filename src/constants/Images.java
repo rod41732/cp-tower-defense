@@ -133,12 +133,7 @@ public class Images {
 		tileBoth = new Image("tile/tileBoth.png", 64, 64, true, true);
 		
 		getProgress().set(0.1);
-		
-		bear = new Image("monster/bear.png", 64, 64, true, true);
-		elephant = new Image("monster/elephant.png", 64, 64, true, true);
-		moose = new Image("monster/moose.png", 64, 64, true, true);
-		tank = new Image("monster/tank.png", 96, 96, true, true);
-		
+
 		normalSoldier = new Image("monster/soldier_normal.png", 48, 48, true, true);
 		fastSoldier =  new Image("monster/soldier_fast.png", 48, 48, true, true);
 		armoredSoldier =  new Image("monster/soldier_armored.png", 48, 48, true, true);
@@ -190,7 +185,7 @@ public class Images {
 		getProgress().set(0.4);
 		normalBullet = new Image("projectile/normalBullet.png", 30, 30, true, true);
 		piercingBullet = new Image("projectile/piercingBullet.png", 48, 48, true, true);
-		bomb = new Image("projectile/bomb.png", 30, 30, true, true);
+		bomb = new Image("projectile/missileBullet.png", 30, 30, true, true);
 		fireBullet = new Image("projectile/fireBullet.png", 30, 30, true, true);
 		iceBullet = new Image("projectile/iceBullet.png", 30, 30, true, true);
 		attackIcon = new Image("icon/attack.png", 32, 32, true, true);

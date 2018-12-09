@@ -18,6 +18,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
@@ -42,34 +43,21 @@ public class MainMenuScene extends Scene {
 		menus.setPadding(new Insets(5));
 		menus.setSpacing(20);
 		
-		// make some butons
-		Pane menus = new Pane();
-		Label title = new Label("CP Tower Defense");
 		Canvas menuBackground = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		GraphicsContext gc = menuBackground.getGraphicsContext2D();
-		title.setFont(Font.font("Consolas", 72));
-		title.setLayoutX(700);
-		title.setLayoutY(300);
-		Button resume = ButtonMaker.make(700, 350, Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Resume");
 		Button resume = ButtonMaker.make(Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Resume");
-//		root.setStyle("-fx-background: red");
-		menuTick = new Timeline(new KeyFrame(Duration.seconds(0.5), 
-				new KeyValue(title.scaleXProperty(), 1.5),
-				new KeyValue(title.scaleYProperty(), 1.5)));
-		
+	
 		gc.setFill(Color.BLACK);
 		gc.setGlobalAlpha(0.8);
-		menuTick.getKeyFrames().add(new KeyFrame(Duration.seconds(0.5),e->{
 		resume.setAlignment(Pos.CENTER);
 		
-		menuTick = new Timeline(new KeyFrame(Duration.seconds(0.5),e->{
+		menuTick = new Timeline(new KeyFrame(Duration.seconds(0.5), e->{
 			resume.setDisable(!GameManager.getInstance().isInitialized() || SuperManager.getInstance().getGameStateProp().get() != 0);
 			gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 			for (int i=0; i<5; i++) {
 				gc.drawImage(Images.loading[i], 0, 0);
 			}
 		}));
-		menuTick.setAutoReverse(true); 
 		menuTick.setCycleCount(Timeline.INDEFINITE);
 		menuTick.play();
 		tickle();
@@ -104,7 +92,7 @@ public class MainMenuScene extends Scene {
 		hideMapMenu = new Timeline(new KeyFrame(Duration.seconds(0.3), 
 				new KeyValue(mapMenu.layoutYProperty(), Numbers.WIN_HEIGHT)));
 				
-		root.getChildren().addAll(menuBackground, menus, newGame, mapMenu);	
+		root.getChildren().addAll(menuBackground, menus, mapMenu);	
 	}
 	
 	public void showMapSelect() {
