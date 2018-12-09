@@ -38,7 +38,7 @@ public abstract class Tower extends Tile implements IBuffable {
 	protected ArrayList<Buff> buffs = new ArrayList<>();
 	protected double minDist;
 	
-	public Tower(String typeName, Image img, double cellX, double cellY) {
+	public Tower(String typeName, double cellX, double cellY) {
 		super(Images.towerImages.get(typeName)[0], cellX, cellY, false, false);
 		this.typeName = typeName;
 		this.rotation = 90; // so it looks better
@@ -262,6 +262,10 @@ public abstract class Tower extends Tile implements IBuffable {
 	}
 	public void addAttackMultiplier(double attackMultiplier) {
 		this.attackMultiplier += attackMultiplier;
+	}
+	@Override
+	public String toString() {
+		return getClass().getSimpleName();
 	}
 
 }

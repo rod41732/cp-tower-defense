@@ -49,8 +49,7 @@ public class GameScene extends Scene {
 		topbar.setAlignment(Pos.CENTER);
 		StackPane gameArea = new StackPane();
 		
-		VBox menus = new VBox();
-		menus.setAlignment(Pos.CENTER);
+		VBox menus = new VBox(0);
 		
 		HBox bottomBar = new HBox();
 		bottomBar.setAlignment(Pos.CENTER);

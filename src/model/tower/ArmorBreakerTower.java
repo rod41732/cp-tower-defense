@@ -17,12 +17,11 @@ import util.cpp;
 public class ArmorBreakerTower extends Tower {
 
 	private static final int DEBUFF_DURATION = 1250;
-	private static final Image DEFAULT_IMAGE = Images.iceTower;
 	
 	private double amplification;
 		
 	public ArmorBreakerTower(double cellX, double cellY) {
-		super("ArmorBreaker", DEFAULT_IMAGE, cellX, cellY);
+		super("ArmorBreaker", cellX, cellY);
 		this.amplification = (double) TowerStats.getData(typeName, "DamageMultiplier", 1);
 	}
 	

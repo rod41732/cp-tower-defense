@@ -17,14 +17,13 @@ import util.cpp;
 
 public class IceTower extends Tower {
 
-	private static final Image DEFAULT_IMAGE = Images.iceTower;
 	private static final double SLOW_DURATION = 1000;
 	
 	private double slowness;
 	private double splashRadius;
 		
 	public IceTower(double cellX, double cellY) {
-		super("Ice", DEFAULT_IMAGE, cellX, cellY);
+		super("Ice", cellX, cellY);
 		this.slowness = (double) TowerStats.getData(typeName, "Slowness", 1);
 		this.splashRadius = (double) TowerStats.getData(typeName, "SplashRadius", 1);
 	}

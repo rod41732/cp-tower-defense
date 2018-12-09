@@ -18,7 +18,6 @@ import util.cpp;
 
 public class MissileTower extends Tower {
 
-	private static final Image DEFAULT_IMAGE = Images.bombTower;	
 	private double splashRadius;
 	private PriorityQueue<Monster> targets;
 	private int maxTargets = 2;
@@ -37,7 +36,7 @@ public class MissileTower extends Tower {
 	}
 	
 	public MissileTower(double cellX, double cellY) {
-		super("Missile", DEFAULT_IMAGE, cellX, cellY);
+		super("Missile", cellX, cellY);
 		this.splashRadius = (double) TowerStats.getData(typeName, "SplashRadius", level);
 		this.targets = new PriorityQueue<>(new MonsterDistanceComparator(this));
 	}

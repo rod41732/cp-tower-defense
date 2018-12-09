@@ -13,10 +13,8 @@ public class BombTower extends Tower {
 	
 	public static String TOWER_NAME = "Bomb Tower";
 	
-	private static final Image DEFAULT_IMAGE = Images.bombTower;
-	
 	public BombTower(double cellX, double cellY) {
-		super("Bomb", DEFAULT_IMAGE, cellX, cellY);
+		super("Bomb", cellX, cellY);
 		this.level = 1;
 		this.targetFlag = 1;
 	}

@@ -9,13 +9,6 @@ import javafx.scene.image.Image;
 
 public class Images {
 	private static DoubleProperty progress = new SimpleDoubleProperty(0);
-	
-	public static Image bush1;
-	public static Image tileNormal1;
-	public static Image tileNormal2;
-	public static Image tileUnplaceable;
-	public static Image tileUnwalkable;
-	public static Image tileBoth;
 
 	public static Image normalSoldier;
 	public static Image fastSoldier;
@@ -40,15 +33,6 @@ public class Images {
 	public static Image armoredTankDead;
 	public static Image heavyTankDead;
 
-	
-	
-	
-	public static Image normalTower;
-	public static Image groundAttackTower;
-	public static Image AirAttackTower;
-	public static Image bombTower;
-	public static Image fireTower;
-	public static Image iceTower;
 
 	public static HashMap<String, Image[]> towerImages;
 	public static Image heavySoldier;
@@ -74,22 +58,26 @@ public class Images {
 	public static Image coinIcon;
 	public static Image infoIcon;
 
-	public static Image buttonSell;
-	public static Image buttonSellDisabled;
-	public static Image buttonSellHover;
-	public static Image buttonSellPressed;
-	public static Image buttonUpgrade;
-	public static Image buttonUpgradeDisabled;
-	public static Image buttonUpgradeHover;
-	public static Image buttonUpgradePressed;
-	public static Image buttonNext;
-	public static Image buttonNextDisabled;
-	public static Image buttonNextHover;
-	public static Image buttonNextPressed;
-	public static Image buttonPause;
-	public static Image buttonPauseDisabled;
-	public static Image buttonPauseHover;
-	public static Image buttonPausePressed;
+	public static Image buttonOrange;
+	public static Image buttonOrangeDisabled;
+	public static Image buttonOrangeHover;
+	public static Image buttonOrangePressed;
+	public static Image buttonGreen;
+	public static Image buttonGreenDisabled;
+	public static Image buttonGreenHover;
+	public static Image buttonGreenPressed;
+	public static Image buttonPurple;
+	public static Image buttonPurpleDisabled;
+	public static Image buttonPurpleHover;
+	public static Image buttonPurplePressed;
+	public static Image buttonYellow;
+	public static Image buttonYellowDisabled;
+	public static Image buttonYellowHover;
+	public static Image buttonYellowPressed;
+	public static Image buttonGray;
+	public static Image buttonGrayDisabled;
+	public static Image buttonGrayHover;
+	public static Image buttonGrayPressed;
 
 	public static Image pauseMenuPanel;
 	public static Image towerButton;
@@ -107,6 +95,7 @@ public class Images {
 	public static Image logo;
 	public static Image loadingBar;
 	public static Image loadingText;
+	public static Image mainButtonBg;
 	
 
 
@@ -145,14 +134,7 @@ public class Images {
 	}
 	
 	public static void loadResource(){
-		bush1 = new Image("bush/bush1.png", 64, 64, true, true);
-		
-		tileNormal1 = new Image("tile/tile1.png", 64, 64, true, true);
-		tileNormal2 = new Image("tile/tile2.png", 64, 64, true, true);
-		tileUnplaceable = new Image("tile/tileUnplaceable.png", 64, 64, true, true);
-		tileUnwalkable = new Image("tile/tileUnwalkable.png", 64, 64, true, true);
-		tileBoth = new Image("tile/tileBoth.png", 64, 64, true, true);
-		
+
 		getProgress().set(0.1);
 
 		normalSoldier = new Image("monster/soldier_normal.png", 48, 48, true, true);
@@ -205,7 +187,6 @@ public class Images {
 		
 		getProgress().set(0.4);
 		normalBullet = new Image("projectile/normalBullet.png", 30, 30, true, true);
-		piercingBullet = new Image("projectile/piercingBullet.png", 48, 48, true, true);
 		missileBullet = new Image("projectile/missileBullet.png", 30, 30, true, true);
 		fireBullet = new Image("projectile/fireBullet.png", 30, 30, true, true);
 		iceBullet = new Image("projectile/iceBullet.png", 30, 30, true, true);
@@ -225,31 +206,34 @@ public class Images {
 		
 		getProgress().set(0.5);
 		
-		buttonSell = new Image("ui/button/button_sell.png", 190, 49, true, true);
-		buttonSellDisabled = new Image("ui/button/button_sell_disabled.png", 190, 45, true, true);
-		buttonSellHover = new Image("ui/button/button_sell_hover.png", 190, 45, true, true);
-		buttonSellPressed = new Image("ui/button/button_sell_pressed.png", 190, 45, true, true);
-		buttonUpgrade = new Image("ui/button/button_upgrade.png", 190, 49, true, true);
-		buttonUpgradeDisabled = new Image("ui/button/button_upgrade_disabled.png", 190, 49, true, true);
-		buttonUpgradeHover = new Image("ui/button/button_upgrade_hover.png", 190, 49, true, true);
-		buttonUpgradePressed = new Image("ui/button/button_upgrade_pressed.png", 190, 45, true, true);
-		buttonNext = new Image("ui/button/button_next.png", 190, 49, true, true);
-		buttonNextDisabled = new Image("ui/button/button_next_disabled.png", 190, 49, true, true);
+		// set preserve ratio to false for button
+		buttonOrange = new Image("ui/button/button_orange.png", 190, 49, false, true);
+		buttonOrangeDisabled = new Image("ui/button/button_orange_disabled.png", 190, 49, false, true);
+		buttonOrangeHover = new Image("ui/button/button_orange_hover.png", 190, 49, false, true);
+		buttonOrangePressed = new Image("ui/button/button_orange_pressed.png", 190, 49, false, true);
+		buttonGreen = new Image("ui/button/button_green.png", 190, 49, false, true);
+		buttonGreenDisabled = new Image("ui/button/button_green_disabled.png", 190, 49, false, true);
+		buttonGreenHover = new Image("ui/button/button_green_hover.png", 190, 49, false, true);
+		buttonGreenPressed = new Image("ui/button/button_green_pressed.png", 190, 49, false, true);
+		buttonPurple = new Image("ui/button/button_purple.png", 190, 49, false, true);
+		buttonPurpleDisabled = new Image("ui/button/button_purple_disabled.png", 190, 49, false, true);
 	
 		
 		
-		buttonNextHover = new Image("ui/button/button_next_hover.png", 190, 49, true, true);
-		buttonNextPressed = new Image("ui/button/button_next_pressed.png", 190, 45, true, true);
-		buttonPause = new Image("ui/button/button_pause.png", 190, 49, true, true);
-		buttonPauseDisabled = new Image("ui/button/button_pause_disabled.png", 190, 49, true, true);
-		buttonPauseHover = new Image("ui/button/button_pause_hover.png", 190, 49, true, true);
-		buttonPausePressed = new Image("ui/button/button_pause_pressed.png", 190, 45, true, true);
-		pauseMenuPanel = new Image("ui/pause_menu_panel.png", 300, 300, true, true);
+		buttonPurpleHover = new Image("ui/button/button_purple_hover.png", 190, 49, false, true);
+		buttonPurplePressed = new Image("ui/button/button_purple_pressed.png", 190, 49, false, true);
+		buttonYellow = new Image("ui/button/button_yellow.png", 190, 49, false, true);
+		buttonYellowDisabled = new Image("ui/button/button_yellow_disabled.png", 190, 49, false, true);
+		buttonYellowHover = new Image("ui/button/button_yellow_hover.png", 190, 49, false, true);
+		buttonYellowPressed = new Image("ui/button/button_yellow_pressed.png", 190, 49, false, true);
+		buttonGray = new Image("ui/button/button_gray.png", 190, 49, false, true);
+		buttonGrayDisabled = new Image("ui/button/button_gray_disabled.png", 190, 49, false, true);
+		buttonGrayHover = new Image("ui/button/button_gray_hover.png", 190, 49, false, true);
+		buttonGrayPressed = new Image("ui/button/button_gray_pressed.png", 190, 49, false, true);
+		pauseMenuPanel = new Image("ui/pause_menu_panel.png", 300, 300, false, true);
 		towerButton = new Image("ui/tower_button.png", 80, 128, false, true);
 		towerButtonPressed = new Image("ui/tower_button_pressed.png", 80, 128, false, true);
-		towerInfoPanel = new Image("ui/tower_info_panel.png", 256, 192, true, true);
-		towerInfoPanelLocked = new Image("ui/tower_info_panel_locked.png", 256, 192, true, true);
-		
+
 	
 		towerFocus = new Image("ui/tower_focus.png", 64, 64, true, true);
 		frame = new Image("ui/frame.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, true, true);
@@ -260,12 +244,12 @@ public class Images {
 		planeShadow = new Image("particle/plane_shadow.png", 64, 64, true, true);
 		
 		bgMapSelect = new Image("ui/bg_mapselect.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, true, true);
-		
+		mainButtonBg = new Image("ui/bg_main_button.png", 317, 240, true, true);
 		
 		double mapW = Numbers.COLUMNS*Numbers.TILE_SIZE, mapH = Numbers.ROWS*Numbers.TILE_SIZE;
 		for (int i=0; i<4; i++) {
 			mapBgs[i] = new Image("map/"+i+".png", mapW, mapH, true, true);
-			mapPreviews[i] = new Image("map/"+i+".png", mapW/5, mapH/5, true, true);
+			mapPreviews[i] = new Image("map/"+i+".png", mapW/3.5, mapH/3.5, true, true);
 		}
 		
 		

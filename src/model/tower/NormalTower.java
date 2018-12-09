@@ -15,10 +15,9 @@ import util.cpp;
 
 public class NormalTower extends Tower {
 
-	private static final Image DEFAULT_IMAGE = Images.normalTower;
 		
 	public NormalTower(double cellX, double cellY) {
-		super("Default", DEFAULT_IMAGE, cellX, cellY);
+		super("Default", cellX, cellY);
 	}
 	
 	public void fire() {

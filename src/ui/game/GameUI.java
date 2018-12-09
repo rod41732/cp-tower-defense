@@ -22,8 +22,8 @@ public class GameUI {
 	private static GameUI instance = new GameUI();
 	
 	
-	private TowerInfoPanel towerInfoPanel = new TowerInfoPanel("Tower");
-	private TowerInfoPanel upgradeInfoPanel = new TowerInfoPanel("Upgraded");
+	private TowerInfoPanel towerInfoPanel = new TowerInfoPanel("Current Level:");
+	private TowerInfoPanel upgradeInfoPanel = new TowerInfoPanel("Upgraded:");
 	private IconText levelPanel, moneyPanel, livePanel, debug;
 	
 	

@@ -14,13 +14,11 @@ import util.cpp;
 
 public class FireTower extends Tower {
 
-	private static final Image DEFAULT_IMAGE = Images.fireTower;
-	
 	
 	private double fireRadius;
 	
 	public FireTower(double cellX, double cellY) {
-		super("Fire", DEFAULT_IMAGE, cellX, cellY);
+		super("Fire", cellX, cellY);
 		this.fireRadius = (double)TowerStats.getData(typeName, "FireRadius", 1);
 	}
 	

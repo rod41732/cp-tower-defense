@@ -16,11 +16,9 @@ import util.GameUtil;
 import util.cpp;
 
 public class AirAttackTower extends Tower {
-
-	private static final Image DEFAULT_IMAGE = Images.AirAttackTower;
 		
 	public AirAttackTower(double cellX, double cellY) {
-		super("Air", DEFAULT_IMAGE, cellX, cellY);
+		super("Air", cellX, cellY);
 	}
 	
 	

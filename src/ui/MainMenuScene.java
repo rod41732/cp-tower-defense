@@ -45,7 +45,7 @@ public class MainMenuScene extends Scene {
 		
 		Canvas menuBackground = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		GraphicsContext gc = menuBackground.getGraphicsContext2D();
-		Button resume = ButtonMaker.make(Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Resume");
+		Button resume = ButtonMaker.make(Images.buttonOrange, Images.buttonOrangePressed, Other.normalButtonFont, "Resume");
 	
 		gc.setFill(Color.BLACK);
 		resume.setAlignment(Pos.CENTER);
@@ -57,6 +57,7 @@ public class MainMenuScene extends Scene {
 				gc.drawImage(Images.loading[i], 0, 0);
 			}
 			gc.drawImage(Images.logo, 0, 0);
+			gc.drawImage(Images.mainButtonBg, 635, 360);
 		}));
 		menuTick.setCycleCount(Timeline.INDEFINITE);
 		menuTick.play();
@@ -76,7 +77,7 @@ public class MainMenuScene extends Scene {
 			}
 		});
 		
-		Button newGame = ButtonMaker.make(Images.buttonPause, Images.buttonPausePressed,
+		Button newGame = ButtonMaker.make(Images.buttonYellow, Images.buttonYellowPressed,
 				Other.normalButtonFont, "new game ...");
 		newGame.setOnAction(e -> {
 			showMapSelect();

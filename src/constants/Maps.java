@@ -30,6 +30,8 @@ public class Maps {
 		tm1.put(0,  null);
 		maps.add(new Map(m1, tm1, new cpp.pii(0, 6), new cpp.pii(16, 2), Images.mapPreviews[0], Images.mapBgs[0]));
 		
+		
+		
 		int[][] m2 = {
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},

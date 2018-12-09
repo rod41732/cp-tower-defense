@@ -37,19 +37,19 @@ public class GameButton {
 		Font buttonFont = new Font("KenVector Future Regular", 20);
 		Font buttonFontSmall = new Font("KenVector Future Regular", 12);
 		//sell and Upgrade menu
-		sellButton = ButtonMaker.make(Images.buttonSell, Images.buttonSellPressed, Images.buttonSellHover, Images.buttonSellDisabled,
+		sellButton = ButtonMaker.make(Images.buttonOrange, Images.buttonOrangePressed, Images.buttonOrangeHover, Images.buttonOrangeDisabled,
 				buttonFont, "Sell Tower");		
 		sellButton.setOnAction(e -> {
 			GameManager.getInstance().sellTower();
 		});
-		upgradeButton = ButtonMaker.make(Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
+		upgradeButton = ButtonMaker.make(Images.buttonGreen, Images.buttonGreenPressed, Images.buttonGreenHover, Images.buttonGreenDisabled,
 				buttonFont, "Upgrade");
 		upgradeButton.setOnAction(e -> {
 			GameManager.getInstance().upgradeTower();
 		});
 		
 		//Pause menu
-		toMenuButton = ButtonMaker.make(Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
+		toMenuButton = ButtonMaker.make(Images.buttonPurple, Images.buttonPurplePressed, Images.buttonPurpleHover, Images.buttonPurpleDisabled,
 				buttonFont, "Main menu");
 		toMenuButton.setVisible(false);
 		toMenuButton.setOnAction(e -> {
@@ -58,7 +58,7 @@ public class GameButton {
 		toMenuButton.setVisible(false);
 		toMenuButton.setLayoutX(700);
 		toMenuButton.setLayoutY(400);
-		resumeButton = ButtonMaker.make(Images.buttonUpgrade, Images.buttonUpgradePressed, Images.buttonUpgradeHover, Images.buttonUpgradeDisabled,
+		resumeButton = ButtonMaker.make(Images.buttonGreen, Images.buttonGreenPressed, Images.buttonGreenHover, Images.buttonGreenDisabled,
 				buttonFont, "Resume");
 		resumeButton.setVisible(false);
 		resumeButton.setOnAction(e -> {
@@ -69,19 +69,19 @@ public class GameButton {
 		resumeButton.setVisible(false);
 		
 		//Bottom bar
-		pauseButton = ButtonMaker.make(Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
+		pauseButton = ButtonMaker.make(Images.buttonYellow, Images.buttonYellowPressed, Images.buttonYellowHover, Images.buttonYellowDisabled,
 				buttonFont, "Pause");
 		pauseButton.setOnAction(e -> {
 			SuperManager.getInstance().onGamePause();
 		});		
 		
-		showPathButton = ButtonMaker.make(Images.buttonPause, Images.buttonPausePressed, Images.buttonPauseHover, Images.buttonPauseDisabled,
+		showPathButton = ButtonMaker.make(Images.buttonYellow, Images.buttonYellowPressed, Images.buttonYellowHover, Images.buttonYellowDisabled,
 				buttonFont, "Show Path");
 		showPathButton.setOnAction(e -> {
 			BooleanProperty prop = SuperManager.getInstance().getShouldDisplayPathProp(); 
 			prop.set(!prop.get());
 		});		
-		nextButton = ButtonMaker.make(Images.buttonNext, Images.buttonNextPressed, Images.buttonNextHover, Images.buttonNextDisabled,
+		nextButton = ButtonMaker.make(Images.buttonPurple, Images.buttonPurplePressed, Images.buttonPurpleHover, Images.buttonPurpleDisabled,
 				buttonFont, "Next Wave");
 		nextButton.setOnAction(e -> {
 			GameManager.getInstance().requestNextWave();
@@ -184,9 +184,9 @@ public class GameButton {
 	}	
 	
 	public void addUpgradeButton(Pane pane) {
-		VBox upGradePane = new VBox();
+		VBox upGradePane = new VBox(4);
+		upGradePane.setPadding(new Insets(5 , 0, 0, 0));
 		upGradePane.setAlignment(Pos.CENTER);
-		upGradePane.setSpacing(10);
 		upGradePane.getChildren().addAll(upgradeButton, sellButton);
 		pane.getChildren().add(upGradePane);
 	}

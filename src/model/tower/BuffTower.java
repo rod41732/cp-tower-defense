@@ -11,11 +11,10 @@ import model.Tower;
 
 public class BuffTower extends Tower {
 
-	private static final Image DEFAULT_IMAGE = Images.bombTower;
 	
 	
 	public BuffTower(double cellX, double cellY) {
-		super("Buff", DEFAULT_IMAGE, cellX, cellY);
+		super("Buff", cellX, cellY);
 	}
 	
 	public void fire() {

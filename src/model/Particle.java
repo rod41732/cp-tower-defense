@@ -26,7 +26,7 @@ public class Particle extends Entity implements IExpirable {
 	
 	public Particle(Image[] images, double x, double y, double vx, double vy, int tickPerFrame) {
 		this(images, x, y, vx, vy, 0.0);
-		this.maxAge = tickPerFrame*nFrames*1000/60.;
+		this.maxAge = (tickPerFrame*nFrames-1)*1000/60.;
 		this.tickPerFrame = tickPerFrame;
 	}
 	

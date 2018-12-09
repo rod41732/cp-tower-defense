@@ -16,10 +16,8 @@ import util.cpp;
 
 public class GroundAttackTower extends Tower {
 
-	private static final Image DEFAULT_IMAGE = Images.groundAttackTower;
-		
 	public GroundAttackTower(double cellX, double cellY) {
-		super("Ground" , DEFAULT_IMAGE, cellX, cellY);
+		super("Ground", cellX, cellY);
 	}
 		
 	public void fire() {

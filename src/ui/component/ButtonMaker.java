@@ -42,7 +42,6 @@ public class ButtonMaker {
 		btn.setBackground(bgNormal);
 		btn.setPrefWidth(imgNormal.getWidth());
 		btn.setPrefHeight(imgNormal.getHeight());
-		btn.setPadding(Insets.EMPTY);
 		btn.setAlignment(Pos.CENTER);
 		
 		btn.setOnMouseEntered(e -> {
