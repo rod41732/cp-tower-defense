@@ -1,7 +1,5 @@
 package ui.game;
 
-import java.util.HashMap;
-
 import constants.Images;
 import constants.Numbers;
 import constants.Other;
@@ -33,12 +31,15 @@ public class GameUI {
 	private cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 	private boolean isError = false;
 	private BFSAlgo bfs = new BFSAlgo();
-	
+	private Tower[] previewTowers = new Tower[9];
 	public GameUI() {
 		levelPanel = new IconText(Images.attackIcon, "Level 9999", Other.normalButtonFont);
 		moneyPanel = new IconText(Images.coinIcon, "Money " + GameManager.getInstance().getMoney(), Other.normalButtonFont);
 		livePanel = new IconText(Images.liveIcon, "Live " + GameManager.getInstance().getLives(), Other.normalButtonFont);
 		debug = new IconText(Images.liveIcon, "", Other.normalButtonFont);
+		for (int i=0; i<9; i++) {
+			previewTowers[i] = GameManager.getInstance().createTower(i, 0, 0);			
+		}
 	}
 	
 	
@@ -52,18 +53,24 @@ public class GameUI {
 	
 	public void render(GraphicsContext gc) {
 		GameManager gm = GameManager.getInstance();
-		Tile t = gm.getSelectedTile();
-		Tile t2 = gm.createTower(gm.getTowerChoice(), 999, 999);
+		Tower selected = gm.getSelectedTower();
+		Tower preview;			
+		try {
+			preview = previewTowers[gm.getTowerChoice()];
+		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			preview = null;
+		}
 			
 		
 		debug.setText(gm.getMousePos().toString());
 		levelPanel.setText("Level " + MonsterSpawner.getInstace().getLevel());
 		moneyPanel.setText("Money " + gm.getMoney());
 		livePanel.setText("Live" + gm.getLives());
-		if (t != null)
-			updateTowerInfo(t, true);
-		else if (t2 != null)
-			updateTowerInfo(t2, false);
+		if (selected != null)
+			updateTowerInfo(selected, true);
+		else if (preview != null)
+			updateTowerInfo(preview, false);
 		else 
 			updateTowerInfo(null, false);
 		
@@ -73,9 +80,10 @@ public class GameUI {
 		int choice = SuperManager.getInstance().getTowerChoiceProp().get();
 		if (choice != -1) {	// placing tower
 			try {
-				Tower floatingTower = gm.createTower(choice, tilePos.first, tilePos.second);
-				if (floatingTower.getX() < Numbers.COLUMNS && floatingTower.getY() < Numbers.ROWS) {
-					floatingTower.render(gc, true);							
+				preview.setX(tilePos.first+0.5);
+				preview.setY(tilePos.second+0.5);
+				if (preview.getX() < Numbers.COLUMNS && preview.getY() < Numbers.ROWS) {
+					preview.render(gc, true);							
 				}
 				cpp.pii start = gm.getStartTilePos(), end = gm.getEndTilePos();
 				

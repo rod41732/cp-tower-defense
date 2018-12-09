@@ -56,7 +56,7 @@ public abstract class Tower extends Tile implements IBuffable {
 		gc.drawImage(Images.towerBase, getRenderX(), getRenderY());
 		super.render(gc);
 		renderBuff(gc);
-		if (this == GameManager.getInstance().getSelectedTile()) {
+		if (this == GameManager.getInstance().getSelectedTower()) {
 			renderExtraElements(gc);
 		}	
 	}

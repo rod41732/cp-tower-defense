@@ -26,20 +26,7 @@ public abstract class Plane extends FlyingMonster {
 	@Override
 	public void onDeath() {
 		GameManager.getInstance().addParticle(new Explosion(x, y, 0, 0));
-		// TODO: add common death
-	}
-	
-	@Override
-	public void move() {
-		super.move();
-		moveDist += GameUtil.distance(0, 0, vx/60, vy/60);
-		if (moveDist > 0.08) {
-			Particle part = new FadingParticle(Images.tankTrack, x, y, 0, 0, 2000);
-			part.setRotation(rotation);
-			GameManager.getInstance().addParticle(part);
-		}
-	}
-	
+	}	
 	
 	private static double x0 = 13, y0 = 5, scale = 1.07;
 	
@@ -48,7 +35,6 @@ public abstract class Plane extends FlyingMonster {
 	public void render(GraphicsContext gc) {
 		PerspectiveTransform per = new PerspectiveTransform();
 		
-		gc.drawImage(Images.planeShadow, getRenderX(), getRenderY());
 		cpp.pff center = new cpp.pff((x0+(x+w/Numbers.TILE_SIZE/2-x0)*scale)*Numbers.TILE_SIZE, (y0+(y+h/Numbers.TILE_SIZE/2-y0)*scale)*Numbers.TILE_SIZE);
 		cpp.pff now = new cpp.pff(0, 0);
 

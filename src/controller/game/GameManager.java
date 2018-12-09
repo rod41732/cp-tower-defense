@@ -188,7 +188,7 @@ public class GameManager {
 		return getTilePos();
 	}
 
-	public Tile getSelectedTile() {
+	public Tower getSelectedTower() {
 		return selectedTower;
 	}
 
