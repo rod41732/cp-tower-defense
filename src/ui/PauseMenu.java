@@ -2,6 +2,7 @@ package ui;
 
 import constants.Images;
 import constants.Numbers;
+import constants.Other;
 import controller.SuperManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -28,7 +29,7 @@ public class PauseMenu {
 			gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_WIDTH);
 			gc.drawImage(Images.pauseMenuPanel, 650, 300);
 			gc.setFill(Color.color(0.55, 0.27, 0.10, 0.8));
-			gc.setFont(Font.font("KenVector Future Regular", 44));
+			gc.setFont(Other.loadFontWithSize(44));
 			gc.setTextAlign(TextAlignment.CENTER);
 			
 			gc.fillText(TEXTS[SuperManager.getInstance().getGameStateProp().get()], 800, 360);

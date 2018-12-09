@@ -1,5 +1,6 @@
 package controller.game;
 
+import constants.Sounds;
 import controller.SuperManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -42,12 +43,17 @@ public class Updater {
 		});
 	}
 	public void update() {
-		SuperManager.getInstance().getCanUpgradeProp().set(gm.selectedTower != null 
+		SuperManager sm = SuperManager.getInstance();
+		sm.getCanUpgradeProp().set(gm.selectedTower != null 
 				&& gm.selectedTower.canUpgrade() && gm.selectedTower.getUpgradePrice() <= gm.money);
-		SuperManager.getInstance().getCanSellProp().set(gm.selectedTower != null);
-		SuperManager.getInstance().getnextWaveAvailableProp().set(shouldSpawnNextWave());
-		if (shouldSpawnNextWave() && SuperManager.getInstance().getGameStateProp().get() == 2) {
-			SuperManager.getInstance().getIsGamePausedProp().set(true);
+		sm.getCanSellProp().set(gm.selectedTower != null);
+		sm.getnextWaveAvailableProp().set(shouldSpawnNextWave());
+		
+		// play game win
+		if (shouldSpawnNextWave() && sm.getGameStateProp().get() == 2 &&
+				!sm.getIsGamePausedProp().get() && sm.getIsInGameProp().get()) {
+			sm.getIsGamePausedProp().set(true);
+			Sounds.win.play();
 		}
 		if (gm.selectedTower == null) {
 			Main.getGameScene().getButtonManager().setUpgradeText("Upgrade");			
@@ -112,8 +118,8 @@ public class Updater {
 		}
 		
 		if (gm.lives <= 0) {
-			SuperManager.getInstance().getGameStateProp().set(1); // VI LOST ZULUL
-			SuperManager.getInstance().getIsGamePausedProp().set(true);
+			sm.getGameStateProp().set(1); // VI LOST ZULUL
+			sm.getIsGamePausedProp().set(true);
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package ui.game;
 
 import constants.Images;
+import constants.Other;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -9,8 +10,8 @@ import ui.component.IconText;
 
 
 public class TowerInfoPanel extends VBox {
-	private static final Font titleFont = Font.font("KenVector Future Regular", 20);
-	private static final Font textFont = Font.font("KenVector Future Regular", 11);
+	private static final Font titleFont = Other.loadFontWithSize(20);
+	private static final Font textFont = Other.loadFontWithSize(11);
 	
 	
 	

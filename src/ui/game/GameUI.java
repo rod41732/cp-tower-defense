@@ -33,9 +33,9 @@ public class GameUI {
 	private BFSAlgo bfs = new BFSAlgo();
 	private Tower[] previewTowers = new Tower[9];
 	public GameUI() {
-		levelPanel = new IconText(Images.attackIcon, "Level 0", Other.thinButtonFont);
-		moneyPanel = new IconText(Images.coinIcon, "$ " + GameManager.getInstance().getMoney(), Other.thinButtonFont);
-		livePanel = new IconText(Images.liveIcon, ""+ GameManager.getInstance().getLives(), Other.thinButtonFont);
+		levelPanel = new IconText(Images.attackIcon, "Level 0", Other.normalButtonFont);
+		moneyPanel = new IconText(Images.coinIcon, "$ " + GameManager.getInstance().getMoney(), Other.normalButtonFont);
+		livePanel = new IconText(Images.liveIcon, ""+ GameManager.getInstance().getLives(), Other.normalButtonFont);
 //		debug = new IconText(Images.liveIcon, "", Other.thinButtonFont);
 		for (int i=0; i<9; i++) {
 			previewTowers[i] = GameManager.getInstance().createTower(i, 0, 0);			
