@@ -27,9 +27,7 @@ public class FadingParticle extends Particle {
 	@Override
 	public void render(GraphicsContext gc) {
 		gc.setGlobalAlpha(transparency());
-		gc.setGlobalBlendMode(BlendMode.SCREEN);
 		super.render(gc);
-		gc.setGlobalBlendMode(BlendMode.SRC_OVER);
 		gc.setGlobalAlpha(1);
 	}
 
