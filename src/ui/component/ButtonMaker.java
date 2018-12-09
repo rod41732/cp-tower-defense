@@ -43,28 +43,25 @@ public class ButtonMaker {
 		btn.setPrefWidth(imgNormal.getWidth());
 		btn.setPrefHeight(imgNormal.getHeight());
 		btn.setPadding(Insets.EMPTY);
+		btn.setAlignment(Pos.CENTER);
 		
 		btn.setOnMouseEntered(e -> {
 			btn.setBackground(bgHover);
-			btn.setPrefWidth(imgHover.getWidth());
-			btn.setPrefHeight(imgHover.getHeight());
+			
 		});		
 		btn.setOnMouseExited(e -> {
 			if (!e.isPrimaryButtonDown()) {
 				btn.setBackground(bgNormal);
-				btn.setPrefWidth(imgNormal.getWidth());
-				btn.setPrefHeight(imgNormal.getHeight());
+			
 			}
 		});
 		btn.setOnMousePressed(e -> {
 			btn.setBackground(bgPressed);
-			btn.setPrefWidth(imgPressed.getWidth());
-			btn.setPrefHeight(imgPressed.getHeight());
+			
 		});
 		btn.setOnMouseReleased(e -> {
 			btn.setBackground(bgNormal);
-			btn.setPrefWidth(imgNormal.getWidth());
-			btn.setPrefHeight(imgNormal.getHeight());
+			System.out.printf("w/h is %.2f %.2f\n", imgNormal.getWidth(), imgNormal.getWidth());
 			Sounds.click.play();
 		});
 		
@@ -139,7 +136,6 @@ public class ButtonMaker {
 				.then(bgPressed)
 				.otherwise(bgNormal));
 		
-		// specific to tower
 		btn.setUserData(value);
 		btn.setContentDisplay(ContentDisplay.TOP);
 		btn.setAlignment(Pos.CENTER);

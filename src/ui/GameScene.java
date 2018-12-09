@@ -60,7 +60,7 @@ public class GameScene extends Scene {
 		
 		main.add(topbar, 0, 0, 1, 1);
 		main.add(gameArea, 0, 1, 1, 1);
-		main.add(menus, 1, 1, 1, 3);
+		main.add(menus, 1, 1, 1, 2);
 		main.add(bottomBar, 0, 2, 1, 1);
 
 		Pane overlayPane = new Pane();
