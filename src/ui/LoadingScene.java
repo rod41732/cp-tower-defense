@@ -25,12 +25,22 @@ public class LoadingScene extends Scene {
 		Canvas bg = new Canvas(Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		GraphicsContext gc = bg.getGraphicsContext2D();
 		
-		
+		double loadingFrameLeft = 280, loadingFrameTop = 550;
+		double loadingW = 1010, loadingH = 17, loadingLeft = loadingFrameLeft+15,
+				loadingTop = loadingFrameTop+15;
 		
 		tl = new Timeline(new KeyFrame(Duration.seconds(1./60), e-> {
-			double prog = Images.getProgress().get();
-			curProg = (prog*1+curProg*10)/11.;
-			for (int i=1; i<=5; i++) {
+			double prog;
+			try {
+				prog = Images.getProgress().get();				
+			}
+			catch (Exception ex) {
+				tl.pause();
+				prog = 0;
+			}
+			curProg = (prog*0.1+curProg*0.9); // smooth bar
+			if (curProg >= 0.99) curProg = 1;
+			for (int i=1; i<=5; i++) { // calculate fade
 				gc.save();
 				gc.setGlobalAlpha((curProg > i/5. || i == 1) ? (1): (curProg > i/5.-0.2 ? ((curProg-i/5.+0.2)*5): (0))  );
 				gc.drawImage(Images.loading[i-1], 0, 0);
@@ -38,21 +48,17 @@ public class LoadingScene extends Scene {
 			}
 			gc.save();
 			gc.setGlobalAlpha(0.8);
+			// zooming vignetete
 			gc.drawImage(Images.vignette, 700*curProg, 394*curProg, Numbers.WIN_WIDTH-2*700*curProg, Numbers.WIN_HEIGHT-2*394*curProg, 0, 0, 1600, 960);
 
-			if (curProg < 0.95) { // stop when "full"
-				gc.setGlobalAlpha(1);
-				gc.setFont(Font.font(72));
-				gc.setFill(Color.WHITE);
-				gc.fillText("Loading ...", 1100, 800);
-				
-				gc.setStroke(Color.WHITE);
-				gc.setFill(Color.RED);
-				gc.strokeRoundRect(140, 845, 1350, 90, 8, 8);
-				gc.fillRoundRect(159, 859, 1300*curProg, 64, 8, 8);				
-			}
 			if (prog > 0.99 && curProg > 0.99) tl.pause(); 
 			gc.restore();
+			gc.drawImage(Images.logo, 0, 0);
+			gc.setFill(Color.color(0.2, 0.2, 0.2));
+			gc.drawImage(Images.loadingBar, loadingFrameLeft, loadingFrameTop);
+			gc.fillRect(loadingLeft, loadingTop, loadingW*curProg, loadingH);
+			gc.drawImage(Images.loadingText, 540, 470);
+		
 		}));
 		tl.setCycleCount(Timeline.INDEFINITE);
 		tl.play();

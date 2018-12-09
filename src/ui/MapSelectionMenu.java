@@ -48,8 +48,7 @@ public class MapSelectionMenu extends Pane{
 		});
 		setLayoutY(Numbers.WIN_HEIGHT);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFill(Color.color(1, 0, 1, 0.8));
-		gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+		gc.drawImage(Images.bgMapSelect, 0, 0);
 		getChildren().addAll(canvas, backButton, newGameButton);
 		for (int i=0; i<Maps.numOfAvaiableMaps(); i++) {
 			RadioButton btn = ButtonMaker.makeMapSelectButton(250+(i%3)*450, 150+(i/3)*307,

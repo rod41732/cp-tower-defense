@@ -28,7 +28,7 @@ public class Main extends Application {
 		stage.setTitle("Higon TD");
 		loadingScene = new LoadingScene();
 		stage.setScene(loadingScene);
-		stage.setResizable(false);
+//		stage.setResizable(false);
 		stage.show();
 		
 		new Thread(() ->  {
@@ -60,6 +60,7 @@ public class Main extends Application {
 			Platform.runLater(() -> {
 				stage.setScene(mainMenu);
 			});
+//			stage.setResizable(false);
 			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

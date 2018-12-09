@@ -1,6 +1,7 @@
 package ui;
 
 
+import constants.Images;
 import constants.Numbers;
 import controller.SuperManager;
 import controller.game.GameManager;
@@ -12,6 +13,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -33,10 +40,13 @@ public class GameScene extends Scene {
 		GridPane main = new GridPane();
 		main.setHgap(0);
 		main.setVgap(0);
-//		main
+		main.setBackground(new Background(new BackgroundImage(Images.frame, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT
+				, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
 		
 		HBox topbar = new HBox();
 		topbar.setPrefHeight(64);
+		topbar.setSpacing(20);
+		topbar.setAlignment(Pos.CENTER);
 		StackPane gameArea = new StackPane();
 		
 		VBox menus = new VBox();
@@ -44,14 +54,14 @@ public class GameScene extends Scene {
 		
 		HBox bottomBar = new HBox();
 		bottomBar.setAlignment(Pos.CENTER);
-		bottomBar.setPrefHeight(64);
 		bottomBar.setSpacing(20);
+		bottomBar.setPrefHeight(64);
 	
 		
-		main.add(topbar, 0, 0, 2, 1);
+		main.add(topbar, 0, 0, 1, 1);
 		main.add(gameArea, 0, 1, 1, 1);
-		main.add(menus, 1, 1, 1, 1);
-		main.add(bottomBar, 0, 2, 2, 1);
+		main.add(menus, 1, 1, 1, 3);
+		main.add(bottomBar, 0, 2, 1, 1);
 
 		Pane overlayPane = new Pane();
 		

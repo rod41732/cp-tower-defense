@@ -97,14 +97,17 @@ public class Images {
 	public static Image towerInfoPanel;
 	public static Image towerInfoPanelLocked;
 
-	public static Image map0Preview;
-	public static Image map1Preview;
-	public static Image map0;
-	public static Image map1;
+	
+	public static Image bgMapSelect;
+	public static Image[] mapPreviews = new Image[6];
+	public static Image[] mapBgs = new Image[6];
 	
 	public static Image mainMenuBg;
 	public static Image frame;
-	public static Image pane;
+	public static Image logo;
+	public static Image loadingBar;
+	public static Image loadingText;
+	
 
 
 	public static Image normalTowerFlash;
@@ -136,6 +139,9 @@ public class Images {
 			loading[i-1] = new Image("ui/loading/" + i + ".png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, false, true);
 		}
 		vignette = new Image("ui/loading/vignette.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, false, true);
+		logo = new Image("ui/logo.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, true, true);
+		loadingBar = new Image("ui/loading_bar.png", 1040, 47, true, true);
+		loadingText = new Image("ui/loading_text.png", 520, 47, true, true);
 	}
 	
 	public static void loadResource(){
@@ -246,19 +252,21 @@ public class Images {
 		
 	
 		towerFocus = new Image("ui/tower_focus.png", 64, 64, true, true);
-
+		frame = new Image("ui/frame.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, true, true);
 		
 		normalTowerFlash = new Image("particle/flare.png", 32, 32, true, true);
 		crater = new Image("particle/crater.png", 64, 64, true, true);
 		tankTrack = new Image("particle/tankTrack.png", 7, 40, true, true);
 		planeShadow = new Image("particle/plane_shadow.png", 64, 64, true, true);
 		
+		bgMapSelect = new Image("ui/bg_mapselect.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, true, true);
+		
+		
 		double mapW = Numbers.COLUMNS*Numbers.TILE_SIZE, mapH = Numbers.ROWS*Numbers.TILE_SIZE;
-		map0Preview = new Image("map/map0.png", mapW/5, mapH/5, false, true);
-		map1Preview = new Image("map/map1.png", mapW/5, mapH/5, false, true);
-		map0 = new Image("map/map0.png", mapW, mapH, false, true);
-		map1 = new Image("map/map1.png", mapW, mapH, false, true);
-
+		for (int i=0; i<4; i++) {
+			mapBgs[i] = new Image("map/"+i+".png", mapW, mapH, true, true);
+			mapPreviews[i] = new Image("map/"+i+".png", mapW/5, mapH/5, true, true);
+		}
 		
 		
 		

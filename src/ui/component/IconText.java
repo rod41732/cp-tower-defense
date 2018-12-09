@@ -19,6 +19,7 @@ public class IconText extends HBox {
 		this.text = new Text(text);
 		getChildren().addAll(this.image, this.text);
 		setAlignment(Pos.CENTER_LEFT);
+		setPrefWidth(200);
 	}
 
 	public IconText(Image image, String text, Font font) {

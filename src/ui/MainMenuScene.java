@@ -48,7 +48,6 @@ public class MainMenuScene extends Scene {
 		Button resume = ButtonMaker.make(Images.buttonSell, Images.buttonSellPressed, Other.normalButtonFont, "Resume");
 	
 		gc.setFill(Color.BLACK);
-		gc.setGlobalAlpha(0.8);
 		resume.setAlignment(Pos.CENTER);
 		
 		menuTick = new Timeline(new KeyFrame(Duration.seconds(0.5), e->{
@@ -57,6 +56,7 @@ public class MainMenuScene extends Scene {
 			for (int i=0; i<5; i++) {
 				gc.drawImage(Images.loading[i], 0, 0);
 			}
+			gc.drawImage(Images.logo, 0, 0);
 		}));
 		menuTick.setCycleCount(Timeline.INDEFINITE);
 		menuTick.play();

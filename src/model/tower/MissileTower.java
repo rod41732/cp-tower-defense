@@ -13,7 +13,6 @@ import javafx.scene.image.Image;
 import model.Monster;
 import model.Tower;
 import model.projectile.HomingMissle;
-import model.projectile.Missile;
 import util.GameUtil;
 import util.cpp;
 
@@ -46,6 +45,7 @@ public class MissileTower extends Tower {
 	
 	@Override
 	public void tryTarget(Monster m) {
+		if (!isInRange(m)) return;
 		targets.add(m);				
 		if (targets.size() > maxTargets) {
 			targets.remove();
@@ -62,15 +62,16 @@ public class MissileTower extends Tower {
 	}
 	
 	public void fire() {
-		if (currentTarget == null) return;
+		if (targets.isEmpty()) return;
 		Sounds.missileLaunch.play();
-		cpp.pff v = GameUtil.unitVector(this, currentTarget);
-		rotateTo(currentTarget);
-		System.out.println("my target is" + currentTarget);
+		Monster closestTarget = targets.peek();
+		cpp.pff v = GameUtil.unitVector(this, closestTarget);
+		rotateTo(closestTarget);
 		for (Monster m: targets) {
 			GameManager.getInstance().addProjectile(new 
 					HomingMissle(x, y, v.first*9, v.second*9, range, attack, splashRadius, m));			
 		}
+		targets.clear();
 		currentCooldown = attackCooldown;
 	}
 }
