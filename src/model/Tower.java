@@ -94,6 +94,8 @@ public abstract class Tower extends Tile implements IBuffable {
 		if (level == 5) {
 			throw new FullyUpgradedException();
 		}
+		GameManager.getInstance().addParticle(new Particle(Images.smoke, x, y, 0, 0, 3));
+		
 		level += 1;
 		this.image = Images.towerImages.get(typeName)[level-1];
 		this.baseAttack = (double)TowerStats.getData(typeName, "Attack", level);

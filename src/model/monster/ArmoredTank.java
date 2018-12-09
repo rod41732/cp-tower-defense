@@ -4,6 +4,7 @@ import constants.Images;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Particle;
+import model.particle.Corpse;
 
 public class ArmoredTank extends Tank {
 
@@ -30,7 +31,7 @@ public class ArmoredTank extends Tank {
 	@Override
 	public void onDeath() {
 		super.onDeath();
-		Particle part = new Particle(Images.armoredTankDead, x, y, 0, 0, 2000);
+		Particle part = new Corpse(Images.armoredTankDead, x, y, 0, 0);
 		part.setRotation(rotation);
 		GameManager.getInstance().addParticle(part);
 	}

@@ -4,15 +4,14 @@ import javafx.scene.image.Image;
 
 public class Particle extends Entity implements IExpirable {
 
-	private static final int TICKS_PER_FRAME = 5;
-	
 	protected double maxAge;
 	protected double vx, vy;
 	protected Image[] frames;
 	
-	protected double age;
-	protected int frameCount;
-	protected int nFrames;
+	protected double age = 0;
+	private int frameCount = 0;
+	private int nFrames;
+	private int tickPerFrame = 4;
 	
 	protected boolean isExpired;
 	
@@ -21,15 +20,23 @@ public class Particle extends Entity implements IExpirable {
 		this.frames = images;
 		this.vx = vx;
 		this.vy = vy;
-		this.age = 0;
 		this.nFrames = images.length;
-		this.frameCount = 0;
 		this.maxAge = maxAge;
 	}
+	
+	public Particle(Image[] images, double x, double y, double vx, double vy, int tickPerFrame) {
+		this(images, x, y, vx, vy, 0.0);
+		this.maxAge = tickPerFrame*nFrames*1000/60.;
+		this.tickPerFrame = tickPerFrame;
+	}
+	
 	
 	public Particle(Image image, double x, double y, double vx, double vy, double maxAge) {
 		this(new Image[]{image}, x, y, vx, vy, maxAge);
 	}
+
+	
+	
 	
 	public void onTick() {
 		// TODO change these const
@@ -44,7 +51,7 @@ public class Particle extends Entity implements IExpirable {
 	}
 	
 	protected void updateFrame() {
-		this.image = frames[(frameCount/TICKS_PER_FRAME)%nFrames];
+		this.image = frames[(frameCount/tickPerFrame)%nFrames];
 	}
 	
 	private void move() {

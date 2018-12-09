@@ -11,7 +11,7 @@ public class Blood extends Particle {
 
 
 	public Blood(double x, double y, double vx, double vy) {
-		super(Images.blood, x, y, vx, vy, 500);
+		super(Images.blood, x, y, vx, vy, 3);
 	}
 
 }

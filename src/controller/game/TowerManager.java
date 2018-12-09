@@ -66,7 +66,6 @@ public class TowerManager {
 				int price = twr.getUpgradePrice();
 				twr.upgrade();		
 				gm.money -= price;
-				gm.addParticle(new Particle(Images.smoke, twr.getX(), twr.getY(), 0, 0, 500));
 			}
 			catch (FullyUpgradedException e) {
 				SnackBar.play("Already Fully upgraded");
