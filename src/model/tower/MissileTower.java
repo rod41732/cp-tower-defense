@@ -22,7 +22,7 @@ public class MissileTower extends Tower {
 	private static final Image DEFAULT_IMAGE = Images.bombTower;	
 	private double splashRadius;
 	private PriorityQueue<Monster> targets;
-	
+	private int maxTargets = 2;
 	
 	private class MonsterDistanceComparator implements Comparator<Monster> {
 		public Tower thisTower;
@@ -45,21 +45,18 @@ public class MissileTower extends Tower {
 
 	
 	@Override
-	public boolean tryTarget(Monster m) {
-		if (super.tryTarget(m)) {
-			targets.add(m);				
-			if (targets.size() > 4) {
-				targets.remove();
-			}
-			return true;
+	public void tryTarget(Monster m) {
+		targets.add(m);				
+		if (targets.size() > maxTargets) {
+			targets.remove();
 		}
-		return false;
 	}
 	
 	@Override
 	public boolean upgrade() throws FullyUpgradedException {
 		if (super.upgrade()) {
 			this.splashRadius = (double) TowerStats.getData(typeName, "SplashRadius", level);
+			this.maxTargets++;
 		}
 		return true;
 	}

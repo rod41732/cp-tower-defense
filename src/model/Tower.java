@@ -164,14 +164,12 @@ public abstract class Tower extends Tile implements IBuffable {
 		return distanceTo(m) < range && (m.getTargetFlag() & this.targetFlag) != 0 ;
 	}
 	
-	public boolean tryTarget(Monster m) {
+	public void tryTarget(Monster m) {
 		if ((currentTarget == null || Double.compare(distanceTo(m), minDist) < 0) && isInRange(m)){
-			if (m.isDead()) return false;
+			if (m.isDead()) return ;
 			currentTarget = m;
 			minDist = distanceTo(m);
-			return true;
 		}
-		return false;
 	}
 	
 	public void fire() {

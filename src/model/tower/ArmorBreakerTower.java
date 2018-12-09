@@ -27,9 +27,9 @@ public class ArmorBreakerTower extends Tower {
 	}
 	
 	@Override
-	public boolean tryTarget(Monster m) {
-		if (m.hasBuff(DamageTakenDebuff.ID)) return false;
-		return super.tryTarget(m);
+	public void tryTarget(Monster m) {
+		if (m.hasBuff(DamageTakenDebuff.ID)) return ;
+		super.tryTarget(m);
 	}
 	
 	public boolean upgrade() throws FullyUpgradedException {

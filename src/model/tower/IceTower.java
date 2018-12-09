@@ -30,9 +30,9 @@ public class IceTower extends Tower {
 	}
 	
 	@Override
-	public boolean tryTarget(Monster m) {
-		if (m.hasBuff(SlowDebuff.ID)) return false;
-		return super.tryTarget(m);
+	public void tryTarget(Monster m) {
+		if (m.hasBuff(SlowDebuff.ID)) return;
+		super.tryTarget(m);
 	}
 	
 	@Override
