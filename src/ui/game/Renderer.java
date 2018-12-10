@@ -19,7 +19,6 @@ import ui.SnackBar;
 public class Renderer {
 	private static Renderer instance = new Renderer();
 
-	private GameManager gm;
 	private GraphicsContext gc;
 	private Timeline renderLoop;
 	private int renderTick = 0;
@@ -46,17 +45,7 @@ public class Renderer {
 	public void setGC(GraphicsContext gc) {
 		this.gc = gc;
 	}
-	
-
-	public boolean isPlaceable(int x, int y) {
-		return  gm.boundCheck(x, y) && gm.getPlacedTiles()[x][y].isPlaceable();
-	}
-	
-	public boolean isWalkable(int x, int y) {
-		return gm.boundCheck(x, y) && gm.getPlacedTiles()[x][y].isWalkable();
-	}
-	
-
+		
 	
 	public void render() {
 		renderTick++;
