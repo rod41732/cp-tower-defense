@@ -49,4 +49,8 @@ public class DrillTower extends Tower {
 		
 		currentCooldown = attackCooldown;
 	}
+	
+	public String toString() {
+		return "Drill Tower";
+	}
 }

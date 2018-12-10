@@ -40,5 +40,9 @@ public class FireTower extends Tower {
 				FireProjectile(x, y, v.first*9, v.second*9, range, attack, fireRadius, attack));
 		currentCooldown = attackCooldown;
 	}
+	
+	public String toString() {
+		return "Fire Tower";
+	}
 
 }

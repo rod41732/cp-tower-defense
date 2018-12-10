@@ -73,4 +73,8 @@ public class MissileTower extends Tower {
 		targets.clear();
 		currentCooldown = attackCooldown;
 	}
+	
+	public String toString() {
+		return "Missile Tower";
+	}
 }

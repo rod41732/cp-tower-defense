@@ -39,6 +39,9 @@ public class NormalTower extends Tower {
 		}		
 		currentCooldown = attackCooldown;
 	}
-
+	
+	public String toString() {
+		return "Default Tower";
+	}
 }
 

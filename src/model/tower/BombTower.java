@@ -31,4 +31,8 @@ public class BombTower extends Tower {
 		currentCooldown = attackCooldown;
 	}
 	
+	public String toString() {
+		return "Bomber Tower";
+	}
+	
 }

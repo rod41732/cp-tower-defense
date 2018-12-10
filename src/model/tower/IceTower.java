@@ -59,4 +59,8 @@ public class IceTower extends Tower {
 		currentCooldown = attackCooldown;
 	}
 	
+	public String toString() {
+		return "Freeze Tower";
+	}
+	
 }

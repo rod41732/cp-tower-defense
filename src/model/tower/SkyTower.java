@@ -41,6 +41,9 @@ public class SkyTower extends Tower {
 		}		
 		currentCooldown = attackCooldown;
 	}
-
+	
+	public String toString() {
+		return "Sky Turret";
+	}
 }
 

@@ -40,5 +40,9 @@ public class GroundTower extends Tower {
 		
 		currentCooldown = attackCooldown;
 	}
+	
+	public String toString() {
+		return "Ground Defense";
+	}
 }
 

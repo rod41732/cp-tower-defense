@@ -36,8 +36,8 @@ public class MonsterSpawner {
 					// useful when spawning mixed multiple monsters 
 					new MonsterSpawningSequence(200000, 100000, i, 
 //							new CarBoss(0, 0, 0), 
-//							new TankBoss(0, 0, 0),
-							new SoldierBoss(0, 0, 0)
+							new TankBoss(0, 0, 0)
+//							new SoldierBoss(0, 0, 0)
 //							new CarArmored(0, 0, 0)
 							)
 //					 like above but with differnt set of monster
