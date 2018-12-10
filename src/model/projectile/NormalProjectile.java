@@ -7,7 +7,6 @@ import model.Projectile;
 public class NormalProjectile extends Projectile {
 	
 
-	protected boolean isExpired = false;
 	
 	public NormalProjectile(Image image, double x, double y,
 			double vx, double vy, double maxRange, double damage) {

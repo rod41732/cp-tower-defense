@@ -8,10 +8,7 @@ import util.GameUtil;
 import util.cpp;
 
 public class SplittingAirProjectile extends SplittingProjectile {
-	
-	private double splitDistance;
-	
-	
+		
 	public SplittingAirProjectile(Image image, double x, double y,
 			double vx, double vy, double maxRange, double damage, double splitDistance) {
 		super(image, x, y, vx, vy, maxRange, damage, splitDistance); // default size ?
@@ -31,16 +28,6 @@ public class SplittingAirProjectile extends SplittingProjectile {
 			GameManager.getInstance().addProjectile(new AirProjectile(Images.missileBullet, x, y, v2.first, v2.second, maxDistance-splitDistance, damage));
 		}
 	}
-	
-
-	public boolean collideWith(Monster m) {
-		if (shouldCollide(m)) {
-			preUpdate();
-		}
-		return isExpired();
-	}
-	
-	
 	
 	
 }

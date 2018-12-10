@@ -9,7 +9,7 @@ import util.cpp;
 
 public class SplittingProjectile extends NormalProjectile {
 	
-	private double splitDistance;
+	protected double splitDistance;
 	
 	
 	public SplittingProjectile(Image image, double x, double y,

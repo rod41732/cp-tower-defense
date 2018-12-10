@@ -11,8 +11,6 @@ import model.particle.Explosion;
 public class AirProjectile extends NormalProjectile {
 	
 	
-	protected boolean isExpired = false;
-	
 	public AirProjectile(double x, double y,
 			double vx, double vy, double maxRange, double damage) {
 		super(Images.airBullet, x, y, vx, vy, maxRange, damage); // default size ?

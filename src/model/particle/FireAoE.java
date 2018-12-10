@@ -7,8 +7,6 @@ import model.Particle;
 
 public class FireAoE extends Particle {
 
-	
-	// TODO: finish more AoE
 	protected double damage;
 	
 	public FireAoE(Image[] images, double x, double y, double vx, double vy, double maxAge, double radius, double damage) {

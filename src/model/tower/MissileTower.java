@@ -12,7 +12,7 @@ import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.Monster;
 import model.Tower;
-import model.projectile.HomingMissle;
+import model.projectile.HomingMissile;
 import util.GameUtil;
 import util.cpp;
 
@@ -68,7 +68,7 @@ public class MissileTower extends Tower {
 		rotateTo(closestTarget);
 		for (Monster m: targets) {
 			GameManager.getInstance().addProjectile(new 
-					HomingMissle(x, y, v.first*9, v.second*9, range, attack, splashRadius, m));			
+					HomingMissile(x, y, v.first*9, v.second*9, range, attack, splashRadius, m));			
 		}
 		targets.clear();
 		currentCooldown = attackCooldown;

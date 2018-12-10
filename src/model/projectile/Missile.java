@@ -11,12 +11,12 @@ import util.cpp;
 
 public class Missile extends NormalProjectile {
 	
-	protected double radius;
+	protected double explosionRadius;
 	
 	public Missile(double x, double y,
-			double vx, double vy, double maxRange, double damage, double radius) {
+			double vx, double vy, double maxRange, double damage, double explosionRadius) {
 		super(Images.missileBullet, x, y, vx, vy, maxRange, damage); // default size ?
-		this.radius = radius;
+		this.explosionRadius = explosionRadius;
 		this.damage = damage;
 		this.targetFlag = 3;
 	}
@@ -31,7 +31,7 @@ public class Missile extends NormalProjectile {
 			GameManager.getInstance().addParticle(p);
 			GameManager.getInstance().addParticle(p2);
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
-				if (ms.distanceTo(impact.first, impact.second) < ms.getSize()+radius && (ms.getTargetFlag() & targetFlag) != 0) {
+				if (ms.distanceTo(impact.first, impact.second) < ms.getSize()+explosionRadius && (ms.getTargetFlag() & targetFlag) != 0) {
 					ms.takeDamage(damage);
 				}
 			}

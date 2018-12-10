@@ -7,11 +7,7 @@ import model.Particle;
 
 public class FadingParticle extends Particle {
 
-	
 
-	public FadingParticle(Image[] images, double x, double y, double vx, double vy, double maxAge) {
-		super(images, x, y, vx, vy, maxAge);	
-	}
 
 	public FadingParticle(Image image, double x, double y, double vx, double vy, double maxAge) {
 		super(image, x, y, vx, vy, maxAge);

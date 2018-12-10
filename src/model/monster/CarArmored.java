@@ -13,8 +13,7 @@ public class CarArmored extends Car {
 	private static final double DEFAULT_MS  = 1.0;
 	private static final int DEFAULT_MONEY = 12;
 
-	public CarArmored(double x, double y, double health, double armor, double moveSpeed,
-			int money) {
+	public CarArmored(double x, double y, double health, double armor, double moveSpeed, int money) {
 		super(DEFAULT_IMAGE , x, y, health, armor, moveSpeed, money, SoldierFast.class);
 		level = health/DEFAULT_HEALTH-1;
 	}

@@ -13,16 +13,10 @@ public class Crater  extends FadingParticle{
 		this.zIndex = 1.1;
 	}
 	
-	
 	@Override
-	public void render(GraphicsContext gc) {
+	public double transparency() {
 		double frac = age/maxAge;
-		
-		gc.save();
-		gc.setGlobalAlpha(frac > 0.6 ? (1-frac)*2.5 : 1);
-		gc.drawImage(image, getRenderX(), getRenderY());
-		gc.restore();
-		
+		return frac > 0.6 ? (1-frac)*2.5 : 1;
 	}
 
 }

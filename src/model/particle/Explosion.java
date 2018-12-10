@@ -10,11 +10,4 @@ public class Explosion extends Particle {
 		this.zIndex = 3;
 	}
 	
-	public Explosion(Image image,double x, double y, double vx, double vy) {
-		super(image, x, y, vx, vy, 3);
-		this.zIndex = 3;
-	}
-	
-
-	
 }

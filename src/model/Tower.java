@@ -50,6 +50,7 @@ public abstract class Tower extends Tile {
 		this.targetFlag = (int) TowerStats.getData(typeName, "TargetFlag", 1);
 		this.range = this.baseRange;
 		this.buffs = new ArrayList<>();
+		this.zIndex = 2;
 	}
 	
 	@Override
@@ -242,7 +243,6 @@ public abstract class Tower extends Tile {
 	
 	public boolean canUpgrade() {
 		return level < 5;
-
 	}
 	
 	public ArrayList<Buff> getBuffs() {

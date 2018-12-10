@@ -10,7 +10,7 @@ import exceptions.FullyUpgradedException;
 import javafx.scene.image.Image;
 import model.Monster;
 import model.Tower;
-import model.projectile.IceCloud;
+import model.projectile.IcePiercingProjectile;
 import model.projectile.IceProjectile;
 import util.GameUtil;
 import util.cpp;
@@ -50,7 +50,7 @@ public class IceTower extends Tower {
 		rotateTo(currentTarget);
 		if (level == 5) {
 			GameManager.getInstance().addProjectile(new 
-					IceCloud(x, y, v.first*15, v.second*15, range, slowness));
+					IcePiercingProjectile(x, y, v.first*15, v.second*15, range, slowness));
 		}
 		else {
 			GameManager.getInstance().addProjectile(new 

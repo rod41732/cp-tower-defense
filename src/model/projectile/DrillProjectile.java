@@ -1,7 +1,5 @@
 package model.projectile;
 
-import java.util.ArrayList;
-
 import buff.DamageTakenDebuff;
 import constants.Images;
 import controller.game.GameManager;
@@ -10,7 +8,7 @@ import util.cpp;
 
 public class DrillProjectile extends NormalProjectile {
 	
-	private double multiplier;;
+	private double multiplier;
 	private double duration;
 		
 	public DrillProjectile(double x, double y,

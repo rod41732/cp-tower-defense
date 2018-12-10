@@ -10,15 +10,15 @@ import model.particle.Explosion;
 import util.GameUtil;
 import util.cpp;
 
-public class HomingMissle extends NormalProjectile {
+public class HomingMissile extends NormalProjectile {
 	
-	protected double radius;
-	protected Monster target;
+	private double explosionRadius;
+	private Monster target;
 	
-	public HomingMissle(double x, double y,
+	public HomingMissile(double x, double y,
 			double vx, double vy, double maxRange, double damage, double radius, Monster target) {
 		super(Images.missileBullet, x, y, vx, vy, maxRange, damage); // default size ?
-		this.radius = radius;
+		this.explosionRadius = radius;
 		this.damage = damage;
 		this.target = target;
 		this.targetFlag = 3;
@@ -39,7 +39,7 @@ public class HomingMissle extends NormalProjectile {
 			GameManager.getInstance().addParticle(new Explosion(Images.explosion, impact.first, impact.second, 0, 0));
 			GameManager.getInstance().addParticle(new Crater(impact.first, impact.second, 3000));
 			for (Monster ms: GameManager.getInstance().getMonsters()) {
-				if (ms.distanceTo(impact.first, impact.second) < radius+ms.getSize()) {
+				if (ms.distanceTo(impact.first, impact.second) < explosionRadius+ms.getSize()) {
 					ms.takeDamage(damage);	
 				}
 			}

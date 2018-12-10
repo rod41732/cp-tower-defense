@@ -1,6 +1,5 @@
 package ui;
 
-import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
 
 import constants.Other;
@@ -8,7 +7,8 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.value.WritableDoubleValue;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -18,40 +18,11 @@ public class SnackBar {
 	
 	private static final Font font = Other.loadFontWithSize(20); 
 	
-	private static class DoubleWrapper implements WritableDoubleValue {
-		private double x;
-		public DoubleWrapper(double x) {
-			this.x = x;
-		}
-		@Override
-		public Number getValue() {
-			return x;
-		}
-
-		@Override
-		public double get() {
-			return x;
-		}
-
-		@Override
-		public void set(double value) {
-			this.x = value;
-		}
-
-		@Override
-		public void setValue(Number value) {
-			this.x=  (double) value;
-			
-		}
-		
-	}
-	
-	
 	private static boolean isShown;
 	private static String message = "Hello";
-	private static DoubleWrapper x = new DoubleWrapper(700);
-	private static DoubleWrapper y = new DoubleWrapper(0);
-	private static DoubleWrapper opacity = new DoubleWrapper(0);
+	private static DoubleProperty x = new SimpleDoubleProperty(700);
+	private static DoubleProperty y = new SimpleDoubleProperty(0);
+	private static DoubleProperty opacity = new SimpleDoubleProperty(0);
 	private static double w = 200, h = 75;
 	private static Timeline tl = new Timeline();
 	private static Timeline rev = new Timeline();

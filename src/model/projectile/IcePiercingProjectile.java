@@ -4,11 +4,11 @@ import buff.SlowDebuff;
 import constants.Images;
 import model.Monster;
 
-public class IceCloud extends PiercingProjectile {
+public class IcePiercingProjectile extends PiercingProjectile {
 
 	private double slowness;
 	
-	public IceCloud(double x, double y, double vx, double vy, double maxRange, double slowness) {
+	public IcePiercingProjectile(double x, double y, double vx, double vy, double maxRange, double slowness) {
 		super(Images.iceBullet ,x, y, vx, vy, maxRange, 0);
 		this.slowness = slowness;
 	}

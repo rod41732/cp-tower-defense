@@ -34,8 +34,6 @@ public class PiercingProjectile extends NormalProjectile {
 		if (slowTick > 0) slowTick--;
 	}
 	
-	
-	
 	@Override
 	public boolean collideWith(Monster m) {
 		if (shouldCollide(m)) {

@@ -14,7 +14,7 @@ public class IceProjectile extends NormalProjectile {
 		
 	public IceProjectile(double x, double y,
 			double vx, double vy, double maxRange, double damage, double slowness, double splashRadius, double duration) {
-		super(Images.iceBullet ,x, y, vx, vy, maxRange, damage); // default size ?
+		super(Images.iceBullet ,x, y, vx, vy, maxRange, damage); 
 		this.slowness = slowness;
 		this.splashRadius = splashRadius;
 		this.duration = duration;
