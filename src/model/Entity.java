@@ -85,9 +85,6 @@ public class Entity {
 		return y;
 	}
 	
-	
-	
-	
 	public double getzIndex() {
 		return zIndex;
 	}

@@ -1,8 +1,8 @@
 package controller.game;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import constants.Maps;
 import constants.Numbers;
@@ -28,10 +28,10 @@ public class GameManager {
 	private static final GameManager instance = new GameManager();
 	
 	// Shared in game
-	ArrayList<Tower> towers = new ArrayList<>();
-	ArrayList<Monster> monsters = new ArrayList<>();
-	ArrayList<Projectile> projectiles = new ArrayList<>(); 
-	ArrayList<Particle> particles = new ArrayList<>();
+	CopyOnWriteArrayList<Tower> towers = new CopyOnWriteArrayList<Tower>();
+	CopyOnWriteArrayList<Monster> monsters = new CopyOnWriteArrayList<Monster>();
+	CopyOnWriteArrayList<Projectile> projectiles = new CopyOnWriteArrayList<Projectile>(); 
+	CopyOnWriteArrayList<Particle> particles = new CopyOnWriteArrayList<Particle>();
 	TileStack[][] placedTiles = new TileStack[Numbers.COLUMNS][Numbers.ROWS];
 	cpp.pii[][] path = new cpp.pii[Numbers.COLUMNS][Numbers.ROWS];
 	
@@ -159,11 +159,11 @@ public class GameManager {
 		return path;
 	}
 	
-	public ArrayList<Tower> getTowers() {
+	public CopyOnWriteArrayList<Tower> getTowers() {
 		return towers;
 	}
 
-	public ArrayList<Monster> getMonsters() {
+	public CopyOnWriteArrayList<Monster> getMonsters() {
 		return monsters;
 	}
 	

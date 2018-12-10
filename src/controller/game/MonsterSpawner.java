@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import controller.SuperManager;
 import model.monster.CarArmored;
+import model.monster.CarBoss;
 import model.monster.PlaneArmored;
 import model.monster.SoldierArmored;
+import model.monster.SoldierBoss;
 import model.monster.TankArmored;
+import model.monster.TankBoss;
 import model.monster.CarFast;
 import model.monster.PlaneFast;
 import model.monster.SoldierFast;
@@ -26,15 +29,15 @@ public class MonsterSpawner {
 	private static ArrayList<MonsterSpawningStage> stages = new ArrayList<>(); 
 	private int index= 0;
 	static {
-		for (int i=1; i<5; i++) {
-			MonsterSpawningStage stage = new MonsterSpawningStage(2000000, // delay between each "part" of wave
+		for (int i=1; i<=20; i++) {
+			MonsterSpawningStage stage = new MonsterSpawningStage(500000, // delay between each "part" of wave
 					// spawns two monster, with 100ms nanosec delay, i+1 times, with 500ms nanosec delay
 					// so it will e like this xxx--yyy--------xxx--yyy---------xxx--yyy------ and so on
 					// useful when spawning mixed multiple monsters 
-					new MonsterSpawningSequence(500000, 100000, 20+i, 
-							new CarNormal(0, 0, 0), 
-//							new CarHeavy(0, 0, 3),
-							new CarFast(0, 0, 0)
+					new MonsterSpawningSequence(200000, 100000, i, 
+//							new CarBoss(0, 0, 0), 
+//							new TankBoss(0, 0, 0),
+							new SoldierBoss(0, 0, 0)
 //							new CarArmored(0, 0, 0)
 							)
 //					 like above but with differnt set of monster

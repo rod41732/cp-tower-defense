@@ -139,8 +139,12 @@ public abstract class Tower extends Tile implements IBuffable {
 		attackSpeedMultiplier = 1;
 		attackMultiplier = 1;
 		rangeMultiplier = 1;
-		for (Buff b: buffs) {
+		for (int i=buffs.size()-1; i>=0; i--) {
+			Buff b = buffs.get(i);
+			b.age();
 			b.applyTo(this);
+			if (b.isExpired())
+				buffs.remove(i);
 		}
 		this.attack = baseAttack*attackMultiplier;
 		this.range = baseRange*rangeMultiplier;

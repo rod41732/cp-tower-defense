@@ -26,6 +26,7 @@ public abstract class Car extends SplittingMonster {
 	
 	@Override
 	public void onDeath() {
+		if (wasForceKilled) return;
 		Sounds.carExplosion.play();
 		GameManager.getInstance().addParticle(new Explosion(Images.deathExplosion, x, y, 0, 0)); // common death anim for cars
 		Particle part = new Corpse(Images.normalCarDead, x, y, 0, 0);
@@ -36,7 +37,7 @@ public abstract class Car extends SplittingMonster {
 			for (int i=0; i<5; i++) {
 				Monster mon = childConstructor.getConstructor(double.class, double.class, double.class)
 						.newInstance(pos.first+(Math.random()-0.5)*0.2, pos.second+(Math.random()-0.5)*0.2, level);				
-				GameManager.getInstance().addMonsterDefault(mon);
+				GameManager.getInstance().addMonster(mon);
 			}
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {

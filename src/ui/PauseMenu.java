@@ -29,7 +29,7 @@ public class PauseMenu {
 			gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_WIDTH);
 			gc.drawImage(Images.pauseMenuPanel, 650, 300);
 			gc.setFill(Color.color(0.55, 0.27, 0.10, 0.8));
-			gc.setFont(Other.loadFontWithSize(44));
+			gc.setFont(Other.loadFontWithSize(36));
 			gc.setTextAlign(TextAlignment.CENTER);
 			
 			gc.fillText(TEXTS[SuperManager.getInstance().getGameStateProp().get()], 800, 360);

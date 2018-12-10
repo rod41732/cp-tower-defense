@@ -49,7 +49,7 @@ public class Updater {
 		sm.getCanSellProp().set(gm.selectedTower != null);
 		sm.getnextWaveAvailableProp().set(shouldSpawnNextWave());
 		
-		// play game win
+		// play game win when dialog is open
 		if (shouldSpawnNextWave() && sm.getGameStateProp().get() == 2 &&
 				!sm.getIsGamePausedProp().get() && sm.getIsInGameProp().get() && gm.getMonsters().isEmpty()) {
 			sm.getIsGamePausedProp().set(true);
@@ -63,26 +63,25 @@ public class Updater {
 				Main.getGameScene().getButtonManager().setUpgradeText("Fully Upgraded");
 			else 
 				Main.getGameScene().getButtonManager().setUpgradeText("$ " + gm.selectedTower.getUpgradePrice());
+		}	
+		
+		for (Particle part: gm.particles) {
+			part.onTick();
+		}
+		for (Tower twr: gm.towers) {
+			twr.onTick();
+		}
+		for (Projectile proj: gm.projectiles) {
+			proj.onTick();
 		}
 		
-		
-		
-		
-		for (int i=gm.particles.size()-1; i>=0; i--) {
-			gm.particles.get(i).onTick();
-		}
-		for (int i=gm.towers.size()-1; i>=0; i--) {
-			gm.towers.get(i).onTick();
-		}
-		for (int i=gm.projectiles.size()-1; i>=0; i--) {
-			gm.projectiles.get(i).onTick();
-		}
 		for (int i=gm.monsters.size()-1; i>=0; i--) {
 			Monster m = gm.monsters.get(i);
 			m.onTick();
 			if (m.getPosition().containedBy(gm.endTilePos)) {
 				m.forceKill();
 				gm.lives -= 1;
+				if (gm.lives < 0) gm.lives = 0;
 			}
 		}
 		

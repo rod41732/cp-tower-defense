@@ -2,9 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
+import buff.ArmorBuff;
 import buff.Buff;
 import buff.DamageTakenDebuff;
 import buff.SlowDebuff;
+import constants.Images;
+import constants.Numbers;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
@@ -67,17 +70,22 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 		else {
 			super.render(gc);					
 		}
+		// render health bar
 		if (!this.hasBuff(DamageTakenDebuff.ID)) {
-			gc.setFill(Color.color(0, 1, 0));
-			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
-			gc.setFill(Color.color(1, 0, 0));
-			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 10);			
+			gc.setFill(Color.color(0, 1, 0, 0.7));
+			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 5);
+			gc.setFill(Color.color(1, 0, 0, 0.7));
+			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 5);			
 		}
 		else {
-			gc.setFill(Color.color(1, 1, 0));
-			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
-			gc.setFill(Color.color(0, 0, 1));
-			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 10);
+			gc.setFill(Color.color(1, 1, 0, 0.7));
+			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 5);
+			gc.setFill(Color.color(0, 0, 1, 0.7));
+			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 5);
+		}
+		// render other buff
+		if (this.hasBuff(ArmorBuff.ID)) {
+			gc.drawImage(Images.shield, x*Numbers.TILE_SIZE-16, y*Numbers.TILE_SIZE-16, 32, 32);
 		}
 	}
 	
@@ -109,7 +117,6 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 	}
 	
 	public void onDeath() {
-		
 	}
 	
 	protected abstract void updateVelocity();

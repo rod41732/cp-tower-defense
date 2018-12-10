@@ -104,7 +104,8 @@ public class Images {
 	public static Image tankTrack;
 	public static Image planeShadow;
 	public static Image towerFocus;
-
+	public static Image shield;
+	
 	public static Image towerBase;
 
 	
@@ -156,12 +157,12 @@ public class Images {
 		armoredTank =  new Image("monster/tank_armored.png", 64, 64, true, true);
 		heavyTank = new Image("monster/tank_heavy.png", 64, 64, true, true);
 		
-		normalCar = new Image("monster/car_normal.png", 80, 80, true, true);
-		fastCar =  new Image("monster/car_fast.png", 80, 80, true, true);
-		armoredCar =  new Image("monster/car_armored.png", 80, 80, true, true);
-		heavyCar = new Image("monster/car_heavy.png", 80, 80, true, true);
+		normalCar = new Image("monster/car_normal.png", 64, 64, true, true);
+		fastCar =  new Image("monster/car_fast.png", 64, 64, true, true);
+		armoredCar =  new Image("monster/car_armored.png", 64, 64, true, true);
+		heavyCar = new Image("monster/car_heavy.png", 64, 64, true, true);
 		
-		normalCarDead = new Image("monster/dead/car.png", 80, 80, true, true);
+		normalCarDead = new Image("monster/dead/car.png", 64, 64, true, true);
 		normalPlaneDead = new Image("monster/dead/plane.png", 80, 80, true, true);
 		heavyPlaneDead = new Image("monster/dead/plane_heavy.png", 80, 80, true, true);
 		normalTankDead = new Image("monster/dead/tank.png", 64, 64, true, true);
@@ -242,7 +243,7 @@ public class Images {
 		crater = new Image("particle/crater.png", 64, 64, true, true);
 		tankTrack = new Image("particle/tankTrack.png", 7, 40, true, true);
 		planeShadow = new Image("particle/plane_shadow.png", 64, 64, true, true);
-		
+		shield = new Image("particle/shield.png", 128, 128, true, true);
 		bgMapSelect = new Image("ui/bg_mapselect.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, true, true);
 		mainButtonBg = new Image("ui/bg_main_button.png", 317, 240, true, true);
 		
@@ -270,7 +271,7 @@ public class Images {
 			smoke[i] = new Image("animation/smoke/"+i+".png", 96, 96, true, true);
 		
 		for (int i=0; i<16; i++)
-			aura[i] = new Image("animation/aura/"+i+".png", 128, 128, true, true);
+			aura[i] = new Image("animation/aura/"+i+".png", 64, 128, true, true);
 
 		getProgress().set(0.8);
 		
