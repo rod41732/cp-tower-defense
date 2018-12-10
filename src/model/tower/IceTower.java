@@ -2,12 +2,10 @@ package model.tower;
 
 
 import buff.SlowDebuff;
-import constants.Images;
 import constants.Sounds;
 import constants.TowerStats;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
-import javafx.scene.image.Image;
 import model.Monster;
 import model.Tower;
 import model.projectile.IcePiercingProjectile;

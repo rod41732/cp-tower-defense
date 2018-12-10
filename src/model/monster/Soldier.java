@@ -2,10 +2,7 @@ package model.monster;
 
 import controller.game.GameManager;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import model.particle.Blood;
-import util.GameUtil;
-import util.cpp.pff;
 
 public abstract class Soldier extends GroundMonster {
 

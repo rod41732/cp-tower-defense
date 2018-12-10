@@ -4,12 +4,10 @@ package model.tower;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import constants.Images;
 import constants.Sounds;
 import constants.TowerStats;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
-import javafx.scene.image.Image;
 import model.Monster;
 import model.Tower;
 import model.projectile.HomingMissile;

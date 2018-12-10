@@ -20,4 +20,10 @@ public class MonsterSpawningStage {
 		}
 	}
 	
+	public void addSequence(MonsterSpawningSequence ...sequences) {
+		for (MonsterSpawningSequence ms: sequences) {
+			seqs.add(ms);
+		}
+	}
+	
 }

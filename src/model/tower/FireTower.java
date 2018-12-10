@@ -1,12 +1,10 @@
 package model.tower;
 
 
-import constants.Images;
 import constants.Sounds;
 import constants.TowerStats;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
-import javafx.scene.image.Image;
 import model.Tower;
 import model.projectile.FireProjectile;
 import util.GameUtil;

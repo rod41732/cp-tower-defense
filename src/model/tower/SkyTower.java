@@ -4,14 +4,11 @@ package model.tower;
 import constants.Images;
 import constants.Sounds;
 import controller.game.GameManager;
-import javafx.scene.image.Image;
 import model.Particle;
 import model.Tower;
 import model.particle.FadingParticle;
 import model.projectile.AirProjectile;
-import model.projectile.NormalProjectile;
 import model.projectile.SplittingAirProjectile;
-import model.projectile.SplittingProjectile;
 import util.GameUtil;
 import util.cpp;
 

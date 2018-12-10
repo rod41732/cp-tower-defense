@@ -5,7 +5,6 @@ import constants.Sounds;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Monster;
-import model.Projectile;
 import model.particle.Explosion;
 
 public class AirProjectile extends NormalProjectile {

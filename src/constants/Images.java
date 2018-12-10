@@ -1,6 +1,5 @@
 package constants;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.beans.property.DoubleProperty;
@@ -93,6 +92,7 @@ public class Images {
 	public static Image mainMenuBg;
 	public static Image frame;
 	public static Image logo;
+	public static Image appIcon;
 	public static Image loadingBar;
 	public static Image loadingText;
 	public static Image mainButtonBg;
@@ -126,168 +126,148 @@ public class Images {
 
 	static {
 		for (int i=1; i<=5; i++) {
-			loading[i-1] = new Image("ui/loading/" + i + ".png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, false, true);
+			loading[i-1] = loadImage("ui/loading/" + i + ".png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		}
-		vignette = new Image("ui/loading/vignette.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, false, true);
-		logo = new Image("ui/logo.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, true, true);
-		loadingBar = new Image("ui/loading_bar.png", 1040, 47, true, true);
-		loadingText = new Image("ui/loading_text.png", 520, 47, true, true);
+		vignette = loadImage("ui/loading/vignette.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+		logo = loadImage("ui/logo.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+		loadingBar = loadImage("ui/loading_bar.png", 1040, 47);
+		loadingText = loadImage("ui/loading_text.png", 520, 47);
 	}
 	
 	public static void loadResource(){
 
+		
+		double mapW = Numbers.COLUMNS*Numbers.TILE_SIZE, mapH = Numbers.ROWS*Numbers.TILE_SIZE;
+		for (int i=0; i<4; i++) {
+			mapBgs[i] = loadImage("map/"+i+".png", mapW, mapH);
+			mapPreviews[i] = loadImage("map/"+i+".png", mapW/3.5, mapH/3.5);
+		}
 		getProgress().set(0.1);
-
-		normalSoldier = new Image("monster/soldier_normal.png", 48, 48, true, true);
-		fastSoldier =  new Image("monster/soldier_fast.png", 48, 48, true, true);
-		armoredSoldier =  new Image("monster/soldier_armored.png", 48, 48, true, true);
-		heavySoldier = new Image("monster/soldier_heavy.png", 48, 48, true, true);
 		
 		
-		
-		normalPlane = new Image("monster/plane_normal.png", 64, 64, true, true);
-		fastPlane =  new Image("monster/plane_fast.png", 64, 64, true, true);
-		armoredPlane =  new Image("monster/plane_armored.png", 64, 64, true, true);
-		heavyPlane = new Image("monster/plane_heavy.png", 64, 64, true, true);
-		
-		getProgress().set(0.2);
-		
-		normalTank = new Image("monster/tank_normal.png", 64, 64, true, true);
-		fastTank =  new Image("monster/tank_fast.png", 64, 64, true, true);
-		armoredTank =  new Image("monster/tank_armored.png", 64, 64, true, true);
-		heavyTank = new Image("monster/tank_heavy.png", 64, 64, true, true);
-		
-		normalCar = new Image("monster/car_normal.png", 64, 64, true, true);
-		fastCar =  new Image("monster/car_fast.png", 64, 64, true, true);
-		armoredCar =  new Image("monster/car_armored.png", 64, 64, true, true);
-		heavyCar = new Image("monster/car_heavy.png", 64, 64, true, true);
-		
-		normalCarDead = new Image("monster/dead/car.png", 64, 64, true, true);
-		normalPlaneDead = new Image("monster/dead/plane.png", 80, 80, true, true);
-		heavyPlaneDead = new Image("monster/dead/plane_heavy.png", 80, 80, true, true);
-		normalTankDead = new Image("monster/dead/tank.png", 64, 64, true, true);
-		fastTankDead = new Image("monster/dead/tank_fast.png", 64, 64, true, true);
-		armoredTankDead = new Image("monster/dead/tank_armored.png", 64, 64, true, true);
-		heavyTankDead = new Image("monster/dead/tank_heavy.png", 64, 64, true, true);
-		
-		getProgress().set(0.3);	
+		towerBase = loadImage("tower/base.png", 64, 64);
 		String[] towerTypes = {"Air", "ArmorBreaker", "Buff",
 				"Bomb", "Fire", "Ground", "Ice", "Missile", "Default"};
 		towerImages = new HashMap<>();
 		for (String typ: towerTypes) {
 			Image[] imgs = new Image[5];
 			for (int i=1; i<=5; i++) { // name start at 1
-				imgs[i-1] = new Image(String.format("tower/%s/%d.png", typ.toLowerCase(), i), 64, 64, true, true);
+				imgs[i-1] = loadImage(String.format("tower/%s/%d.png", typ.toLowerCase(), i), 64, 64);
 			}
 			towerImages.put(typ, imgs);
 		}
 		
 		
-		towerBase = new Image("tower/base.png", 64, 64, true, true);
+		normalSoldier = loadImage("monster/soldier_normal.png", 48, 48);
+		fastSoldier =  loadImage("monster/soldier_fast.png", 48, 48);
+		armoredSoldier =  loadImage("monster/soldier_armored.png", 48, 48);
+		heavySoldier = loadImage("monster/soldier_heavy.png", 48, 48);
+		normalPlane = loadImage("monster/plane_normal.png", 64, 64);
+		fastPlane =  loadImage("monster/plane_fast.png", 64, 64);
+		armoredPlane =  loadImage("monster/plane_armored.png", 64, 64);
+		heavyPlane = loadImage("monster/plane_heavy.png", 64, 64);
+		normalTank = loadImage("monster/tank_normal.png", 64, 64);
+		fastTank =  loadImage("monster/tank_fast.png", 64, 64);
+		armoredTank =  loadImage("monster/tank_armored.png", 64, 64);
+		heavyTank = loadImage("monster/tank_heavy.png", 64, 64);		
+		normalCar = loadImage("monster/car_normal.png", 64, 64);
+		fastCar =  loadImage("monster/car_fast.png", 64, 64);
+		armoredCar =  loadImage("monster/car_armored.png", 64, 64);
+		heavyCar = loadImage("monster/car_heavy.png", 64, 64);
+		normalCarDead = loadImage("monster/dead/car.png", 64, 64);
+		normalPlaneDead = loadImage("monster/dead/plane.png", 80, 80);
+		heavyPlaneDead = loadImage("monster/dead/plane_heavy.png", 80, 80);
+		normalTankDead = loadImage("monster/dead/tank.png", 64, 64);
+		fastTankDead = loadImage("monster/dead/tank_fast.png", 64, 64);
+		armoredTankDead = loadImage("monster/dead/tank_armored.png", 64, 64);
+		heavyTankDead = loadImage("monster/dead/tank_heavy.png", 64, 64);
+		
+		
+		
+		normalBullet = loadImage("projectile/normalBullet.png", 30, 30);
+		missileBullet = loadImage("projectile/missileBullet.png", 30, 30);
+		fireBullet = loadImage("projectile/fireBullet.png", 30, 30);
+		iceBullet = loadImage("projectile/iceBullet.png", 30, 30);
+		airBullet = loadImage("projectile/airBullet.png", 30, 30);
+		groundBullet = loadImage("projectile/groundBullet.png", 30, 30);
+		armorBreakerBullet = loadImage("projectile/armorBreakerBullet.png", 30, 30);
+		
+		
+		normalTowerFlash = loadImage("particle/flare.png", 32, 32);
+		crater = loadImage("particle/crater.png", 64, 64);
+		tankTrack = loadImage("particle/tankTrack.png", 7, 40);
+		planeShadow = loadImage("particle/plane_shadow.png", 64, 64);
+		shield = loadImage("particle/shield.png", 128, 128);
+		
+		getProgress().set(0.2);
+		
+		getProgress().set(0.3);	
+		
+		
+		attackIcon = loadImage("icon/attack.png", 32, 32);
+		bombIcon = loadImage("icon/bomb.png", 32, 32);
+		cooldownIcon = loadImage("icon/cooldown.png", 32, 32);
+		targetIcon = loadImage("icon/target.png", 32, 32);
+		
+		liveIcon = loadImage("icon/live.png", 32, 32);
+		coinIcon = loadImage("icon/coin.png", 32, 32);
+		infoIcon = loadImage("icon/info.png", 32, 32);
+		appIcon = loadImage("icon/app_icon.png", 16, 16);
+		
 		
 		
 		getProgress().set(0.4);
-		normalBullet = new Image("projectile/normalBullet.png", 30, 30, true, true);
-		missileBullet = new Image("projectile/missileBullet.png", 30, 30, true, true);
-		fireBullet = new Image("projectile/fireBullet.png", 30, 30, true, true);
-		iceBullet = new Image("projectile/iceBullet.png", 30, 30, true, true);
-		airBullet = new Image("projectile/airBullet.png", 30, 30, true, true);
-		groundBullet = new Image("projectile/groundBullet.png", 30, 30, true, true);
-		armorBreakerBullet = new Image("projectile/armorBreakerBullet.png", 30, 30, true, true);
 		
-		attackIcon = new Image("icon/attack.png", 32, 32, true, true);
-		bombIcon = new Image("icon/bomb.png", 32, 32, true, true);
-		cooldownIcon = new Image("icon/cooldown.png", 32, 32, true, true);
-		targetIcon = new Image("icon/target.png", 32, 32, true, true);
 		
-		liveIcon = new Image("icon/live.png", 32, 32, true, true);
-		coinIcon = new Image("icon/coin.png", 32, 32, true, true);
-		infoIcon = new Image("icon/info.png", 32, 32, true, true);
 		
 		
 		getProgress().set(0.5);
 		
-		// set preserve ratio to false for button
-		buttonOrange = new Image("ui/button/button_orange.png", 190, 49, false, true);
-		buttonOrangeDisabled = new Image("ui/button/button_orange_disabled.png", 190, 49, false, true);
-		buttonOrangeHover = new Image("ui/button/button_orange_hover.png", 190, 49, false, true);
-		buttonOrangePressed = new Image("ui/button/button_orange_pressed.png", 190, 49, false, true);
-		buttonGreen = new Image("ui/button/button_green.png", 190, 49, false, true);
-		buttonGreenDisabled = new Image("ui/button/button_green_disabled.png", 190, 49, false, true);
-		buttonGreenHover = new Image("ui/button/button_green_hover.png", 190, 49, false, true);
-		buttonGreenPressed = new Image("ui/button/button_green_pressed.png", 190, 49, false, true);
-		buttonPurple = new Image("ui/button/button_purple.png", 190, 49, false, true);
-		buttonPurpleDisabled = new Image("ui/button/button_purple_disabled.png", 190, 49, false, true);
-	
-		
-		
-		buttonPurpleHover = new Image("ui/button/button_purple_hover.png", 190, 49, false, true);
-		buttonPurplePressed = new Image("ui/button/button_purple_pressed.png", 190, 49, false, true);
-		buttonYellow = new Image("ui/button/button_yellow.png", 190, 49, false, true);
-		buttonYellowDisabled = new Image("ui/button/button_yellow_disabled.png", 190, 49, false, true);
-		buttonYellowHover = new Image("ui/button/button_yellow_hover.png", 190, 49, false, true);
-		buttonYellowPressed = new Image("ui/button/button_yellow_pressed.png", 190, 49, false, true);
-		buttonGray = new Image("ui/button/button_gray.png", 190, 49, false, true);
-		buttonGrayDisabled = new Image("ui/button/button_gray_disabled.png", 190, 49, false, true);
-		buttonGrayHover = new Image("ui/button/button_gray_hover.png", 190, 49, false, true);
-		buttonGrayPressed = new Image("ui/button/button_gray_pressed.png", 190, 49, false, true);
-		pauseMenuPanel = new Image("ui/pause_menu_panel.png", 300, 300, false, true);
-		towerButton = new Image("ui/tower_button.png", 80, 128, false, true);
-		towerButtonPressed = new Image("ui/tower_button_pressed.png", 80, 128, false, true);
-
-	
-		towerFocus = new Image("ui/tower_focus.png", 64, 64, true, true);
-		frame = new Image("ui/frame.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, true, true);
-		
-		normalTowerFlash = new Image("particle/flare.png", 32, 32, true, true);
-		crater = new Image("particle/crater.png", 64, 64, true, true);
-		tankTrack = new Image("particle/tankTrack.png", 7, 40, true, true);
-		planeShadow = new Image("particle/plane_shadow.png", 64, 64, true, true);
-		shield = new Image("particle/shield.png", 128, 128, true, true);
-		bgMapSelect = new Image("ui/bg_mapselect.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT, true, true);
-		mainButtonBg = new Image("ui/bg_main_button.png", 317, 240, true, true);
-		
-		double mapW = Numbers.COLUMNS*Numbers.TILE_SIZE, mapH = Numbers.ROWS*Numbers.TILE_SIZE;
-		for (int i=0; i<4; i++) {
-			mapBgs[i] = new Image("map/"+i+".png", mapW, mapH, true, true);
-			mapPreviews[i] = new Image("map/"+i+".png", mapW/3.5, mapH/3.5, true, true);
-		}
+		buttonOrange = loadImage("ui/button/button_orange.png", 190, 49);
+		buttonOrangeDisabled = loadImage("ui/button/button_orange_disabled.png", 190, 49);
+		buttonOrangeHover = loadImage("ui/button/button_orange_hover.png", 190, 49);
+		buttonOrangePressed = loadImage("ui/button/button_orange_pressed.png", 190, 49);
+		buttonGreen = loadImage("ui/button/button_green.png", 190, 49);
+		buttonGreenDisabled = loadImage("ui/button/button_green_disabled.png", 190, 49);
+		buttonGreenHover = loadImage("ui/button/button_green_hover.png", 190, 49);
+		buttonGreenPressed = loadImage("ui/button/button_green_pressed.png", 190, 49);
+		buttonPurple = loadImage("ui/button/button_purple.png", 190, 49);
+		buttonPurpleDisabled = loadImage("ui/button/button_purple_disabled.png", 190, 49);
+		buttonPurpleHover = loadImage("ui/button/button_purple_hover.png", 190, 49);
+		buttonPurplePressed = loadImage("ui/button/button_purple_pressed.png", 190, 49);
+		buttonYellow = loadImage("ui/button/button_yellow.png", 190, 49);
+		buttonYellowDisabled = loadImage("ui/button/button_yellow_disabled.png", 190, 49);
+		buttonYellowHover = loadImage("ui/button/button_yellow_hover.png", 190, 49);
+		buttonYellowPressed = loadImage("ui/button/button_yellow_pressed.png", 190, 49);
+		buttonGray = loadImage("ui/button/button_gray.png", 190, 49);
+		buttonGrayDisabled = loadImage("ui/button/button_gray_disabled.png", 190, 49);
+		buttonGrayHover = loadImage("ui/button/button_gray_hover.png", 190, 49);
+		buttonGrayPressed = loadImage("ui/button/button_gray_pressed.png", 190, 49);
+		pauseMenuPanel = loadImage("ui/pause_menu_panel.png", 300, 300);
+		towerButton = loadImage("ui/tower_button.png", 80, 128);
+		towerButtonPressed = loadImage("ui/tower_button_pressed.png", 80, 128);
+		bgMapSelect = loadImage("ui/bg_mapselect.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+		mainButtonBg = loadImage("ui/bg_main_button.png", 317, 240);
+		towerFocus = loadImage("ui/tower_focus.png", 64, 64);
+		frame = loadImage("ui/frame.png", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
 		
 		
 		
-		for (int i=0; i<16; i++)
-			explosion[i] = new Image("animation/explosion/"+i+".png", 96, 96, true, true);
-		for (int i=0; i<16; i++)
-			deathExplosion[i] = new Image("animation/death_explosion/"+i+".png", 128, 128, true, true);
-
-		
-		getProgress().set(0.6);
 		
 		
-		for (int i=0; i<16; i++)
-			flame[i] = new Image("animation/flame/"+i+".png", 96, 96, true, true);
-		getProgress().set(0.7);
-		for (int i=0; i<9; i++)
-			smoke[i] = new Image("animation/smoke/"+i+".png", 96, 96, true, true);
 		
-		for (int i=0; i<16; i++)
-			aura[i] = new Image("animation/aura/"+i+".png", 64, 128, true, true);
-
-		getProgress().set(0.8);
-		
-		for (int i=0; i<16; i++)
-			boom[i] = new Image("animation/boom/"+i+".png", 256, 256, true, true);
-		
-		for (int i=0; i<12; i++)
-			blood[i] = new Image("animation/blood/"+i+".png", 64, 64, true, true);
-		
-		for (int i=0; i<8; i++)
-				spark[i] = new Image("animation/hitspark/"+i+".png", 32, 32, true, true);
-		getProgress().set(0.9);
+		for (int i=0; i<16; i++) explosion[i] = loadImage("animation/explosion/"+i+".png", 96, 96);
+		for (int i=0; i<16; i++) deathExplosion[i] = loadImage("animation/death_explosion/"+i+".png", 128, 128);
+		for (int i=0; i<16; i++) flame[i] = loadImage("animation/flame/"+i+".png", 96, 96);
+		for (int i=0; i<9; i++) smoke[i] = loadImage("animation/smoke/"+i+".png", 96, 96);
+		for (int i=0; i<16; i++) aura[i] = loadImage("animation/aura/"+i+".png", 64, 128);
+		for (int i=0; i<16; i++) boom[i] = loadImage("animation/boom/"+i+".png", 256, 256);
+		for (int i=0; i<12; i++) blood[i] = loadImage("animation/blood/"+i+".png", 64, 64);
+		for (int i=0; i<8; i++) spark[i] = loadImage("animation/hitspark/"+i+".png", 32, 32);
 		for (int i=0; i<4; i++) {
 			for (int j=0; j<4; j++)
 				if (i != j) {
-					arrows[i][j] = new Image(String.format("ui/arrow/%d%d.png", i, j), 64, 64, true, true);
+					arrows[i][j] = loadImage(String.format("ui/arrow/%d%d.png", i, j), 64, 64);
 				}
 		}
 		
@@ -299,6 +279,10 @@ public class Images {
 
 	public static DoubleProperty getProgress() {
 		return progress;
-	}	
+    }	
+    
+    public static Image loadImage(String path, double width, double height){
+        return new Image(ClassLoader.getSystemResource(path).toString(), width, height, true, true);
+    }
 	
 }

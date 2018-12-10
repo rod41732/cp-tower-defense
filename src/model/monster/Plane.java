@@ -7,9 +7,7 @@ import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.Image;
-import model.Particle;
 import model.particle.Explosion;
-import model.particle.FadingParticle;
 import util.GameUtil;
 import util.cpp;
 

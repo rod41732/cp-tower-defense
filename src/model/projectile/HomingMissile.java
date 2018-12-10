@@ -3,7 +3,6 @@ package model.projectile;
 import constants.Images;
 import constants.Sounds;
 import controller.game.GameManager;
-import javafx.scene.image.Image;
 import model.Monster;
 import model.particle.Crater;
 import model.particle.Explosion;

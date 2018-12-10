@@ -13,7 +13,6 @@ import constants.TowerStats;
 import controller.game.GameManager;
 import exceptions.FullyUpgradedException;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import ui.game.Renderer;
 import util.GameUtil;

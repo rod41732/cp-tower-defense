@@ -1,9 +1,7 @@
 package model.monster;
 
 import constants.Images;
-import controller.game.GameManager;
 import javafx.scene.image.Image;
-import util.cpp.pff;
 
 public class CarArmored extends Car {
 

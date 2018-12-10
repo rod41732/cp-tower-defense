@@ -2,21 +2,19 @@ package model.projectile;
 
 import constants.Images;
 import controller.game.GameManager;
-import javafx.scene.image.Image;
 import model.Monster;
 import model.particle.FireAoE;
 import util.cpp;
 
 public class FireProjectile extends NormalProjectile {
 	
-	private static final Image DEFAULT_IMAGE = Images.fireBullet; 
-	protected double radius;
+	protected double fireRadius;
 	protected double fireDamage;
 	
 	public FireProjectile(double x, double y,
-			double vx, double vy, double maxRange, double damage, double radius, double fireDamage) {
-		super(DEFAULT_IMAGE, x, y, vx, vy, maxRange, damage); // default size ?
-		this.radius = radius;
+			double vx, double vy, double maxRange, double damage, double fireRadius, double fireDamage) {
+		super(Images.fireBullet, x, y, vx, vy, maxRange, damage); // default size ?
+		this.fireRadius = fireRadius;
 		this.damage = damage;
 		this.fireDamage = fireDamage;
 		this.targetFlag = 1;

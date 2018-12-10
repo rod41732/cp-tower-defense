@@ -13,9 +13,9 @@ public class MonsterSpawningSequence extends Thread {
 			public void run() {
 				for (int i=0; i<repeat && !shouldStop; i++) {
 					try {
-						Thread.sleep(delay/1000, delay%1000000);
+						Thread.sleep(delay/1000, delay%1000*1000);
 						for (Monster m: monstersList) {
-							Thread.sleep(delay2/1000, delay2%1000000);
+							Thread.sleep(delay2/1000, delay2%1000*1000);
 							while (isPaused) {
 								Thread.sleep(16); // pause when game paused;
 							}

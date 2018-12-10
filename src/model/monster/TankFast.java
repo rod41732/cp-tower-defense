@@ -5,7 +5,6 @@ import controller.game.GameManager;
 import javafx.scene.image.Image;
 import model.Particle;
 import model.particle.Corpse;
-import model.particle.Explosion;
 
 public class TankFast extends Tank {
 
