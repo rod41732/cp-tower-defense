@@ -8,17 +8,14 @@ import model.Monster;
 import model.Projectile;
 import model.particle.Explosion;
 
-public class AirProjectile extends Projectile {
+public class AirProjectile extends NormalProjectile {
 	
-	
-	protected double damage;
 	
 	protected boolean isExpired = false;
 	
 	public AirProjectile(double x, double y,
 			double vx, double vy, double maxRange, double damage) {
-		super(Images.airBullet, x, y, vx, vy, maxRange); // default size ?
-		this.damage = damage;
+		super(Images.airBullet, x, y, vx, vy, maxRange, damage); // default size ?
 		this.targetFlag = 2;
 	}
 		

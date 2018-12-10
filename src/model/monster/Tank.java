@@ -13,7 +13,7 @@ public abstract class Tank extends GroundMonster {
 	
 	public Tank(Image image, double x, double y, double health, double armor,
 			double moveSpeed, int money) {
-		super("Tank", image, x, y, DEFAULT_SIZE, health, armor, moveSpeed, money);
+		super(image, x, y, DEFAULT_SIZE, health, armor, moveSpeed, money);
 	}
 	
 	@Override

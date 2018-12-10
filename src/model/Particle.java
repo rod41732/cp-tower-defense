@@ -14,7 +14,7 @@ public class Particle extends Entity implements IExpirable {
 	private int tickPerFrame = 4;
 	
 	protected boolean isExpired;
-	
+	 
 	public Particle(Image[] images, double x, double y, double vx, double vy, double maxAge) {
 		super(images[0], x, y, 1.5, 0.0);
 		this.frames = images;

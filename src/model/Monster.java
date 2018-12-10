@@ -15,7 +15,7 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
-public abstract class Monster extends Entity implements IBuffable, Cloneable {
+public abstract class Monster extends Entity implements Cloneable {
 	
 	
 	protected double maxHealth;
@@ -24,7 +24,6 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 	protected double moveSpeed;
 	protected double vx;
 	protected double vy;
-	protected String name;
 	protected ArrayList<Buff> buffs = new ArrayList<>();
 	protected WritableImage coldImage;
 	protected int targetFlag;
@@ -38,12 +37,11 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 	protected int money;
 	// AI
 	
-	public Monster(String name, Image image, double x, double y,
+	public Monster(Image image, double x, double y,
 			double size, double maxHealth, double armor, double moveSpeed, int money) {
 		super(image, x, y, 2, size);
 		this.maxHealth = this.health = maxHealth;
 		this.armor = armor;
-		this.name = name;
 		this.moveSpeed = moveSpeed;
 		this.money = money;
 		this.targetFlag = 3;
@@ -93,7 +91,6 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 		preUpdate();
 		updateBuff();
 		updateVelocity();
-//		collideWithTile();
 		move(); // update v without considering 
 	}
 	
@@ -134,19 +131,17 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 	}
 	
 	// return false is damage is negated
-	public boolean takeDamage(double damage) {
+	public void takeDamage(double damage) {
 		damage *= damageTakenMultiplier;
 		damage -= armor;
-		if (damage <= 0) return false;
+		if (damage <= 0) return ;
 		health -= damage;
-		return true;
 	}
 	
-	public boolean takePureDamage(double damage) {
+	public void takePureDamage(double damage) {
 		damage *= damageTakenMultiplier;
-		if (damage <= 0) return false;
+		if (damage <= 0) return;
 		health -= damage;
-		return true;
 	}
 	
 	public void forceKill() {
@@ -155,18 +150,9 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 	}
 	
 	public boolean isDead() {
-		return Double.compare(health, 0) <= 0;
+		return health <= 0;
 	}
 	
-	public int getMoney() {
-		return money;
-	}
-	
-	public String toString() {
-		return String.format("%s at %s HP:%.2f Armor:%.2f MS:%.2f",
-				name, getPosition(), health, armor, moveSpeed);
-	}
-
 	public void addMoveSpeedMultiplier(double moveSpeedMultiplier) {
 		this.moveSpeedMultiplier += moveSpeedMultiplier;
 	}
@@ -176,9 +162,7 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 		this.damageTakenMultiplier += damageTakenMultiplier;
 	}
 
-	public ArrayList<Buff> getBuffs() {
-		return buffs;
-	}
+
 	
 	public void addBuff(Buff b){	
 		for (int i=0; i<buffs.size(); i++) {
@@ -197,9 +181,7 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 	
 	
 	
-	public int getTargetFlag() {
-		return targetFlag;
-	}
+	
 
 
 	public Monster clone(){
@@ -212,6 +194,24 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 			e.printStackTrace();
 			throw new InternalError();
 		}
+	}
+	
+	
+	public int getTargetFlag() {
+		return targetFlag;
+	}
+	
+	public int getMoney() {
+		return money;
+	}
+	
+	public ArrayList<Buff> getBuffs() {
+		return buffs;
+	}
+	
+	public String toString() {
+		return String.format("%s at %s HP:%.2f Armor:%.2f MS:%.2f",
+				getClass().getSimpleName(), getPosition(), health, armor, moveSpeed);
 	}
 	
 }

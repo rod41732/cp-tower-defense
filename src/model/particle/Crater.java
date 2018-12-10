@@ -3,7 +3,6 @@ package model.particle;
 import constants.Images;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import model.FadingParticle;
 
 public class Crater  extends FadingParticle{
 

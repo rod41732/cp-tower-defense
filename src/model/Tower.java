@@ -18,9 +18,9 @@ import javafx.scene.paint.Color;
 import ui.game.Renderer;
 import util.GameUtil;
 
-public abstract class Tower extends Tile implements IBuffable {
+public abstract class Tower extends Tile {
 
-	protected double attackCooldown = 1000;
+	protected double attackCooldown;
 	protected double baseAttack;
 	protected double baseRange;
 	protected int price;
@@ -35,7 +35,7 @@ public abstract class Tower extends Tile implements IBuffable {
 	protected double rangeMultiplier;
 	protected double attackMultiplier;
 	protected Monster currentTarget;
-	protected ArrayList<Buff> buffs = new ArrayList<>();
+	protected ArrayList<Buff> buffs;
 	protected double minDist;
 	
 	public Tower(String typeName, double cellX, double cellY) {
@@ -49,6 +49,7 @@ public abstract class Tower extends Tile implements IBuffable {
 		this.price = (int)TowerStats.getData(typeName, "Price", 1);
 		this.targetFlag = (int) TowerStats.getData(typeName, "TargetFlag", 1);
 		this.range = this.baseRange;
+		this.buffs = new ArrayList<>();
 	}
 	
 	@Override
@@ -103,17 +104,7 @@ public abstract class Tower extends Tile implements IBuffable {
 		this.price += (int)TowerStats.getData(typeName, "Price", level);
 		return true;
 	}	
-	
-	@Override 
-	public boolean isPlaceable() {
-		return false;
-	}
-	
-	@Override
-	public boolean isWalkable() {
-		return false;
-	}
-	
+
 	
 	@Override
 	public boolean isSelectable() {
@@ -122,7 +113,6 @@ public abstract class Tower extends Tile implements IBuffable {
 	
 	// methods related to firing
 	public void onTick() {
-		preUpdate(); // tower can do anything here
 		updateBuff();
 		updateCooldown();
 		if (shouldAcquireTarget()) {
@@ -130,9 +120,6 @@ public abstract class Tower extends Tile implements IBuffable {
 			fire();			
 		}
 		clearTarget();
-	}
-	
-	public void preUpdate() {
 	}
 	
 	public void updateBuff() {
@@ -155,7 +142,7 @@ public abstract class Tower extends Tile implements IBuffable {
 	}
 	
 	private boolean shouldAcquireTarget() {
-		return Double.compare(currentCooldown, 0) <= 0;
+		return currentCooldown <= 0;
 	}
 	
 	private void acquireTarget() {
@@ -188,10 +175,7 @@ public abstract class Tower extends Tile implements IBuffable {
 		minDist = 0;
 	}
 	
-	// getters setters 
-	public ArrayList<Buff> getBuffs() {
-		return buffs;
-	}
+
 
 	public void addBuff(Buff b) {
 		for (int i=0; i<buffs.size(); i++) {
@@ -208,6 +192,7 @@ public abstract class Tower extends Tile implements IBuffable {
 		return false;
 	}
 	
+	// getters 
 	public double getAttackCooldown() {
 		return attackCooldown;
 	}
@@ -220,12 +205,23 @@ public abstract class Tower extends Tile implements IBuffable {
 		return baseRange;
 	}
 	
-	public int getPrice() {
-		return this.price;
+	public void addAttackSpeedMultiplier(double attackSpeedMultiplier) {
+		this.attackSpeedMultiplier += attackSpeedMultiplier;
 	}
+	public void addRangeMultiplier(double rangeMultiplier) {
+		this.rangeMultiplier += rangeMultiplier;
+	}
+	public void addAttackMultiplier(double attackMultiplier) {
+		this.attackMultiplier += attackMultiplier;
+	}
+	
 	
 	public String getDescription() {
 		return (String) TowerStats.getData(typeName, "Description", level);
+	}
+	
+	public String getUpgradedDescription() {
+		return (String) TowerStats.getData(typeName, "Description", level+1);
 	}
 	
 	public double getUpgradedAttackCooldown() {
@@ -244,12 +240,17 @@ public abstract class Tower extends Tile implements IBuffable {
 		return (int) TowerStats.getData(typeName, "Price", level+1);
 	}
 	
-	public String getUpgradedDescription() {
-		return (String) TowerStats.getData(typeName, "Description", level+1);
-	}
-	
 	public boolean canUpgrade() {
 		return level < 5;
+
+	}
+	
+	public ArrayList<Buff> getBuffs() {
+		return buffs;
+	}
+	
+	public int getPrice() {
+		return this.price;
 	}
 	
 
@@ -257,19 +258,6 @@ public abstract class Tower extends Tile implements IBuffable {
 		this.price = price;
 	}
 
-	
-	public void addAttackSpeedMultiplier(double attackSpeedMultiplier) {
-		this.attackSpeedMultiplier += attackSpeedMultiplier;
-	}
-	public void addRangeMultiplier(double rangeMultiplier) {
-		this.rangeMultiplier += rangeMultiplier;
-	}
-	public void addAttackMultiplier(double attackMultiplier) {
-		this.attackMultiplier += attackMultiplier;
-	}
-	@Override
-	public String toString() {
-		return getClass().getSimpleName();
-	}
+
 
 }

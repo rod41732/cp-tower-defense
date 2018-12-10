@@ -27,7 +27,7 @@ public class BombTower extends Tower {
 				ms.takeDamage(attack);
 			}
 		}
-		GameManager.getInstance().addParticle(new Particle(Images.boom, x, y, 0, 0, 1200.0));
+		GameManager.getInstance().addParticle(new Particle(Images.boom, x, y, 0, 0, 1));
 		currentCooldown = attackCooldown;
 	}
 	

@@ -7,16 +7,15 @@ import controller.game.GameManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.Image;
-import model.FadingParticle;
 import model.Particle;
 import model.particle.Explosion;
+import model.particle.FadingParticle;
 import util.GameUtil;
 import util.cpp;
 
 public abstract class Plane extends FlyingMonster {
 	private static final double DEFAULT_SIZE = 0.5;
-	protected double level = 0.5;
-	private double moveDist = 0;
+	protected double level = 0;
 	
 	
 	public Plane(Image image, double x, double y, double health, double armor,

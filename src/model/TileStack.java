@@ -34,10 +34,6 @@ public class TileStack {
 		layers.removeElementAt(layers.size()-1);
 	}
 	
-	public Tile top() {
-		return layers.get(layers.size()-1);
-	}
-	
 	public void clear() {
 		layers.clear();
 	}

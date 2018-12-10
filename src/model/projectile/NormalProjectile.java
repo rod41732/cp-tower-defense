@@ -6,15 +6,12 @@ import model.Projectile;
 
 public class NormalProjectile extends Projectile {
 	
-	
-	protected double damage;
-	
+
 	protected boolean isExpired = false;
 	
 	public NormalProjectile(Image image, double x, double y,
 			double vx, double vy, double maxRange, double damage) {
-		super(image, x, y, vx, vy, maxRange); // default size ?
-		this.damage = damage;
+		super(image, x, y, vx, vy, maxRange, damage); // default size ?
 		this.targetFlag = 3;
 	}
 	

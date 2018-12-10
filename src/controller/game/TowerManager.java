@@ -43,7 +43,7 @@ public class TowerManager {
 	}
 
 	public void removeTower(int x, int y) {
-		Tower t = (Tower)gm.getPlacedTiles()[x][y].top();
+		Tower t = (Tower)gm.getPlacedTiles()[x][y].select();
 		gm.getPlacedTiles()[x][y].pop();
 		gm.towers.remove(t);
 		SharedObject.getInstance().removeRenderables(t);

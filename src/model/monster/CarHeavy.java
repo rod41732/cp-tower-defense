@@ -1,16 +1,13 @@
 package model.monster;
 
-import java.lang.reflect.InvocationTargetException;
-
 import constants.Images;
 import controller.game.GameManager;
 import javafx.scene.image.Image;
-import model.Monster;
 import util.cpp.pff;
 
 public class CarHeavy extends Car {
 
-	private static final Image DEFAULT_IMAGE = Images.armoredCar;
+	private static final Image DEFAULT_IMAGE = Images.heavyCar;
 	private static final double DEFAULT_HEALTH = 500;
 	private static final double DEFAULT_ARMOR = 20;
 	private static final double DEFAULT_MS  = 0.5;

@@ -12,7 +12,6 @@ public class CarArmored extends Car {
 	private static final double DEFAULT_ARMOR = 5;
 	private static final double DEFAULT_MS  = 1.0;
 	private static final int DEFAULT_MONEY = 12;
-	private double level = 0;
 
 	public CarArmored(double x, double y, double health, double armor, double moveSpeed,
 			int money) {

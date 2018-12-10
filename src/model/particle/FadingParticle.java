@@ -1,8 +1,9 @@
-package model;
+package model.particle;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
+import model.Particle;
 
 public class FadingParticle extends Particle {
 

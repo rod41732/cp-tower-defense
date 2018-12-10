@@ -14,16 +14,13 @@ public abstract class Soldier extends GroundMonster {
 	
 	public Soldier(Image image, double x, double y, double health, double armor,
 			double moveSpeed, int money) {
-		super("Soldier", image, x, y, DEFAULT_SIZE, health, armor, moveSpeed, money);
+		super(image, x, y, DEFAULT_SIZE, health, armor, moveSpeed, money);
 	}
 	
 	@Override
 	public void onDeath() {
 		super.onDeath();
 		GameManager.getInstance().addParticle(new Blood(x, y, 0, 0));
-	}
-	public double getLevel() {
-		return level;
 	}
 
 }

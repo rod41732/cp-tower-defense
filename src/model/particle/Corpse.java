@@ -1,7 +1,6 @@
 package model.particle;
 
 import javafx.scene.image.Image;
-import model.FadingParticle;
 
 public class Corpse extends FadingParticle {
 

@@ -11,7 +11,8 @@ public class Map {
 	private int[][] tiles;
 	private HashMap<Integer, Image> tileMap;
 	private cpp.pii start, end;
-	private Image previewImage, bgImage;
+	private Image previewImage;
+	private Image bgImage;
 	
 	
 	public Map(int[][] tiles, HashMap<Integer, Image> tileMap, pii start, pii end, Image previewImage, Image bgImage) {

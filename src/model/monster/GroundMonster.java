@@ -8,9 +8,9 @@ import util.cpp;
 
 public abstract class GroundMonster extends Monster {
 
-	public GroundMonster(String name, Image image, double x, double y,
+	public GroundMonster(Image image, double x, double y,
 			double size, double health, double armor, double moveSpeed, int money) {
-		super(name, image, x, y, size, health, armor, moveSpeed, money);
+		super(image, x, y, size, health, armor, moveSpeed, money);
 		this.targetFlag = 1;
 	}
 

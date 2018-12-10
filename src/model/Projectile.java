@@ -14,22 +14,22 @@ public abstract class Projectile extends Entity implements IExpirable {
 	protected double distance = 0;
 	protected double age = 0;
 	protected boolean isExpired = false;
-	
+	protected double damage;
 	
 	public Projectile(Image image, double x, double y,
-			double vx, double vy, double maxDistance) {
+			double vx, double vy, double maxDistance, double damage) {
 		super(image, x, y, 3, 0.3); // default size ?
 		this.vx = vx;
 		this.vy = vy;
 		this.maxDistance = maxDistance;
 		this.targetFlag = 3;
+		this.damage = damage;
 	}
 	
 	public boolean shouldCollide(Monster m) {
 		return !isExpired() && isCollideWith(m) && !m.isDead() && (m.getTargetFlag() & this.targetFlag) != 0;
 	}
 	
-	// return true if projectile "isExpired" after colliding (usually true) but not for piercing shot
 	public abstract boolean collideWith(Monster m);
 	
 	

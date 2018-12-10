@@ -16,12 +16,12 @@ public abstract class Car extends SplittingMonster {
 
 	protected double level = 0;
 	public static double DEFAULT_SIZE = 0.5;
-	private Class<? extends Monster> childConstructor;
+	
 	
 	public Car(Image image, double x, double y, double health, double armor, double moveSpeed,
-			int money, Class<? extends Monster> childConstructor) {
-		super("Car", image, x, y, DEFAULT_SIZE, health, armor, moveSpeed, money);
-		this.childConstructor = childConstructor;
+			int money, Class<? extends Monster> childClass) {
+		super(image, x, y, DEFAULT_SIZE, health, armor, moveSpeed, money, childClass);
+		level = 0;
 	}
 	
 	@Override
@@ -35,22 +35,21 @@ public abstract class Car extends SplittingMonster {
 		pff pos = getPosition();
 		try {
 			for (int i=0; i<5; i++) {
-				Monster mon = childConstructor.getConstructor(double.class, double.class, double.class)
+				Monster mon = childClass.getConstructor(double.class, double.class, double.class)
 						.newInstance(pos.first+(Math.random()-0.5)*0.2, pos.second+(Math.random()-0.5)*0.2, level);				
 				GameManager.getInstance().addMonster(mon);
 			}
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			System.err.println("Splitting Monster: No constructor double double double exist for " + childConstructor.getSimpleName());
+			System.err.println("Splitting Monster: No constructor double double double exist for " + childClass.getSimpleName());
 		}
 	}
 	
 	@Override
-	public boolean takeDamage(double damage) {
+	public void takeDamage(double damage) {
 		Particle part = new Particle(Images.spark, x+(Math.random()-0.5)*0.2, y+(Math.random()-0.5)*0.2, vx, vy, 1);
 		part.setzIndex(5);
 		GameManager.getInstance().addParticle(part);
-		return super.takeDamage(damage);
 	}
 	
 	
