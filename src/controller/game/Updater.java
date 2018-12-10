@@ -51,7 +51,7 @@ public class Updater {
 		
 		// play game win
 		if (shouldSpawnNextWave() && sm.getGameStateProp().get() == 2 &&
-				!sm.getIsGamePausedProp().get() && sm.getIsInGameProp().get()) {
+				!sm.getIsGamePausedProp().get() && sm.getIsInGameProp().get() && gm.getMonsters().isEmpty()) {
 			sm.getIsGamePausedProp().set(true);
 			Sounds.win.play();
 		}
@@ -71,9 +71,9 @@ public class Updater {
 		for (int i=gm.particles.size()-1; i>=0; i--) {
 			gm.particles.get(i).onTick();
 		}
-		for (Tower t: gm.towers) t.onTick();
-		
-		
+		for (int i=gm.towers.size()-1; i>=0; i--) {
+			gm.towers.get(i).onTick();
+		}
 		for (int i=gm.projectiles.size()-1; i>=0; i--) {
 			gm.projectiles.get(i).onTick();
 		}
@@ -83,9 +83,10 @@ public class Updater {
 			if (m.getPosition().containedBy(gm.endTilePos)) {
 				m.forceKill();
 				gm.lives -= 1;
-				SnackBar.play("monster reached end");
 			}
 		}
+		
+		
 		
 		// entity interaction
 		for (int i=gm.projectiles.size()-1; i>=0; i--) {
@@ -94,6 +95,7 @@ public class Updater {
 				gm.removeProjectile(proj);
 				continue;
 			}
+			
 			for (Monster m: gm.monsters) {
 				if (proj.collideWith(m)) {
 					gm.removeProjectile(proj);

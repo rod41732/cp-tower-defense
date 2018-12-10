@@ -71,13 +71,13 @@ public abstract class Monster extends Entity implements IBuffable, Cloneable {
 			gc.setFill(Color.color(0, 1, 0));
 			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
 			gc.setFill(Color.color(1, 0, 0));
-			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 20);			
+			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 10);			
 		}
 		else {
 			gc.setFill(Color.color(1, 1, 0));
 			gc.fillRect(getRenderX(), getRenderY()-10, health/maxHealth*40, 10);
 			gc.setFill(Color.color(0, 0, 1));
-			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 20);
+			gc.fillRect(getRenderX()+health/maxHealth*40, getRenderY()-10, 40-health/maxHealth*40, 10);
 		}
 	}
 	

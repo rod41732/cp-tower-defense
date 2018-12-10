@@ -100,14 +100,7 @@ public class GameUI {
 						isError = true;
 					}
 				}
-				if (path != null && !isError) {
-					PathRenderer.render(path, gm.getStartTilePos(), gm.getEndTilePos(), gc);
-				}
-				if (isError) {
-					gc.setFill(Color.color(1, 0, 0, 0.7));
-					gc.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
-							Numbers.TILE_SIZE, Numbers.TILE_SIZE);
-				}
+				
 			}
 			catch (PathBlockedException e) {
 				isError = true;
@@ -115,6 +108,16 @@ public class GameUI {
 				gc.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
 						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
 			}
+			if (isError) {
+				PathRenderer.render(gm.getPath(), gm.getStartTilePos(),	gm.getEndTilePos(), gc);
+				gc.setFill(Color.color(1, 0, 0, 0.7));
+				gc.fillRect(tilePos.first*Numbers.TILE_SIZE, tilePos.second*Numbers.TILE_SIZE,
+						Numbers.TILE_SIZE, Numbers.TILE_SIZE);
+			}
+			else {
+				PathRenderer.render(path, gm.getStartTilePos(),	gm.getEndTilePos(), gc);
+			}
+			
 			drawGrid(gc);
 		}
 		else if (SuperManager.getInstance().getShouldDisplayPathProp().get()){

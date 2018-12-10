@@ -14,6 +14,7 @@ public class PathRenderer {
 	public static void render(cpp.pii[][] path, cpp.pii start, cpp.pii end, GraphicsContext gc) {
 		cpp.pii prev = null, next = null; // the function does handle null correctly
 		cpp.pii pos = new cpp.pii(start.first, start.second);
+		if (path[pos.first][pos.second] == null) return;
 		gc.save();
 		gc.setEffect(bloom);
 		gc.setGlobalAlpha(0.5+0.3*GameUtil.transparencyCycle(Renderer.getInstance().getRenderTick(), 120));

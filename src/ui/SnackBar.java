@@ -1,5 +1,9 @@
 package ui;
 
+import com.sun.javafx.tk.FontLoader;
+import com.sun.javafx.tk.Toolkit;
+
+import constants.Other;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -7,10 +11,13 @@ import javafx.animation.Timeline;
 import javafx.beans.value.WritableDoubleValue;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 public class SnackBar {
-	// TODO: use queue to handle multiple requests ?
+	
+	private static final Font font = Other.loadFontWithSize(20); 
+	
 	private static class DoubleWrapper implements WritableDoubleValue {
 		private double x;
 		public DoubleWrapper(double x) {
@@ -66,10 +73,13 @@ public class SnackBar {
 	}
 	public static void render(GraphicsContext gc) {
 		if (isShown) {
+			gc.setFont(font);
+			w = Toolkit.getToolkit().getFontLoader().computeStringWidth(message, font);
+			h = Toolkit.getToolkit().getFontLoader().getFontMetrics(font).getLineHeight();
 			gc.setFill(Color.color(0, 0, 0, 0.8));
-			gc.fillRect(x.get(), y.get(), w, h);
+			gc.fillRect(x.get(), y.get(), w+32, h+32);
 			gc.setFill(Color.color(1, 1, 1, 0.9));
-			gc.fillText(message, x.get(), y.get()+ 25);			
+			gc.fillText(message, x.get()+16, y.get()+h+16);			
 		}
 	}
 	

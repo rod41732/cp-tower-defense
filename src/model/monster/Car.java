@@ -33,8 +33,11 @@ public abstract class Car extends SplittingMonster {
 		GameManager.getInstance().addParticle(part);
 		pff pos = getPosition();
 		try {
-			childConstructor.getConstructor(double.class, double.class, double.class)
-			.newInstance(pos.first+(Math.random()-0.5)*0.2, pos.second+(Math.random()-0.5)*0.2, level);
+			for (int i=0; i<5; i++) {
+				Monster mon = childConstructor.getConstructor(double.class, double.class, double.class)
+						.newInstance(pos.first+(Math.random()-0.5)*0.2, pos.second+(Math.random()-0.5)*0.2, level);				
+				GameManager.getInstance().addMonsterDefault(mon);
+			}
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			System.err.println("Splitting Monster: No constructor double double double exist for " + childConstructor.getSimpleName());

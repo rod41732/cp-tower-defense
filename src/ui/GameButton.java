@@ -76,7 +76,7 @@ public class GameButton {
 		});		
 		
 		showPathButton = ButtonMaker.make(Images.buttonYellow, Images.buttonYellowPressed, Images.buttonYellowHover, Images.buttonYellowDisabled,
-				buttonFont, "Show Path");
+				buttonFont, "Hide Path");
 		showPathButton.setOnAction(e -> {
 			BooleanProperty prop = SuperManager.getInstance().getShouldDisplayPathProp(); 
 			prop.set(!prop.get());
