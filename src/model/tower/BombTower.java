@@ -11,8 +11,6 @@ import model.Tower;
 
 public class BombTower extends Tower {
 	
-	public static String TOWER_NAME = "Bomb Tower";
-	
 	public BombTower(double cellX, double cellY) {
 		super("Bomb", cellX, cellY);
 		this.level = 1;
