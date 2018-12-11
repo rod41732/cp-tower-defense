@@ -6,7 +6,7 @@ import model.Monster;
 
 public class MonsterSpawningSequence extends Thread {
 	private static boolean isPaused;
-	private static boolean shouldStop;
+	public static boolean shouldStop;
 	public MonsterSpawningSequence(int delay, int delay2, int repeat, Monster ...monstersList) {
 		super(new Runnable() {
 			@Override
@@ -18,6 +18,7 @@ public class MonsterSpawningSequence extends Thread {
 							Thread.sleep(delay2/1000, delay2%1000*1000);
 							while (isPaused) {
 								Thread.sleep(16); // pause when game paused;
+//								if (shouldStop) break;
 							}
 							if (shouldStop) break;
 							try {
