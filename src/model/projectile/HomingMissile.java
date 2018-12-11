@@ -32,18 +32,26 @@ public class HomingMissile extends NormalProjectile {
 	}
 
 	public boolean collideWith(Monster m) {
-		if ((m == target && shouldCollide(m)) || (target.isDead() && distanceTo(target) < 0.2)) { // collide with dead monster
-			Sounds.hitExplosion.play();
-			cpp.pff impact = m.getPosition();
-			GameManager.getInstance().addParticle(new Explosion(Images.explosion, impact.first, impact.second, 0, 0));
-			GameManager.getInstance().addParticle(new Crater(impact.first, impact.second, 3000));
-			for (Monster ms: GameManager.getInstance().getMonsters()) {
-				if (ms.distanceTo(impact.first, impact.second) < explosionRadius+ms.getSize()) {
-					ms.takeDamage(damage);	
-				}
-			}
-			forceExpire();
+		cpp.pff impact;
+		if (m == target && shouldCollide(m)){
+			impact = target.getPosition();
 		}
+		else if (target.isDead() && distanceTo(target) <= 0.2) {
+			impact = this.getPosition();
+		}
+		else {
+			return isExpired();
+		}	
+		Sounds.hitExplosion.play();
+		GameManager.getInstance().addParticle(new Explosion(Images.explosion, impact.first, impact.second, 0, 0));
+		GameManager.getInstance().addParticle(new Crater(impact.first, impact.second, 3000));
+		for (Monster ms: GameManager.getInstance().getMonsters()) {
+			if (ms.distanceTo(impact.first, impact.second) < explosionRadius+ms.getSize()) {
+				ms.takeDamage(damage);	
+			}
+		}
+		forceExpire();
+		
 		return isExpired();
 	}
 	
