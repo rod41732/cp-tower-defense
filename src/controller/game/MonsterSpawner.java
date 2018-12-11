@@ -8,6 +8,8 @@ import model.monster.CarBoss;
 import model.monster.CarFast;
 import model.monster.CarHeavy;
 import model.monster.CarNormal;
+import model.monster.PlaneFast;
+import model.monster.PlaneNormal;
 import model.monster.SoldierArmored;
 import model.monster.SoldierBoss;
 import model.monster.SoldierFast;
@@ -32,8 +34,8 @@ public class MonsterSpawner {
 			if (i <= 5) {
 				stages.get(i).addSequence(
 						new MonsterSpawningSequence(500000, 200000, 10,
-								new SoldierNormal(0, 0, i/5),
-								new SoldierFast(0, 0, i/5)));
+								new PlaneNormal(0, 0, i/5),
+								new PlaneFast(0, 0, i/5)));
 			}
 			else if (i >= 5 && i%2 == 0) { 
 				stages.get(i).addSequence(

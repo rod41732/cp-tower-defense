@@ -47,6 +47,7 @@ public abstract class Car extends SplittingMonster {
 	
 	@Override
 	public void takeDamage(double damage) {
+		super.takeDamage(damage);
 		Particle part = new Particle(Images.spark, x+(Math.random()-0.5)*0.2, y+(Math.random()-0.5)*0.2, vx, vy, 1);
 		part.setzIndex(5);
 		GameManager.getInstance().addParticle(part);
