@@ -38,10 +38,13 @@ public class Sounds {
 		inGameMusic = loadSound("ig_bgm.mp3");
 		
 		// adjust volumes
-		hitExplosion.setVolume(2);
+		hitExplosion.setVolume(1.5);
+		tankExplosion.setVolume(0.6);
+		planeExplosion.setVolume(0.6);
+		carExplosion.setVolume(0.6);
 		gunQuiet.setVolume(0.2);
-		missileLaunch.setVolume(0.2);
-		genericShoot.setVolume(0.2);
+		missileLaunch.setVolume(0.25);
+		genericShoot.setVolume(0.25);
 		fire.setVolume(0.2);
 		
 	}
