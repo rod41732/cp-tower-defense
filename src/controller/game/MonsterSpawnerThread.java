@@ -66,7 +66,7 @@ public class MonsterSpawnerThread extends Thread {
 	}
 	
 	public void onGameReset() { 
-		MonsterSpawningSequence.shouldStop = true;
+		MonsterSpawningSequence.onGameReset();
 		jobs.clear();
 	}
 }

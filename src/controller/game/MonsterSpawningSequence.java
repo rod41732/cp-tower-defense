@@ -6,7 +6,7 @@ import model.Monster;
 
 public class MonsterSpawningSequence extends Thread {
 	private static boolean isPaused;
-	public static boolean shouldStop;
+	private static boolean shouldStop;
 	public MonsterSpawningSequence(int delay, int delay2, int repeat, Monster ...monstersList) {
 		super(new Runnable() {
 			@Override
@@ -39,12 +39,7 @@ public class MonsterSpawningSequence extends Thread {
 			}
 		});	
 	}
-	
-	@Override
-	public void interrupt() {
-		shouldStop = true;
-		super.interrupt();
-	}
+
 	
 	public static void onGamePause() {
 		isPaused = true;
@@ -56,5 +51,9 @@ public class MonsterSpawningSequence extends Thread {
 	
 	public MonsterSpawningSequence(int delay) { // empty spawner for delay
 		this(delay, 1000, 1); 
+	}
+
+	public static void onGameReset() {
+		shouldStop = true;
 	}
 }
