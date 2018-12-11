@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class MonsterSpawnerThread extends Thread {
 	
 	private static MonsterSpawnerThread instance = new MonsterSpawnerThread();	
-	private static ConcurrentLinkedQueue<MonsterSpawningSequence> jobs = new ConcurrentLinkedQueue<>();
+	public static ConcurrentLinkedQueue<MonsterSpawningSequence> jobs = new ConcurrentLinkedQueue<>();
 	private static MonsterSpawningSequence currentJob;
 	private static boolean shouldBreak = false;
 	public MonsterSpawnerThread() {
@@ -16,12 +16,13 @@ public class MonsterSpawnerThread extends Thread {
 				while (!shouldBreak) {
 					try {
 						Thread.sleep(16);
-						MonsterSpawningSequence top = jobs.poll();
+						MonsterSpawningSequence top = jobs.peek();
 						if (top == null) continue;
 						System.out.println("[Monster Thread] running job");
 						top.run();							
 						currentJob = top;
 						top.join();
+						jobs.poll();
 						currentJob = null;
 					}
 					catch (InterruptedException e) {

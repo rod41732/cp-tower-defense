@@ -157,6 +157,7 @@ public class Images {
 			towerImages.put(typ, imgs);
 		}
 		
+		getProgress().set(0.2);
 		
 		normalSoldier = loadImage("monster/soldier_normal.png", 48, 48);
 		fastSoldier =  loadImage("monster/soldier_fast.png", 48, 48);
@@ -174,6 +175,9 @@ public class Images {
 		fastCar =  loadImage("monster/car_fast.png", 64, 64);
 		armoredCar =  loadImage("monster/car_armored.png", 64, 64);
 		heavyCar = loadImage("monster/car_heavy.png", 64, 64);
+		
+		getProgress().set(0.3);	
+		
 		normalCarDead = loadImage("monster/dead/car.png", 64, 64);
 		normalPlaneDead = loadImage("monster/dead/plane.png", 80, 80);
 		heavyPlaneDead = loadImage("monster/dead/plane_heavy.png", 80, 80);
@@ -192,6 +196,8 @@ public class Images {
 		groundBullet = loadImage("projectile/groundBullet.png", 30, 30);
 		armorBreakerBullet = loadImage("projectile/armorBreakerBullet.png", 30, 30);
 		
+		getProgress().set(0.4);
+		
 		
 		normalTowerFlash = loadImage("particle/flare.png", 32, 32);
 		crater = loadImage("particle/crater.png", 64, 64);
@@ -199,10 +205,7 @@ public class Images {
 		planeShadow = loadImage("particle/plane_shadow.png", 64, 64);
 		shield = loadImage("particle/shield.png", 128, 128);
 		
-		getProgress().set(0.2);
-		
-		getProgress().set(0.3);	
-		
+	
 		
 		attackIcon = loadImage("icon/attack.png", 32, 32);
 		bombIcon = loadImage("icon/bomb.png", 32, 32);
@@ -216,12 +219,10 @@ public class Images {
 		
 		
 		
-		getProgress().set(0.4);
-		
-		
-		
-		
 		getProgress().set(0.5);
+		
+		
+		
 		
 		buttonOrange = loadImage("ui/button/button_orange.png", 190, 49);
 		buttonOrangeDisabled = loadImage("ui/button/button_orange_disabled.png", 190, 49);
@@ -239,6 +240,9 @@ public class Images {
 		buttonYellowDisabled = loadImage("ui/button/button_yellow_disabled.png", 190, 49);
 		buttonYellowHover = loadImage("ui/button/button_yellow_hover.png", 190, 49);
 		buttonYellowPressed = loadImage("ui/button/button_yellow_pressed.png", 190, 49);
+		
+		getProgress().set(0.6);
+		
 		buttonGray = loadImage("ui/button/button_gray.png", 190, 49);
 		buttonGrayDisabled = loadImage("ui/button/button_gray_disabled.png", 190, 49);
 		buttonGrayHover = loadImage("ui/button/button_gray_hover.png", 190, 49);
@@ -253,16 +257,22 @@ public class Images {
 		
 		
 		
-		
-		
-		
 		for (int i=0; i<16; i++) explosion[i] = loadImage("animation/explosion/"+i+".png", 96, 96);
 		for (int i=0; i<16; i++) deathExplosion[i] = loadImage("animation/death_explosion/"+i+".png", 128, 128);
+		
+		getProgress().set(0.7);
+		
 		for (int i=0; i<16; i++) flame[i] = loadImage("animation/flame/"+i+".png", 96, 96);
 		for (int i=0; i<9; i++) smoke[i] = loadImage("animation/smoke/"+i+".png", 96, 96);
 		for (int i=0; i<16; i++) aura[i] = loadImage("animation/aura/"+i+".png", 64, 128);
+		
+		getProgress().set(0.8);
+		
 		for (int i=0; i<16; i++) boom[i] = loadImage("animation/boom/"+i+".png", 256, 256);
 		for (int i=0; i<12; i++) blood[i] = loadImage("animation/blood/"+i+".png", 64, 64);
+		
+		getProgress().set(0.9);
+		
 		for (int i=0; i<8; i++) spark[i] = loadImage("animation/hitspark/"+i+".png", 32, 32);
 		for (int i=0; i<4; i++) {
 			for (int j=0; j<4; j++)

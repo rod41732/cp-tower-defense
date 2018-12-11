@@ -113,7 +113,8 @@ public class GameButton {
 			boolean isPlacing = nw != null;
 			GameManager.getInstance().setSelectedTile(null);
 			pauseButton.setDisable(paused || isPlacing);
-			nextButton.setDisable(paused || isPlacing);
+			boolean shouldSpawn = SuperManager.getInstance().getnextWaveAvailableProp().get();
+			nextButton.setDisable(paused || isPlacing || !shouldSpawn);
 			
 			SuperManager.getInstance().getTowerChoiceProp().set(isPlacing ? (int)nw.getUserData() : -1);				
 		});
@@ -150,13 +151,6 @@ public class GameButton {
 			boolean gameOver = SuperManager.getInstance().getGameStateProp().get() != 0;
 			resumeButton.setVisible(paused && !gameOver);
 			toMenuButton.setVisible(paused);
-			pauseButton.setDisable(paused || isPlacing);
-			nextButton.setDisable(paused || isPlacing);
-			sellButton.setDisable(paused || !canSell);
-			upgradeButton.setDisable(paused || !canUp);
-			for (ToggleButton tg: toggleButtons) {
-				tg.setDisable(paused);
-			}
 		});
 		
 		SuperManager.getInstance().getGameStateProp().addListener((obs, old, nw) -> {
