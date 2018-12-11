@@ -23,13 +23,13 @@ public class NormalTower extends Tower {
 		if (currentTarget == null) return;
 		Sounds.gunQuiet.play();
 		cpp.pff v = GameUtil.unitVector(this, currentTarget);
+		Particle p = new FadingParticle(Images.normalTowerFlash, x+v.first*0.6 , y+v.second*0.6, 0, 0, 300);
+		GameManager.getInstance().addParticle(p);
 		rotateTo(currentTarget);
+		p.setRotation(rotation);
 		if (level < 5) {
 		GameManager.getInstance().addProjectile(new 
 				NormalProjectile(Images.normalBullet, x, y, v.first*15, v.second*15, range, attack));
-				Particle p = new FadingParticle(Images.normalTowerFlash, x+v.first*0.6 , y+v.second*0.6, 0, 0, 300);
-				p.rotateTo(currentTarget);
-				GameManager.getInstance().addParticle(p);
 		}
 		else {
 			GameManager.getInstance().addProjectile(new 

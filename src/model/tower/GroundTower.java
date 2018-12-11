@@ -25,7 +25,7 @@ public class GroundTower extends Tower {
 		GameManager.getInstance().addProjectile(new 
 				GroundProjectile(x, y, v.first*15, v.second*15, range, attack));
 				Particle p = new FadingParticle(Images.normalTowerFlash, x+v.first*0.6 , y+v.second*0.6, 0, 0, 300);
-				p.rotateTo(currentTarget);
+				p.setRotation(rotation);
 				GameManager.getInstance().addParticle(p);
 		currentCooldown = attackCooldown;
 	}
