@@ -3,6 +3,7 @@ package ui;
 
 import constants.Images;
 import constants.Numbers;
+import constants.Sounds;
 import controller.SuperManager;
 import controller.game.GameManager;
 import javafx.animation.Interpolator;
@@ -23,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import ui.game.GameUI;
 import ui.game.Renderer;
@@ -104,6 +107,11 @@ public class GameScene extends Scene {
 			GameManager.getInstance().updateMousePos(e);
 		});
 		
+		MediaPlayer bgmPlayer = new MediaPlayer(new Media(Sounds.inGameMusic.getSource()));
+		bgmPlayer.setOnEndOfMedia(() -> {
+			bgmPlayer.seek(Duration.ZERO);
+		});
+		
 		mainCanvas.setOnMouseClicked(e -> {
 			PauseMenu.handleMouseClick(e);
 			GameManager.getInstance().handleClick(e);								
@@ -113,9 +121,12 @@ public class GameScene extends Scene {
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
 			boolean inGame = nw.booleanValue();
 			if (inGame) {
+				bgmPlayer.play();
 				fadeIn();
 			}
 			else {
+				bgmPlayer.pause();
+				bgmPlayer.seek(Duration.ZERO);
 				fadeOut();
 			}
 		});

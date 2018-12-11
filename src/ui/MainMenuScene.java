@@ -5,6 +5,7 @@ package ui;
 import constants.Images;
 import constants.Numbers;
 import constants.Other;
+import constants.Sounds;
 import controller.SuperManager;
 import controller.game.GameManager;
 import javafx.animation.KeyFrame;
@@ -12,13 +13,18 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import ui.component.ButtonMaker;
 
@@ -48,6 +54,7 @@ public class MainMenuScene extends Scene {
 		gc.setFill(Color.BLACK);
 		resume.setAlignment(Pos.CENTER);
 		
+		Font creditFont = Other.loadFontWithSize(30);
 		menuTick = new Timeline(new KeyFrame(Duration.seconds(0.5), e->{
 			resume.setDisable(!GameManager.getInstance().isInitialized() || SuperManager.getInstance().getGameStateProp().get() != 0);
 			gc.fillRect(0, 0, Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
@@ -56,21 +63,38 @@ public class MainMenuScene extends Scene {
 			}
 			gc.drawImage(Images.logo, 0, 0);
 			gc.drawImage(Images.mainButtonBg, 635, 360);
+			gc.save();
+			gc.setTextAlign(TextAlignment.RIGHT);
+			gc.setTextBaseline(VPos.BOTTOM);
+			gc.setFill(Color.WHITE);
+			gc.setFont(creditFont);
+			gc.fillText("Music by Eric Matyas\n" + 
+					"www.soundimage.org", Numbers.WIN_WIDTH, Numbers.WIN_HEIGHT);
+			gc.restore();
 		}));
 		menuTick.setCycleCount(Timeline.INDEFINITE);
 		menuTick.play();
 		tickle();
+		
+		MediaPlayer bgmPlayer = new MediaPlayer(new Media(Sounds.mainMenuMusic.getSource()));
+		bgmPlayer.setOnEndOfMedia(() -> {
+			bgmPlayer.seek(Duration.ZERO);
+		});
+		bgmPlayer.play();
 		
 		SuperManager.getInstance().getIsInGameProp().addListener((obs, old, nw) -> {
 			boolean inGame = nw.booleanValue();
 			if (!inGame) {
 				System.out.println("enter menu");
 				menuTick.play();
+				bgmPlayer.play();
 				fadeIn();
 			}
 			else {
 				System.out.println("exit menu");
 				menuTick.pause();
+				bgmPlayer.pause();
+				bgmPlayer.seek(Duration.ZERO);
 				fadeOut();
 			}
 		});

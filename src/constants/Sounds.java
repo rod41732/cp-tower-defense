@@ -15,6 +15,9 @@ public class Sounds {
 	public static AudioClip gunQuiet;
 	public static AudioClip genericShoot;
 	public static AudioClip missileLaunch;
+	public static AudioClip mainMenuMusic;
+	public static AudioClip inGameMusic;
+	
 	
 	public static AudioClip win;
 	
@@ -31,12 +34,15 @@ public class Sounds {
 		missileLaunch = loadSound("missile_shoot.mp3");
 		genericShoot = loadSound("generic_shoot.mp3");
 		win = loadSound("you_win.mp3");
-		
+		mainMenuMusic = loadSound("menu_bgm.mp3");
+		inGameMusic = loadSound("ig_bgm.mp3");
 		
 		// adjust volumes
 		hitExplosion.setVolume(2);
-		gunQuiet.setVolume(0.05);
-		missileLaunch.setVolume(0.1);
+		gunQuiet.setVolume(0.2);
+		missileLaunch.setVolume(0.2);
+		genericShoot.setVolume(0.2);
+		fire.setVolume(0.2);
 		
 	}
 	
